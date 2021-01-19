@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NavBar from '../components/nav-bar/NavBar';
 import Navigation from '../components/navigation/Navigation';
 import Dashboard from '../screens/dashboard/Dashboard';
+import Task from '../screens/task/Task';
 
 class Layout extends Component {
     render() {
@@ -11,7 +12,8 @@ class Layout extends Component {
                 <div className="main-panel">
                     <NavBar />
                     <div className="content">
-                        <Dashboard />
+                        {/* <Dashboard /> */}
+                        <Task/>
                     </div>
                 </div>
             </div>
