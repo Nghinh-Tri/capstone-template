@@ -1,32 +1,22 @@
 import React, { Component } from 'react';
 import NavBar from '../components/nav-bar/NavBar';
 import Navigation from '../components/navigation/Navigation';
+import CreateProject from '../screens/create-project/CreateProject';
 import Dashboard from '../screens/dashboard/Dashboard';
-import Task from '../screens/task/Task';
+import Project from '../screens/project/Project';
 
 class Layout extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            project: {
-                name: 'Project Name',
-                description: 'Project Description'
-            }
-        }
-    }
-
     render() {
         return (
-            <div class="wrapper ">
+            <div className="wrapper ">
                 <Navigation />
                 <div className="main-panel">
                     <NavBar />
                     <div className="content">
                         {/* <Dashboard /> */}
-                        <Task project={this.state.project} />
-                        <Task project={this.state.project} />
-                        <Task project={this.state.project} />
+                        {/* <Project /> */}
+                        <CreateProject/>
                     </div>
                 </div>
             </div>
