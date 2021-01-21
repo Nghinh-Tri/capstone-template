@@ -97,7 +97,7 @@ class Project extends Component {
                 <button type="button" className="btn btn-primary btn-lg">
                     <i className="material-icons mr-5">add_box</i>
                     Create Project
-                    </button>
+                </button>
                 <div className="row">
                     <ProjectTable project={this.state.project1} />
                     <ProjectTable project={this.state.project2} />

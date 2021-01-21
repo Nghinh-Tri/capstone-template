@@ -45,3 +45,23 @@
   font-size: 2rem !important;
   margin-right: 5px !important;
 }
+ .mt{
+  margin-top: 16px;
+ }
+
+.fr{
+  float: right;
+}
+
+.add{
+  color: #9c27b0;
+  cursor: pointer;
+}
+
+.mb{
+  margin-top: 20px !important;
+}
+
+.clear{
+  
+}
