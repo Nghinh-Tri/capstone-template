@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProjectTable from '../../components/project-table/ProjectTable';
+// import ProjectTable from '../../components/project-table/ProjectTable';
 
 class Project extends Component {
     constructor(props) {
@@ -99,9 +99,9 @@ class Project extends Component {
                     Create Project
                 </button>
                 <div className="row">
-                    <ProjectTable project={this.state.project1} />
+                    {/* <ProjectTable project={this.state.project1} />
                     <ProjectTable project={this.state.project2} />
-                    <ProjectTable project={this.state.project3} />
+                    <ProjectTable project={this.state.project3} /> */}
                 </div>
             </div>
 

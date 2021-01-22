@@ -4,7 +4,9 @@ import Navigation from '../components/navigation/Navigation';
 import CreatePosition from '../screens/create-position/CreatePosition';
 import CreateProject from '../screens/create-project/CreateProject';
 import Dashboard from '../screens/dashboard/Dashboard';
+import ProjectDetail from '../screens/project-detail/ProjectDetail';
 import Project from '../screens/project/Project';
+import SuggestCandidate from '../screens/suggest-candidate/SuggestCandidate';
 
 class Layout extends Component {
 
@@ -18,7 +20,9 @@ class Layout extends Component {
                         {/* <Dashboard /> */}
                         {/* <Project /> */}
                         {/* <CreateProject/> */}
-                        <CreatePosition/>
+                        {/* <CreatePosition/> */}
+                        {/* <SuggestCandidate /> */}
+                        <ProjectDetail/>
                     </div>
                 </div>
             </div>
