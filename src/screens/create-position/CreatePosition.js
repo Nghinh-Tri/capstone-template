@@ -5,7 +5,7 @@ class CreatePosition extends Component {
     render() {
         return (
             <div>
-                <CreatePositionForm />
+                {/* <CreatePositionForm /> */}
                 <CreatePositionForm />
                 <div >
                     <button type="button" className="btn btn-primary">

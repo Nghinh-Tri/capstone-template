@@ -45,8 +45,9 @@
   font-size: 2rem !important;
   margin-right: 5px !important;
 }
- .mt{
-  margin-top: 16px;
+ .mt-15-ml-30{
+  margin-top: 15px;
+  margin-left: 30px;
  }
 
 .fr{
@@ -54,6 +55,13 @@
 }
 
 .add{
+  margin-top: 10px;
+  margin-left: 30px;
+  color: #9c27b0;
+  cursor: pointer;
+}
+
+.clear{
   color: #9c27b0;
   cursor: pointer;
 }
@@ -94,4 +102,12 @@
 .mt-ml{
   margin-top: 10px;
   margin-left: 20px;
+}
+
+.mt-10{
+  margin-top: 20px;
+}
+
+.mr-10{
+  margin-right: 20px;
 }
