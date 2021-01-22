@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SuggestCandidateItems from '../../screens/suggest-candidate/suggest-candidate-items/SuggestCandidateItems';
+import SuggestCandidateItems from './suggest-candidate-items/SuggestCandidateItems';
 
 class SuggestCandidates extends Component {
     render() {

@@ -18,11 +18,11 @@ class Layout extends Component {
                     <NavBar />
                     <div className="content">
                         {/* <Dashboard /> */}
-                        {/* <Project /> */}
+                        <Project />
                         {/* <CreateProject/> */}
                         {/* <CreatePosition/> */}
                         {/* <SuggestCandidate /> */}
-                        <ProjectDetail/>
+                        {/* <ProjectDetail/> */}
                     </div>
                 </div>
             </div>
