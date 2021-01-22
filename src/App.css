@@ -45,3 +45,53 @@
   font-size: 2rem !important;
   margin-right: 5px !important;
 }
+ .mt{
+  margin-top: 16px;
+ }
+
+.fr{
+  float: right;
+}
+
+.add{
+  color: #9c27b0;
+  cursor: pointer;
+}
+
+.mb{
+  margin-top: 20px !important;
+}
+
+.mb-80{
+  margin-bottom: 50px !important;
+}
+
+.mb-50{
+  margin-bottom: 50px;
+}
+
+.mr-20-ml-20{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.mr-20{
+  margin-left: 20px;
+}
+
+.mr-40{
+  margin-left: 40px;
+}
+
+.mr-50{
+  margin-left: 50px;
+}
+
+.mr-70{
+  margin-left: 70px;
+}
+
+.mt-ml{
+  margin-top: 10px;
+  margin-left: 20px;
+}
