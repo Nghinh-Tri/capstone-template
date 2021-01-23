@@ -2,34 +2,41 @@ import React, { Component } from 'react';
 import SelectSearch from '../../select-search/SelectSearch';
 
 class HardSkillFormContent extends Component {
+
+    onDelete = (key) => {
+        this.props.onDelete(key)
+    }
+
     render() {
+        var { item, index } = this.props
         return (
             <div className="row">
-                <div className="col-1 mt">
-                    <label className="bmd-label  ">
-                        <h5 className="font-weight-bold">
-                            Skill
-                </h5>
+                <div className="col mt-15-ml-30">
+                    <label className="bmd-label">
+                        <h5 className="font-weight-bold">Skill</h5>
                     </label>
                 </div>
                 <div className="col-2">
-                    <SelectSearch/>
+                    <SelectSearch />
                 </div>
 
-                <div className="col-1 mt">
-                    <label className="bmd-label  ">
-                        <h5 className="font-weight-bold">
-                            Experience
-                </h5>
+                <div className="col mt-15-ml-30">
+                    <label className="bmd-label">
+                        <h5 className="font-weight-bold">Experience</h5>
                     </label>
                 </div>
-                <div className="col-1">
+
+                <div className="col">
                     <div className="form-group">
                         <input type="number" className="form-control" min="0" />
                     </div>
                 </div>
-
-                <div className="col-1 mt">
+                <div className="col">
+                    <label className="bmd-label label mt-10">
+                        Years
+                    </label>
+                </div>
+                <div className="col mt-15-ml-30 mr-10">
                     <label className="bmd-label  ">
                         <h5 className="font-weight-bold">
                             Certification
@@ -40,21 +47,23 @@ class HardSkillFormContent extends Component {
                     <SelectSearch />
                 </div>
 
-                <div className="col-1 mt">
+                <div className="col mt-15-ml-30">
                     <label className="bmd-label">
                         <h5 className="font-weight-bold">
                             Priority
                 </h5>
                     </label>
                 </div>
-                <div className="col-1">
+                <div className="col">
                     <div className="form-group">
                         <input type="number" className="form-control" min="0" />
+
                     </div>
+
                 </div>
 
-                <div className="col-1 mt">
-                    <span className="material-icons pull-right">clear</span>
+                <div className="col mt-15-ml-30">
+                    <span className="material-icons pull-right clear" onClick={() => this.onDelete(index)}>clear</span>
                 </div>
             </div>
 
