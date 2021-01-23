@@ -16,7 +16,7 @@ class HardSkillFormContent extends Component {
                         <h5 className="font-weight-bold">Skill</h5>
                     </label>
                 </div>
-                <div className="col">
+                <div className="col-2">
                     <SelectSearch />
                 </div>
 
@@ -32,7 +32,7 @@ class HardSkillFormContent extends Component {
                     </div>
                 </div>
                 <div className="col">
-                    <label className="bmd-label mt-10">
+                    <label className="bmd-label label mt-10">
                         Years
                     </label>
                 </div>
@@ -43,7 +43,7 @@ class HardSkillFormContent extends Component {
                 </h5>
                     </label>
                 </div>
-                <div className="col ">
+                <div className="col-2">
                     <SelectSearch />
                 </div>
 

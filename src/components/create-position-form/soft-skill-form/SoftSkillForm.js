@@ -28,7 +28,7 @@ class SoftSkillForm extends Component {
     render() {
         return (
             <div className="card mb-50">
-                <div className="card-header card-header-primary ">
+                <div className="card-header ">
                     <h5 className="font-weight-bold">Soft Skill</h5>
                 </div>
                 <div className="card-body">

@@ -3,8 +3,15 @@ import HardSkillForm from './hard-skill-form/HardSkillForm';
 import SelectSearch from './select-search/SelectSearch';
 import SoftSkillForm from './soft-skill-form/SoftSkillForm';
 
+
 class CreatePositionForm extends Component {
+
+    onDelete = (key) => {
+        this.props.onDelete(key)
+    }
+    
     render() {
+        var { item, index } = this.props
         return (
             <div className="card mb-50">
                 <div className="card-body">
@@ -17,10 +24,10 @@ class CreatePositionForm extends Component {
                                 </h4>
                                 </label>
                             </div>
-                            <div className="col-3">
+                            <div className="col-4">
                                 <SelectSearch />
                             </div>
-                            <div className="col mt-15-ml-30 fr">
+                            <div className="col-2 mt-15-ml-30 fr">
                                 <label className="bmd-label ">
                                     <h4 className="font-weight-bold ">
                                         Number of candidate
@@ -33,7 +40,7 @@ class CreatePositionForm extends Component {
                                 </div>
                             </div>
                             <div className="col">
-                                <span className="material-icons pull-right clear">clear</span>
+                                <span className="material-icons pull-right clear" onClick={() => this.onDelete(index)}>clear</span>
                             </div>
                         </div>
 
@@ -47,5 +54,8 @@ class CreatePositionForm extends Component {
         );
     }
 }
+
+
+
 
 export default CreatePositionForm;

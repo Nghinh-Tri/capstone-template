@@ -28,7 +28,7 @@ class HardSkillForm extends Component {
     render() {
         return (
             <div class="card">
-                <div className="card-header card-header-primary ">
+                <div className="card-header ">
                     <h5 className="font-weight-bold">Hard Skill</h5>
                 </div>
                 <div class="card-body">
