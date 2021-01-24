@@ -6,12 +6,24 @@ import SoftSkillForm from './soft-skill-form/SoftSkillForm';
 
 class CreatePositionForm extends Component {
 
-    onDelete = (key) => {
-        this.props.onDelete(key)
+    constructor(props) {
+        super(props);
+        this.state = {
+            position: [
+                { label: 'Bussiness Analysis', value: 1 },
+                { label: 'Tester', value: 2 },
+                { label: 'Developer', value: 3 },
+            ]
+        }
     }
-    
+
+    onDeletePositionForm = (positionFormIndex) => {
+        this.props.onDeletePositionForm(positionFormIndex)
+    }
+
     render() {
-        var { item, index } = this.props
+        var { item, positionFormIndex } = this.props
+
         return (
             <div className="card mb-50">
                 <div className="card-body">
@@ -40,14 +52,17 @@ class CreatePositionForm extends Component {
                                 </div>
                             </div>
                             <div className="col">
-                                <span className="material-icons pull-right clear" onClick={() => this.onDelete(index)}>clear</span>
+                                <span className="material-icons pull-right clear" onClick={() => this.onDeletePositionForm(positionFormIndex)}>clear</span>
                             </div>
                         </div>
 
                         {/* Soft Skill form */}
-                        <SoftSkillForm />
+                        <SoftSkillForm softSkill={item.softSkill}
+                            positionFormIndex={positionFormIndex}
+                            onAddSoftSkill={this.props.onAddSoftSkill}
+                            onDeleteSoftSkill={this.props.onDeleteSoftSkill} />
                         {/* Hard Skill form */}
-                        <HardSkillForm />
+                        {/* <HardSkillForm /> */}
                     </div>
                 </div>
             </div>

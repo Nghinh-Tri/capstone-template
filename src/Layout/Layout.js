@@ -19,8 +19,8 @@ class Layout extends Component {
                     <div className="content">
                         {/* <Dashboard /> */}
                         {/* <Project /> */}
-                        <CreateProject/>
-                        {/* <CreatePosition/> */}
+                        {/* <CreateProject/> */}
+                        <CreatePosition/>
                         {/* <SuggestCandidate /> */}
                         {/* <ProjectDetail/> */}
                     </div>
