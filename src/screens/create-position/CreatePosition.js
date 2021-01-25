@@ -10,8 +10,7 @@ class CreatePosition extends Component {
         super(props);
         this.state = {
             position: {
-                id: 0,
-                name: "",
+                positionId: "",
                 nOC: 0,
                 softSkill: [],
                 hardSkill: []
@@ -20,12 +19,6 @@ class CreatePosition extends Component {
     }
 
     onAddPosition = () => {
-        this.setState(pre => ({
-            position: {
-                ...pre.position,
-                id:1
-            }
-        }))
         this.props.onAddPosition(this.state.position)
     }
 
@@ -41,18 +34,26 @@ class CreatePosition extends Component {
         this.props.onDeleteSoftSkillItem(softSkillIndex, positionFormIndex)
     }
 
+    onAddHardSkill = (positionFormIndex) => {
+        this.props.onAddHardSkillItem(positionFormIndex)
+    }
+
+    onDeleteHardSkill = (hardSkillIndex, positionFormIndex) => {
+        this.props.onDeleteHardSkillItem(hardSkillIndex, positionFormIndex)
+    }
 
     showItems = (items) => {
         var result = null;
         result = items.map((item, positionFormIndex) => {
-            // console.log(item)
             return (
                 <CreatePositionForm key={positionFormIndex}
                     positionFormIndex={positionFormIndex}
                     item={item}
-                    onAddSoftSkill={this.onAddSoftSkill}
                     onDeletePositionForm={this.onDeletePositionForm}
+                    onAddSoftSkill={this.onAddSoftSkill}
                     onDeleteSoftSkill={this.onDeleteSoftSkill}
+                    onAddHardSkill={this.onAddHardSkill}
+                    onDeleteHardSkill={this.onDeleteHardSkill}
                 />
             );
         })
@@ -95,6 +96,12 @@ const mapDispatchToProp = (dispatch, props) => {
         },
         onDeleteSoftSkillItem: (softSkillIndex, positionFormIndex) => {
             dispatch(Action.deleteSoftSkillRequire(softSkillIndex, positionFormIndex))
+        },
+        onAddHardSkillItem: (positionFormIndex)=>{
+            dispatch(Action.addHardSkillRequire(positionFormIndex))
+        },
+        onDeleteHardSkillItem: (hardSkillIndex, positionFormIndex) =>{
+            dispatch(Action.deleteHardSkillRequire(hardSkillIndex,positionFormIndex))
         }
     }
 }

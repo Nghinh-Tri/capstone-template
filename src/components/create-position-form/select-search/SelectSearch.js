@@ -16,9 +16,9 @@ class SelectSearchs extends Component {
 
 
     render() {
-        var { item } = this.state
+        var { list } = this.props
         return (            
-            <Select className="select" options={item} placeholder="Search skill..." />
+            <Select className="select" options={list} placeholder="Search..." />
         );
     }
 }

@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import HardSkillForm from './hard-skill-form/HardSkillForm';
 import SelectSearch from './select-search/SelectSearch';
 import SoftSkillForm from './soft-skill-form/SoftSkillForm';
-
+import * as Action from "../../store/store-action/PositionSelectBarAction";
+import {convertList} from "../../util";
 
 class CreatePositionForm extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            position: [
-                { label: 'Bussiness Analysis', value: 1 },
-                { label: 'Tester', value: 2 },
-                { label: 'Developer', value: 3 },
-            ]
+    componentDidMount=()=>{
+        var {positionList} = this.props
+        if(typeof positionList === 'undefined' || positionList.length === 0){
+            this.props.fetchPostionList()
         }
+        
+    }
+
+    convertPositionList = (positionList) => {
+        var result = []
+        positionList.forEach(element => {
+            result.push({label: element.name, value: element.id})
+        });
+        return result;
     }
 
     onDeletePositionForm = (positionFormIndex) => {
@@ -22,8 +29,8 @@ class CreatePositionForm extends Component {
     }
 
     render() {
-        var { item, positionFormIndex } = this.props
-
+        var { item, positionFormIndex, positionList } = this.props
+        var listConverted = convertList(positionList)
         return (
             <div className="card mb-50">
                 <div className="card-body">
@@ -37,7 +44,7 @@ class CreatePositionForm extends Component {
                                 </label>
                             </div>
                             <div className="col-4">
-                                <SelectSearch />
+                                <SelectSearch list={listConverted} />
                             </div>
                             <div className="col-2 mt-15-ml-30 fr">
                                 <label className="bmd-label ">
@@ -61,8 +68,12 @@ class CreatePositionForm extends Component {
                             positionFormIndex={positionFormIndex}
                             onAddSoftSkill={this.props.onAddSoftSkill}
                             onDeleteSoftSkill={this.props.onDeleteSoftSkill} />
+
                         {/* Hard Skill form */}
-                        {/* <HardSkillForm /> */}
+                        <HardSkillForm hardSkill={item.hardSkill}
+                            positionFormIndex={positionFormIndex}
+                            onAddHardSkill={this.props.onAddHardSkill}
+                            onDeleteHardSkill={this.props.onDeleteHardSkill} />
                     </div>
                 </div>
             </div>
@@ -70,7 +81,17 @@ class CreatePositionForm extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        positionList: state.PositionSelectBarReducer
+    }
+}
 
-
-
-export default CreatePositionForm;
+const mapDispatchToProp = (dispatch, props) => {
+    return {
+        fetchPostionList: () => {
+            dispatch(Action.fetchPostionList())
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProp)(CreatePositionForm);

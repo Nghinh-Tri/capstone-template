@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
-// import SoftSkillReducer from "./SoftSkillReducer";
-// import HardSkillReducer from "./HardSkillReducer";
 import PositionFormReducer from "./PositionFormReducer";
+import PositionSelectBarReducer from "./PositionSelectBarReducer";
+import SoftSkillSelectBarReducer from "./SoftSkillSelectBarReducer";
 
 const MainReducer = combineReducers({
-    // SoftSkillReducer,
-    // HardSkillReducer,
-    PositionFormReducer
+    PositionFormReducer,
+    PositionSelectBarReducer,
+    SoftSkillSelectBarReducer
 });
 
 export default MainReducer;

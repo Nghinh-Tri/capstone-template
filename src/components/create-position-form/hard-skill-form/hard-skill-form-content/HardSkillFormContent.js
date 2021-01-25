@@ -3,12 +3,12 @@ import SelectSearch from '../../select-search/SelectSearch';
 
 class HardSkillFormContent extends Component {
 
-    onDelete = (key) => {
-        this.props.onDelete(key)
+    onDeleteHardSkill = (hardSkillIndex, positionFormIndex) => {
+        this.props.onDeleteHardSkill(hardSkillIndex, positionFormIndex)
     }
 
     render() {
-        var { item, index } = this.props
+        var { hardSkillIndex, positionFormIndex } = this.props
         return (
             <div className="row">
                 <div className="col mt-15-ml-30">
@@ -63,7 +63,8 @@ class HardSkillFormContent extends Component {
                 </div>
 
                 <div className="col mt-15-ml-30">
-                    <span className="material-icons pull-right clear" onClick={() => this.onDelete(index)}>clear</span>
+                    <span className="material-icons pull-right clear" 
+                    onClick={() => this.onDeleteHardSkill(hardSkillIndex, positionFormIndex)}>clear</span>
                 </div>
             </div>
 

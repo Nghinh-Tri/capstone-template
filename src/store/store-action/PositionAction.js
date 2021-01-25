@@ -28,3 +28,18 @@ export const deleteSoftSkillRequire = (softSkillIndex, positionFormIndex) => {
         softSkillIndex
     }
 }
+
+export const addHardSkillRequire = (positionFormIndex) => {
+    return {
+        type: Types.ADD_HARD_SKILL_REQUIRE,
+        positionFormIndex
+    };
+}
+
+export const deleteHardSkillRequire = (hardSkillIndex, positionFormIndex) => {
+    return {
+        type: Types.DELETE_HARD_SKILL_REQUIRE,
+        positionFormIndex,
+        hardSkillIndex
+    }
+}
