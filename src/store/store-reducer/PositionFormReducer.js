@@ -12,24 +12,18 @@ const positionReducer = (state = initState, action) => {
             state.splice(action.positionFormIndex, 1)
             return [...state]
         case ADD_SOFT_SKILL_REQUIRE:
-            var index = action.positionFormIndex
-            console.log(index)
-            // console.log(state[index])
-            var clone = {...state[index].softSkill}
-            console.log(typeof(clone) === 'object')
-            if (typeof(clone) === 'object'){
-                clone = []
-            }
-            clone.push("")
-            // console.log(clone)
-
-            // state[index].softSkill = clone
-            console.log(state[index].softSkill)
-            // state[action.positionFormIndex].softSkill.push("")
-            // console.log(action.positionFormIndex,state[action.positionFormIndex].softSkill)
+            let position = { ...state[action.positionFormIndex] }
+            let softSkill = position.softSkill.slice()
+            softSkill.push("")
+            position.softSkill = softSkill
+            state.splice(action.positionFormIndex, 1, position)
             return [...state]
         case DELETE_SOFT_SKILL_REQUIRE:
-            state[action.positionFormIndex].softSkill.splice(action.softSkillIndex, 1)
+            position = { ...state[action.positionFormIndex] }
+            softSkill = position.softSkill.slice()
+            softSkill.splice(action.softSkillIndex, 1)
+            position.softSkill = softSkill
+            state.splice(action.positionFormIndex, 1, position)
             return [...state]
         default:
             return [...state]

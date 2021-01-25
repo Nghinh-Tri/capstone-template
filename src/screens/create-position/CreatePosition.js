@@ -10,6 +10,7 @@ class CreatePosition extends Component {
         super(props);
         this.state = {
             position: {
+                id: 0,
                 name: "",
                 nOC: 0,
                 softSkill: [],
@@ -19,8 +20,13 @@ class CreatePosition extends Component {
     }
 
     onAddPosition = () => {
-        var { position } = this.state
-        this.props.onAddPosition(position)
+        this.setState(pre => ({
+            position: {
+                ...pre.position,
+                id:1
+            }
+        }))
+        this.props.onAddPosition(this.state.position)
     }
 
     onDeletePositionForm = (positionFormIndex) => {
@@ -39,6 +45,7 @@ class CreatePosition extends Component {
     showItems = (items) => {
         var result = null;
         result = items.map((item, positionFormIndex) => {
+            // console.log(item)
             return (
                 <CreatePositionForm key={positionFormIndex}
                     positionFormIndex={positionFormIndex}
