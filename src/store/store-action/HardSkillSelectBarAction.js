@@ -1,15 +1,7 @@
 import * as Types from "../store-constant"
 
-export const addHardSkilRequire = (skill) => {
+export const fetchHardSkill = () => {
     return {
-        type: Types.ADD_HARD_SKILL_REQUIRE,
-        skill
+        type: Types.FETCH_HARD_SKILL_LIST    
     };
-}
-
-export const deleteHardSkillRequire = index => {
-    return {
-        type: Types.DELETE_HARD_SKILL_REQUIRE,
-        index
-    }
 }

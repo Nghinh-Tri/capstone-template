@@ -1,14 +1,30 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import SelectSearch from '../../select-search/SelectSearch';
+import { fetchHardSkill } from "../../../../store/store-action/HardSkillSelectBarAction";
+import { fetchCertification } from "../../../../store/store-action/CertificationSelectBarAction";
+import { convertList } from "../../../../util";
 
 class HardSkillFormContent extends Component {
+
+    componentDidMount = () => { 
+        var {hardSkillList, certificationList} = this.props
+        if(typeof hardSkillList === 'undefined' || hardSkillList.length === 0){
+            this.props.fetchHardSkillList()
+        }
+        if(typeof certificationList === 'undefined' || certificationList.length === 0){
+            this.props.fetchCertificationList()
+        }
+    }
 
     onDeleteHardSkill = (hardSkillIndex, positionFormIndex) => {
         this.props.onDeleteHardSkill(hardSkillIndex, positionFormIndex)
     }
 
     render() {
-        var { hardSkillIndex, positionFormIndex } = this.props
+        var { hardSkillIndex, positionFormIndex, hardSkillList, certificationList } = this.props
+        var hardSkillListConverted = convertList(hardSkillList)
+        var certificationListConverted = convertList(certificationList)
         return (
             <div className="row">
                 <div className="col mt-15-ml-30">
@@ -17,7 +33,7 @@ class HardSkillFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-2">
-                    <SelectSearch />
+                    <SelectSearch list={hardSkillListConverted} />
                 </div>
 
                 <div className="col mt-15-ml-30">
@@ -44,7 +60,7 @@ class HardSkillFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-2">
-                    <SelectSearch />
+                    <SelectSearch list={certificationListConverted} />
                 </div>
 
                 <div className="col mt-15-ml-30">
@@ -63,8 +79,8 @@ class HardSkillFormContent extends Component {
                 </div>
 
                 <div className="col mt-15-ml-30">
-                    <span className="material-icons pull-right clear" 
-                    onClick={() => this.onDeleteHardSkill(hardSkillIndex, positionFormIndex)}>clear</span>
+                    <span className="material-icons pull-right clear"
+                        onClick={() => this.onDeleteHardSkill(hardSkillIndex, positionFormIndex)}>clear</span>
                 </div>
             </div>
 
@@ -72,4 +88,22 @@ class HardSkillFormContent extends Component {
     }
 }
 
-export default HardSkillFormContent;
+const mapStateToProps = (state) => {
+    return {
+        hardSkillList: state.HardSkillSelectBarReducer,
+        certificationList: state.CertificationSelectBarReducer
+    }
+}
+
+const mapDispatchToProp = (dispatch, props) => {
+    return {
+        fetchHardSkillList: () => {
+            dispatch(fetchHardSkill())
+        },
+        fetchCertificationList: () => {
+            dispatch(fetchCertification())
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(HardSkillFormContent);

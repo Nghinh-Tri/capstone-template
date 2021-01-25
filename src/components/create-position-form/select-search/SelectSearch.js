@@ -3,18 +3,6 @@ import React, { Component } from 'react';
 import Select from 'react-select'
 
 class SelectSearchs extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            item: [
-                { label: "any", value: 1 },
-                { label: "Two", value: 2 }
-            ]
-        }
-    }
-
-
     render() {
         var { list } = this.props
         return (            

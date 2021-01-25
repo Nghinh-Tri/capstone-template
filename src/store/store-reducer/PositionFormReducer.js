@@ -22,6 +22,7 @@ const positionReducer = (state = initState, action) => {
             position = { ...state[action.positionFormIndex] }
             softSkill = position.softSkill.slice()
             softSkill.splice(action.softSkillIndex, 1)
+            console.log(softSkill)
             position.softSkill = softSkill
             state.splice(action.positionFormIndex, 1, position)
             return [...state]
