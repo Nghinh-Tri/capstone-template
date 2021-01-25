@@ -4,36 +4,36 @@ import { addSoftSkilRequire, deleteSoftSkillRequire } from '../../../store/store
 import SoftSkillFormContent from './soft-skill-form-content/SoftSkillFormContent';
 
 class SoftSkillForm extends Component {
-    
-    onAdd = () => {
-        var { items } = this.props
-        items.push("")
-        this.props.onAddSoftSkill(items)
-    }
 
-    onDelete = (id) => {
-        this.props.onDelete(id)
+    onAddSoftSkill = () => {
+        var { positionFormIndex } = this.props
+        this.props.onAddSoftSkill(positionFormIndex)
     }
 
     showItems = (items) => {
         var result = null;
-        result = items.map((item, index) => {
+        var { positionFormIndex } = this.props
+        result = items.map((item, softSkillIndex) => {
             return (
-                <SoftSkillFormContent key={index} onDelete={this.onDelete} index={index} />
+                <SoftSkillFormContent key={softSkillIndex}
+                    positionFormIndex={positionFormIndex}
+                    softSkillIndex={softSkillIndex}
+                    onDeleteSoftSkill={this.props.onDeleteSoftSkill} />
             );
         })
         return result;
     }
 
     render() {
+        var { softSkill } = this.props
         return (
             <div className="card mb-50">
                 <div className="card-header ">
                     <h5 className="font-weight-bold">Soft Skill</h5>
                 </div>
                 <div className="card-body">
-                    {this.showItems(this.props.items)}
-                    <span className="material-icons add" onClick={this.onAdd}>add_box</span>
+                    {this.showItems(softSkill)}
+                    <span className="material-icons add" onClick={this.onAddSoftSkill}>add_box</span>
                 </div>
             </div>
 
@@ -41,21 +41,4 @@ class SoftSkillForm extends Component {
     }
 }
 
-const mapStateToProp = (state) => {
-    return {
-        items: state.SoftSkillReducer
-    }
-}
-
-const mapDispatchToProp = (dispatch, props) => {
-    return {
-        onAddSoftSkill: (skill) => {
-            dispatch(addSoftSkilRequire(skill))
-        },
-        onDelete: (index) => {
-            dispatch(deleteSoftSkillRequire(index))
-        }
-    }
-}
-
-export default connect(mapStateToProp, mapDispatchToProp)(SoftSkillForm);
+export default SoftSkillForm;
