@@ -3,18 +3,34 @@ import HardSkillFormContent from './hard-skill-form-content/HardSkillFormContent
 
 class HardSkillForm extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            hardSkillDetail: {
+                hardSkillID: 0,
+                exp: 0,
+                certiID: 0,
+                priority: 0
+            }
+        }
+    }
     onAddHardSkill = (positionFormIndex) => {
-        this.props.onAddHardSkill(positionFormIndex)
+        this.props.onAddHardSkill(positionFormIndex, this.state.hardSkillDetail)
     }
 
     showItems = (hardSkill, positionFormIndex) => {
         var result = null;
-        result = hardSkill.map((item, hardSkillIndex) => {
+        result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
             return (
                 <HardSkillFormContent key={hardSkillIndex}
+                    hardSkillDetail={hardSkillDetail}
                     hardSkillIndex={hardSkillIndex}
                     positionFormIndex={positionFormIndex}
-                    onDeleteHardSkill={this.props.onDeleteHardSkill} />
+                    onDeleteHardSkill={this.props.onDeleteHardSkill}
+                    updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
+                    onUpdateHardSkillID={this.props.onUpdateHardSkillID} 
+                    onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                />
             );
         })
         return result;

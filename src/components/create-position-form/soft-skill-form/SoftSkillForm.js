@@ -14,7 +14,9 @@ class SoftSkillForm extends Component {
                 <SoftSkillFormContent key={softSkillIndex}
                     positionFormIndex={positionFormIndex}
                     softSkillIndex={softSkillIndex}
-                    onDeleteSoftSkill={this.props.onDeleteSoftSkill} />
+                    onDeleteSoftSkill={this.props.onDeleteSoftSkill}
+                    item={item}
+                    onUpdateSoftSkillID={this.props.onUpdateSoftSkillID} />
             );
         })
         return result;

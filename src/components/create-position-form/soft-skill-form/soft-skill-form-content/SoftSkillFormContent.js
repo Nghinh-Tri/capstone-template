@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectSearch from '../../select-search/SelectSearch';
 import * as Action from "../../../../store/store-action/SoftSkillSelectBarAction";
-import {convertList} from "../../../../util";
+import { convertList } from "../../../../util";
 
 class SoftSkillFormContent extends Component {
 
     componentDidMount = () => {
-        var {softSkillList} = this.props
-        if(typeof softSkillList === 'undefined' || softSkillList.length === 0){
+        var { softSkillList } = this.props
+        if (typeof softSkillList === 'undefined' || softSkillList.length === 0) {
             this.props.fetchSoftSkillList()
         }
     }
@@ -28,7 +28,12 @@ class SoftSkillFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-3">
-                    <SelectSearch list={listConverted} />
+                    <SelectSearch list={listConverted}
+                        onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
+                        name="softSkillID"
+                        positionFormIndex={positionFormIndex}
+                        softSkillIndex={softSkillIndex}
+                        value={item} />
                 </div>
                 <div className="col-1 mt-15-ml-30">
                     <span className="material-icons pull-right clear" onClick={() => this.onDeleteSoftSkill(softSkillIndex, positionFormIndex)}>clear</span>

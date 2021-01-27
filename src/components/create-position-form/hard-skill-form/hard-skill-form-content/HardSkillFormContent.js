@@ -7,12 +7,19 @@ import { convertList } from "../../../../util";
 
 class HardSkillFormContent extends Component {
 
-    componentDidMount = () => { 
-        var {hardSkillList, certificationList} = this.props
-        if(typeof hardSkillList === 'undefined' || hardSkillList.length === 0){
+    onUpdate = event => {
+        var { hardSkillIndex, positionFormIndex } = this.props
+        var value = event.target.value
+        var name = event.target.name
+        this.props.updateHardSkillExpPriority(hardSkillIndex, positionFormIndex, value, name)
+    }
+
+    componentDidMount = () => {
+        var { hardSkillList, certificationList } = this.props
+        if (typeof hardSkillList === 'undefined' || hardSkillList.length === 0) {
             this.props.fetchHardSkillList()
         }
-        if(typeof certificationList === 'undefined' || certificationList.length === 0){
+        if (typeof certificationList === 'undefined' || certificationList.length === 0) {
             this.props.fetchCertificationList()
         }
     }
@@ -22,29 +29,36 @@ class HardSkillFormContent extends Component {
     }
 
     render() {
-        var { hardSkillIndex, positionFormIndex, hardSkillList, certificationList } = this.props
+        var { hardSkillIndex, positionFormIndex, hardSkillList, certificationList, hardSkillDetail } = this.props
         var hardSkillListConverted = convertList(hardSkillList)
         var certificationListConverted = convertList(certificationList)
         return (
             <div className="row">
+                
+                {/* Skill */}
                 <div className="col mt-15-ml-30">
                     <label className="bmd-label">
                         <h5 className="font-weight-bold">Skill</h5>
                     </label>
                 </div>
                 <div className="col-2">
-                    <SelectSearch list={hardSkillListConverted} />
+                    <SelectSearch positionFormIndex={positionFormIndex}
+                        hardSkillIndex={hardSkillIndex}
+                        list={hardSkillListConverted}
+                        name="hardSkillID"
+                        value={hardSkillDetail.hardSkillID}
+                        onUpdateHardSkillID={this.props.onUpdateHardSkillID} />
                 </div>
 
+                {/* Exp */}
                 <div className="col mt-15-ml-30">
                     <label className="bmd-label">
                         <h5 className="font-weight-bold">Experience</h5>
                     </label>
                 </div>
-
                 <div className="col">
                     <div className="form-group">
-                        <input type="number" className="form-control" min="0" />
+                        <input type="number" name="exp" className="form-control" value={hardSkillDetail.exp} min="0" onChange={this.onUpdate} />
                     </div>
                 </div>
                 <div className="col">
@@ -52,6 +66,8 @@ class HardSkillFormContent extends Component {
                         Years
                     </label>
                 </div>
+
+                {/* Certi */}
                 <div className="col mt-15-ml-30 mr-10">
                     <label className="bmd-label  ">
                         <h5 className="font-weight-bold">
@@ -60,9 +76,15 @@ class HardSkillFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-2">
-                    <SelectSearch list={certificationListConverted} />
+                    <SelectSearch positionFormIndex={positionFormIndex}
+                        hardSkillIndex={hardSkillIndex}
+                        list={certificationListConverted}
+                        name="certiID"
+                        value={hardSkillDetail.certiID}
+                        onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti} />
                 </div>
 
+                {/* Priority */}
                 <div className="col mt-15-ml-30">
                     <label className="bmd-label">
                         <h5 className="font-weight-bold">
@@ -72,12 +94,11 @@ class HardSkillFormContent extends Component {
                 </div>
                 <div className="col">
                     <div className="form-group">
-                        <input type="number" className="form-control" min="0" />
-
+                        <input type="number" name="priority" value={hardSkillDetail.priority} className="form-control" min="0" onChange={this.onUpdate} />
                     </div>
-
                 </div>
 
+                {/* Button Delete */}
                 <div className="col mt-15-ml-30">
                     <span className="material-icons pull-right clear"
                         onClick={() => this.onDeleteHardSkill(hardSkillIndex, positionFormIndex)}>clear</span>

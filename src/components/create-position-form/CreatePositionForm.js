@@ -4,28 +4,38 @@ import HardSkillForm from './hard-skill-form/HardSkillForm';
 import SelectSearch from './select-search/SelectSearch';
 import SoftSkillForm from './soft-skill-form/SoftSkillForm';
 import * as Action from "../../store/store-action/PositionSelectBarAction";
-import {convertList} from "../../util";
+import { convertList } from "../../util";
 
 class CreatePositionForm extends Component {
 
-    componentDidMount=()=>{
-        var {positionList} = this.props
-        if(typeof positionList === 'undefined' || positionList.length === 0){
+    componentDidMount = () => {
+        var { positionList } = this.props
+        if (typeof positionList === 'undefined' || positionList.length === 0) {
             this.props.fetchPostionList()
         }
-        
+
     }
 
     convertPositionList = (positionList) => {
         var result = []
         positionList.forEach(element => {
-            result.push({label: element.name, value: element.id})
+            result.push({ label: element.name, value: element.id })
         });
         return result;
     }
 
     onDeletePositionForm = (positionFormIndex) => {
         this.props.onDeletePositionForm(positionFormIndex)
+    }
+
+    onUpdatePositionID = (value, positionFormIndex) => {
+        this.props.onUpdatePositionID(value, positionFormIndex)
+    }
+
+    onHandleUpdateNOC = (event) => {
+        var { positionFormIndex } = this.props
+        var value = event.target.value
+        this.props.onUpdateNOC(value, positionFormIndex)
     }
 
     render() {
@@ -44,7 +54,11 @@ class CreatePositionForm extends Component {
                                 </label>
                             </div>
                             <div className="col-4">
-                                <SelectSearch list={listConverted} />
+                                <SelectSearch list={listConverted}
+                                    onUpdatePositionID={this.onUpdatePositionID}
+                                    name="positionID"
+                                    positionFormIndex={positionFormIndex}
+                                    value={item.positionId} />
                             </div>
                             <div className="col-2 mt-15-ml-30 fr">
                                 <label className="bmd-label ">
@@ -55,7 +69,7 @@ class CreatePositionForm extends Component {
                             </div>
                             <div className="col-3">
                                 <div className="form-group">
-                                    <input type="number" className="form-control" min="0" />
+                                    <input type="number" className="form-control" min="0" onChange={this.onHandleUpdateNOC} value={item.nOC} />
                                 </div>
                             </div>
                             <div className="col">
@@ -67,13 +81,19 @@ class CreatePositionForm extends Component {
                         <SoftSkillForm softSkill={item.softSkill}
                             positionFormIndex={positionFormIndex}
                             onAddSoftSkill={this.props.onAddSoftSkill}
-                            onDeleteSoftSkill={this.props.onDeleteSoftSkill} />
+                            onDeleteSoftSkill={this.props.onDeleteSoftSkill}
+                            onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
+                        />
 
                         {/* Hard Skill form */}
                         <HardSkillForm hardSkill={item.hardSkill}
                             positionFormIndex={positionFormIndex}
                             onAddHardSkill={this.props.onAddHardSkill}
-                            onDeleteHardSkill={this.props.onDeleteHardSkill} />
+                            onDeleteHardSkill={this.props.onDeleteHardSkill}
+                            updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
+                            onUpdateHardSkillID={this.props.onUpdateHardSkillID} 
+                            onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                        />
                     </div>
                 </div>
             </div>

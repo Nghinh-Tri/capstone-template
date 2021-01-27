@@ -18,6 +18,7 @@ class CreatePosition extends Component {
         }
     }
 
+    // Position
     onAddPosition = () => {
         this.props.onAddPosition(this.state.position)
     }
@@ -26,6 +27,15 @@ class CreatePosition extends Component {
         this.props.onDeletePosition(positionFormIndex)
     }
 
+    onUpdatePositionID = (positionID, positionFormIndex) => {
+        this.props.onUpdatePositionID(positionID, positionFormIndex)
+    }
+
+    onUpdateNOC = (nOC, positionFormIndex) => {
+        this.props.onUpdateNOC(nOC, positionFormIndex)
+    }
+
+    // Soft Skill
     onAddSoftSkill = (positionFormIndex) => {
         this.props.onAddSoftSkillItem(positionFormIndex)
     }
@@ -34,26 +44,53 @@ class CreatePosition extends Component {
         this.props.onDeleteSoftSkillItem(softSkillIndex, positionFormIndex)
     }
 
-    onAddHardSkill = (positionFormIndex) => {
-        this.props.onAddHardSkillItem(positionFormIndex)
+    onUpdateSoftSkillID = (value, softSkillIndex, positionFormIndex) => {
+        this.props.onUpdateSoftSkillID(value, softSkillIndex, positionFormIndex)
+    }
+
+    // Hard Skill
+    onAddHardSkill = (positionFormIndex, hardSkillItem) => {
+        this.props.onAddHardSkillItem(positionFormIndex, hardSkillItem)
     }
 
     onDeleteHardSkill = (hardSkillIndex, positionFormIndex) => {
         this.props.onDeleteHardSkillItem(hardSkillIndex, positionFormIndex)
     }
 
+    updateHardSkillExpPriority = (hardSkillIndex, positionFormIndex, value, name) => {
+        this.props.updateHardSkillExpPriority(hardSkillIndex, positionFormIndex, value, name)
+    }
+
+    onUpdateHardSkillID = (value, hardSkillIndex, positionFormIndex) => {
+        this.props.onUpdateHardSkillID(value, hardSkillIndex, positionFormIndex)
+    }
+
+    onUpdateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) => {
+        this.props.onUpdateHardSkillCerti(value,hardSkillIndex,positionFormIndex)
+    }
+
+    //For render
     showItems = (items) => {
         var result = null;
         result = items.map((item, positionFormIndex) => {
             return (
                 <CreatePositionForm key={positionFormIndex}
                     positionFormIndex={positionFormIndex}
-                    item={item}
+                    item={item} //position object
+                    //position
                     onDeletePositionForm={this.onDeletePositionForm}
+                    onUpdatePositionID={this.onUpdatePositionID}
+                    onUpdateNOC={this.onUpdateNOC}
+                    //soft skill
                     onAddSoftSkill={this.onAddSoftSkill}
                     onDeleteSoftSkill={this.onDeleteSoftSkill}
+                    onUpdateSoftSkillID={this.onUpdateSoftSkillID}
+                    //hard skill
                     onAddHardSkill={this.onAddHardSkill}
                     onDeleteHardSkill={this.onDeleteHardSkill}
+                    updateHardSkillExpPriority={this.updateHardSkillExpPriority}
+                    onUpdateHardSkillID={this.onUpdateHardSkillID}
+                    onUpdateHardSkillCerti={this.onUpdateHardSkillCerti}
                 />
             );
         })
@@ -77,6 +114,7 @@ class CreatePosition extends Component {
         );
     }
 }
+
 const mapStateToProp = (state) => {
     return {
         items: state.PositionFormReducer
@@ -91,18 +129,37 @@ const mapDispatchToProp = (dispatch, props) => {
         onDeletePosition: (positionFormIndex) => {
             dispatch(Action.deletePositionRequire(positionFormIndex))
         },
+        onUpdatePositionID: (positionID, positionFormIndex) => {
+            dispatch(Action.updatePositionID(positionID, positionFormIndex))
+        },
+        onUpdateNOC: (nOC, positionFormIndex) => {
+            dispatch(Action.updateNOC(nOC, positionFormIndex))
+        },
         onAddSoftSkillItem: positionFormIndex => {
             dispatch(Action.addSoftSkillRequire(positionFormIndex))
         },
         onDeleteSoftSkillItem: (softSkillIndex, positionFormIndex) => {
             dispatch(Action.deleteSoftSkillRequire(softSkillIndex, positionFormIndex))
         },
-        onAddHardSkillItem: (positionFormIndex)=>{
-            dispatch(Action.addHardSkillRequire(positionFormIndex))
+        onUpdateSoftSkillID: (softSkillID, softSkillIndex, positionFormIndex) => {
+            dispatch(Action.updateSoftSkillID(softSkillID, softSkillIndex, positionFormIndex))
         },
-        onDeleteHardSkillItem: (hardSkillIndex, positionFormIndex) =>{
-            dispatch(Action.deleteHardSkillRequire(hardSkillIndex,positionFormIndex))
+        onAddHardSkillItem: (positionFormIndex, hardSkillItem) => {
+            dispatch(Action.addHardSkillRequire(positionFormIndex, hardSkillItem))
+        },
+        onDeleteHardSkillItem: (hardSkillIndex, positionFormIndex) => {
+            dispatch(Action.deleteHardSkillRequire(hardSkillIndex, positionFormIndex))
+        },
+        updateHardSkillExpPriority: (hardSkillIndex, positionFormIndex, value, name) => {
+            dispatch(Action.updateHardSkillExpPriority(hardSkillIndex, positionFormIndex, value, name))
+        },
+        onUpdateHardSkillID: (value, hardSkillIndex, positionFormIndex) => {
+            dispatch(Action.updateHardSkillID(value, hardSkillIndex, positionFormIndex))
+        },
+        onUpdateHardSkillCerti: (value, hardSkillIndex, positionFormIndex) => {
+            dispatch(Action.updateHardSkillCerti(value,hardSkillIndex,positionFormIndex))
         }
     }
 }
+
 export default connect(mapStateToProp, mapDispatchToProp)(CreatePosition);
