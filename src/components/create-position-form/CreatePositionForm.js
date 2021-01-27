@@ -1,29 +1,46 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import HardSkillForm from './hard-skill-form/HardSkillForm';
 import SelectSearch from './select-search/SelectSearch';
 import SoftSkillForm from './soft-skill-form/SoftSkillForm';
-
+import * as Action from "../../store/store-action/PositionSelectBarAction";
+import { convertList } from "../../util";
 
 class CreatePositionForm extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            position: [
-                { label: 'Bussiness Analysis', value: 1 },
-                { label: 'Tester', value: 2 },
-                { label: 'Developer', value: 3 },
-            ]
+    componentDidMount = () => {
+        var { positionList } = this.props
+        if (typeof positionList === 'undefined' || positionList.length === 0) {
+            this.props.fetchPostionList()
         }
+
+    }
+
+    convertPositionList = (positionList) => {
+        var result = []
+        positionList.forEach(element => {
+            result.push({ label: element.name, value: element.id })
+        });
+        return result;
     }
 
     onDeletePositionForm = (positionFormIndex) => {
         this.props.onDeletePositionForm(positionFormIndex)
     }
 
-    render() {
-        var { item, positionFormIndex } = this.props
+    onUpdatePositionID = (value, positionFormIndex) => {
+        this.props.onUpdatePositionID(value, positionFormIndex)
+    }
 
+    onHandleUpdateNOC = (event) => {
+        var { positionFormIndex } = this.props
+        var value = event.target.value
+        this.props.onUpdateNOC(value, positionFormIndex)
+    }
+
+    render() {
+        var { item, positionFormIndex, positionList } = this.props
+        var listConverted = convertList(positionList)
         return (
             <div className="card mb-50">
                 <div className="card-body">
@@ -37,7 +54,11 @@ class CreatePositionForm extends Component {
                                 </label>
                             </div>
                             <div className="col-4">
-                                <SelectSearch />
+                                <SelectSearch list={listConverted}
+                                    onUpdatePositionID={this.onUpdatePositionID}
+                                    name="positionID"
+                                    positionFormIndex={positionFormIndex}
+                                    value={item.positionId} />
                             </div>
                             <div className="col-2 mt-15-ml-30 fr">
                                 <label className="bmd-label ">
@@ -48,7 +69,7 @@ class CreatePositionForm extends Component {
                             </div>
                             <div className="col-3">
                                 <div className="form-group">
-                                    <input type="number" className="form-control" min="0" />
+                                    <input type="number" className="form-control" min="0" onChange={this.onHandleUpdateNOC} value={item.nOC} />
                                 </div>
                             </div>
                             <div className="col">
@@ -60,9 +81,19 @@ class CreatePositionForm extends Component {
                         <SoftSkillForm softSkill={item.softSkill}
                             positionFormIndex={positionFormIndex}
                             onAddSoftSkill={this.props.onAddSoftSkill}
-                            onDeleteSoftSkill={this.props.onDeleteSoftSkill} />
+                            onDeleteSoftSkill={this.props.onDeleteSoftSkill}
+                            onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
+                        />
+
                         {/* Hard Skill form */}
-                        {/* <HardSkillForm /> */}
+                        <HardSkillForm hardSkill={item.hardSkill}
+                            positionFormIndex={positionFormIndex}
+                            onAddHardSkill={this.props.onAddHardSkill}
+                            onDeleteHardSkill={this.props.onDeleteHardSkill}
+                            updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
+                            onUpdateHardSkillID={this.props.onUpdateHardSkillID} 
+                            onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                        />
                     </div>
                 </div>
             </div>
@@ -70,7 +101,17 @@ class CreatePositionForm extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        positionList: state.PositionSelectBarReducer
+    }
+}
 
-
-
-export default CreatePositionForm;
+const mapDispatchToProp = (dispatch, props) => {
+    return {
+        fetchPostionList: () => {
+            dispatch(Action.fetchPostionList())
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProp)(CreatePositionForm);

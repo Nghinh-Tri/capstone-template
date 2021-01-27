@@ -1,39 +1,52 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addHardSkilRequire, deleteHardSkillRequire } from "../../../store/store-action/HardSkillAction";
 import HardSkillFormContent from './hard-skill-form-content/HardSkillFormContent';
 
 class HardSkillForm extends Component {
 
-    onAdd = () => {
-        var { items } = this.props
-        items.push("")
-        this.props.onAddHardSkill(items)
+    constructor(props) {
+        super(props);
+        this.state = {
+            hardSkillDetail: {
+                hardSkillID: 0,
+                exp: 0,
+                certiID: 0,
+                priority: 0
+            }
+        }
+    }
+    onAddHardSkill = (positionFormIndex) => {
+        this.props.onAddHardSkill(positionFormIndex, this.state.hardSkillDetail)
     }
 
-    onDelete = (id) => {
-        this.props.onDelete(id)
-    }
-
-    showItems = (items) => {
+    showItems = (hardSkill, positionFormIndex) => {
         var result = null;
-        result = items.map((item, index) => {
+        result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
             return (
-                <HardSkillFormContent key={index} onDelete={this.onDelete} index={index} />
+                <HardSkillFormContent key={hardSkillIndex}
+                    hardSkillDetail={hardSkillDetail}
+                    hardSkillIndex={hardSkillIndex}
+                    positionFormIndex={positionFormIndex}
+                    onDeleteHardSkill={this.props.onDeleteHardSkill}
+                    updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
+                    onUpdateHardSkillID={this.props.onUpdateHardSkillID} 
+                    onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                />
             );
         })
         return result;
     }
 
     render() {
+        var { hardSkill, positionFormIndex } = this.props
         return (
-            <div class="card">
+            <div className="card">
                 <div className="card-header ">
                     <h5 className="font-weight-bold">Hard Skill</h5>
                 </div>
-                <div class="card-body">
-                    {this.showItems(this.props.items)}
-                    <span className="material-icons add" onClick={this.onAdd}>add_box</span>
+                <div className="card-body">
+                    {this.showItems(hardSkill, positionFormIndex)}
+                    <span className="material-icons add"
+                        onClick={() => this.onAddHardSkill(positionFormIndex)}>add_box</span>
                 </div>
             </div>
 
@@ -41,21 +54,4 @@ class HardSkillForm extends Component {
     }
 }
 
-const mapStateToProp = (state) => {
-    return {
-        items: state.HardSkillReducer
-    }
-}
-
-const mapDispatchToProp = (dispatch, props) => {
-    return {
-        onAddHardSkill: (skill) => {
-            dispatch(addHardSkilRequire(skill))
-        },
-        onDelete: (index) => {
-            dispatch(deleteHardSkillRequire(index))
-        }
-    }
-}
-
-export default connect(mapStateToProp, mapDispatchToProp)(HardSkillForm);
+export default HardSkillForm;
