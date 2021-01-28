@@ -18,7 +18,7 @@ class SoftSkillFormContent extends Component {
     }
 
     render() {
-        var { item, softSkillIndex, positionFormIndex, softSkillList } = this.props
+        var { item, softSkillIndex, positionFormIndex, softSkillList } = this.props        
         var listConverted = convertList(softSkillList)
         return (
             <div className="row">

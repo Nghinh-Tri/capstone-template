@@ -11,7 +11,8 @@ class HardSkillForm extends Component {
                 exp: 0,
                 certiID: 0,
                 priority: 0
-            }
+            },
+            isMinimize: false
         }
     }
     onAddHardSkill = (positionFormIndex) => {
@@ -21,6 +22,7 @@ class HardSkillForm extends Component {
     showItems = (hardSkill, positionFormIndex) => {
         var result = null;
         result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
+            // console.log(hardSkillIndex,hardSkillDetail)
             return (
                 <HardSkillFormContent key={hardSkillIndex}
                     hardSkillDetail={hardSkillDetail}
@@ -28,7 +30,7 @@ class HardSkillForm extends Component {
                     positionFormIndex={positionFormIndex}
                     onDeleteHardSkill={this.props.onDeleteHardSkill}
                     updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
-                    onUpdateHardSkillID={this.props.onUpdateHardSkillID} 
+                    onUpdateHardSkillID={this.props.onUpdateHardSkillID}
                     onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
                 />
             );
@@ -36,18 +38,41 @@ class HardSkillForm extends Component {
         return result;
     }
 
+    setMinimize = () => {
+        this.setState({
+            isMinimize: !this.state.isMinimize
+        })
+    }
+
     render() {
         var { hardSkill, positionFormIndex } = this.props
-        return (
-            <div className="card">
-                <div className="card-header ">
-                    <h5 className="font-weight-bold">Hard Skill</h5>
-                </div>
-                <div className="card-body">
+
+        const showHardSkill = (hardSkill,positionFormIndex) => {
+            if (this.state.isMinimize)
+                return ""
+            else
+                return (<div className="card-body">
                     {this.showItems(hardSkill, positionFormIndex)}
                     <span className="material-icons add"
                         onClick={() => this.onAddHardSkill(positionFormIndex)}>add_box</span>
+                </div>)
+        }
+        
+        return (
+            <div className="card">
+                <div className="card-header ">
+                    <div className="row">
+                        <div className="col">
+                            <h5 className="font-weight-bold">Hard Skill</h5>
+                        </div>
+                        <div className="col pull-right">
+                            <span className="material-icons pull-right clear" onClick={this.setMinimize} >
+                                {this.state.isMinimize === false ? 'minimize' : 'crop_free'}
+                            </span>
+                        </div>
+                    </div>
                 </div>
+                {showHardSkill(hardSkill,positionFormIndex)}
             </div>
 
         );
