@@ -11,6 +11,16 @@ class SelectSearchs extends Component {
         }
     }
 
+    componentDidMount = () => {        
+        var { list,name } = this.props
+        var lable = this.getLabel(list, this.state.value)
+        if (this.state.value !== 0) {
+            this.setState({
+                label: lable
+            })
+        }
+    }
+
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.value !== prevState.value) {
             return { value: nextProps.value };
@@ -31,7 +41,6 @@ class SelectSearchs extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.value !== this.props.value) {
             var { list, value } = this.props
-            console.log(value)
             var lable = this.getLabel(list, value)
             if (value !== 0) {
                 this.setState({
@@ -90,7 +99,9 @@ class SelectSearchs extends Component {
     }
 
     render() {
-        var { list, name,value } = this.props
+        var { list, name } = this.props
+        // console.log(this.state)
+        // console.log(this.state)
         return (
             <div>
                 { this.showSelectBar(name, list)}

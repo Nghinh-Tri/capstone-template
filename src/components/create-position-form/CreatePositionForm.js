@@ -8,6 +8,14 @@ import { convertList } from "../../util";
 
 class CreatePositionForm extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            isMinimize: false
+        }
+    }
+
+
     componentDidMount = () => {
         var { positionList } = this.props
         if (typeof positionList === 'undefined' || positionList.length === 0) {
@@ -38,14 +46,44 @@ class CreatePositionForm extends Component {
         this.props.onUpdateNOC(value, positionFormIndex)
     }
 
+    setMinimize = () => {
+        this.setState({
+            isMinimize: !this.state.isMinimize
+        })
+    }
+
     render() {
         var { item, positionFormIndex, positionList } = this.props
         var listConverted = convertList(positionList)
+        const showSkill = () => {
+            if (this.state.isMinimize)
+                return ""
+            else
+                return (<div>
+                    <SoftSkillForm softSkill={item.softSkill}
+                        positionFormIndex={positionFormIndex}
+                        onAddSoftSkill={this.props.onAddSoftSkill}
+                        onDeleteSoftSkill={this.props.onDeleteSoftSkill}
+                        onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
+                    />
+                    <HardSkillForm hardSkill={item.hardSkill}
+                        positionFormIndex={positionFormIndex}
+                        onAddHardSkill={this.props.onAddHardSkill}
+                        onDeleteHardSkill={this.props.onDeleteHardSkill}
+                        updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
+                        onUpdateHardSkillID={this.props.onUpdateHardSkillID}
+                        onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                    />
+                </div>
+                )
+        }
         return (
             <div className="card mb-50">
                 <div className="card-body">
                     <div className="form-group">
                         <div className="row">
+
+                            {/* Position */}
                             <div className="col-1 mt-15-ml-30">
                                 <label className="bmd-label  ">
                                     <h4 className="font-weight-bold">
@@ -60,6 +98,8 @@ class CreatePositionForm extends Component {
                                     positionFormIndex={positionFormIndex}
                                     value={item.positionId} />
                             </div>
+
+                            {/* Number of candidate */}
                             <div className="col-2 mt-15-ml-30 fr">
                                 <label className="bmd-label ">
                                     <h4 className="font-weight-bold ">
@@ -72,28 +112,15 @@ class CreatePositionForm extends Component {
                                     <input type="number" className="form-control" min="0" onChange={this.onHandleUpdateNOC} value={item.nOC} />
                                 </div>
                             </div>
+
+                            {/* Button Add and Minimize */}
                             <div className="col">
                                 <span className="material-icons pull-right clear" onClick={() => this.onDeletePositionForm(positionFormIndex)}>clear</span>
+                                <span className="material-icons pull-right clear" onClick={this.setMinimize} > {this.state.isMinimize === false ? 'minimize' : 'crop_free'}</span>
                             </div>
                         </div>
 
-                        {/* Soft Skill form */}
-                        <SoftSkillForm softSkill={item.softSkill}
-                            positionFormIndex={positionFormIndex}
-                            onAddSoftSkill={this.props.onAddSoftSkill}
-                            onDeleteSoftSkill={this.props.onDeleteSoftSkill}
-                            onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
-                        />
-
-                        {/* Hard Skill form */}
-                        <HardSkillForm hardSkill={item.hardSkill}
-                            positionFormIndex={positionFormIndex}
-                            onAddHardSkill={this.props.onAddHardSkill}
-                            onDeleteHardSkill={this.props.onDeleteHardSkill}
-                            updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
-                            onUpdateHardSkillID={this.props.onUpdateHardSkillID} 
-                            onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
-                        />
+                        {showSkill()}
                     </div>
                 </div>
             </div>
