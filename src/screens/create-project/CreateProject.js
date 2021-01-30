@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 class CreateProject extends Component {
     render() {
@@ -49,7 +50,9 @@ class CreateProject extends Component {
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-primary pull-right">Create Project</button>
+                        <NavLink to="/create-position">
+                            <button type="submit" className="btn btn-primary pull-right">Create Project</button>
+                        </NavLink>
                         <div className="clearfix" />
                     </form>
                 </div>

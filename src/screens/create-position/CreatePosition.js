@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import CreatePositionForm from '../../components/create-position-form/CreatePositionForm';
 import * as Action from "../../store/store-action/PositionAction";
 
@@ -66,7 +67,7 @@ class CreatePosition extends Component {
     }
 
     onUpdateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) => {
-        this.props.onUpdateHardSkillCerti(value,hardSkillIndex,positionFormIndex)
+        this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex)
     }
 
     //For render
@@ -108,7 +109,9 @@ class CreatePosition extends Component {
                     </button>
                 </div>
                 <div >
-                    <button type="submit" className="btn btn-primary pull-right">Next</button>
+                    <NavLink to="/suggested-candidate">
+                        <button type="submit" className="btn btn-primary pull-right">Create Position</button>
+                    </NavLink>
                 </div>
             </div>
         );
@@ -157,7 +160,7 @@ const mapDispatchToProp = (dispatch, props) => {
             dispatch(Action.updateHardSkillID(value, hardSkillIndex, positionFormIndex))
         },
         onUpdateHardSkillCerti: (value, hardSkillIndex, positionFormIndex) => {
-            dispatch(Action.updateHardSkillCerti(value,hardSkillIndex,positionFormIndex))
+            dispatch(Action.updateHardSkillCerti(value, hardSkillIndex, positionFormIndex))
         }
     }
 }
