@@ -22,7 +22,6 @@ class HardSkillForm extends Component {
     showItems = (hardSkill, positionFormIndex) => {
         var result = null;
         result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
-            // console.log(hardSkillIndex,hardSkillDetail)
             return (
                 <HardSkillFormContent key={hardSkillIndex}
                     hardSkillDetail={hardSkillDetail}

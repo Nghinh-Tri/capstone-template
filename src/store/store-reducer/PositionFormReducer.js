@@ -108,7 +108,7 @@ const positionReducer = (state = initState, action) => {
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
             var hardSkillObj = { ...hardSkill[action.hardSkillIndex] }
             //Change exp, proprity value in hardSkillObj
-            hardSkillObj.hardSkillID = parseInt(action.value)
+            hardSkillObj.hardSkillID = action.value
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
             hardSkill.splice(action.hardSkillIndex, 1, hardSkillObj)
             //Replace hard skill list in clone of position obj by clone of hard skill list
@@ -125,7 +125,7 @@ const positionReducer = (state = initState, action) => {
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
             var hardSkillObj = {...hardSkill[action.hardSkillIndex]}
             //Change exp, proprity value in hardSkillObj
-            hardSkillObj.certiID = parseInt(action.value)
+            hardSkillObj.certiID = action.value
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
             hardSkill.splice(action.hardSkillIndex, 1, hardSkillObj)
             //Replace hard skill list in clone of position obj by clone of hard skill list
