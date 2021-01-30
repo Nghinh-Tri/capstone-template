@@ -11,10 +11,15 @@ class SelectSearchs extends Component {
         }
     }
 
-    componentDidMount = () => {        
-        var { list,name } = this.props
-        var lable = this.getLabel(list, this.state.value)
-        if (this.state.value !== 0) {
+    componentDidMount = () => {
+        var { list } = this.props
+        if (this.state.value === '') {
+            this.setState({
+                label: "Search...",
+                value: 0
+            })
+        } else if (this.state.value !== 0) {
+            var lable = this.getLabel(list, this.state.value)
             this.setState({
                 label: lable
             })
@@ -100,8 +105,6 @@ class SelectSearchs extends Component {
 
     render() {
         var { list, name } = this.props
-        // console.log(this.state)
-        // console.log(this.state)
         return (
             <div>
                 { this.showSelectBar(name, list)}
