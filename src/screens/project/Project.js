@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import ProjectBrief from '../../components/project-brief/ProjectBrief';
 
 class Project extends Component {
@@ -94,13 +95,16 @@ class Project extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <button type="button" className="btn btn-primary btn-lg">
-                    <i className="material-icons mr-5">add_box</i>
-                    Create Project
-                </button>
+                <NavLink to="/create-project">
+                    <button type="button" className="btn btn-primary btn-lg">
+                        <i className="material-icons mr-5">add_box</i>
+                        Create Project
+                    </button>
+                </NavLink>
+
                 <div className="row">
-                    <ProjectBrief/>
-                    <ProjectBrief/>
+                    <ProjectBrief />
+                    <ProjectBrief />
                 </div>
             </div>
 

@@ -7,8 +7,8 @@ import Dashboard from '../screens/dashboard/Dashboard';
 import Project from '../screens/project/Project';
 import CreatePosition from '../screens/create-position/CreatePosition';
 import Projectdetail from '../screens/project-detail/ProjectDetail';
-
-
+import CreateProject from '../screens/create-project/CreateProject';
+import SuggestCandidate from '../screens/suggest-candidate/SuggestCandidate';
 
 class index extends Component {
     render() {
@@ -21,14 +21,19 @@ class index extends Component {
                     <Route path="/project">
                         <Project />
                     </Route>
-                    <Route path="/profile">
+                    <Route path="/create-position">
                         <CreatePosition />
                     </Route>
                     <Route path="/projectdetail">
                         <Projectdetail />
                     </Route>
+                    <Route path="/create-project">
+                        <CreateProject />
+                    </Route>
+                    <Route path="/suggested-candidate">
+                        <SuggestCandidate />
+                    </Route>
                 </Switch>
-
             </div>
         );
     }
