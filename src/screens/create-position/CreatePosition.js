@@ -109,7 +109,7 @@ class CreatePosition extends Component {
                     </button>
                 </div>
                 <div >
-                    <NavLink to="/suggested-candidate">
+                    <NavLink to="/project/suggest-candidate">
                         <button type="submit" className="btn btn-primary pull-right">Create Position</button>
                     </NavLink>
                 </div>

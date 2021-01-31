@@ -11,7 +11,9 @@ class SuggestCandidate extends Component {
                 <NavLink to="/project">
                     <button type="submit" className="btn btn-primary pull-right pt">Next</button>
                 </NavLink>
-                <button type="submit" className="btn btn-primary pull-right pt">Back</button>
+                <NavLink to="/project/create-position">
+                    <button type="submit" className="btn btn-primary pull-right pt">Back</button>
+                </NavLink>
             </div>
         );
     }

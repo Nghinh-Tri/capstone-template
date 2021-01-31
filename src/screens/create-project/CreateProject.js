@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 class CreateProject extends Component {
     render() {
+        console.log(this.props.history)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -23,14 +24,14 @@ class CreateProject extends Component {
                                 <label className="bmd-label">Date begin</label>
 
                                 <div className="form-group">
-                                    <input type="date" className="form-control" value="" />
+                                    <input type="date" className="form-control" />
                                 </div>
                             </div>
                             <div className="col-md-6">
-                                <label class="bmd-label">Date End</label>
+                                <label className="bmd-label">Date End Estimate</label>
 
                                 <div className="form-group">
-                                    <input type="date" className="form-control" value="" />
+                                    <input type="date" className="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -38,7 +39,7 @@ class CreateProject extends Component {
                             <div className="col-md-12">
                                 <div className="form-group">
                                     <label className="bmd-label-floating">Description</label>
-                                    <textarea className="form-control" rows={5} defaultValue={""} />
+                                    <textarea className="form-control" rows="5" defaultValue="" />
                                 </div>
                             </div>
                         </div>
@@ -46,11 +47,11 @@ class CreateProject extends Component {
                             <div className="col-md-12">
                                 <div className="form-group">
                                     <label className="bmd-label-floating">Stakeholder</label>
-                                    <textarea className="form-control" rows={5} defaultValue={""} />
+                                    <textarea className="form-control" rows="5" defaultValue="" />
                                 </div>
                             </div>
                         </div>
-                        <NavLink to="/create-position">
+                        <NavLink to="/project/create-position">
                             <button type="submit" className="btn btn-primary pull-right">Create Project</button>
                         </NavLink>
                         <div className="clearfix" />
