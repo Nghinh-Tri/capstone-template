@@ -13,13 +13,13 @@ class Dashboard extends Component {
                                 </div>
                                 <p className="card-category">Used Space</p>
                                 <h3 className="card-title">49/50
-              <small>GB</small>
+                                    <small>GB</small>
                                 </h3>
                             </div>
                             <div className="card-footer">
                                 <div className="stats">
                                     <i className="material-icons text-danger">warning</i>
-                                    <a href="javascript:;">Get More Space...</a>
+                                    <a>Get More Space...</a>
                                 </div>
                             </div>
                         </div>

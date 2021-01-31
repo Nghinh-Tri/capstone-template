@@ -1,11 +1,10 @@
-import { act } from "react-dom/test-utils";
 import * as Type from "../store-constant";
 
 var initState = [];
 
 const positionReducer = (state = initState, action) => {
 
-    var positionObj, softSkill, hardSkill = null
+    var positionObj, softSkill, hardSkill, hardSkillObj = null
 
     switch (action.type) {
 
@@ -60,7 +59,7 @@ const positionReducer = (state = initState, action) => {
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
-        //Soft Skill
+        //Hard Skill
         case Type.ADD_HARD_SKILL_REQUIRE:
             positionObj = { ...state[action.positionFormIndex] }
             hardSkill = positionObj.hardSkill.slice()
@@ -85,7 +84,7 @@ const positionReducer = (state = initState, action) => {
             //Clone list hard skill in positionObj
             hardSkill = positionObj.hardSkill.slice()
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
-            var hardSkillObj = hardSkill[action.hardSkillIndex]
+            hardSkillObj = hardSkill[action.hardSkillIndex]
             //Change exp, proprity value in hardSkillObj
             if (action.name === 'exp')
                 hardSkillObj.exp = parseInt(action.value)
@@ -106,7 +105,7 @@ const positionReducer = (state = initState, action) => {
             //Clone list hard skill in positionObj
             hardSkill = positionObj.hardSkill.slice()
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
-            var hardSkillObj = { ...hardSkill[action.hardSkillIndex] }
+            hardSkillObj = { ...hardSkill[action.hardSkillIndex] }
             //Change exp, proprity value in hardSkillObj
             hardSkillObj.hardSkillID = action.value
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
@@ -114,7 +113,7 @@ const positionReducer = (state = initState, action) => {
             //Replace hard skill list in clone of position obj by clone of hard skill list
             positionObj.hardSkill = hardSkill
             //Replace position obj in array at index by clone of position obj
-            state.splice(action.positionFormIndex, 1, positionObj)            
+            state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
         case Type.UPDATE_HARD_SKILL_CERTI:
@@ -123,7 +122,7 @@ const positionReducer = (state = initState, action) => {
             //Clone list hard skill in positionObj
             hardSkill = positionObj.hardSkill.slice()
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
-            var hardSkillObj = {...hardSkill[action.hardSkillIndex]}
+            hardSkillObj = { ...hardSkill[action.hardSkillIndex] }
             //Change exp, proprity value in hardSkillObj
             hardSkillObj.certiID = action.value
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj

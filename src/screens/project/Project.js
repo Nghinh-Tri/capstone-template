@@ -95,7 +95,7 @@ class Project extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <NavLink to="/create-project">
+                <NavLink to="/project/create-project">
                     <button type="button" className="btn btn-primary btn-lg">
                         <i className="material-icons mr-5">add_box</i>
                         Create Project
