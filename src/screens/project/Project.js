@@ -1,102 +1,33 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import ProjectBrief from '../../components/project-brief/ProjectBrief';
+import * as Action from "../../store/store-action/ProjectAction";
 
 class Project extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            project1: {
-                name: 'Project Name',
-                description: 'Project Description',
-                staff: [
-                    {
-                        id: '1',
-                        name: 'ABC',
-                        position: 'BA',
-                        dateIn: '01-12-2021',
-                        dateOut: '-',
-                    },
-                    {
-                        id: '2',
-                        name: 'ABCD',
-                        position: 'DEV',
-                        dateIn: '01-12-2021',
-                        dateOut: '-',
-                    },
-                    {
-                        id: '3',
-                        name: 'ABCDE',
-                        position: 'TESTER',
-                        dateIn: '01-12-2021',
-                        dateOut: '-',
-                    }
-                ],
-                status: 'Finish' //Pending, On-going, Finish 
-            },
-            project2: {
-                name: 'Project Name',
-                description: 'Project Description',
-                staff: [
-                    {
-                        id: '1',
-                        name: 'ABC',
-                        position: 'BA',
-                        dateIn: '01-12-2021',
-                        dateOut: '-',
-                    },
-                    {
-                        id: '2',
-                        name: 'ABCD',
-                        position: 'DEV',
-                        dateIn: '01-12-2021',
-                        dateOut: '-',
-                    },
-                    {
-                        id: '3',
-                        name: 'ABCDE',
-                        position: 'TESTER',
-                        dateIn: '01-12-2021',
-                        dateOut: '-',
-                    }
-                ],
-                status: 'Pending' //Pending, On-going, Finish 
-            },
-            project3: {
-                name: 'Project Name',
-                description: 'Project Description',
-                staff: [
-                    {
-                        id: '1',
-                        name: 'ABC',
-                        position: 'BA',
-                        dateIn: '01-12-2021',
-                        dateOut: '-',
-                    },
-                    {
-                        id: '2',
-                        name: 'ABCD',
-                        position: 'DEV',
-                        dateIn: '01-12-2021',
-                        dateOut: '-',
-                    },
-                    {
-                        id: '3',
-                        name: 'ABCDE',
-                        position: 'TESTER',
-                        dateIn: '01-12-2021',
-                        dateOut: '-',
-                    }
-                ],
-                status: 'On-going' //Pending, On-going, Finish 
+            project: {
+                name: '',
+                dateBegin: '',
+                dateEndEst: '',
+                description: '',
+                stakeholder: ''
             }
         }
     }
+
+    onGenerateProject = () => {
+        this.props.generateProject(this.state.project)
+    }
+
     render() {
         return (
             <div className="container-fluid">
                 <NavLink to="/project/create-project">
-                    <button type="button" className="btn btn-primary btn-lg">
+                    <button type="button" className="btn btn-primary btn-lg" onClick={this.onGenerateProject} >
                         <i className="material-icons mr-5">add_box</i>
                         Create Project
                     </button>
@@ -112,4 +43,12 @@ class Project extends Component {
     }
 }
 
-export default Project;
+const mapDispatchToProp = (dispatch) => {
+    return {
+        generateProject: (project) => {
+            dispatch(Action.generateProject(project))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProp)(Project);

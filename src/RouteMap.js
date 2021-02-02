@@ -21,7 +21,7 @@ const route = [
     {
         path: '/project/create-project',
         exact: true,
-        main: () => <CreateProject />
+        main: ({history}) => <CreateProject history={history}/>
     },
     {
         path: '/project/create-position',
