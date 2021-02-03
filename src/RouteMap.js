@@ -17,16 +17,16 @@ const route = [
         exact: true,
         main: () => <Project />
     },
-    
+
     {
         path: '/project/create-project',
         exact: true,
-        main: ({history}) => <CreateProject history={history}/>
+        main: ({ history }) => <CreateProject history={history} />
     },
     {
         path: '/project/create-position',
         exact: true,
-        main: () => <CreatePosition />
+        main: ({ history }) => <CreatePosition history={history} />
     },
     {
         path: '/project/suggest-candidate',

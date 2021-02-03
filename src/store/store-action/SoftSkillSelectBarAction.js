@@ -4,7 +4,7 @@ import {callAPI} from "../../util/index";
 
 export const fetchSoftSkill = () => {
     return (dispatch) => {
-        return callAPI('Skill', 'GET', null).then(res => {
+        return callAPI('Skill/1', 'GET', null).then(res => {
             dispatch(fetchSoftSkillSucess(res.data))
         })
     }

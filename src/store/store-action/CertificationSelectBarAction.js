@@ -4,7 +4,7 @@ import {callAPI} from "../../util/index";
 export const fetchCertification = () => {
     return (dispatch) => {
         return callAPI('Certification/getCertifications', 'GET', null).then(res => {
-            dispatch(fetchCertificationSuccess(res.data))
+            dispatch(fetchCertificationSuccess(res.data.resultObj))
         })
     }
 }

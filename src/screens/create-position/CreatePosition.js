@@ -70,6 +70,12 @@ class CreatePosition extends Component {
         this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex)
     }
 
+    onCreatePosition = (event) => {
+        event.preventDefault()
+        this.props.onCreatePosition(this.props.items)
+        this.props.history.push("/project/suggest-candidate")
+    }
+
     //For render
     showItems = (items) => {
         var result = null;
@@ -101,18 +107,18 @@ class CreatePosition extends Component {
     render() {
         return (
             <div>
-                {this.showItems(this.props.items)}
-                <div >
-                    <button type="button" className="btn btn-primary" onClick={this.onAddPosition}>
-                        <i className="material-icons mr-5">add_box</i>
+                <form onSubmit={this.onCreatePosition} >
+                    {this.showItems(this.props.items)}
+                    <div >
+                        <button type="button" className="btn btn-primary" onClick={this.onAddPosition}>
+                            <i className="material-icons mr-5">add_box</i>
                     More Position
                     </button>
-                </div>
-                <div >
-                    <NavLink to="/project/suggest-candidate">
+                    </div>
+                    <div >
                         <button type="submit" className="btn btn-primary pull-right">Create Position</button>
-                    </NavLink>
-                </div>
+                    </div>
+                </form>
             </div>
         );
     }
@@ -161,6 +167,9 @@ const mapDispatchToProp = (dispatch, props) => {
         },
         onUpdateHardSkillCerti: (value, hardSkillIndex, positionFormIndex) => {
             dispatch(Action.updateHardSkillCerti(value, hardSkillIndex, positionFormIndex))
+        },
+        onCreatePosition: (positionItem) => {
+            dispatch(Action.createPosition(positionItem))
         }
     }
 }

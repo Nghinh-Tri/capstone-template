@@ -1,1 +1,1 @@
-export const API_URL = "https://esmsbackendapi.azurewebsites.net/api"
+export const API_URL = "https://localhost:44392/api"

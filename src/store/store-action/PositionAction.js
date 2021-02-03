@@ -96,3 +96,10 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
         value
     }
 }
+
+export const createPosition = positionItem => {
+    return {
+        type: Types.CREATE_POSITION,
+        positionItem
+    }
+}
