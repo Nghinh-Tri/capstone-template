@@ -3,7 +3,7 @@ import {callAPI} from "../../util/index";
 
 export const fetchHardSkill = () => {
     return (dispatch) => {
-        return callAPI('Skill', 'GET', null).then(res => {
+        return callAPI('Skill/0', 'GET', null).then(res => {
             dispatch(fetchHardSkillSuccess(res.data))
         })
     }
