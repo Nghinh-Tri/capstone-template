@@ -4,7 +4,7 @@ class Profile extends Component {
     render() {
         return (
             <li className="nav-item dropdown">
-                <a className="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a className="nav-link" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="material-icons">person</i>
                     <p className="d-lg-none d-md-block">Account</p>
                 </a>

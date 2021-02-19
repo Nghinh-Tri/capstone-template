@@ -1,3 +1,4 @@
+import { callAPI } from "../../util";
 import * as Type from "../store-constant";
 
 export const generateProject = (project) => {
@@ -8,6 +9,16 @@ export const generateProject = (project) => {
 }
 
 export const createProject = (project) => {
+    var empID = "69BD714F-9576-45BA-B5B7-F00649BE00DE";
+    return (dispatch) => {
+        return callAPI(`Project/${empID}`, 'POST', project).then(res => {
+            project.projectId = res.data.resultObj
+            dispatch(createProjectSuccess(project))
+        })
+    }
+}
+
+export const createProjectSuccess = project => {
     return {
         type: Type.CREATE_PROJECT,
         project
@@ -18,5 +29,35 @@ export const updateProjectDetail = (name, value) => {
     return {
         type: Type.UPDATE_PROJECT_DETAIL,
         name, value
+    }
+}
+
+export const fetchProject = (pageIndex) => {
+    return (dispatch) => {
+        return callAPI(`Project/paging?PageIndex=${pageIndex}&PageSize=5`, 'GET', null).then(res => {
+            dispatch(fetchProjectSuccess(res.data.resultObj))
+        })
+    }
+}
+
+export const fetchProjectSuccess = (resultObj) => {
+    return{
+        type: Type.FETCH_PROJECT,
+        resultObj
+    }
+}
+
+export const fetchProjectDetail = (projectID) => {
+    return (dispatch) => {
+        return callAPI(`Project/${projectID}`, 'GET', null).then(res => {
+            dispatch(fetchProjectDetailSuccess(res.data.resultObj))
+        })
+    }
+}
+
+export const fetchProjectDetailSuccess = (resultObj) => {
+    return{
+        type: Type.FETCH_PROJECT_DETAIL,
+        resultObj
     }
 }

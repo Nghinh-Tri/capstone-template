@@ -26,14 +26,28 @@ class CreateProject extends Component {
     }
 
     componentDidMount = () => {
-        var { project } = this.props
-        if (project.hasOwnProperty('name')) {
+        var { match } = this.props
+        if (typeof match === 'undefined') {
+            var { project } = this.props
+            if (project.hasOwnProperty('name')) {
+                this.setState({
+                    name: project.name,
+                    dateBegin: project.dateBegin,
+                    dateEndEst: project.dateEndEst,
+                    description: project.description,
+                    stakeholder: project.stakeholder
+                })
+            }
+        }
+        else {
+            this.props.fetchProjectDetail(match.params.id)
+            var { projectDetail } = this.props
             this.setState({
-                name: project.name,
-                dateBegin: project.dateBegin,
-                dateEndEst: project.dateEndEst,
-                description: project.description,
-                stakeholder: project.stakeholder
+                name: projectDetail.projectName,
+                dateBegin: projectDetail.dateBegin,
+                dateEndEst: projectDetail.dateEstimatedEnd,
+                description: projectDetail.description,
+                stakeholder: projectDetail.skateholder
             })
         }
     }
@@ -42,11 +56,12 @@ class CreateProject extends Component {
         event.preventDefault()
         var { name, dateBegin, dateEndEst, description, stakeholder } = this.state
         var project = {
-            name: name,
-            dateBegin: dateBegin,
-            dateEndEst: dateEndEst,
+            projectId: "",
+            projectName: name,
             description: description,
-            stakeholder: stakeholder
+            skateholder: stakeholder,
+            dateBegin: dateBegin,
+            dateEstimatedEnd: dateEndEst
         }
         this.props.createProject(project)
         this.props.history.push("/project/create-position")
@@ -54,11 +69,12 @@ class CreateProject extends Component {
 
     render() {
         var { name, dateBegin, dateEndEst, description, stakeholder } = this.state
-
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
-                    <h3 className="card-title">Create Project</h3>
+                    <h3 className="card-title">
+                        {typeof this.props.match === 'undefined' ? "Create Project" : "Edit Project"}
+                    </h3>
                 </div>
                 <div className="card-body">
                     <form onSubmit={this.onSave}>
@@ -113,7 +129,9 @@ class CreateProject extends Component {
                         </div>
 
                         {/* Button */}
-                        <button type="submit" className="btn btn-primary pull-right" >Create Project</button>
+                        <button type="submit" className="btn btn-primary pull-right" >
+                            {typeof this.props.match === 'undefined' ? "Create Project" : "Edit Project"}
+                        </button>
                     </form>
                 </div>
             </div>
@@ -122,13 +140,19 @@ class CreateProject extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return { project: state.ProjectFormReducer }
+    return {
+        project: state.ProjectFormReducer,
+        projectDetail: state.ProjectFetchReducer
+    }
 }
 
 const mapDispatchToProp = (dispatch) => {
     return {
         createProject: (project) => {
             dispatch(Action.createProject(project))
+        },
+        fetchProjectDetail: projectID => {
+            dispatch(Action.fetchProjectDetail(projectID))
         }
     }
 }

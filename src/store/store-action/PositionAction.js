@@ -1,3 +1,4 @@
+import { callAPI } from "../../util";
 import * as Types from "../store-constant"
 
 export const addPositionRequire = (positionItem) => {
@@ -97,7 +98,16 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
     }
 }
 
-export const createPosition = positionItem => {
+export const createPosition = (positionItem, project) => {
+    return (dispatch) => {
+        return callAPI(`Project`, 'POST', project).then(res => {
+            project.projectId = res.data.resultObj
+            dispatch(createPositionSuccess(positionItem))
+        })
+    }
+}
+
+export const createPositionSuccess = (positionItem) => {
     return {
         type: Types.CREATE_POSITION,
         positionItem
