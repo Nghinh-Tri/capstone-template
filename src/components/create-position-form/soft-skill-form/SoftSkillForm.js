@@ -38,6 +38,7 @@ class SoftSkillForm extends Component {
 
     render() {
         var { softSkill, positionFormIndex } = this.props
+        
         const showSoftSkill = (softSkill, positionFormIndex) => {
             if (this.state.isMinimize)
                 return ""

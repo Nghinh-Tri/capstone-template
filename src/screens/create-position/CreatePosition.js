@@ -72,7 +72,7 @@ class CreatePosition extends Component {
 
     onCreatePosition = (event) => {
         event.preventDefault()
-        this.props.onCreatePosition(this.props.items)
+        this.props.onCreatePosition(this.props.items, this.props.project)
         this.props.history.push("/project/suggest-candidate")
     }
 
@@ -126,7 +126,8 @@ class CreatePosition extends Component {
 
 const mapStateToProp = (state) => {
     return {
-        items: state.PositionFormReducer
+        items: state.PositionFormReducer,
+        project: state.ProjectFormReducer
     }
 }
 
@@ -168,8 +169,8 @@ const mapDispatchToProp = (dispatch, props) => {
         onUpdateHardSkillCerti: (value, hardSkillIndex, positionFormIndex) => {
             dispatch(Action.updateHardSkillCerti(value, hardSkillIndex, positionFormIndex))
         },
-        onCreatePosition: (positionItem) => {
-            dispatch(Action.createPosition(positionItem))
+        onCreatePosition: (positionItem, project) => {
+            dispatch(Action.createPosition(positionItem, project))
         }
     }
 }

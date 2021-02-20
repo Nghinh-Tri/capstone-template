@@ -5,6 +5,7 @@ import SoftSkillSelectBarReducer from "./SoftSkillSelectBarReducer";
 import HardSkillSelectBarReducer from "./HardSkillSelectBarReducer";
 import CertificationSelectBarReducer from "./CertificationSelectBarReducer";
 import ProjectFormReducer from "./ProjectFormReducer";
+import ProjectFetchReducer from "./ProjectFetchReducer";
 
 const MainReducer = combineReducers({
     PositionFormReducer,
@@ -12,7 +13,8 @@ const MainReducer = combineReducers({
     SoftSkillSelectBarReducer, 
     HardSkillSelectBarReducer,
     CertificationSelectBarReducer,
-    ProjectFormReducer
+    ProjectFormReducer,
+    ProjectFetchReducer
 });
 
 export default MainReducer;

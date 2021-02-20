@@ -36,19 +36,19 @@ const route = [
     {
         path: '/project/:id',
         exact: true,
-        main: () => <ProjectDetail />
+        main: ({ match }) => <ProjectDetail match={match} />
     },
-    // {
-    //     path: '/project/:id/edit',
-    //     exact: true,
-    //     main: () => <CreateProject />
-    // },
-
     {
-        path: 'project/:id/confirm-list',
+        path: '/project/:id/edit',
         exact: true,
-        main: () => <SuggestCandidate />
+        main: ({match}) => <CreateProject match={match}  />
     },
+
+    // {
+    //     path: 'project/:id/confirm-list',
+    //     exact: true,
+    //     main: () => <SuggestCandidate />
+    // },
     {
         path: '/profile',
         exact: true,
@@ -61,6 +61,11 @@ const route = [
     },
     {
         path: '/notification',
+        exact: true,
+        main: () => <Project />
+    },
+    {
+        path: '',
         exact: true,
         main: () => <Project />
     },

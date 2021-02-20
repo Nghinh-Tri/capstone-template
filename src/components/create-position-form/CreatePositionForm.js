@@ -82,7 +82,6 @@ class CreatePositionForm extends Component {
                 <div className="card-body">
                     <div className="form-group">
                         <div className="row">
-
                             {/* Position */}
                             <div className="col-1 mt-15-ml-30">
                                 <label className="bmd-label  ">

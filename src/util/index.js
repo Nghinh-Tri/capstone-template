@@ -20,3 +20,21 @@ export const callAPI = (endpoint, method = 'GET', body) => {
         console.log(err);
     }
 };
+
+export const showStatus = status => {
+    switch (status) {
+        case 0:
+            return "Finish"
+        default:
+            break;
+    }
+}
+
+export const showSpan = status => {
+    switch (status) {
+        case 0:
+            return "badge-success"
+        default:
+            break;
+    }
+}

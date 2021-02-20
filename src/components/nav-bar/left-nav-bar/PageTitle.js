@@ -4,7 +4,7 @@ class PageTitle extends Component {
     render() {
         return (
             <div className="navbar-wrapper">
-                <a className="navbar-brand" href="javascript:;" backgound='white' >Dashboard</a>
+                <a className="navbar-brand" backgound='white' >Dashboard</a>
             </div>
         );
     }
