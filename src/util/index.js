@@ -38,3 +38,7 @@ export const showSpan = status => {
             break;
     }
 }
+
+export const formatDate = date => {
+    return date.split("-").reverse().join("-")
+}

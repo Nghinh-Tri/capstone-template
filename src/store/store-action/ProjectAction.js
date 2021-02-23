@@ -19,6 +19,7 @@ export const createProject = (project) => {
 }
 
 export const createProjectSuccess = project => {
+    console.log(project)
     return {
         type: Type.CREATE_PROJECT,
         project
@@ -41,7 +42,7 @@ export const fetchProject = (pageIndex) => {
 }
 
 export const fetchProjectSuccess = (resultObj) => {
-    return{
+    return {
         type: Type.FETCH_PROJECT,
         resultObj
     }
@@ -56,8 +57,23 @@ export const fetchProjectDetail = (projectID) => {
 }
 
 export const fetchProjectDetailSuccess = (resultObj) => {
-    return{
+    return {
         type: Type.FETCH_PROJECT_DETAIL,
+        resultObj
+    }
+}
+
+export const updateProject = (project, id) => {
+    return (dispatch) => {
+        return callAPI(`Project/${id}`, 'PUT', project).then(res => {
+            dispatch(updateProjectSuccess(res.data.resultObj))
+        })
+    }
+}
+
+export const updateProjectSuccess = (resultObj) => {
+    return {
+        type: Type.UPDATE_PROJECT,
         resultObj
     }
 }

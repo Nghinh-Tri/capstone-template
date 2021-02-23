@@ -41,7 +41,7 @@ const route = [
     {
         path: '/project/:id/edit',
         exact: true,
-        main: ({match}) => <CreateProject match={match}  />
+        main: ({match, history}) => <CreateProject match={match} history={history} />
     },
 
     // {

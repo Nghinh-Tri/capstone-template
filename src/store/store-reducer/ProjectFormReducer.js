@@ -9,7 +9,7 @@ const projectFormReducer = (state = initState, action) => {
             return state
         case Type.CREATE_PROJECT:
             state = action.project
-            return state;
+            return state;           
         default:
             return state;
     }
