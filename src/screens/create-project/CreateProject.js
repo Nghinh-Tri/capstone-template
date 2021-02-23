@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import * as Action from "../../store/store-action/ProjectAction";
+import { formatDate } from '../../util';
 
 class CreateProject extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            dateBegin: '',
-            dateEndEst: '',
-            description: '',
-            stakeholder: ''
+            id: 0,
+            name: "",
+            dateBegin: "",
+            dateEndEst: "",
+            description: "",
+            stakeholder: ""
         }
     }
 
@@ -29,23 +31,24 @@ class CreateProject extends Component {
         var { match } = this.props
         if (typeof match === 'undefined') {
             var { project } = this.props
-            if (project.hasOwnProperty('name')) {
-                this.setState({
-                    name: project.name,
-                    dateBegin: project.dateBegin,
-                    dateEndEst: project.dateEndEst,
-                    description: project.description,
-                    stakeholder: project.stakeholder
-                })
-            }
+            this.setState({
+                id: project.projectID,
+                name: project.projectName,
+                dateBegin: project.dateBegin,
+                dateEndEst: project.dateEstimatedEnd,
+                description: project.description,
+                stakeholder: project.skateholder
+            })
         }
         else {
-            this.props.fetchProjectDetail(match.params.id)
+            var id = match.params.id
+            this.props.fetchProjectDetail(id)
             var { projectDetail } = this.props
             this.setState({
+                id: projectDetail.projectID,
                 name: projectDetail.projectName,
-                dateBegin: projectDetail.dateBegin,
-                dateEndEst: projectDetail.dateEstimatedEnd,
+                dateBegin: formatDate(projectDetail.dateBegin),
+                dateEndEst: formatDate(projectDetail.dateEstimatedEnd),
                 description: projectDetail.description,
                 stakeholder: projectDetail.skateholder
             })
@@ -54,9 +57,10 @@ class CreateProject extends Component {
 
     onSave = (event) => {
         event.preventDefault()
-        var { name, dateBegin, dateEndEst, description, stakeholder } = this.state
+        var { id, name, dateBegin, dateEndEst, description, stakeholder } = this.state
+       
         var project = {
-            projectId: "",
+            projectId: id,
             projectName: name,
             description: description,
             skateholder: stakeholder,
@@ -64,7 +68,13 @@ class CreateProject extends Component {
             dateEstimatedEnd: dateEndEst
         }
         this.props.createProject(project)
-        this.props.history.push("/project/create-position")
+
+        if (typeof match === 'undefined') {
+            this.props.history.push(`/project/${id}`)
+        }
+        else {
+            this.props.history.push("/project/create-position")
+        }
     }
 
     render() {
@@ -95,7 +105,7 @@ class CreateProject extends Component {
                                 <label className="bmd-label">Date begin</label>
 
                                 <div className="form-group">
-                                    <input type="date" name="dateBegin" defaultValue={dateBegin} className="form-control" onChange={this.onHandle} />
+                                    <input type="date" name="dateBegin" defaultValue={dateBegin} className="form-control" onChange={this.onHandle} readOnly={typeof this.props.match === 'undefined' ? false : true} />
                                 </div>
                             </div>
                             {/* Date end estimate */}
@@ -113,7 +123,7 @@ class CreateProject extends Component {
                             <div className="col-md-12">
                                 <div className="form-group">
                                     <label className="bmd-label-floating">Description</label>
-                                    <textarea className="form-control" name="description" value={description} rows="5" defaultValue={description} onChange={this.onHandle} />
+                                    <textarea className="form-control" name="description" rows="5" defaultValue={description} onChange={this.onHandle} />
                                 </div>
                             </div>
                         </div>
@@ -123,7 +133,7 @@ class CreateProject extends Component {
                             <div className="col-md-12">
                                 <div className="form-group">
                                     <label className="bmd-label-floating">Stakeholder</label>
-                                    <textarea className="form-control" name="stakeholder" value={stakeholder} rows="5" defaultValue={stakeholder} onChange={this.onHandle} />
+                                    <textarea className="form-control" name="stakeholder" rows="5" defaultValue={stakeholder} onChange={this.onHandle} />
                                 </div>
                             </div>
                         </div>
@@ -153,6 +163,9 @@ const mapDispatchToProp = (dispatch) => {
         },
         fetchProjectDetail: projectID => {
             dispatch(Action.fetchProjectDetail(projectID))
+        },
+        updateProject: (project, id) => {
+            dispatch(Action.updateProject(project, id))
         }
     }
 }

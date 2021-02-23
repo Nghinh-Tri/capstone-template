@@ -12,6 +12,11 @@ class ProjectDetail extends Component {
         this.props.fetchProjectDetail(match.params.id)
     }
 
+    componentDidUpdate=()=>{
+        var { match } = this.props
+        this.props.fetchProjectDetail(match.params.id)
+    }
+
     render() {
         var { project } = this.props
 
