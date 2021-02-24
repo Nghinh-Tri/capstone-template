@@ -57,8 +57,7 @@ class CreateProject extends Component {
 
     onSave = (event) => {
         event.preventDefault()
-        var { id, name, dateBegin, dateEndEst, description, stakeholder } = this.state
-       
+        var { id, name, dateBegin, dateEndEst, description, stakeholder } = this.state       
         var project = {
             projectId: id,
             projectName: name,
@@ -68,12 +67,11 @@ class CreateProject extends Component {
             dateEstimatedEnd: dateEndEst
         }
         this.props.createProject(project)
-
-        if (typeof match === 'undefined') {
-            this.props.history.push(`/project/${id}`)
+        if (typeof this.props.match === 'undefined') {
+            this.props.history.push("/project/create-position")
         }
         else {
-            this.props.history.push("/project/create-position")
+            this.props.history.push(`/project/${id}`)
         }
     }
 
