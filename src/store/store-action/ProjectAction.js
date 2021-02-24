@@ -9,7 +9,7 @@ export const generateProject = (project) => {
 }
 
 export const createProject = (project) => {
-    var empID = "69BD714F-9576-45BA-B5B7-F00649BE00DE";
+    var empID = "147c0f78-6871-41f3-b0e0-8b34842073bc";
     return (dispatch) => {
         return callAPI(`Project/${empID}`, 'POST', project).then(res => {
             project.projectId = res.data.resultObj
@@ -19,7 +19,6 @@ export const createProject = (project) => {
 }
 
 export const createProjectSuccess = project => {
-    console.log(project)
     return {
         type: Type.CREATE_PROJECT,
         project
@@ -34,8 +33,9 @@ export const updateProjectDetail = (name, value) => {
 }
 
 export const fetchProject = (pageIndex) => {
+    var empID = "147c0f78-6871-41f3-b0e0-8b34842073bc";
     return (dispatch) => {
-        return callAPI(`Project/paging?PageIndex=${pageIndex}&PageSize=5`, 'GET', null).then(res => {
+        return callAPI(`Project/getProjects/${empID}?PageIndex=${pageIndex}&PageSize=5`, 'GET', null).then(res => {
             dispatch(fetchProjectSuccess(res.data.resultObj))
         })
     }
