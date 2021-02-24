@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectSearch from '../../select-search/SelectSearch';
 import * as Action from "../../../../store/store-action/SoftSkillSelectBarAction";
-import { convertList } from "../../../../util";
+import { convertSkillList } from "../../../../util";
 
 class SoftSkillFormContent extends Component {
 
@@ -19,7 +19,7 @@ class SoftSkillFormContent extends Component {
 
     render() {
         var { item, softSkillIndex, positionFormIndex, softSkillList } = this.props        
-        var listConverted = convertList(softSkillList)
+        var listConverted = convertSkillList(softSkillList)
         return (
             <div className="row">
                 <div className="col-1 mt-15-ml-30">

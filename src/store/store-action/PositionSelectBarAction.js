@@ -3,8 +3,8 @@ import {callAPI} from "../../util/index";
 
 export const fetchPostionList = () => {
     return (dispatch) => {
-        return callAPI('Position', 'GET', null).then(res => {
-            dispatch(fetchPostionListSuccess(res.data))
+        return callAPI('Position/getPositions', 'GET', null).then(res => {
+            dispatch(fetchPostionListSuccess(res.data.resultObj))
         })
     }
 }

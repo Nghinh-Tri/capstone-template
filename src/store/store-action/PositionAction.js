@@ -98,18 +98,19 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
     }
 }
 
-export const createPosition = (positionItem, project) => {
+export const createPosition = (positionItem) => {
+    var projectID = localStorage.getItem("projectId")
+    var position = {requiredPositions: positionItem}
     return (dispatch) => {
-        return callAPI(`Project`, 'POST', project).then(res => {
-            project.projectId = res.data.resultObj
-            dispatch(createPositionSuccess(positionItem))
+        return callAPI(`Position/${projectID}`, 'POST', position).then(res => {
+            dispatch(createPositionSuccess(res.data.isSuccessed))
         })
     }
 }
 
-export const createPositionSuccess = (positionItem) => {
+export const createPositionSuccess = (result) => {
     return {
         type: Types.CREATE_POSITION,
-        positionItem
+        result
     }
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import SelectSearch from '../../select-search/SelectSearch';
 import { fetchHardSkill } from "../../../../store/store-action/HardSkillSelectBarAction";
 import { fetchCertification } from "../../../../store/store-action/CertificationSelectBarAction";
-import { convertList } from "../../../../util";
+import { convertSkillList, convertCertificationList } from "../../../../util";
 
 class HardSkillFormContent extends Component {
 
@@ -30,8 +30,8 @@ class HardSkillFormContent extends Component {
 
     render() {
         var { hardSkillIndex, positionFormIndex, hardSkillList, certificationList, hardSkillDetail } = this.props
-        var hardSkillListConverted = convertList(hardSkillList)
-        var certificationListConverted = convertList(certificationList)
+        var hardSkillListConverted = convertSkillList(hardSkillList)
+        var certificationListConverted = convertCertificationList(certificationList)
         return (
             <div className="row">
                 
@@ -80,7 +80,7 @@ class HardSkillFormContent extends Component {
                         hardSkillIndex={hardSkillIndex}
                         list={certificationListConverted}
                         name="certiID"
-                        value={hardSkillDetail.certiID}
+                        value={hardSkillDetail.certificationID}
                         onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti} />
                 </div>
 

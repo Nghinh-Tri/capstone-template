@@ -10,18 +10,18 @@ class CreatePosition extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            position: {
-                positionId: "",
-                nOC: 0,
-                softSkill: [],
-                hardSkill: []
+            requiredPositions: {
+                posID: "",
+                numberOfCandidates: 0,
+                softSkillIDs: [],
+                hardSkills: []
             }
         }
     }
 
     // Position
     onAddPosition = () => {
-        this.props.onAddPosition(this.state.position)
+        this.props.onAddPosition(this.state.requiredPositions)
     }
 
     onDeletePositionForm = (positionFormIndex) => {
@@ -72,7 +72,7 @@ class CreatePosition extends Component {
 
     onCreatePosition = (event) => {
         event.preventDefault()
-        this.props.onCreatePosition(this.props.items, this.props.project)
+        this.props.onCreatePosition(this.props.items)
         this.props.history.push("/project/suggest-candidate")
     }
 
@@ -127,7 +127,6 @@ class CreatePosition extends Component {
 const mapStateToProp = (state) => {
     return {
         items: state.PositionFormReducer,
-        project: state.ProjectFormReducer
     }
 }
 
@@ -169,8 +168,8 @@ const mapDispatchToProp = (dispatch, props) => {
         onUpdateHardSkillCerti: (value, hardSkillIndex, positionFormIndex) => {
             dispatch(Action.updateHardSkillCerti(value, hardSkillIndex, positionFormIndex))
         },
-        onCreatePosition: (positionItem, project) => {
-            dispatch(Action.createPosition(positionItem, project))
+        onCreatePosition: (positionItem) => {
+            dispatch(Action.createPosition(positionItem))
         }
     }
 }

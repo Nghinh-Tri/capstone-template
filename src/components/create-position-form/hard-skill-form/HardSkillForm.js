@@ -9,7 +9,7 @@ class HardSkillForm extends Component {
             hardSkillDetail: {
                 hardSkillID: 0,
                 exp: 0,
-                certiID: 0,
+                certificationID: 0,
                 priority: 0
             },
             isMinimize: false

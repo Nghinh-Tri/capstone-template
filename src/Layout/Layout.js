@@ -23,7 +23,6 @@ class Layout extends Component {
         return (
             <Router>
                 <div className="wrapper ">
-
                     <Navigation />
                     <div className="main-panel">
                         <NavBar />

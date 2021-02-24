@@ -4,7 +4,7 @@ import HardSkillForm from './hard-skill-form/HardSkillForm';
 import SelectSearch from './select-search/SelectSearch';
 import SoftSkillForm from './soft-skill-form/SoftSkillForm';
 import * as Action from "../../store/store-action/PositionSelectBarAction";
-import { convertList } from "../../util";
+import { convertPositionList } from "../../util";
 
 class CreatePositionForm extends Component {
 
@@ -14,7 +14,6 @@ class CreatePositionForm extends Component {
             isMinimize: false
         }
     }
-
 
     componentDidMount = () => {
         var { positionList } = this.props
@@ -54,19 +53,19 @@ class CreatePositionForm extends Component {
 
     render() {
         var { item, positionFormIndex, positionList } = this.props
-        var listConverted = convertList(positionList)
+        var listConverted = convertPositionList(positionList)
         const showSkill = () => {
             if (this.state.isMinimize)
                 return ""
             else
                 return (<div>
-                    <SoftSkillForm softSkill={item.softSkill}
+                    <SoftSkillForm softSkill={item.softSkillIDs}
                         positionFormIndex={positionFormIndex}
                         onAddSoftSkill={this.props.onAddSoftSkill}
                         onDeleteSoftSkill={this.props.onDeleteSoftSkill}
                         onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
                     />
-                    <HardSkillForm hardSkill={item.hardSkill}
+                    <HardSkillForm hardSkill={item.hardSkills}
                         positionFormIndex={positionFormIndex}
                         onAddHardSkill={this.props.onAddHardSkill}
                         onDeleteHardSkill={this.props.onDeleteHardSkill}
@@ -95,7 +94,7 @@ class CreatePositionForm extends Component {
                                     onUpdatePositionID={this.onUpdatePositionID}
                                     name="positionID"
                                     positionFormIndex={positionFormIndex}
-                                    value={item.positionId} />
+                                    value={item.posID} />
                             </div>
 
                             {/* Number of candidate */}
@@ -108,7 +107,7 @@ class CreatePositionForm extends Component {
                             </div>
                             <div className="col-3">
                                 <div className="form-group">
-                                    <input type="number" className="form-control" min="0" onChange={this.onHandleUpdateNOC} value={item.nOC} />
+                                    <input type="number" className="form-control" min="0" onChange={this.onHandleUpdateNOC} value={item.numberOfCandidates} />
                                 </div>
                             </div>
 
