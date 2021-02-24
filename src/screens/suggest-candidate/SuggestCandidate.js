@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import SuggestCandidates from '../../components/suggest-candidate/SuggestCandidates';
 
-class SuggestCandidate extends Component {
+class SuggestCandidate extends Component {  
     render() {
         return (
             <div>

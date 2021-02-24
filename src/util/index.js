@@ -1,10 +1,26 @@
 import axios from "axios";
 import * as Config from "./Config";
 
-export const convertList = (list) => {
+export const convertPositionList = (list) => {
     var result = []
     list.forEach(element => {
-        result.push({ label: element.name, value: element.id })
+        result.push({ label: element.name, value: element.posID })
+    });
+    return result;
+}
+
+export const convertSkillList = (list) => {
+    var result = []
+    list.forEach(element => {
+        result.push({ label: element.skillName, value: element.skillID })
+    });
+    return result;
+}
+
+export const convertCertificationList = (list) => {
+    var result = []
+    list.forEach(element => {
+        result.push({ label: element.certificationName, value: element.certificationID })
     });
     return result;
 }

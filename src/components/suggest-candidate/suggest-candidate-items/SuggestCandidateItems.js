@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 
 class SuggestCandidateItems extends Component {
+
+    onSelect = (event) => {
+        this.props.onSelect(event.target.checked)
+    }
+
     render() {
         return (
             <tr>
@@ -10,7 +15,7 @@ class SuggestCandidateItems extends Component {
                 <th className="text-center">Skill</th>
                 <th className="text-center">90 %</th>
                 <th className="text-center">
-                    <input type="checkbox" name="" id="" />
+                    <input type="checkbox" onClick={this.onSelect} />
                 </th>
             </tr>
         );

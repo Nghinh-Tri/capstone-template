@@ -2,6 +2,25 @@ import React, { Component } from 'react';
 import SuggestCandidateItems from './suggest-candidate-items/SuggestCandidateItems';
 
 class SuggestCandidates extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            select: 0
+        }
+    }
+
+    onSelect = (value) => {
+        var selected = this.state.select
+        if (value)
+            selected++
+        else
+            selected--
+        this.setState({
+            select: selected
+        })
+    }
+
     render() {
         return (
             <div className="card mb-80">
@@ -11,7 +30,7 @@ class SuggestCandidates extends Component {
                             <h4 className="font-weight-bold">Position</h4>
                         </div>
                         <div className="col">
-                            <h4 className="font-weight-bold pull-right">Select - 16</h4>
+                            <h4 className="font-weight-bold pull-right">Select - {this.state.select}</h4>
                         </div>
                     </div>
                 </div>
@@ -32,8 +51,8 @@ class SuggestCandidates extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <SuggestCandidateItems/>
-                                            <SuggestCandidateItems/>
+                                            <SuggestCandidateItems onSelect={this.onSelect} />
+                                            <SuggestCandidateItems onSelect={this.onSelect} />
                                         </tbody>
                                     </table>
                                 </div>

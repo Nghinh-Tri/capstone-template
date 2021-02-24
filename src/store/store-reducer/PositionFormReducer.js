@@ -8,9 +8,13 @@ const positionReducer = (state = initState, action) => {
 
     switch (action.type) {
 
+        case Type.CREATE_PROJECT:
+            return [...state]
+
         //Position
         case Type.ADD_POSITION_REQUIRE:
             state.push(action.positionItem)
+            localStorage.setItem("isNewPosition", false)
             return [...state]
 
 
@@ -21,59 +25,59 @@ const positionReducer = (state = initState, action) => {
 
         case Type.UPDATE_POSITION_ID:
             positionObj = { ...state[action.positionFormIndex] }
-            positionObj.positionId = action.positionID
+            positionObj.posID = action.positionID
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
 
         case Type.UPDATE_POSITION_NOC:
             positionObj = { ...state[action.positionFormIndex] }
-            positionObj.nOC = action.nOC
+            positionObj.numberOfCandidates = parseInt(action.nOC)
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
         //Soft Skill
         case Type.ADD_SOFT_SKILL_REQUIRE:
             positionObj = { ...state[action.positionFormIndex] }
-            softSkill = positionObj.softSkill.slice()
+            softSkill = positionObj.softSkillIDs.slice()
             softSkill.push("")
-            positionObj.softSkill = softSkill
+            positionObj.softSkillIDs = softSkill
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
 
         case Type.DELETE_SOFT_SKILL_REQUIRE:
             positionObj = { ...state[action.positionFormIndex] }
-            softSkill = positionObj.softSkill.slice()
+            softSkill = positionObj.softSkillIDs.slice()
             softSkill.splice(action.softSkillIndex, 1)
-            positionObj.softSkill = softSkill
+            positionObj.softSkillIDs = softSkill
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
 
         case Type.UPDATE_SOFT_SKILL:
             positionObj = { ...state[action.positionFormIndex] }
-            softSkill = positionObj.softSkill.slice()
+            softSkill = positionObj.softSkillIDs.slice()
             softSkill.splice(action.softSkillIndex, 1, action.softSkillID)
-            positionObj.softSkill = softSkill
+            positionObj.softSkillIDs = softSkill
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
         //Hard Skill
         case Type.ADD_HARD_SKILL_REQUIRE:
             positionObj = { ...state[action.positionFormIndex] }
-            hardSkill = positionObj.hardSkill.slice()
+            hardSkill = positionObj.hardSkills.slice()
             hardSkill.push(action.hardSkillItem)
-            positionObj.hardSkill = hardSkill
+            positionObj.hardSkills = hardSkill
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
 
         case Type.DELETE_HARD_SKILL_REQUIRE:
             positionObj = { ...state[action.positionFormIndex] }
-            hardSkill = positionObj.hardSkill.slice()
+            hardSkill = positionObj.hardSkills.slice()
             hardSkill.splice(action.hardSkillIndex, 1)
-            positionObj.hardSkill = hardSkill
+            positionObj.hardSkills = hardSkill
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
@@ -82,7 +86,7 @@ const positionReducer = (state = initState, action) => {
             //Clone position obj (positionObj) at index in array
             positionObj = { ...state[action.positionFormIndex] }
             //Clone list hard skill in positionObj
-            hardSkill = positionObj.hardSkill.slice()
+            hardSkill = positionObj.hardSkills.slice()
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
             hardSkillObj = hardSkill[action.hardSkillIndex]
             //Change exp, proprity value in hardSkillObj
@@ -93,7 +97,7 @@ const positionReducer = (state = initState, action) => {
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
             hardSkill.splice(action.hardSkillIndex, 1, hardSkillObj)
             //Replace hard skill list in clone of position obj by clone of hard skill list
-            positionObj.hardSkill = hardSkill
+            positionObj.hardSkills = hardSkill
             //Replace position obj in array at index by clone of position obj
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
@@ -103,7 +107,7 @@ const positionReducer = (state = initState, action) => {
             //Clone position obj (positionObj) at index in array
             positionObj = { ...state[action.positionFormIndex] }
             //Clone list hard skill in positionObj
-            hardSkill = positionObj.hardSkill.slice()
+            hardSkill = positionObj.hardSkills.slice()
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
             hardSkillObj = { ...hardSkill[action.hardSkillIndex] }
             //Change exp, proprity value in hardSkillObj
@@ -111,7 +115,7 @@ const positionReducer = (state = initState, action) => {
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
             hardSkill.splice(action.hardSkillIndex, 1, hardSkillObj)
             //Replace hard skill list in clone of position obj by clone of hard skill list
-            positionObj.hardSkill = hardSkill
+            positionObj.hardSkills = hardSkill
             //Replace position obj in array at index by clone of position obj
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
@@ -120,15 +124,15 @@ const positionReducer = (state = initState, action) => {
             //Clone position obj (positionObj) at index in array
             positionObj = { ...state[action.positionFormIndex] }
             //Clone list hard skill in positionObj
-            hardSkill = positionObj.hardSkill.slice()
+            hardSkill = positionObj.hardSkills.slice()
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
             hardSkillObj = { ...hardSkill[action.hardSkillIndex] }
             //Change exp, proprity value in hardSkillObj
-            hardSkillObj.certiID = action.value
+            hardSkillObj.certificationID = action.value
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
             hardSkill.splice(action.hardSkillIndex, 1, hardSkillObj)
             //Replace hard skill list in clone of position obj by clone of hard skill list
-            positionObj.hardSkill = hardSkill
+            positionObj.hardSkills = hardSkill
             //Replace position obj in array at index by clone of position obj
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]

@@ -9,6 +9,7 @@ const projectFormReducer = (state = initState, action) => {
             return state
         case Type.CREATE_PROJECT:
             state = action.project
+            localStorage.setItem("projectId", state.projectId)
             return state;           
         default:
             return state;
