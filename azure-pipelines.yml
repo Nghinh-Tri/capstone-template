@@ -8,7 +8,7 @@ trigger:
 
 variables:
   -uiSource: 'src'
-  -uiBuild: '$(uiSource)/build'
+  -uiBuild: '$(uiSouce)/build'
 
 pool:
   vmImage: ubuntu-latest
