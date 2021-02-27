@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import ProgressBar from '../../components/progress-bar/ProgressBar';
 import SuggestCandidates from '../../components/suggest-candidate/SuggestCandidates';
 
-class SuggestCandidate extends Component {  
+class SuggestCandidate extends Component {
     render() {
         return (
             <div>
+                <ProgressBar step="step3" />
                 <SuggestCandidates />
                 <SuggestCandidates />
                 <NavLink to="/project">

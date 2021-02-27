@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import CreatePositionForm from '../../components/create-position-form/CreatePositionForm';
+import ProgressBar from '../../components/progress-bar/ProgressBar';
 import * as Action from "../../store/store-action/PositionAction";
 
 
@@ -107,6 +108,7 @@ class CreatePosition extends Component {
     render() {
         return (
             <div>
+                <ProgressBar step="step2"/>
                 <form onSubmit={this.onCreatePosition} >
                     {this.showItems(this.props.items)}
                     <div >
