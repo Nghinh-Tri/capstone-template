@@ -5,6 +5,7 @@ import SelectSearch from './select-search/SelectSearch';
 import SoftSkillForm from './soft-skill-form/SoftSkillForm';
 import * as Action from "../../store/store-action/PositionSelectBarAction";
 import { convertPositionList } from "../../util";
+import LanguageForm from './language-form/LanguageForm';
 
 class CreatePositionForm extends Component {
 
@@ -51,6 +52,8 @@ class CreatePositionForm extends Component {
         })
     }
 
+
+
     render() {
         var { item, positionFormIndex, positionList } = this.props
         var listConverted = convertPositionList(positionList)
@@ -58,22 +61,29 @@ class CreatePositionForm extends Component {
             if (this.state.isMinimize)
                 return ""
             else
-                return (<div>
-                    <SoftSkillForm softSkill={item.softSkillIDs}
-                        positionFormIndex={positionFormIndex}
-                        onAddSoftSkill={this.props.onAddSoftSkill}
-                        onDeleteSoftSkill={this.props.onDeleteSoftSkill}
-                        onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
-                    />
-                    <HardSkillForm hardSkill={item.hardSkills}
-                        positionFormIndex={positionFormIndex}
-                        onAddHardSkill={this.props.onAddHardSkill}
-                        onDeleteHardSkill={this.props.onDeleteHardSkill}
-                        updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
-                        onUpdateHardSkillID={this.props.onUpdateHardSkillID}
-                        onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
-                    />
-                </div>
+                return (
+                    <React.Fragment>
+                        <LanguageForm language={item.language}
+                            positionFormIndex={positionFormIndex}
+                            onAddLanguage={this.props.onAddLanguage}
+                            onDeleteLanguage={this.props.onDeleteLanguage}
+                            onUpdateLanguageID={this.props.onUpdateLanguageID}
+                        />
+                        <SoftSkillForm softSkill={item.softSkillIDs}
+                            positionFormIndex={positionFormIndex}
+                            onAddSoftSkill={this.props.onAddSoftSkill}
+                            onDeleteSoftSkill={this.props.onDeleteSoftSkill}
+                            onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
+                        />
+                        <HardSkillForm hardSkill={item.hardSkills}
+                            positionFormIndex={positionFormIndex}
+                            onAddHardSkill={this.props.onAddHardSkill}
+                            onDeleteHardSkill={this.props.onDeleteHardSkill}
+                            updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
+                            onUpdateHardSkillID={this.props.onUpdateHardSkillID}
+                            onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                        />
+                    </React.Fragment>
                 )
         }
         return (
@@ -89,6 +99,8 @@ class CreatePositionForm extends Component {
                                 </h4>
                                 </label>
                             </div>
+
+                            {/* Select Bar */}
                             <div className="col-4">
                                 <SelectSearch list={listConverted}
                                     onUpdatePositionID={this.onUpdatePositionID}

@@ -4,7 +4,7 @@ var initState = [];
 
 const positionReducer = (state = initState, action) => {
 
-    var positionObj, softSkill, hardSkill, hardSkillObj = null
+    var positionObj, softSkill, hardSkill, hardSkillObj, languageClone = null
 
     switch (action.type) {
 
@@ -33,6 +33,31 @@ const positionReducer = (state = initState, action) => {
         case Type.UPDATE_POSITION_NOC:
             positionObj = { ...state[action.positionFormIndex] }
             positionObj.numberOfCandidates = parseInt(action.nOC)
+            state.splice(action.positionFormIndex, 1, positionObj)
+            return [...state]
+
+        //Language
+        case Type.ADD_LANGUAGE_REQUIRE:
+            positionObj = { ...state[action.positionFormIndex] }
+            languageClone = positionObj.language.slice()
+            languageClone.push("")
+            positionObj.language = languageClone
+            state.splice(action.positionFormIndex, 1, positionObj)
+            return [...state]
+
+        case Type.DELETE_LANGUAGE_REQUIRE:
+            positionObj = { ...state[action.positionFormIndex] }
+            languageClone = positionObj.language.slice() 
+            languageClone.splice(action.languageIndex, 1) 
+            positionObj.language = languageClone 
+            state.splice(action.positionFormIndex, 1, positionObj)
+            return [...state]
+
+        case Type.UPDATE_LANGUAGE:
+            positionObj = { ...state[action.positionFormIndex] }
+            languageClone = positionObj.language.slice()
+            languageClone.splice(action.languageIndex, 1, action.languageID)
+            positionObj.language = languageClone
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 

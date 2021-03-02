@@ -14,6 +14,7 @@ class CreatePosition extends Component {
             requiredPositions: {
                 posID: "",
                 numberOfCandidates: 0,
+                language: [],
                 softSkillIDs: [],
                 hardSkills: []
             }
@@ -35,6 +36,19 @@ class CreatePosition extends Component {
 
     onUpdateNOC = (nOC, positionFormIndex) => {
         this.props.onUpdateNOC(nOC, positionFormIndex)
+    }
+
+    //Language
+    onAddLanguage = (positionFormIndex) => {
+        this.props.onAddLanguage(positionFormIndex)
+    }
+
+    onDeleteLanguage = (languageIndex, positionFormIndex) => {
+        this.props.onDeleteLanguageItem(languageIndex, positionFormIndex)
+    }
+
+    onUpdateLanguageID = (value, langugageIndex, positionFormIndex) => {
+        this.props.onUpdateLanguageID(value, langugageIndex, positionFormIndex)
     }
 
     // Soft Skill
@@ -89,6 +103,10 @@ class CreatePosition extends Component {
                     onDeletePositionForm={this.onDeletePositionForm}
                     onUpdatePositionID={this.onUpdatePositionID}
                     onUpdateNOC={this.onUpdateNOC}
+                    //language
+                    onAddLanguage={this.onAddLanguage}
+                    onDeleteLanguage={this.onDeleteLanguage}
+                    onUpdateLanguageID={this.onUpdateLanguageID}
                     //soft skill
                     onAddSoftSkill={this.onAddSoftSkill}
                     onDeleteSoftSkill={this.onDeleteSoftSkill}
@@ -108,7 +126,7 @@ class CreatePosition extends Component {
     render() {
         return (
             <div>
-                <ProgressBar step="step2"/>
+                <ProgressBar step="step2" />
                 <form onSubmit={this.onCreatePosition} >
                     {this.showItems(this.props.items)}
                     <div >
@@ -145,6 +163,15 @@ const mapDispatchToProp = (dispatch, props) => {
         },
         onUpdateNOC: (nOC, positionFormIndex) => {
             dispatch(Action.updateNOC(nOC, positionFormIndex))
+        },
+        onAddLanguage: (positionFormIndex) => {
+            dispatch(Action.addLanguageRequire(positionFormIndex))
+        },
+        onDeleteLanguageItem: (languageIndex, positionFormIndex) => {
+            dispatch(Action.deleteLanguageRequire(languageIndex, positionFormIndex))
+        },
+        onUpdateLanguageID: (languageID, languageIndex, positionFormIndex) => {
+            dispatch(Action.updateLanguageID(languageID, languageIndex, positionFormIndex))
         },
         onAddSoftSkillItem: positionFormIndex => {
             dispatch(Action.addSoftSkillRequire(positionFormIndex))
