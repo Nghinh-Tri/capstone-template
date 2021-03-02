@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Select from 'react-select'
+// import Select from 'react-select'
+import Select from "react-dropdown-select"
 
 class SelectSearchs extends Component {
 
@@ -7,7 +8,12 @@ class SelectSearchs extends Component {
         super(props);
         this.state = {
             label: "Search...",
-            value: 0
+            value: 0,
+            list: [
+                { name: "BA", value: 1 },
+                { name: "DEV", value: 2 },
+                { name: "TEST", value: 3 },
+            ]
         }
     }
 
@@ -58,8 +64,14 @@ class SelectSearchs extends Component {
 
     onSelectPosition = event => {
         var { positionFormIndex } = this.props
-        var value = event.value
+        var value = event[0].value
         this.props.onUpdatePositionID(value, positionFormIndex)
+    }
+
+    onSelectLanguage = event => {
+        var { positionFormIndex, languageIndex } = this.props
+        var value = event[0].value
+        this.props.onUpdateLanguageID(value, languageIndex, positionFormIndex)
     }
 
     onSelectSoftSkill = event => {
@@ -80,23 +92,95 @@ class SelectSearchs extends Component {
         this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex)
     }
 
-    showSelectBar = (name, list) => {
+
+    showSelectBar = (name, list, value) => {
+        console.log(value)
         switch (name) {
             case "positionID":
                 return (
-                    <Select className="select" options={list} onChange={this.onSelectPosition} value={this.state} />
+                    isNaN(value) || value === 0 ?
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectPosition}
+                            valueField="value"
+                            labelField="label"
+                        />
+                        :
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectPosition}
+                            values={[list.find(opt => opt.value === value)]}
+                            valueField="value"
+                            labelField="label"
+                        />
+                )
+            case "language":
+                return (
+                    isNaN(value) ?
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectLanguage}
+                            valueField="value"
+                            labelField="label"
+                        /> :
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectLanguage}
+                            values={[list.find(opt => opt.value === value)]}
+                            valueField="value"
+                            labelField="label"
+                        />
                 )
             case "softSkillID":
                 return (
-                    <Select className="select" options={list} onChange={this.onSelectSoftSkill} value={this.state} />
+                    isNaN(value) ?
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectSoftSkill}
+                            valueField="value"
+                            labelField="label"
+                        /> :
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectSoftSkill}
+                            values={[list.find(opt => opt.value === value)]}
+                            valueField="value"
+                            labelField="label"
+                        />
                 )
             case "hardSkillID":
                 return (
-                    <Select className="select" options={list} onChange={this.onSelectHardSkill} value={this.state} />
+                    isNaN(value) ?
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectHardSkill}
+                            valueField="value"
+                            labelField="label"
+                        /> :
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectHardSkill}
+                            values={[list.find(opt => opt.value === value)]}
+                            valueField="value"
+                            labelField="label"
+                        />
                 )
             case "certiID":
                 return (
-                    <Select className="select" options={list} onChange={this.onSelectCerti} value={this.state} />
+                    isNaN(value) ?
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectCerti}
+                            valueField="value"
+                            labelField="label"
+                        /> :
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectCerti}
+                            values={[list.find(opt => opt.value === value)]}
+                            valueField="value"
+                            labelField="label"
+                        />
                 )
             default:
                 break;
@@ -104,10 +188,10 @@ class SelectSearchs extends Component {
     }
 
     render() {
-        var { list, name } = this.props
+        var { list, name, value } = this.props
         return (
             <div>
-                { this.showSelectBar(name, list)}
+                {list.length > 0 ? this.showSelectBar(name, list, parseInt(value)) : ""}
             </div>
         );
     }

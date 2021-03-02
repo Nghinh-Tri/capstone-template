@@ -117,7 +117,10 @@
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 500;
   margin-top: 5px;
+  font-size: medium;
 }
+
+
 
 .label {
   font-weight: 500;

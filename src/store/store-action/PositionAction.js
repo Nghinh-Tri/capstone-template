@@ -31,6 +31,30 @@ export const updateNOC = (nOC, positionFormIndex) => {
     }
 }
 
+export const addLanguageRequire = (positionFormIndex) => {
+    return {
+        type: Types.ADD_LANGUAGE_REQUIRE,
+        positionFormIndex
+    };
+}
+
+export const deleteLanguageRequire = (languageIndex, positionFormIndex) => {
+    return {
+        type: Types.DELETE_LANGUAGE_REQUIRE,
+        positionFormIndex,
+        languageIndex
+    }
+}
+
+export const updateLanguageID = (languageID, languageIndex, positionFormIndex) => {
+    return {
+        type: Types.UPDATE_LANGUAGE,
+        positionFormIndex,
+        languageIndex,
+        languageID
+    }
+}
+
 export const addSoftSkillRequire = (positionFormIndex) => {
     return {
         type: Types.ADD_SOFT_SKILL_REQUIRE,
