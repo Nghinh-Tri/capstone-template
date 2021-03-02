@@ -4,7 +4,6 @@ import RouteList from "../RouteMap";
 
 import NavBar from '../components/nav-bar/NavBar';
 import Navigation from '../components/navigation/Navigation';
-import CreatePosition from '../screens/create-position/CreatePosition';
 
 class Layout extends Component {
 
@@ -28,8 +27,7 @@ class Layout extends Component {
                     <div className="main-panel">
                         <NavBar />
                         <div className="content">
-                            {/* {this.showContent(RouteList)} */}
-                            <CreatePosition/>
+                            {this.showContent(RouteList)}
                         </div>
                     </div>
                 </div>
