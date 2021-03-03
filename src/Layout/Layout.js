@@ -4,6 +4,11 @@ import RouteList from "../RouteMap";
 
 import NavBar from '../components/nav-bar/NavBar';
 import Navigation from '../components/navigation/Navigation';
+import { connect } from 'react-redux'
+
+
+
+
 
 class Layout extends Component {
 
@@ -19,10 +24,15 @@ class Layout extends Component {
         return <Switch> {result} </Switch>
     }
 
+    // renderLogin = () => {     
+    //     return !localStorage.hasOwnProperty('username') 
+    //  }
+ 
+
     render() {
         return (
-            <Router>
                 <div className="wrapper ">
+                    {this.renderLogin()}
                     <Navigation />
                     <div className="main-panel">
                         <NavBar />
@@ -31,9 +41,21 @@ class Layout extends Component {
                         </div>
                     </div>
                 </div>
-            </Router>
         );
     }
 }
 
-export default Layout;
+
+
+const mapState = state => {
+    const { userLogin } = state.authentication;
+    return { userLogin }
+}
+
+const mapDispatchToProp = (dispatch) => {
+    return {
+       
+    }
+}
+  
+export default connect(mapState, mapDispatchToProp)(Layout);
