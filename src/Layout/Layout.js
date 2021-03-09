@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import RouteList from "../RouteMap";
-
-import NavBar from '../components/nav-bar/NavBar';
-import Navigation from '../components/navigation/Navigation';
+import { Route, Switch } from 'react-router-dom';
+import Navigation from '../component/navigation/Navigation';
+import NavBar from '../component/nav-bar/NavBar';
+import RouteList from '../RouterMap'
+import SuggestCandidate from '../screen/suggest-candidate/SuggestCandidate';
 
 class Layout extends Component {
 
@@ -12,26 +12,23 @@ class Layout extends Component {
         if (RouteList.length > 0) {
             result = RouteList.map((route, index) => {
                 return (
-                    <Route key={index} path={route.path} exact={route.exact} component={route.main} />
+                    <Route key={index} path={route.path} exact={route.exact} render={route.main} />
                 )
             });
         }
         return <Switch> {result} </Switch>
     }
-
     render() {
         return (
-            <Router>
-                <div className="wrapper ">
-                    <Navigation />
-                    <div className="main-panel">
-                        <NavBar />
-                        <div className="content">
-                            {this.showContent(RouteList)}
-                        </div>
+            <div className="wrapper ">
+                <Navigation />
+                <div className="main-panel">
+                    <NavBar/>
+                    <div className="content">
+                        {this.showContent(RouteList)}
                     </div>
                 </div>
-            </Router>
+            </div>
         );
     }
 }
