@@ -6,6 +6,24 @@ import { convertLanguageList } from "../../../../service/util/util";
 
 class LanguageFormContent extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            priority: [
+                { label: 1, value: 1 },
+                { label: 2, value: 2 },
+                { label: 3, value: 3 },
+                { label: 4, value: 4 },
+                { label: 5, value: 5 },
+                { label: 6, value: 6 },
+                { label: 7, value: 7 },
+                { label: 8, value: 8 },
+                { label: 9, value: 9 },
+                { label: 10, value: 10 },
+            ]
+        }
+    }
+
     componentDidMount = () => {
         this.props.fetchLanguage()
     }
@@ -19,6 +37,7 @@ class LanguageFormContent extends Component {
         var listConverted = convertLanguageList(language)
         return (
             <div className="row">
+                {/* Language */}
                 <div className="col-1 mt-15-ml-30">
                     <label className="bmd-label  ">
                         <h5 className="font-weight-bold">Language</h5>
@@ -30,7 +49,22 @@ class LanguageFormContent extends Component {
                         name="language"
                         positionFormIndex={positionFormIndex}
                         languageIndex={languageIndex}
-                        value={item} />
+                        value={item.langID} />
+                </div>
+                {/* Priority */}
+                <div className="col-1 mt-15-ml-30">
+                    <label className="bmd-label  ">
+                        <h5 className="font-weight-bold">Priority</h5>
+                    </label>
+                </div>
+                <div className="col-3">
+                    <SelectSearch list={this.state.priority}
+                        onUpdateLanguagePriority={this.props.onUpdateLanguagePriority}
+                        name="languagePriority"
+                        positionFormIndex={positionFormIndex}
+                        languageIndex={languageIndex}
+                        value={item.priority} 
+                        />
                 </div>
                 <div className="col-1 mt-15-ml-30">
                     <span className="material-icons pull-right clear" onClick={() => this.onDeleteLanguage(languageIndex, positionFormIndex)}>clear</span>

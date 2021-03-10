@@ -68,6 +68,7 @@ class CreatePositionForm extends Component {
                             onAddLanguage={this.props.onAddLanguage}
                             onDeleteLanguage={this.props.onDeleteLanguage}
                             onUpdateLanguageID={this.props.onUpdateLanguageID}
+                            onUpdateLanguagePriority={this.props.onUpdateLanguagePriority}
                         />
                         <SoftSkillForm softSkill={item.softSkillIDs}
                             positionFormIndex={positionFormIndex}
@@ -79,7 +80,8 @@ class CreatePositionForm extends Component {
                             positionFormIndex={positionFormIndex}
                             onAddHardSkill={this.props.onAddHardSkill}
                             onDeleteHardSkill={this.props.onDeleteHardSkill}
-                            updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
+                            updateHardSkillExp={this.props.updateHardSkillExp}
+                            onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
                             onUpdateHardSkillID={this.props.onUpdateHardSkillID}
                             onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
                         />

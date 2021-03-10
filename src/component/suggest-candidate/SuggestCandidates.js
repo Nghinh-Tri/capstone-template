@@ -63,7 +63,7 @@ class SuggestCandidates extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.showCandidate(item.candidateList, selectedItem)}
+                                            {this.showCandidate(item.matchDetail, selectedItem)}
                                         </tbody>
                                     </table>
                                 </div>

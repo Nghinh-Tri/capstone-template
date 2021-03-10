@@ -7,11 +7,29 @@ import { convertSkillList, convertCertificationList } from "../../../../service/
 
 class HardSkillFormContent extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            priority: [
+                { label: 1, value: 1 },
+                { label: 2, value: 2 },
+                { label: 3, value: 3 },
+                { label: 4, value: 4 },
+                { label: 5, value: 5 },
+                { label: 6, value: 6 },
+                { label: 7, value: 7 },
+                { label: 8, value: 8 },
+                { label: 9, value: 9 },
+                { label: 10, value: 10 },
+            ]
+        }
+    }
+
     onUpdate = event => {
         var { hardSkillIndex, positionFormIndex } = this.props
         var value = event.target.value
         var name = event.target.name
-        this.props.updateHardSkillExpPriority(hardSkillIndex, positionFormIndex, value, name)
+        this.props.updateHardSkillExp(hardSkillIndex, positionFormIndex, value, name)
     }
 
     componentDidMount = () => {
@@ -88,9 +106,13 @@ class HardSkillFormContent extends Component {
                     </label>
                 </div>
                 <div className="col">
-                    <div className="form-group">
-                        <input type="number" name="priority" value={hardSkillDetail.priority} className="form-control" min="0" onChange={this.onUpdate} />
-                    </div>
+                    <SelectSearch positionFormIndex={positionFormIndex}
+                        hardSkillIndex={hardSkillIndex}
+                        list={this.state.priority}
+                        name="hardSkillPriority"
+                        value={hardSkillDetail.priority}
+                        onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority} 
+                        />
                 </div>
 
                 {/* Button Delete */}

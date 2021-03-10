@@ -8,10 +8,10 @@ class CandidateTable extends Component {
             return (<tr>
                 <th className="text-center">{index + 1}</th>
                 <th className="text-center">{candidate.name}</th>
-                <th className="text-center">{candidate.matchLang} / 10</th>
-                <th className="text-center">{candidate.matchSoftSkill} / 10</th>
-                <th className="text-center">{candidate.matchHardSkill} /10 </th>
-                <th className="text-center">{candidate.match} / 100</th>              
+                <th className="text-center">{candidate.languageMatch} / 10</th>
+                <th className="text-center">{candidate.softSkillMatch} / 10</th>
+                <th className="text-center">{candidate.hardSkillMatch} /10 </th>
+                <th className="text-center">{candidate.overallMatch} / 100</th>      
             </tr>)
         })
         return result

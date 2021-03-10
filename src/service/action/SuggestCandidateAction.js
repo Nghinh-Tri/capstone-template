@@ -21,8 +21,14 @@ export const unselectCandiate = (candidate, position) => {
     }
 }
 
-export const fetchList = () => {
+export const fetchSelectedList = () => {
     return {
-        type: SUGGEST_CANDIDATE.FETCH_LIST
+        type: SUGGEST_CANDIDATE.FETCH_SELECTED_LIST
+    }
+}
+
+export const fetchSuggestList = () => {
+    return{
+        type: SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST
     }
 }

@@ -3,64 +3,6 @@ import Select from "react-dropdown-select"
 
 class SelectSearchs extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            label: "Search...",
-            value: 0,
-            list: [
-                { name: "BA", value: 1 },
-                { name: "DEV", value: 2 },
-                { name: "TEST", value: 3 },
-            ]
-        }
-    }
-
-    componentDidMount = () => {
-        var { list } = this.props
-        if (this.state.value === '') {
-            this.setState({
-                label: "Search...",
-                value: 0
-            })
-        } else if (this.state.value !== 0) {
-            var lable = this.getLabel(list, this.state.value)
-            this.setState({
-                label: lable
-            })
-        }
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.value !== prevState.value) {
-            return { value: nextProps.value };
-        }
-        return null;
-    }
-
-    getLabel = (list, value) => {
-        var result = null
-        list.forEach(element => {
-            if (element.value === value) {
-                result = element.label
-            }
-        });
-        return result
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.value !== this.props.value) {
-            var { list, value } = this.props
-            var lable = this.getLabel(list, value)
-            if (value !== 0) {
-                this.setState({
-                    label: lable,
-                    value: value
-                })
-            }
-        }
-    }
-
     onSelectPosition = event => {
         var { positionFormIndex } = this.props
         var value = event[0].value
@@ -91,6 +33,17 @@ class SelectSearchs extends Component {
         this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex)
     }
 
+    onSelectHardSkillPriority = event => {
+        var { positionFormIndex, hardSkillIndex } = this.props
+        var value = event[0].value
+        this.props.onUpdateHardSkillPriority(value, hardSkillIndex, positionFormIndex)
+    }
+
+    onSelectLanguagePriority = event => {
+        var { positionFormIndex, languageIndex } = this.props
+        var value = event[0].value
+        this.props.onUpdateLanguagePriority(value, languageIndex, positionFormIndex)
+    }
 
     showSelectBar = (name, list, value) => {
         switch (name) {
@@ -114,7 +67,7 @@ class SelectSearchs extends Component {
                 )
             case "language":
                 return (
-                    isNaN(value) ?
+                    isNaN(value) || value === 0 ?
                         <Select className="select"
                             options={list}
                             onChange={this.onSelectLanguage}
@@ -177,6 +130,42 @@ class SelectSearchs extends Component {
                         <Select className="select"
                             options={list}
                             onChange={this.onSelectCerti}
+                            values={[list.find(opt => opt.value === value)]}
+                            valueField="value"
+                            labelField="label"
+                        />
+                )
+            case 'hardSkillPriority':
+                return (
+                    isNaN(value) || value === 0 ?
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectHardSkillPriority}
+                            valueField="value"
+                            labelField="label"
+                        />
+                        :
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectHardSkillPriority}
+                            values={[list.find(opt => opt.value === value)]}
+                            valueField="value"
+                            labelField="label"
+                        />
+                )
+            case 'languagePriority':
+                return (
+                    isNaN(value) || value === 0 ?
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectLanguagePriority}
+                            valueField="value"
+                            labelField="label"
+                        />
+                        :
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectLanguagePriority}
                             values={[list.find(opt => opt.value === value)]}
                             valueField="value"
                             labelField="label"

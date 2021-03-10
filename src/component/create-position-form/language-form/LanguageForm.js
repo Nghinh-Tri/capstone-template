@@ -6,13 +6,17 @@ class LanguageForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isMinimize: false
+            isMinimize: false,
+            language: {
+                langID: 0,
+                priority: 0
+            }
         }
     }
 
 
     onAddLanguage = (positionFormIndex) => {
-        this.props.onAddLanguage(positionFormIndex)
+        this.props.onAddLanguage(positionFormIndex, this.state.language)
     }
 
     showItems = (language, positionFormIndex) => {
@@ -25,6 +29,7 @@ class LanguageForm extends Component {
                     onDeleteLanguage={this.props.onDeleteLanguage}
                     item={item}
                     onUpdateLanguageID={this.props.onUpdateLanguageID}
+                    onUpdateLanguagePriority={this.props.onUpdateLanguagePriority}
                 />
             );
         })

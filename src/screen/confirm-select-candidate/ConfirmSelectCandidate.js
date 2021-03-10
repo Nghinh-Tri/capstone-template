@@ -47,7 +47,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchSelectCandidate: () => {
-            dispatch(Action.fetchList())
+            dispatch(Action.fetchSelectedList())
         }
     }
 }

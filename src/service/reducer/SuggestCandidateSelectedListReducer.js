@@ -49,7 +49,7 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
             state.splice(index, 1, positionObjClone)
             return [...state]
 
-        case SUGGEST_CANDIDATE.FETCH_LIST:
+        case SUGGEST_CANDIDATE.FETCH_SELECTED_LIST:
             return [...state]
         default:
             return [...state];

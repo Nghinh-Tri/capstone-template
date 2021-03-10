@@ -11,6 +11,10 @@ class SuggestCandidate extends Component {
         super(props);
     }
 
+    componentDidMount = () => {
+        this.props.fetchSuggestCandidateList()
+    }
+
     onSelected = (index) => {
         this.props.onPositionSelect(index)
     }
@@ -20,8 +24,8 @@ class SuggestCandidate extends Component {
         var result = null;
         result = suggestCandidateList.map((item, index) => {
             return (
-                <li className='li'>
-                    <a key={index} className={selectedIndex === index ? 'active' : ''} onClick={() => this.onSelected(index)} >{item.position}</a>
+                <li className='li' key={index}>
+                    <a  className={selectedIndex === index ? 'active' : ''} onClick={() => this.onSelected(index)} >{item.position}</a>
                 </li>
             )
         })
@@ -46,6 +50,7 @@ class SuggestCandidate extends Component {
 
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
+        console.log(suggestCandidateList)
         return (
             <div>
                 <ProgressBar step="step3" />
@@ -91,6 +96,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         unSelectCandidate: (candidate, position) => {
             dispatch(Action.unselectCandiate(candidate, position))
+        },
+        fetchSuggestCandidateList: () => {
+            dispatch(Action.fetchSuggestList())
         }
     }
 }

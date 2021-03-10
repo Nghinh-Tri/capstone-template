@@ -28,7 +28,8 @@ class HardSkillForm extends Component {
                     hardSkillIndex={hardSkillIndex}
                     positionFormIndex={positionFormIndex}
                     onDeleteHardSkill={this.props.onDeleteHardSkill}
-                    updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
+                    updateHardSkillExp={this.props.updateHardSkillExp}
+                    onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
                     onUpdateHardSkillID={this.props.onUpdateHardSkillID}
                     onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
                 />

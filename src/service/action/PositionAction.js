@@ -33,10 +33,10 @@ export const updateNOC = (nOC, positionFormIndex) => {
     }
 }
 
-export const addLanguageRequire = (positionFormIndex) => {
+export const addLanguageRequire = (positionFormIndex, languageItem) => {
     return {
         type: Type.ADD_LANGUAGE_REQUIRE,
-        positionFormIndex
+        positionFormIndex, languageItem
     };
 }
 
@@ -50,10 +50,19 @@ export const deleteLanguageRequire = (languageIndex, positionFormIndex) => {
 
 export const updateLanguageID = (languageID, languageIndex, positionFormIndex) => {
     return {
-        type: Type.UPDATE_LANGUAGE,
+        type: Type.UPDATE_LANGUAGE_ID,
         positionFormIndex,
         languageIndex,
         languageID
+    }
+}
+
+export const updateLanguagePriority = (value, languageIndex, positionFormIndex) => {
+    return {
+        type: Type.UPDATE_LANGUAGE_PRIORITY,
+        positionFormIndex,
+        languageIndex,
+        value
     }
 }
 
@@ -97,9 +106,9 @@ export const deleteHardSkillRequire = (hardSkillIndex, positionFormIndex) => {
     }
 }
 
-export const updateHardSkillExpPriority = (hardSkillIndex, positionFormIndex, value, name) => {
+export const updateHardSkillExp = (hardSkillIndex, positionFormIndex, value, name) => {
     return {
-        type: Type.UPDATE_HARD_SKILL_EXP_PRIORITY,
+        type: Type.UPDATE_HARD_SKILL_EXP,
         positionFormIndex,
         hardSkillIndex,
         value, name
@@ -109,6 +118,15 @@ export const updateHardSkillExpPriority = (hardSkillIndex, positionFormIndex, va
 export const updateHardSkillID = (value, hardSkillIndex, positionFormIndex) => {
     return {
         type: Type.UPDATE_HARD_SKILL_ID,
+        positionFormIndex,
+        hardSkillIndex,
+        value
+    }
+}
+
+export const updateHardSkillPriority = (value, hardSkillIndex, positionFormIndex) => {
+    return {
+        type: Type.UPDATE_HARD_SKILL_PRIORITY,
         positionFormIndex,
         hardSkillIndex,
         value
@@ -127,14 +145,15 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
 export const createPosition = (positionItem) => {
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
-    var url = `${API_URL}/Project/addRequirements/${projectID}`
+    var url = `${API_URL}/User/candidate/${projectID}`
     return (dispatch) => {
         axios.post(
             url,
             position,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            dispatch(createPositionSuccess(res.data.isSuccessed))
+            // console.log(res.data)
+            dispatch(createPositionSuccess(res.data))
             history.push("/project/suggest-candidate")
         })
     }
