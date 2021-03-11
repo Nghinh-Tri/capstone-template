@@ -3,15 +3,18 @@ import axios from "axios";
 import { API_URL } from "../util/util";
 
 export const fetchCertification = () => {
-    var url = `${API_URL}/Certification/getCertifications`
-    return (dispatch) => {
-        axios.get(
-            url,
-            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-        ).then(res => {
-            dispatch(fetchCertificationSuccess(res.data.resultObj))
-        })
-    }
+    // var url = `${API_URL}/Certification/getCertifications`
+    // return (dispatch) => {
+    //     axios.get(
+    //         url,
+    //         { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+    //     ).then(res => {
+    //         dispatch(fetchCertificationSuccess(res.data.resultObj))
+    //     })
+    // }
+    return {
+        type: Type.FETCH_CERTIFICATION_LIST
+    };
 }
 
 export const fetchCertificationSuccess = (certiList) => {

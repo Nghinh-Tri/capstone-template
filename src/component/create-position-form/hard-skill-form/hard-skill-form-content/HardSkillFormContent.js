@@ -84,7 +84,7 @@ class HardSkillFormContent extends Component {
                 <div className="col mt-15-ml-30 mr-10">
                     <label className="bmd-label  ">
                         <h5 className="font-weight-bold">
-                            Certification
+                            Certification Level
                         </h5>
                     </label>
                 </div>

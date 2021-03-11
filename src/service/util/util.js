@@ -59,7 +59,7 @@ export const convertSkillList = (list) => {
 export const convertCertificationList = (list) => {
     var result = []
     list.forEach(element => {
-        result.push({ label: element.certificationName, value: element.certificationID })
+        result.push({ label: element.certificationLevel, value: element.certificationLevel })
     });
     return result;
 }
