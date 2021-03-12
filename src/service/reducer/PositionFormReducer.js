@@ -91,7 +91,7 @@ const positionReducer = (state = initState, action) => {
         case Type.ADD_SOFT_SKILL_REQUIRE:
             positionObj = { ...state[action.positionFormIndex] }
             softSkill = positionObj.softSkillIDs.slice()
-            softSkill.push("")
+            softSkill.push(0)
             positionObj.softSkillIDs = softSkill
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]

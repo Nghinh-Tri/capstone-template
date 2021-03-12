@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import SelectSearch from '../../select-search/SelectSearch';
 import * as Action from "../../../../service/action/LanguageSelectBarAction";
 import { convertLanguageList } from "../../../../service/util/util";
+import SelectBar from '../../select-search/SelectBar';
 
 class LanguageFormContent extends Component {
 
@@ -24,17 +25,14 @@ class LanguageFormContent extends Component {
         }
     }
 
-    componentDidMount = () => {
-        this.props.fetchLanguage()
-    }
-
     onDeleteLanguage = (languageIndex, positionFormIndex) => {
         this.props.onDeleteLanguage(languageIndex, positionFormIndex)
     }
 
     render() {
-        var { item, languageIndex, positionFormIndex, language } = this.props
-        var listConverted = convertLanguageList(language)
+        var { item, languageIndex, positionFormIndex, languageList } = this.props
+        var listConverted = convertLanguageList(languageList)
+        console.log(listConverted)
         return (
             <div className="row">
                 {/* Language */}
@@ -44,12 +42,20 @@ class LanguageFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-3">
-                    <SelectSearch list={listConverted}
+                    {/* <SelectSearch list={listConverted}
                         onUpdateLanguageID={this.props.onUpdateLanguageID}
                         name="language"
                         positionFormIndex={positionFormIndex}
                         languageIndex={languageIndex}
-                        value={item.langID} />
+                        value={item.langID} /> */}
+                    <SelectBar
+                        list={listConverted}
+                        onUpdateLanguageID={this.props.onUpdateLanguageID}
+                        name="language"
+                        positionFormIndex={positionFormIndex}
+                        languageIndex={languageIndex}
+                        value={item.langID}
+                    />
                 </div>
                 {/* Priority */}
                 <div className="col-1 mt-15-ml-30">
@@ -63,8 +69,8 @@ class LanguageFormContent extends Component {
                         name="languagePriority"
                         positionFormIndex={positionFormIndex}
                         languageIndex={languageIndex}
-                        value={item.priority} 
-                        />
+                        value={item.priority}
+                    />
                 </div>
                 <div className="col-1 mt-15-ml-30">
                     <span className="material-icons pull-right clear" onClick={() => this.onDeleteLanguage(languageIndex, positionFormIndex)}>clear</span>
@@ -75,18 +81,4 @@ class LanguageFormContent extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        language: state.LanguageSelectBarReducer
-    }
-}
-
-const mapDispatchToProp = (dispatch, props) => {
-    return {
-        fetchLanguage: () => {
-            dispatch(Action.fetchLanguage())
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProp)(LanguageFormContent);
+export default LanguageFormContent;

@@ -6,6 +6,7 @@ import SoftSkillForm from './soft-skill-form/SoftSkillForm';
 import * as Action from "../../service/action/PositionSelectBarAction";
 import { convertPositionList } from "../../service/util/util";
 import LanguageForm from './language-form/LanguageForm';
+import SelectBar from './select-search/SelectBar';
 
 class CreatePositionForm extends Component {
 
@@ -14,23 +15,7 @@ class CreatePositionForm extends Component {
         this.state = {
             isMinimize: false
         }
-    }
-
-    componentDidMount = () => {
-        var { positionList } = this.props
-        if (typeof positionList === 'undefined' || positionList.length === 0) {
-            this.props.fetchPostionList()
-        }
-
-    }
-
-    convertPositionList = (positionList) => {
-        var result = []
-        positionList.forEach(element => {
-            result.push({ label: element.name, value: element.id })
-        });
-        return result;
-    }
+    }  
 
     onDeletePositionForm = (positionFormIndex) => {
         this.props.onDeletePositionForm(positionFormIndex)
@@ -51,8 +36,6 @@ class CreatePositionForm extends Component {
             isMinimize: !this.state.isMinimize
         })
     }
-
-
 
     render() {
         var { item, positionFormIndex, positionList } = this.props
@@ -104,11 +87,18 @@ class CreatePositionForm extends Component {
 
                             {/* Select Bar */}
                             <div className="col-4">
-                                <SelectSearch list={listConverted}
+                                {/* <SelectSearch list={listConverted}
                                     onUpdatePositionID={this.onUpdatePositionID}
                                     name="positionID"
                                     positionFormIndex={positionFormIndex}
-                                    value={item.posID} />
+                                    value={item.posID} /> */}
+                                <SelectBar
+                                    list={listConverted}
+                                    onUpdatePositionID={this.onUpdatePositionID}
+                                    name="positionID"
+                                    positionFormIndex={positionFormIndex}
+                                    value={item.posID}
+                                />
                             </div>
 
                             {/* Number of candidate */}
@@ -140,17 +130,4 @@ class CreatePositionForm extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        positionList: state.PositionSelectBarReducer
-    }
-}
-
-const mapDispatchToProp = (dispatch, props) => {
-    return {
-        fetchPostionList: () => {
-            dispatch(Action.fetchPostionList())
-        }
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProp)(CreatePositionForm);
+export default CreatePositionForm;

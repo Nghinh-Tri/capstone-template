@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchHardSkill } from '../../../service/action/HardSkillSelectBarAction';
 import HardSkillFormContent from './hard-skill-form-content/HardSkillFormContent';
 
 class HardSkillForm extends Component {
@@ -15,12 +17,33 @@ class HardSkillForm extends Component {
             isMinimize: false
         }
     }
+
+    componentDidMount = () => {
+        this.props.fetchHardSkillList()
+    }
+
+    getHardSkillListNotSelect = () => {
+        var { hardSkillList, hardSkill } = this.props
+        var listNotSelect = hardSkillList.slice(0, hardSkillList.length)
+        for (let i = 0; i < listNotSelect.length; i++) {
+            for (let k = 0; k < hardSkill.length; k++) {
+                if (listNotSelect[i].skillID === hardSkill[k].hardSkillID) {
+                    var clone = { ...listNotSelect[i] }
+                    clone.isSelect = true
+                    listNotSelect[i] = clone
+                }                 
+            }
+        }
+        return listNotSelect
+    }
+
     onAddHardSkill = (positionFormIndex) => {
         this.props.onAddHardSkill(positionFormIndex, this.state.hardSkillDetail)
     }
 
     showItems = (hardSkill, positionFormIndex) => {
         var result = null;
+        var listNotSelect = this.getHardSkillListNotSelect()
         result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
             return (
                 <HardSkillFormContent key={hardSkillIndex}
@@ -32,6 +55,7 @@ class HardSkillForm extends Component {
                     onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
                     onUpdateHardSkillID={this.props.onUpdateHardSkillID}
                     onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                    listNotSelect={listNotSelect}
                 />
             );
         })
@@ -47,7 +71,7 @@ class HardSkillForm extends Component {
     render() {
         var { hardSkill, positionFormIndex } = this.props
 
-        const showHardSkill = (hardSkill,positionFormIndex) => {
+        const showHardSkill = (hardSkill, positionFormIndex) => {
             if (this.state.isMinimize)
                 return ""
             else
@@ -57,7 +81,7 @@ class HardSkillForm extends Component {
                         onClick={() => this.onAddHardSkill(positionFormIndex)}>add_box</span>
                 </div>)
         }
-        
+
         return (
             <div className="card">
                 <div className="card-header ">
@@ -72,11 +96,25 @@ class HardSkillForm extends Component {
                         </div>
                     </div>
                 </div>
-                {showHardSkill(hardSkill,positionFormIndex)}
+                {showHardSkill(hardSkill, positionFormIndex)}
             </div>
 
         );
     }
 }
 
-export default HardSkillForm;
+const mapStateToProps = state => {
+    return {
+        hardSkillList: state.HardSkillSelectBarReducer
+    }
+}
+
+const mapDispatchToProp = dispatch => {
+    return {
+        fetchHardSkillList: () => {
+            dispatch(fetchHardSkill())
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(HardSkillForm);

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import CreatePositionForm from '../../component/create-position-form/CreatePositionForm';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import * as Action from "../../service/action/PositionAction";
+import { fetchPostionList } from '../../service/action/PositionSelectBarAction';
 
 
 class CreatePosition extends Component {
@@ -11,13 +12,17 @@ class CreatePosition extends Component {
         super(props);
         this.state = {
             requiredPositions: {
-                posID: "",
+                posID: 0,
                 numberOfCandidates: 0,
                 language: [],
                 softSkillIDs: [],
                 hardSkills: []
             }
         }
+    }
+
+    componentDidMount = () => {
+        this.props.fetchPostionList()
     }
 
     // Position
@@ -97,13 +102,31 @@ class CreatePosition extends Component {
         this.props.onCreatePosition(this.props.items)
     }
 
+    getPositionListNotSelect = () => {
+        var { positionList, items } = this.props
+        var listNotSelect = positionList.slice(0, positionList.length)
+        for (let i = 0; i < listNotSelect.length; i++) {
+            for (let k = 0; k < items.length; k++) {
+                if (listNotSelect[i].posID === items[k].posID) {
+                    var clone = { ...listNotSelect[i] }
+                    clone.isSelect = true
+                    listNotSelect[i] = clone
+                }
+            }
+        }
+        return listNotSelect
+    }
+
     //For render
     showItems = (items) => {
+        var positionList = this.getPositionListNotSelect()
         var result = null;
         result = items.map((item, positionFormIndex) => {
             return (
-                <CreatePositionForm key={positionFormIndex}
+                <CreatePositionForm
+                    key={positionFormIndex}
                     positionFormIndex={positionFormIndex}
+                    positionList={positionList}
                     item={item} //position object
                     //position
                     onDeletePositionForm={this.onDeletePositionForm}
@@ -155,6 +178,7 @@ class CreatePosition extends Component {
 const mapStateToProp = (state) => {
     return {
         items: state.PositionFormReducer,
+        positionList: state.PositionSelectBarReducer
     }
 }
 
@@ -183,7 +207,7 @@ const mapDispatchToProp = (dispatch, props) => {
         },
         onUpdateLanguagePriority: (value, languageIndex, positionFormIndex) => {
             dispatch(Action.updateLanguagePriority(value, languageIndex, positionFormIndex))
-        },  
+        },
         onAddSoftSkillItem: positionFormIndex => {
             dispatch(Action.addSoftSkillRequire(positionFormIndex))
         },
@@ -213,6 +237,9 @@ const mapDispatchToProp = (dispatch, props) => {
         },
         onCreatePosition: (positionItem) => {
             dispatch(Action.createPosition(positionItem))
+        },
+        fetchPostionList: () => {
+            dispatch(fetchPostionList())
         }
     }
 }

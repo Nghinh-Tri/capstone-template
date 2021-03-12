@@ -43,7 +43,11 @@ export const formatDate = date => {
 export const convertPositionList = (list) => {
     var result = []
     list.forEach(element => {
-        result.push({ label: element.name, value: element.posID })
+        result.push({
+            label: element.name,
+            value: element.posID,
+            isSelect: typeof element.isSelect === 'undefined' ? false : element.isSelect
+        })
     });
     return result;
 }
@@ -51,7 +55,11 @@ export const convertPositionList = (list) => {
 export const convertSkillList = (list) => {
     var result = []
     list.forEach(element => {
-        result.push({ label: element.skillName, value: element.skillID })
+        result.push({
+            label: element.skillName,
+            value: element.skillID,
+            isSelect: typeof element.isSelect === 'undefined' ? false : element.isSelect
+        })
     });
     return result;
 }
@@ -67,7 +75,11 @@ export const convertCertificationList = (list) => {
 export const convertLanguageList = (list) => {
     var result = []
     list.forEach(element => {
-        result.push({ label: element.langName, value: element.langID })
+        result.push({
+            label: element.langName,
+            value: element.langID,
+            isSelect: typeof element.isSelect === 'undefined' ? false : element.isSelect
+        })
     });
     return result;
 }
