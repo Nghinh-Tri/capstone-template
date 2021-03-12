@@ -20,7 +20,6 @@ const getCandidateIndex = (candidateList, candidate) => {
 
 const SuggestCandidateSelectedList = (state = initState, action) => {
     var positionObjClone, candidateSelectClone = null
-    console.log(action.type)
     switch (action.type) {
         case SUGGEST_CANDIDATE.SELECT_CANDIDATE:
             if (state.length === 0) {

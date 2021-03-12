@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchLanguage } from '../../../service/action/LanguageSelectBarAction';
 import LanguageFormContent from './language-form-content/LanguageFormContent';
 
 class LanguageForm extends Component {
@@ -14,6 +16,24 @@ class LanguageForm extends Component {
         }
     }
 
+    componentDidMount = () => {
+        this.props.fetchLanguage()
+    }
+
+    getLanguageListNotSelect = () => {
+        var { languageList, language } = this.props
+        var listNotSelect = languageList.slice(0, languageList.length)
+        for (let i = 0; i < listNotSelect.length; i++) {
+            for (let k = 0; k < language.length; k++) {
+                if (listNotSelect[i].langID === language[k].langID) {
+                    var clone = { ...listNotSelect[i] }
+                    clone.isSelect = true
+                    listNotSelect[i] = clone
+                }
+            }
+        }
+        return listNotSelect
+    }
 
     onAddLanguage = (positionFormIndex) => {
         this.props.onAddLanguage(positionFormIndex, this.state.language)
@@ -21,11 +41,13 @@ class LanguageForm extends Component {
 
     showItems = (language, positionFormIndex) => {
         var result = null;
+        var languageList = this.getLanguageListNotSelect()
         result = language.map((item, languageIndex) => {
             return (
                 <LanguageFormContent key={languageIndex}
                     positionFormIndex={positionFormIndex}
                     languageIndex={languageIndex}
+                    languageList={languageList}
                     onDeleteLanguage={this.props.onDeleteLanguage}
                     item={item}
                     onUpdateLanguageID={this.props.onUpdateLanguageID}
@@ -77,4 +99,18 @@ class LanguageForm extends Component {
     }
 }
 
-export default LanguageForm;
+const mapStateToProps = (state) => {
+    return {
+        languageList: state.LanguageSelectBarReducer
+    }
+}
+
+const mapDispatchToProp = (dispatch, props) => {
+    return {
+        fetchLanguage: () => {
+            dispatch(fetchLanguage())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(LanguageForm);

@@ -4,6 +4,7 @@ import SelectSearch from '../../select-search/SelectSearch';
 import { fetchHardSkill } from "../../../../service/action/HardSkillSelectBarAction";
 import { fetchCertification } from "../../../../service/action/CertificationSelectBarAction";
 import { convertSkillList, convertCertificationList } from "../../../../service/util/util";
+import SelectBar from '../../select-search/SelectBar';
 
 class HardSkillFormContent extends Component {
 
@@ -33,7 +34,6 @@ class HardSkillFormContent extends Component {
     }
 
     componentDidMount = () => {
-        this.props.fetchHardSkillList()
         this.props.fetchCertificationList()
     }
 
@@ -42,8 +42,8 @@ class HardSkillFormContent extends Component {
     }
 
     render() {
-        var { hardSkillIndex, positionFormIndex, hardSkillList, certificationList, hardSkillDetail } = this.props
-        var hardSkillListConverted = convertSkillList(hardSkillList)
+        var { hardSkillIndex, positionFormIndex, certificationList, hardSkillDetail, listNotSelect } = this.props
+        var hardSkillListConverted = convertSkillList(listNotSelect)
         var certificationListConverted = convertCertificationList(certificationList)
         return (
             <div className="row">
@@ -55,12 +55,14 @@ class HardSkillFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-2">
-                    <SelectSearch positionFormIndex={positionFormIndex}
+                    <SelectBar
+                        positionFormIndex={positionFormIndex}
                         hardSkillIndex={hardSkillIndex}
                         list={hardSkillListConverted}
-                        name="hardSkillID"
+                        name="hardSkill"
                         value={hardSkillDetail.hardSkillID}
-                        onUpdateHardSkillID={this.props.onUpdateHardSkillID} />
+                        onUpdateHardSkillID={this.props.onUpdateHardSkillID}
+                    />
                 </div>
 
                 {/* Exp */}
@@ -111,8 +113,8 @@ class HardSkillFormContent extends Component {
                         list={this.state.priority}
                         name="hardSkillPriority"
                         value={hardSkillDetail.priority}
-                        onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority} 
-                        />
+                        onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
+                    />
                 </div>
 
                 {/* Button Delete */}
@@ -128,16 +130,12 @@ class HardSkillFormContent extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        hardSkillList: state.HardSkillSelectBarReducer,
         certificationList: state.CertificationSelectBarReducer
     }
 }
 
 const mapDispatchToProp = (dispatch, props) => {
     return {
-        fetchHardSkillList: () => {
-            dispatch(fetchHardSkill())
-        },
         fetchCertificationList: () => {
             dispatch(fetchCertification())
         },

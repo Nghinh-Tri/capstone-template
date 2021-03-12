@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchSoftSkill } from '../../../service/action/SoftSkillSelectBarAction';
 import SoftSkillFormContent from './soft-skill-form-content/SoftSkillFormContent';
 
 class SoftSkillForm extends Component {
@@ -10,18 +12,38 @@ class SoftSkillForm extends Component {
         }
     }
 
+    componentDidMount = () => {
+        this.props.fetchSoftSkillList()
+    }
 
     onAddSoftSkill = (positionFormIndex) => {
         this.props.onAddSoftSkill(positionFormIndex)
     }
 
+    getSoftSkillListNotSelect = () => {
+        var { softSkillList, softSkill } = this.props
+        var listNotSelect = softSkillList.slice(0, softSkillList.length)
+        for (let i = 0; i < listNotSelect.length; i++) {
+            for (let k = 0; k < softSkill.length; k++) {
+                if (listNotSelect[i].skillID === softSkill[k]) {
+                    var clone = { ...listNotSelect[i] }
+                    clone.isSelect = true
+                    listNotSelect[i] = clone
+                }
+            }
+        }
+        return listNotSelect
+    }
+
     showItems = (softSkill, positionFormIndex) => {
         var result = null;
+        var softSkillList = this.getSoftSkillListNotSelect()
         result = softSkill.map((item, softSkillIndex) => {
             return (
                 <SoftSkillFormContent key={softSkillIndex}
                     positionFormIndex={positionFormIndex}
                     softSkillIndex={softSkillIndex}
+                    softSkillList={softSkillList}
                     onDeleteSoftSkill={this.props.onDeleteSoftSkill}
                     item={item}
                     onUpdateSoftSkillID={this.props.onUpdateSoftSkillID} />
@@ -38,7 +60,7 @@ class SoftSkillForm extends Component {
 
     render() {
         var { softSkill, positionFormIndex } = this.props
-        
+
         const showSoftSkill = (softSkill, positionFormIndex) => {
             if (this.state.isMinimize)
                 return ""
@@ -71,4 +93,18 @@ class SoftSkillForm extends Component {
     }
 }
 
-export default SoftSkillForm;
+const mapStateToProps = (state) => {
+    return {
+        softSkillList: state.SoftSkillSelectBarReducer
+    }
+}
+
+const mapDispatchToProp = (dispatch, props) => {
+    return {
+        fetchSoftSkillList: () => {
+            dispatch(fetchSoftSkill())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(SoftSkillForm);
