@@ -15,7 +15,7 @@ class CreatePositionForm extends Component {
         this.state = {
             isMinimize: false
         }
-    }  
+    }
 
     onDeletePositionForm = (positionFormIndex) => {
         this.props.onDeletePositionForm(positionFormIndex)
@@ -87,11 +87,6 @@ class CreatePositionForm extends Component {
 
                             {/* Select Bar */}
                             <div className="col-4">
-                                {/* <SelectSearch list={listConverted}
-                                    onUpdatePositionID={this.onUpdatePositionID}
-                                    name="positionID"
-                                    positionFormIndex={positionFormIndex}
-                                    value={item.posID} /> */}
                                 <SelectBar
                                     list={listConverted}
                                     onUpdatePositionID={this.onUpdatePositionID}
@@ -102,7 +97,7 @@ class CreatePositionForm extends Component {
                             </div>
 
                             {/* Number of candidate */}
-                            <div className="col-2 mt-15-ml-30 fr">
+                            <div className="col-2 mt">
                                 <label className="bmd-label ">
                                     <h4 className="font-weight-bold ">
                                         Number of candidate

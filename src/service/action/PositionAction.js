@@ -145,17 +145,28 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
 export const createPosition = (positionItem) => {
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
-    var url = `${API_URL}/User/candidate/${projectID}`
+    var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
+    var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
     return (dispatch) => {
         axios.post(
-            url,
+            urlToAddRequire,
             position,
-            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
-            // console.log(res.data)
-            dispatch(createPositionSuccess(res.data))
-            history.push("/project/suggest-candidate")
+            if (res.status === 200) {
+                axios.post(
+                    urlToGetListSuggest,
+                    position,
+                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+                ).then(res => {
+                    if (res.status === 200) {
+                        dispatch(createPositionSuccess(res.data))
+                        history.push("/project/suggest-candidate")
+                    }
+                })
+            }
         })
+        // 
     }
 }
 

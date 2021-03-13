@@ -44,7 +44,6 @@ class CreateProject extends Component {
             var id = match.params.id
             this.props.fetchProjectDetail(id)
             var { projectDetail } = this.props
-            console.log(formatDate(projectDetail.dateBegin))
             this.setState({
                 id: projectDetail.projectID,
                 name: projectDetail.projectName,

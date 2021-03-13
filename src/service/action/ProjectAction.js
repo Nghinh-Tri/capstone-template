@@ -14,21 +14,26 @@ export const generateProject = (project) => {
 export const createProject = (project, match) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Project/${empID}`
-    console.log(match)
     return (dispatch) => {
         return axios.post(
             url,
             project,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            project.projectId = res.data.resultObj
-            localStorage.setItem('projectId', res.data.resultObj)
+            if (res.status === 200) {
+                project.projectId = res.data.resultObj
+                localStorage.setItem('projectId', res.data.resultObj)
 
-            dispatch(createProjectSuccess(project))
-            if (typeof match === 'undefined')
-                history.push('/project/create-position')
-            else {
-                history.push(`/project/${match.params.id}`)
+                dispatch(createProjectSuccess(project))
+                if (typeof match === 'undefined')
+                    history.push('/project/create-position')
+                else {
+                    history.push(`/project/${match.params.id}`)
+                }
+            }
+        }).catch(err => {
+            if (err.response.status === 401) {
+                history.push('/login')
             }
         })
     }
@@ -57,6 +62,10 @@ export const fetchProject = (pageIndex) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             dispatch(fetchProjectSuccess(res.data.resultObj))
+        }).catch(err => {
+            if(err.response.status === 401){
+                history.push('/login')
+            }
         })
     }
 }
