@@ -28,6 +28,7 @@ class Login extends Component {
     }
 
     render() {
+
         const { email, password, submitted } = this.state;
         return (
             <div className="container px-4 py-5 mx-auto">
@@ -38,28 +39,25 @@ class Login extends Component {
                                 <div className="col-md-8 col-10 my-5">
                                     <div className="row justify-content-center px-3 mb-3"> <img id="logo" src="https://i.imgur.com/PSXxjNY.png" /> </div>
                                     <h3 className="mb-5 text-center heading">Hello Abcd1234$</h3>
-                                    <h6 className="msg-info">Please login to your account</h6>
+                                    <h6 className="msg-info text-center">Please login to your account</h6>
 
                                     <form onSubmit={this.handleSubmit} >
-                                        <fieldset className="form-group"> <label className="form-control-label text-muted">Username</label>
-                                            <input type="text"
-                                                id="email" name="email"
-                                                placeholder="Phone no or email id"
-                                                className="form-control"
-                                                onChange={this.handleChange}
-                                            />
+                                        <fieldset className="form-group">
+                                                <label className="bmd-label-floating">Email</label>
+                                                <input type="text"
+                                                    id="email" name="email"
+                                                    className="form-control"
+                                                    onChange={this.handleChange} />
                                             {submitted && !email &&
                                                 <div className="help-block">Email is required</div>
                                             }
                                         </fieldset>
                                         <fieldset className="form-group">
-                                            <label className="form-control-label text-muted">Password</label>
-                                            <input type="password"
-                                                id="password" name="password"
-                                                placeholder="Password"
-                                                className="form-control"
-                                                onChange={this.handleChange}
-                                            />
+                                                <label className="bmd-label-floating">Password</label>
+                                                <input type="password"
+                                                    id="password" name="password"
+                                                    className="form-control"
+                                                    onChange={this.handleChange} />
                                             {/* block password validate have errorr */}
                                             {submitted && !password &&
                                                 <div className="">Password is required</div>

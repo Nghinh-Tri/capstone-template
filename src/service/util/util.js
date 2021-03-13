@@ -83,3 +83,7 @@ export const convertLanguageList = (list) => {
     });
     return result;
 }
+
+const converListCandidate = list => {
+    var candidates = []
+}

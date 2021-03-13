@@ -25,7 +25,7 @@ class Project extends Component {
 
     onGenerateProject = () => {
         this.props.generateProject(this.state.project)
-        localStorage.setItem("isNewPosition", true)
+        localStorage.setItem("projectId", 0)
     }
 
     onShowListProject = (projectList) => {

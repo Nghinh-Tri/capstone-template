@@ -9,6 +9,7 @@ const positionReducer = (state = initState, action) => {
     switch (action.type) {
 
         case Type.CREATE_PROJECT:
+            state = []
             return [...state]
 
         //Position
@@ -193,7 +194,7 @@ const positionReducer = (state = initState, action) => {
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
             hardSkillObj = { ...hardSkill[action.hardSkillIndex] }
             //Change exp, proprity value in hardSkillObj
-            hardSkillObj.certificationID = action.value
+            hardSkillObj.certificationLevel = action.value
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
             hardSkill.splice(action.hardSkillIndex, 1, hardSkillObj)
             //Replace hard skill list in clone of position obj by clone of hard skill list
@@ -201,7 +202,6 @@ const positionReducer = (state = initState, action) => {
             //Replace position obj in array at index by clone of position obj
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
-
 
         default:
             return [...state]

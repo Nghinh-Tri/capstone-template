@@ -49,12 +49,12 @@ class HardSkillFormContent extends Component {
             <div className="row">
 
                 {/* Skill */}
-                <div className="col mt-15-ml-30">
+                <div className="col-auto mt-15-ml-30">
                     <label className="bmd-label">
                         <h5 className="font-weight-bold">Skill</h5>
                     </label>
                 </div>
-                <div className="col-2">
+                <div className="col-auto mt-10">
                     <SelectBar
                         positionFormIndex={positionFormIndex}
                         hardSkillIndex={hardSkillIndex}
@@ -66,49 +66,55 @@ class HardSkillFormContent extends Component {
                 </div>
 
                 {/* Exp */}
-                <div className="col mt-15-ml-30">
+                <div className="col-auto mt-15">
                     <label className="bmd-label">
                         <h5 className="font-weight-bold">Experience</h5>
                     </label>
                 </div>
                 <div className="col">
-                    <div className="form-group">
-                        <input type="number" name="exp" className="form-control" value={hardSkillDetail.exp} min="0" onChange={this.onUpdate} />
+                    <div class="row">
+                        <div className="form-group">
+                            <input type="number" name="exp" className="form-control" value={hardSkillDetail.exp} min="0" onChange={this.onUpdate} />
+                        </div>
                     </div>
+
                 </div>
-                <div className="col">
-                    <label className="bmd-label label mt-10">
+                <div className="col-auto mt-15">
+                    <label className="bmd-label label ">
                         Years
                     </label>
                 </div>
 
                 {/* Certi */}
-                <div className="col mt-15-ml-30 mr-10">
-                    <label className="bmd-label  ">
+                <div className="col-auto pt-15 certiLabel">
+                    <label className="bmd-label">
                         <h5 className="font-weight-bold">
                             Certification Level
                         </h5>
                     </label>
                 </div>
-                <div className="col-2">
-                    <SelectSearch positionFormIndex={positionFormIndex}
+                <div className="col">
+                    <SelectBar
+                        positionFormIndex={positionFormIndex}
                         hardSkillIndex={hardSkillIndex}
                         list={certificationListConverted}
-                        name="certiID"
-                        value={hardSkillDetail.certificationID}
-                        onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti} />
+                        name="certiLevel"
+                        value={hardSkillDetail.certificationLevel}
+                        onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                    />
                 </div>
 
                 {/* Priority */}
-                <div className="col mt-15-ml-30">
+                <div className="col pt-15 certiLabel">
                     <label className="bmd-label">
                         <h5 className="font-weight-bold">
                             Priority
                 </h5>
                     </label>
                 </div>
-                <div className="col">
-                    <SelectSearch positionFormIndex={positionFormIndex}
+                <div className="col pull-left">
+                    <SelectBar
+                        positionFormIndex={positionFormIndex}
                         hardSkillIndex={hardSkillIndex}
                         list={this.state.priority}
                         name="hardSkillPriority"
@@ -118,7 +124,7 @@ class HardSkillFormContent extends Component {
                 </div>
 
                 {/* Button Delete */}
-                <div className="col mt-15-ml-30">
+                <div className="col-auto mt-15-ml-30">
                     <span className="material-icons pull-right clear"
                         onClick={() => this.onDeleteHardSkill(hardSkillIndex, positionFormIndex)}>clear</span>
                 </div>

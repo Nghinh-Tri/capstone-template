@@ -32,7 +32,6 @@ class LanguageFormContent extends Component {
     render() {
         var { item, languageIndex, positionFormIndex, languageList } = this.props
         var listConverted = convertLanguageList(languageList)
-        console.log(listConverted)
         return (
             <div className="row">
                 {/* Language */}
@@ -42,12 +41,6 @@ class LanguageFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-3">
-                    {/* <SelectSearch list={listConverted}
-                        onUpdateLanguageID={this.props.onUpdateLanguageID}
-                        name="language"
-                        positionFormIndex={positionFormIndex}
-                        languageIndex={languageIndex}
-                        value={item.langID} /> */}
                     <SelectBar
                         list={listConverted}
                         onUpdateLanguageID={this.props.onUpdateLanguageID}
@@ -64,7 +57,8 @@ class LanguageFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-3">
-                    <SelectSearch list={this.state.priority}
+                    <SelectBar
+                        list={this.state.priority}
                         onUpdateLanguagePriority={this.props.onUpdateLanguagePriority}
                         name="languagePriority"
                         positionFormIndex={positionFormIndex}

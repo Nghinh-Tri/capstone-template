@@ -22,7 +22,10 @@ class CreatePosition extends Component {
     }
 
     componentDidMount = () => {
-        this.props.fetchPostionList()
+        // if (localStorage.getItem('projectId') === '0') {
+        //     this.props.history.push('/project/create-project')
+        // } else
+            this.props.fetchPostionList()
     }
 
     // Position
