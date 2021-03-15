@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
-import SuggestCandidates from '../../component/suggest-candidate/SuggestCandidates';
+import SuggestCandidates from '../../component/suggest-candidate/SuggestCandidatesTable'
 import * as Action from "../../service/action/SuggestCandidateAction";
 import '../../css/SuggestNav.css'
 
 class SuggestCandidate extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount = () => {
         this.props.fetchSuggestCandidateList()
@@ -25,7 +22,7 @@ class SuggestCandidate extends Component {
         result = suggestCandidateList.map((item, index) => {
             return (
                 <li className='li' key={index}>
-                    <a  className={selectedIndex === index ? 'active' : ''} onClick={() => this.onSelected(index)} >{item.position}</a>
+                    <a className={selectedIndex === index ? 'active' : ''} onClick={() => this.onSelected(index)} >{item.position}</a>
                 </li>
             )
         })
@@ -48,9 +45,12 @@ class SuggestCandidate extends Component {
         return null
     }
 
+    onSort = (value) => {
+        this.props.onSortSuggestList(value)
+    }
+
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
-        console.log(suggestCandidateList)
         return (
             <div>
                 <ProgressBar step="step3" />
@@ -61,12 +61,16 @@ class SuggestCandidate extends Component {
                         </ul>
                     </div>
                     <div className='col'>
-                        <SuggestCandidates
-                            item={suggestCandidateList[selectedIndex]}
-                            onSelectCandidate={this.selectCandidate}
-                            selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
-                            onUnselectCandidate={this.unselectCandidate}
-                        />
+                        {suggestCandidateList.length > 0 ?
+                            <SuggestCandidates
+                                onSort={this.onSort}
+                                item={suggestCandidateList[selectedIndex]}
+                                onSelectCandidate={this.selectCandidate}
+                                selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
+                                onUnselectCandidate={this.unselectCandidate}
+                            /> :
+                            ''
+                        }
                     </div>
                 </div>
                 <NavLink to="/project/confirm-select-candidates">
@@ -99,6 +103,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchSuggestCandidateList: () => {
             dispatch(Action.fetchSuggestList())
+        },
+        onSortSuggestList: value => {
+            dispatch(Action.sortSuggestList(value))
         }
     }
 }

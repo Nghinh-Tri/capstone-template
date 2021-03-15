@@ -28,7 +28,14 @@ export const fetchSelectedList = () => {
 }
 
 export const fetchSuggestList = () => {
-    return{
+    return {
         type: SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST
+    }
+}
+
+export const sortSuggestList = value => {
+    return {
+        type: SUGGEST_CANDIDATE.SORT_LIST,
+        value
     }
 }
