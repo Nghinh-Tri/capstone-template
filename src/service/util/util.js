@@ -84,6 +84,18 @@ export const convertLanguageList = (list) => {
     return result;
 }
 
-const converListCandidate = list => {
-    var candidates = []
+export const sortSuggestListByOverallMatch = list => {
+    list.sort((a, b) => { return b.overallMatch - a.overallMatch })
+}
+
+export const sortSuggestListByLanguageMatch = list => {
+    list.sort((a, b) => { return b.languageMatch - a.languageMatch })
+}
+
+export const sortSuggestListBySoftSkillMatch = list => {
+    list.sort((a, b) => { return b.softSkillMatch - a.softSkillMatch })
+}
+
+export const sortSuggestListByHardSkillMatch = list => {
+    list.sort((a, b) => { return b.hardSkillMatch - a.hardSkillMatch })
 }

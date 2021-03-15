@@ -1,4 +1,5 @@
 import { SUGGEST_CANDIDATE } from "../constant";
+import { sortSuggestListByOverallMatch } from "../util/util";
 
 const initState = []
 
@@ -49,6 +50,13 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
             return [...state]
 
         case SUGGEST_CANDIDATE.FETCH_SELECTED_LIST:
+            if (state.length > 0) {
+                state.forEach(element => {
+                    var clone = [...element.candidateSelect]
+                    sortSuggestListByOverallMatch(clone)
+                    element.candidateSelect = clone
+                });
+            }
             return [...state]
         default:
             return [...state];
