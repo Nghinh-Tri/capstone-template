@@ -33,39 +33,51 @@ class LanguageFormContent extends Component {
         var { item, languageIndex, positionFormIndex, languageList } = this.props
         var listConverted = convertLanguageList(languageList)
         return (
-            <div className="row">
+            <div className="row" style={{position:'relative', marginLeft: 10, marginBottom: 15, boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', width: '1130px' }} >
                 {/* Language */}
-                <div className="col-1 mt-15-ml-30">
-                    <label className="bmd-label  ">
-                        <h5 className="font-weight-bold">Language</h5>
-                    </label>
+                <div class="col">
+                    <div class="row" style={{  marginLeft: 20, marginTop: 20,  }}>
+                        <label className="bmd-label">
+                            <h5 className="font-weight-bold">Language</h5>
+                        </label>
+                    </div>
+                    <div class="row" style={{ marginBottom: 20, marginLeft: 20 , marginTop: 45}}>
+                        <SelectBar
+                            list={listConverted}
+                            onUpdateLanguageID={this.props.onUpdateLanguageID}
+                            name="language"
+                            positionFormIndex={positionFormIndex}
+                            languageIndex={languageIndex}
+                            value={item.langID}
+                        />
+                    </div>
                 </div>
-                <div className="col-3">
-                    <SelectBar
-                        list={listConverted}
-                        onUpdateLanguageID={this.props.onUpdateLanguageID}
-                        name="language"
-                        positionFormIndex={positionFormIndex}
-                        languageIndex={languageIndex}
-                        value={item.langID}
-                    />
-                </div>
+
+
                 {/* Priority */}
-                <div className="col-1 mt-15-ml-30">
-                    <label className="bmd-label  ">
-                        <h5 className="font-weight-bold">Priority</h5>
-                    </label>
+                <div className="col">
+                    <div class="row" style={{ marginBottom: 40, marginTop: 20 }}>
+                        <label className="bmd-label">
+                            <h5 className="font-weight-bold">
+                                Priority
+                        </h5>
+                        </label>
+                    </div>
+                    <div class="row" style={{ marginBottom: 20 }}>
+                        <SelectBar
+                            list={this.state.priority}
+                            onUpdateLanguagePriority={this.props.onUpdateLanguagePriority}
+                            name="languagePriority"
+                            positionFormIndex={positionFormIndex}
+                            languageIndex={languageIndex}
+                            value={item.priority}
+                        />
+                    </div>
                 </div>
-                <div className="col-3">
-                    <SelectBar
-                        list={this.state.priority}
-                        onUpdateLanguagePriority={this.props.onUpdateLanguagePriority}
-                        name="languagePriority"
-                        positionFormIndex={positionFormIndex}
-                        languageIndex={languageIndex}
-                        value={item.priority}
-                    />
-                </div>
+
+
+
+
                 <div className="col-1 mt-15-ml-30">
                     <span className="material-icons pull-right clear" onClick={() => this.onDeleteLanguage(languageIndex, positionFormIndex)}>clear</span>
                 </div>

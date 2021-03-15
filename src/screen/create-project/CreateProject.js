@@ -77,9 +77,9 @@ class CreateProject extends Component {
 
                 <div className="card">
                     <div className="card-header card-header-primary">
-                        <h3 className="card-title">
+                        <p className="card-title" style={{marginLeft:40 , fontSize:28, fontWeight:600}}>
                             {typeof this.props.match === 'undefined' ? "Create Project" : "Edit Project"}
-                        </h3>
+                        </p>
                     </div>
                     <div className="card-body">
                         <form onSubmit={this.onSave}>
@@ -134,8 +134,8 @@ class CreateProject extends Component {
                             </div>
 
                             {/* Button */}
-                            <button type="submit" className="btn btn-primary pull-right" >
-                                {typeof this.props.match === 'undefined' ? "Create Project" : "Edit Project"}
+                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700}} >
+                                {typeof this.props.match === 'undefined' ? "Create" : "Edit"}
                             </button>
                         </form>
                     </div>

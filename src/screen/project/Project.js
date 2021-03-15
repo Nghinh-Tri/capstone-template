@@ -55,7 +55,9 @@ class Project extends Component {
         var { projects } = this.props
         return (
             <div className="container-fluid">
-                <button type="button" className="btn btn-primary btn-lg" onClick={this.onGenerateProject} >
+                <button type="button" className="btn btn-primary"
+                    style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, }}
+                    onClick={this.onGenerateProject} >
                     <i className="material-icons mr-5">add_box</i>
                         Create New Project
                 </button>
@@ -82,19 +84,23 @@ class Project extends Component {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div className="row pull-center">
-                                            <div className="col-6">
-                                                <button type="button" className="btn btn-primary pull-right" onClick={this.onPrevios}>
+                                        <div className="row align-items-center">
+                                            <div className="col">
+                                                <button type="button"
+                                                    style={{ fontWeight: 700, width:120 }}
+                                                    className="btn btn-primary pull-right" onClick={this.onPrevios}>
                                                     Previous
                                                 </button>
                                             </div>
-                                            <div className="col">
-                                                <div className="text-center text">
+                                            <div className="col-auto">
+                                                <div className="text-center" style={{fontSize:20, fontWeight:700, color: '#9c27b0'}}>
                                                     {projects.pageIndex} - {projects.pageCount}
                                                 </div>
                                             </div>
-                                            <div className="col-5">
-                                                <button type="button" className="btn btn-primary" onClick={this.onNext}>
+                                            <div className="col">
+                                                <button type="button"
+                                                    style={{ fontWeight: 700, width:120 }}
+                                                    className="btn btn-primary" onClick={this.onNext}>
                                                     Next
                                                 </button>
                                             </div>

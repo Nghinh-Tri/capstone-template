@@ -28,6 +28,9 @@ class ConfirmSelectCandidate extends Component {
                 <div className='card mb-80'>
                     {this.showList(candidateList)}
                 </div>
+                <div class="row">
+                
+                </div>
                 <NavLink to="/project/suggest-candidate">
                     <button type="button" className="btn btn-primary pull-right pt">Back</button>
                 </NavLink>
