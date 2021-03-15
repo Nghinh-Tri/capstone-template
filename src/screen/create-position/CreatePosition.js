@@ -25,7 +25,7 @@ class CreatePosition extends Component {
         // if (localStorage.getItem('projectId') === '0') {
         //     this.props.history.push('/project/create-project')
         // } else
-            this.props.fetchPostionList()
+        this.props.fetchPostionList()
     }
 
     // Position
@@ -163,15 +163,20 @@ class CreatePosition extends Component {
                 <ProgressBar step="step2" />
                 <form onSubmit={this.onCreatePosition} >
                     {this.showItems(this.props.items)}
-                    <div >
-                        <button type="button" className="btn btn-primary" onClick={this.onAddPosition}>
-                            <i className="material-icons mr-5">add_box</i>
-                    More Position
-                    </button>
+                    <div className="row">
+                        <div className="col">
+                            <div >
+                                <button type="button" className="btn btn-primary" style={{fontWeight:700, borderRadius:60, marginLeft:10, background:'#31DF44'}} onClick={this.onAddPosition}>
+                                    <i className="material-icons mr-5">add_box</i>
+                                    More Position
+                                 </button>
+                            </div>
+                        </div>
+                        <div className='col' >
+                            <button type="submit" className="btn btn-primary pull-right" style={{fontWeight:700}}>Create Position</button>
+                        </div>
                     </div>
-                    <div >
-                        <button type="submit" className="btn btn-primary pull-right">Create Position</button>
-                    </div>
+
                 </form>
             </div>
         );

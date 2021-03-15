@@ -28,7 +28,7 @@ export const createProject = (project, match) => {
                 if (typeof match === 'undefined')
                     history.push('/project/create-position')
                 else {
-                    history.push(`/project/${match.params.id}`)
+                    history.push(`/project/detail/${match.params.id}`)
                 }
             }
         }).catch(err => {
@@ -63,7 +63,7 @@ export const fetchProject = (pageIndex) => {
         ).then(res => {
             dispatch(fetchProjectSuccess(res.data.resultObj))
         }).catch(err => {
-            if(err.response.status === 401){
+            if (err.response.status === 401) {
                 history.push('/login')
             }
         })

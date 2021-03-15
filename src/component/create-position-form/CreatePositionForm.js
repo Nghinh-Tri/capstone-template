@@ -72,7 +72,7 @@ class CreatePositionForm extends Component {
                 )
         }
         return (
-            <div className="card mb-50">
+            <div className="card mb-50" style={{boxShadow:2}}>
                 <div className="card-body">
                     <div className="form-group">
                         <div className="row">

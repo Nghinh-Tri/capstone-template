@@ -246,7 +246,7 @@ class SelectBar extends Component {
         var { value } = this.props
         if (value === 0) {
             return (
-                <Select className='prioHS'
+                <Select 
                     style={{ width: 140 }}
                     showSearch
                     placeholder="Select priority"
@@ -260,8 +260,7 @@ class SelectBar extends Component {
                 </Select>)
         } else {
             return (
-                <Select value={value}
-                    className='prioHS'
+                <Select value={value}                   
                     style={{ width: 140 }}
 
                     showSearch
@@ -281,7 +280,7 @@ class SelectBar extends Component {
         var { value } = this.props
         if (value === -1) {
             return (
-                <Select className="certiLevel"
+                <Select 
                     style={{ width: 180 }}
                     showSearch
                     placeholder="Select certificate level"
@@ -295,8 +294,7 @@ class SelectBar extends Component {
                 </Select>)
         } else {
             return (
-                <Select value={value}
-                    className="certiLevel"
+                <Select value={value}                    
                     style={{ width: 180 }}
                     showSearch
                     placeholder="Select priority"

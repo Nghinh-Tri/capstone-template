@@ -46,81 +46,83 @@ class HardSkillFormContent extends Component {
         var hardSkillListConverted = convertSkillList(listNotSelect)
         var certificationListConverted = convertCertificationList(certificationList)
         return (
-            <div className="row">
-
+            <div className="row" style={{marginLeft:10 , marginBottom: 15, boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', width:'1130px' }} >
                 {/* Skill */}
-                <div className="col-auto mt-15-ml-30">
-                    <label className="bmd-label">
-                        <h5 className="font-weight-bold">Skill</h5>
-                    </label>
+                <div class="col">
+                    <div class="row" style={{ marginBottom: 40, marginLeft: 20, marginTop: 20 }}>
+                        <label className="bmd-label" >
+                            <h5 className="font-weight-bold">Skill</h5>
+                        </label>
+                    </div>
+                    <div class="row" style={{ marginBottom: 20, marginLeft: 20 }}>
+                        <SelectBar
+                            positionFormIndex={positionFormIndex}
+                            hardSkillIndex={hardSkillIndex}
+                            list={hardSkillListConverted}
+                            name="hardSkill"
+                            value={hardSkillDetail.hardSkillID}
+                            onUpdateHardSkillID={this.props.onUpdateHardSkillID}
+                        />
+                    </div>
                 </div>
-                <div className="col-auto mt-10">
-                    <SelectBar
-                        positionFormIndex={positionFormIndex}
-                        hardSkillIndex={hardSkillIndex}
-                        list={hardSkillListConverted}
-                        name="hardSkill"
-                        value={hardSkillDetail.hardSkillID}
-                        onUpdateHardSkillID={this.props.onUpdateHardSkillID}
-                    />
-                </div>
+
 
                 {/* Exp */}
-                <div className="col-auto mt-15">
-                    <label className="bmd-label">
-                        <h5 className="font-weight-bold">Experience</h5>
-                    </label>
-                </div>
-                <div className="col">
-                    <div class="row">
-                        <div className="form-group">
-                            <input type="number" name="exp" className="form-control" value={hardSkillDetail.exp} min="0" onChange={this.onUpdate} />
-                        </div>
+                <div className='col'>
+                    <div class="row" style={{ marginBottom: 40, marginTop: 20 }}>
+                        <label className="bmd-label">
+                            <h5 className="font-weight-bold">Experience</h5>
+                        </label>
                     </div>
 
-                </div>
-                <div className="col-auto mt-15">
-                    <label className="bmd-label label ">
-                        Years
-                    </label>
+                    <div class="row" >
+                        <input type="number" name="exp" className="form-control" value={hardSkillDetail.exp} min="0" onChange={this.onUpdate}
+                            style={{ width: 50 }} />
+                        <label className="bmd-label" style={{ fontWeight: 600, marginLeft: 55, marginTop: 10 }}>Years</label>
+                    </div>
                 </div>
 
+
                 {/* Certi */}
-                <div className="col-auto pt-15 certiLabel">
-                    <label className="bmd-label">
-                        <h5 className="font-weight-bold">
-                            Certification Level
-                        </h5>
-                    </label>
-                </div>
                 <div className="col">
-                    <SelectBar
-                        positionFormIndex={positionFormIndex}
-                        hardSkillIndex={hardSkillIndex}
-                        list={certificationListConverted}
-                        name="certiLevel"
-                        value={hardSkillDetail.certificationLevel}
-                        onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
-                    />
+                    <div class="row" style={{ marginBottom: 40, marginTop: 20 }}>
+                        <label className="bmd-label">
+                            <h5 className="font-weight-bold">
+                                Certification Level
+                        </h5>
+                        </label>
+                    </div>
+                    <div class="row" style={{ marginBottom: 20 }}>
+                        <SelectBar
+                            positionFormIndex={positionFormIndex}
+                            hardSkillIndex={hardSkillIndex}
+                            list={certificationListConverted}
+                            name="certiLevel"
+                            value={hardSkillDetail.certificationLevel}
+                            onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                        />
+                    </div>
                 </div>
 
                 {/* Priority */}
-                <div className="col pt-15 certiLabel">
-                    <label className="bmd-label">
-                        <h5 className="font-weight-bold">
-                            Priority
-                </h5>
-                    </label>
-                </div>
-                <div className="col pull-left">
-                    <SelectBar
-                        positionFormIndex={positionFormIndex}
-                        hardSkillIndex={hardSkillIndex}
-                        list={this.state.priority}
-                        name="hardSkillPriority"
-                        value={hardSkillDetail.priority}
-                        onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
-                    />
+                <div className="col">
+                    <div class="row" style={{ marginBottom: 40, marginTop: 20 }}>
+                        <label className="bmd-label">
+                            <h5 className="font-weight-bold">
+                                Priority
+                            </h5>
+                        </label>
+                    </div>
+                    <div class="row" style={{ marginBottom: 20 }}>
+                        <SelectBar
+                            positionFormIndex={positionFormIndex}
+                            hardSkillIndex={hardSkillIndex}
+                            list={this.state.priority}
+                            name="hardSkillPriority"
+                            value={hardSkillDetail.priority}
+                            onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
+                        />
+                    </div>
                 </div>
 
                 {/* Button Delete */}
