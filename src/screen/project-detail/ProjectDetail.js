@@ -43,7 +43,7 @@ class ProjectDetail extends Component {
                             {this.state.select === 1 ?
                                 <ProjectDetailTable project={project} match={this.props.match} />
                                 :
-                                <ListEmployee />
+                                <ListEmployee project={project}/>
                             }
                         </div >
                     </div>

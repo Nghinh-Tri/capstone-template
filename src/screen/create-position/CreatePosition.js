@@ -13,11 +13,11 @@ class CreatePosition extends Component {
         this.state = {
             requiredPositions: {
                 posID: 0,
-                numberOfCandidates: 0,
+                posLevel: [],//posLevel:0
                 language: [],
                 softSkillIDs: [],
                 hardSkills: []
-            }
+            }            
         }
     }
 
@@ -41,8 +41,8 @@ class CreatePosition extends Component {
         this.props.onUpdatePositionID(positionID, positionFormIndex)
     }
 
-    onUpdateNOC = (nOC, positionFormIndex) => {
-        this.props.onUpdateNOC(nOC, positionFormIndex)
+    onSelectPosLevel = (value, positionFormIndex) => {
+        this.props.onSelectPosLevel(value, positionFormIndex)
     }
 
     //Language
@@ -84,8 +84,8 @@ class CreatePosition extends Component {
         this.props.onDeleteHardSkillItem(hardSkillIndex, positionFormIndex)
     }
 
-    updateHardSkillExp = (hardSkillIndex, positionFormIndex, value, name) => {
-        this.props.updateHardSkillExp(hardSkillIndex, positionFormIndex, value, name)
+    onUpdateSkillLevel = (value, hardSkillIndex, positionFormIndex) => {
+        this.props.onUpdateSkillLevel(hardSkillIndex, positionFormIndex, value)
     }
 
     onUpdateHardSkillID = (value, hardSkillIndex, positionFormIndex) => {
@@ -134,7 +134,7 @@ class CreatePosition extends Component {
                     //position
                     onDeletePositionForm={this.onDeletePositionForm}
                     onUpdatePositionID={this.onUpdatePositionID}
-                    onUpdateNOC={this.onUpdateNOC}
+                    onSelectPosLevel={this.onSelectPosLevel}
                     //language
                     onAddLanguage={this.onAddLanguage}
                     onDeleteLanguage={this.onDeleteLanguage}
@@ -147,7 +147,7 @@ class CreatePosition extends Component {
                     //hard skill
                     onAddHardSkill={this.onAddHardSkill}
                     onDeleteHardSkill={this.onDeleteHardSkill}
-                    updateHardSkillExp={this.updateHardSkillExp}
+                    onUpdateSkillLevel={this.onUpdateSkillLevel}
                     onUpdateHardSkillID={this.onUpdateHardSkillID}
                     onUpdateHardSkillCerti={this.onUpdateHardSkillCerti}
                     onUpdateHardSkillPriority={this.onUpdateHardSkillPriority}
@@ -166,14 +166,14 @@ class CreatePosition extends Component {
                     <div className="row">
                         <div className="col">
                             <div >
-                                <button type="button" className="btn btn-primary" style={{fontWeight:700, borderRadius:60, marginLeft:10, background:'#31DF44'}} onClick={this.onAddPosition}>
+                                <button type="button" className="btn btn-primary" style={{ fontWeight: 700, borderRadius: 60, marginLeft: 10, background: '#31DF44' }} onClick={this.onAddPosition}>
                                     <i className="material-icons mr-5">add_box</i>
                                     More Position
                                  </button>
                             </div>
                         </div>
                         <div className='col' >
-                            <button type="submit" className="btn btn-primary pull-right" style={{fontWeight:700}}>Create Position</button>
+                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }}>Create Position</button>
                         </div>
                     </div>
 
@@ -201,8 +201,8 @@ const mapDispatchToProp = (dispatch, props) => {
         onUpdatePositionID: (positionID, positionFormIndex) => {
             dispatch(Action.updatePositionID(positionID, positionFormIndex))
         },
-        onUpdateNOC: (nOC, positionFormIndex) => {
-            dispatch(Action.updateNOC(nOC, positionFormIndex))
+        onSelectPosLevel: (value, positionFormIndex) => {
+            dispatch(Action.selectPosLevel(value, positionFormIndex))
         },
         onAddLanguage: (positionFormIndex, languageItem) => {
             dispatch(Action.addLanguageRequire(positionFormIndex, languageItem))
@@ -231,8 +231,8 @@ const mapDispatchToProp = (dispatch, props) => {
         onDeleteHardSkillItem: (hardSkillIndex, positionFormIndex) => {
             dispatch(Action.deleteHardSkillRequire(hardSkillIndex, positionFormIndex))
         },
-        updateHardSkillExp: (hardSkillIndex, positionFormIndex, value, name) => {
-            dispatch(Action.updateHardSkillExp(hardSkillIndex, positionFormIndex, value, name))
+        onUpdateSkillLevel: (hardSkillIndex, positionFormIndex, value) => {
+            dispatch(Action.updateHardSkillLevel(hardSkillIndex, positionFormIndex, value))
         },
         updateHardSkillPriority: (value, hardSkillIndex, positionFormIndex) => {
             dispatch(Action.updateHardSkillPriority(value, hardSkillIndex, positionFormIndex))

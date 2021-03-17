@@ -22,15 +22,15 @@ class SuggestCandidate extends Component {
         result = suggestCandidateList.map((item, index) => {
             return (
                 <li className='li' key={index}>
-                    <a className={selectedIndex === index ? 'active' : ''} onClick={() => this.onSelected(index)} >{item.position}</a>
+                    <a className={selectedIndex === index ? 'active' : ''} onClick={() => this.onSelected(index)}>{item.position}</a>
                 </li>
             )
         })
         return result
     }
 
-    selectCandidate = (candidate, position) => {
-        this.props.selectCandidate(candidate, position)
+    selectCandidate = (candidate, position, posId) => {
+        this.props.selectCandidate(candidate, position, posId)
     }
 
     unselectCandidate = (candidate, position) => {
@@ -51,10 +51,11 @@ class SuggestCandidate extends Component {
 
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
+        console.log(suggestCandidateList)
         return (
             <div>
                 <ProgressBar step="step3" />
-                <div class="row">
+                <div className="row">
                     <div className='col-2'>
                         <ul className='ul'>
                             {this.showPosition()}
@@ -73,9 +74,11 @@ class SuggestCandidate extends Component {
                         }
                     </div>
                 </div>
-                <NavLink to="/project/confirm-select-candidates">
-                    <button type="submit" className="btn btn-primary pull-right pt">Next</button>
-                </NavLink>
+                <div className="row pull-right">
+                    <NavLink to="/project/confirm-select-candidates">
+                        <button type="submit" className="btn btn-primary pull-right pt" style={{ marginBottom: 20, marginRight: 20, marginTop:0 }}>Next</button>
+                    </NavLink>
+                </div>
 
             </div>
         );
@@ -95,8 +98,8 @@ const mapDispatchToProps = (dispatch) => {
         onPositionSelect: index => {
             dispatch(Action.setPositionSelect(index))
         },
-        selectCandidate: (candidate, position) => {
-            dispatch(Action.selectCandidate(candidate, position))
+        selectCandidate: (candidate, position, posId) => {
+            dispatch(Action.selectCandidate(candidate, position, posId))
         },
         unSelectCandidate: (candidate, position) => {
             dispatch(Action.unselectCandiate(candidate, position))

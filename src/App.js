@@ -8,7 +8,6 @@ import { Route, Router } from 'react-router-dom';
 import { PrivateRoute } from './service/PrivateRouter';
 import Layout from './layout/Layout';
 import RouteList from './RouterMap'
-import SuggestCandidate from './screen/suggest-candidate/SuggestCandidate';
 
 class App extends Component {
 

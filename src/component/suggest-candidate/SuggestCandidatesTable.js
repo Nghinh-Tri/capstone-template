@@ -21,7 +21,7 @@ class SuggestCandidates extends Component {
 
     onSelect = (value, candidate) => {
         if (value) {
-            this.props.onSelectCandidate(candidate, this.props.item.position)
+            this.props.onSelectCandidate(candidate, this.props.item.position, this.props.item.posId)
         }
         else {
             this.props.onUnselectCandidate(candidate, this.props.item.position)
@@ -44,7 +44,7 @@ class SuggestCandidates extends Component {
     render() {
         var { item, selectedItem } = this.props
         return (
-            <div className="card mb-80">
+            <div className="card">
                 <div className="card-header card-header-primary">
                     <div className="row">
                         <div className="col-9">

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Type } from "../constant";
-import { API_URL, callAPI } from "../util/util";
+import { API_URL } from "../util/util";
 import { history } from "../helper/History";
 
 export const generateProject = (project) => {

@@ -99,3 +99,20 @@ export const sortSuggestListBySoftSkillMatch = list => {
 export const sortSuggestListByHardSkillMatch = list => {
     list.sort((a, b) => { return b.hardSkillMatch - a.hardSkillMatch })
 }
+
+
+export const convertSuggestList = list => {
+    var result = [], empID = []
+    if (list.length > 0) {
+        list.forEach(element => {
+            var positionObj = { posID: element.posId, empIDs: [] }
+            element.candidateSelect.forEach(e => {
+                empID.push(e.empID)
+            });
+            positionObj.empIDs = empID
+            result.push(positionObj)
+        });
+    }
+    return result
+}
+

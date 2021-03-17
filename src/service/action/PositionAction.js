@@ -25,11 +25,11 @@ export const updatePositionID = (positionID, positionFormIndex) => {
     }
 }
 
-export const updateNOC = (nOC, positionFormIndex) => {
+export const selectPosLevel = (value, positionFormIndex) => {
     return {
-        type: Type.UPDATE_POSITION_NOC,
+        type: Type.SELECT_POS_LEVEL,
         positionFormIndex,
-        nOC
+        value
     }
 }
 
@@ -106,12 +106,12 @@ export const deleteHardSkillRequire = (hardSkillIndex, positionFormIndex) => {
     }
 }
 
-export const updateHardSkillExp = (hardSkillIndex, positionFormIndex, value, name) => {
+export const updateHardSkillLevel = (hardSkillIndex, positionFormIndex, value) => {
     return {
-        type: Type.UPDATE_HARD_SKILL_EXP,
+        type: Type.UPDATE_HARD_SKILL_LEVEL,
         positionFormIndex,
         hardSkillIndex,
-        value, name
+        value
     }
 }
 
@@ -145,7 +145,6 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
 export const createPosition = (positionItem) => {
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
-    var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
     var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
     return (dispatch) => {
         axios.post(
@@ -153,26 +152,18 @@ export const createPosition = (positionItem) => {
             position,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
+            console.log(res)
             if (res.status === 200) {
-                axios.post(
-                    urlToGetListSuggest,
-                    position,
-                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-                ).then(res => {
-                    if (res.status === 200) {
-                        dispatch(createPositionSuccess(res.data))
-                        history.push("/project/suggest-candidate")
-                    }
-                })
+                dispatch(createPositionSuccess())
+                localStorage.setItem('positionRequire', JSON.stringify(positionItem))
+                history.push("/project/suggest-candidate")
             }
         })
-        // 
     }
 }
 
-export const createPositionSuccess = (result) => {
+export const createPositionSuccess = () => {
     return {
-        type: Type.CREATE_POSITION,
-        result
+        type: Type.CREATE_POSITION
     }
 }

@@ -29,6 +29,11 @@ class SelectBar extends Component {
         this.props.onUpdateLanguagePriority(value, languageIndex, positionFormIndex)
     }
 
+    onSelectSkillLevel = (value) => {
+        var { positionFormIndex, hardSkillIndex } = this.props
+        this.props.onUpdateSkillLevel(value, hardSkillIndex, positionFormIndex)
+    }
+
     onSelectHardSkillPriority = (value) => {
         var { positionFormIndex, hardSkillIndex } = this.props
         this.props.onUpdateHardSkillPriority(value, hardSkillIndex, positionFormIndex)
@@ -39,11 +44,16 @@ class SelectBar extends Component {
         this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex)
     }
 
+    onSelectPosLevel = (value) => {
+        var { positionFormIndex } = this.props
+        this.props.onSelectPosLevel(value, positionFormIndex)
+    }    
+
     showDefaultOption = () => {
         var { list } = this.props
-        var list = this.getUnSelectedList(list)
+        var listConverted = this.getUnSelectedList(list)
         var result = null
-        result = list.map((item, index) => {
+        result = listConverted.map((item, index) => {
             return (<Option key={index} value={item.value}>{item.label}</Option>)
         })
         return result
@@ -51,10 +61,10 @@ class SelectBar extends Component {
 
     showSelectedOption = () => {
         var { list, value } = this.props
-        var list = this.getSelectedList(value, list)
+        var listConverted = this.getSelectedList(value, list)
 
         var result = null
-        result = list.map((item, index) => {
+        result = listConverted.map((item, index) => {
             return (<Option key={index} value={item.value}>{item.label}</Option>)
         })
         return result
@@ -80,8 +90,8 @@ class SelectBar extends Component {
         } else {
             return (
                 <Select value={value}
-                style={{ width: 200 }}
-                className="softSkill"
+                    style={{ width: 200 }}
+                    className="softSkill"
                     showSearch
                     placeholder="Select a position"
                     onSelect={this.onSelectPosition}
@@ -170,7 +180,6 @@ class SelectBar extends Component {
                 <Select
                     showSearch
                     style={{ width: 200 }}
-                    className="softSkill"
                     placeholder="Select a language"
                     onSelect={this.onSelectLanguage}
                     optionFilterProp="children"
@@ -185,7 +194,6 @@ class SelectBar extends Component {
                 <Select value={value}
                     showSearch
                     style={{ width: 200 }}
-                    className="softSkill"
                     placeholder="Select a language"
                     onSelect={this.onSelectLanguage}
                     optionFilterProp="children"
@@ -214,12 +222,11 @@ class SelectBar extends Component {
                 <Select
                     showSearch
                     style={{ width: 200 }}
-                    className="softSkill"
                     placeholder="Select priority"
                     onSelect={this.onSelectLanguagePriority}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.indexOf(input) >= 0
                     }
                 >
                     {this.showPriorityOption()}
@@ -229,7 +236,6 @@ class SelectBar extends Component {
                 <Select value={value}
                     showSearch
                     style={{ width: 200 }}
-                    className="softSkill"
                     placeholder="Select priority"
                     onSelect={this.onSelectLanguagePriority}
                     optionFilterProp="children"
@@ -246,7 +252,7 @@ class SelectBar extends Component {
         var { value } = this.props
         if (value === 0) {
             return (
-                <Select 
+                <Select
                     style={{ width: 140 }}
                     showSearch
                     placeholder="Select priority"
@@ -260,7 +266,7 @@ class SelectBar extends Component {
                 </Select>)
         } else {
             return (
-                <Select value={value}                   
+                <Select value={value}
                     style={{ width: 140 }}
 
                     showSearch
@@ -280,7 +286,7 @@ class SelectBar extends Component {
         var { value } = this.props
         if (value === -1) {
             return (
-                <Select 
+                <Select
                     style={{ width: 180 }}
                     showSearch
                     placeholder="Select certificate level"
@@ -294,11 +300,82 @@ class SelectBar extends Component {
                 </Select>)
         } else {
             return (
-                <Select value={value}                    
+                <Select value={value}
                     style={{ width: 180 }}
                     showSearch
-                    placeholder="Select priority"
+                    placeholder="Select certificate level"
                     onSelect={this.onSelectCertificateLevel}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        }
+    }
+
+    showSkillLevel = () => {
+        var { value } = this.props
+        if (value === 0) {
+            return (
+                <Select
+                    style={{ width: 180 }}
+                    showSearch
+                    placeholder="Select skill level"
+                    onSelect={this.onSelectSkillLevel}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={{ width: 180 }}
+                    showSearch
+                    placeholder="Select skill level"
+                    onSelect={this.onSelectSkillLevel}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        }
+    }
+
+    showPosLevel = () => {
+        var { value } = this.props
+        if (value.length === 0) {
+            return (
+                <Select
+                    style={{ minWidth: 250, maxWidth: 'auto' }}
+                    mode='multiple'
+                    showArrow
+                    showSearch
+                    placeholder="Select skill level"
+                    onChange={this.onSelectPosLevel}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        }
+        else {
+            return (
+                <Select value={value}
+                    style={{ minWidth: 250, maxWidth: 'auto' }}
+                    mode='multiple'
+                    showArrow
+                    showSearch
+                    placeholder="Select skill level"
+                    onChange={this.onSelectPosLevel}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -326,6 +403,10 @@ class SelectBar extends Component {
                 return this.showHardSkillPriority()
             case 'certiLevel':
                 return this.showCertificateLevel()
+            case 'skillLevel':
+                return this.showSkillLevel()
+            case 'posLevel':
+                return this.showPosLevel()
             default:
                 break;
         }
