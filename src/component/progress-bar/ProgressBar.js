@@ -51,10 +51,10 @@ class ProgressBar extends Component {
     render() {
         return (
             <ul className="progressbar">
-                <li className={this.state.step1} style={{fontWeight:600}}>Create Project</li>
-                <li className={this.state.step2} style={{fontWeight:600}}>Create Position</li>
-                <li className={this.state.step3} style={{fontWeight:600}}>Suggest Candiates</li>
-                <li className={this.state.step4} style={{fontWeight:600}}>Confirm</li>
+                <li className={this.state.step1} style={this.state.step1 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Create Project</li>
+                <li className={this.state.step2} style={this.state.step2 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Position Require</li>
+                <li className={this.state.step3} style={this.state.step3 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Suggest Candiates</li>
+                <li className={this.state.step4} style={this.state.step4 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Confirm</li>
             </ul>
         );
     }

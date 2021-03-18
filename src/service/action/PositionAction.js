@@ -152,7 +152,6 @@ export const createPosition = (positionItem) => {
             position,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
-            console.log(res)
             if (res.status === 200) {
                 dispatch(createPositionSuccess())
                 localStorage.setItem('positionRequire', JSON.stringify(positionItem))
