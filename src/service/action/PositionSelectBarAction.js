@@ -10,6 +10,8 @@ export const fetchPostionList = () => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
             dispatch(fetchPostionListSuccess(res.data.resultObj))
+        }).catch(err => {
+            console.log(err)
         })
     }
 }

@@ -240,7 +240,7 @@ class SelectBar extends Component {
                     onSelect={this.onSelectLanguagePriority}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.indexOf(input) >= 0
                     }
                 >
                     {this.showPriorityOption()}

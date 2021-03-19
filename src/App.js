@@ -6,10 +6,11 @@ import LoginPage from './screen/LoginPage/LoginPage';
 import { history } from './service/helper/History';
 import { Route, Router } from 'react-router-dom';
 import { PrivateRoute } from './service/PrivateRouter';
-import Layout from './layout/Layout';
 import RouteList from './RouterMap'
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
+import Layout from "./Layout/Layout";
+
 class App extends Component {
 
     showPrivateRoute = (RouteList) => {
