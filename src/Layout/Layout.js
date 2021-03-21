@@ -3,8 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import Navigation from '../component/navigation/Navigation';
 import NavBar from '../component/nav-bar/NavBar';
 import RouteList from '../RouterMap'
+import { checkSession } from '../service/action/AuthenticateAction';
 
-class Layout extends Component {
+class Layout extends Component {    
 
     showContent = (RouteList) => {
         var result = null;
@@ -22,7 +23,7 @@ class Layout extends Component {
             <div className="wrapper ">
                 <Navigation />
                 <div className="main-panel">
-                    <NavBar/>
+                    <NavBar />
                     <div className="content">
                         {this.showContent(RouteList)}
                     </div>
@@ -31,5 +32,4 @@ class Layout extends Component {
         );
     }
 }
-
 export default Layout;

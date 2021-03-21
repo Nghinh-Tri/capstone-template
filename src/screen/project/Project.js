@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from "../../service/action/ProjectAction";
 import ProjectTableItem from "../../component/project-table-item/ProjectTableItem";
+import { checkSession } from '../../service/action/AuthenticateAction';
 
 class Project extends Component {
 
@@ -20,6 +21,7 @@ class Project extends Component {
     }
 
     componentDidMount = () => {
+        this.props.checkSession()
         this.props.fetchProject(this.state.page)
     }
 
@@ -129,6 +131,9 @@ const mapDispatchToProp = (dispatch) => {
         },
         fetchProject: (pageIndex) => {
             dispatch(Action.fetchProject(pageIndex))
+        },
+        checkSession: () => {
+            dispatch(checkSession())
         }
     }
 }

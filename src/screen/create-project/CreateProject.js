@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
+import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from "../../service/action/ProjectAction";
 import { formatDate } from '../../service/util/util';
 
@@ -28,6 +29,7 @@ class CreateProject extends Component {
     }
 
     componentDidMount = () => {
+        this.props.checkSession()
         var { match } = this.props
         if (typeof match === 'undefined') {
             var { project } = this.props
@@ -164,6 +166,9 @@ const mapDispatchToProp = (dispatch) => {
         },
         updateProject: (project, id) => {
             dispatch(Action.updateProject(project, id))
+        },
+        checkSession: () => {
+            dispatch(checkSession())
         }
     }
 }

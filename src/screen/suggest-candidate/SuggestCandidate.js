@@ -5,10 +5,12 @@ import ProgressBar from '../../component/progress-bar/ProgressBar';
 import SuggestCandidates from '../../component/suggest-candidate/SuggestCandidatesTable'
 import * as Action from "../../service/action/SuggestCandidateAction";
 import '../../css/SuggestNav.css'
+import { checkSession } from '../../service/action/AuthenticateAction';
 
 class SuggestCandidate extends Component {
 
     componentDidMount = () => {
+        this.props.checkSession()
         this.props.fetchSuggestCandidateList()
     }
 
@@ -109,6 +111,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onSortSuggestList: value => {
             dispatch(Action.sortSuggestList(value))
+        },
+        checkSession: () => {
+            dispatch(checkSession())
         }
     }
 }

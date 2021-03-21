@@ -1,6 +1,7 @@
 import { Type } from "../constant/index"
 import axios from "axios";
 import { API_URL } from "../util/util";
+import {history} from "../helper/History";
 
 export const fetchPostionList = () => {
     var url = `${API_URL}/Position/getPositions`
@@ -11,7 +12,9 @@ export const fetchPostionList = () => {
         ).then(res => {
             dispatch(fetchPostionListSuccess(res.data.resultObj))
         }).catch(err => {
-            console.log(err)
+            if (err.response.status === 401) {
+                history.push('/login')
+            }
         })
     }
 }

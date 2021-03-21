@@ -6,6 +6,7 @@ import * as Action from "../../service/action/SuggestCandidateAction";
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { convertSuggestList } from '../../service/util/util';
+import { checkSession } from '../../service/action/AuthenticateAction';
 
 class ConfirmSelectCandidate extends Component {
 
@@ -18,6 +19,7 @@ class ConfirmSelectCandidate extends Component {
     }
 
     componentDidMount = () => {
+        this.props.checkSession()
         this.props.fetchSelectCandidate()
     }
 
@@ -67,6 +69,9 @@ const mapDispatchToProps = dispatch => {
         },
         confirmSuggestList: suggestList => {
             dispatch(Action.confirmSuggestList(suggestList))
+        },
+        checkSession: () => {
+            dispatch(checkSession())
         }
     }
 }

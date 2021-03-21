@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as Action from "../../service/action/ProjectAction";
 import ProjectDetailTable from "../../component/project-detail/ProjectDetailTable";
 import ListEmployee from '../../component/project-detail/ListEmployee';
+import { checkSession } from '../../service/action/AuthenticateAction';
 
 class ProjectDetail extends Component {
 
@@ -14,6 +15,7 @@ class ProjectDetail extends Component {
     }
 
     componentDidMount = () => {
+        this.props.checkSession()
         var { match } = this.props
         this.props.fetchProjectDetail(match.params.id)
     }
@@ -66,6 +68,9 @@ const mapDispatchToProp = dispatch => {
         },
         changeStatusToFinish: projectID => {
             dispatch(Action.changeStatusToFinish(projectID))
+        },
+        checkSession: () => {
+            dispatch(checkSession())
         }
     }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CreatePositionForm from '../../component/create-position-form/CreatePositionForm';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
+import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from "../../service/action/PositionAction";
 import { fetchPostionList } from '../../service/action/PositionSelectBarAction';
 
@@ -17,15 +18,16 @@ class CreatePosition extends Component {
                 language: [],
                 softSkillIDs: [],
                 hardSkills: []
-            }            
+            }
         }
     }
 
     componentDidMount = () => {
-        // if (localStorage.getItem('projectId') === '0') {
-        //     this.props.history.push('/project/create-project')
-        // } else
-        this.props.fetchPostionList()
+        this.props.checkSession()
+        if (localStorage.getItem('projectId') === '0') {
+            this.props.history.push('/project/create-project')
+        } else
+            this.props.fetchPostionList()
     }
 
     // Position
@@ -192,6 +194,9 @@ const mapStateToProp = (state) => {
 
 const mapDispatchToProp = (dispatch, props) => {
     return {
+        checkSession: () => {
+            dispatch(checkSession())
+        },
         onAddPosition: (positionItem) => {
             dispatch(Action.addPositionRequire(positionItem))
         },

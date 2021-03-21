@@ -28,7 +28,6 @@ class Login extends Component {
     }
 
     render() {
-
         const { email, password, submitted } = this.state;
         return (
             <div className="container px-4 py-5 mx-auto">

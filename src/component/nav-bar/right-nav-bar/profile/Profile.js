@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { logout } from "../../../../service/action/LoginAction";
+import { logout } from "../../../../service/action/AuthenticateAction"
 
 class Profile extends Component {
 
@@ -19,7 +18,7 @@ class Profile extends Component {
                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
                     <a className="dropdown-item" >Profile</a>
                     <div className="dropdown-divider" />
-                    <Link to="/login" className="dropdown-item" onClick={this.logout()}>Log out</Link>
+                    <a className="dropdown-item" onClick={this.logout}>Log out</a>
                 </div>
             </li>
         );
