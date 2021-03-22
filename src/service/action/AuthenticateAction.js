@@ -24,7 +24,6 @@ export const checkSession = () => {
             dispatch(sessionAllow())
         }
     }
-
 }
 
 export const sessionTimeOut = () => {

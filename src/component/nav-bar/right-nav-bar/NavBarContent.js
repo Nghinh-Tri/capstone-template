@@ -7,7 +7,6 @@ class NavBarContent extends Component {
     render() {
         return (
             <div className="collapse navbar-collapse justify-content-end">
-                <Search />
                 <ul className="navbar-nav">
                     <Notification />
                     <Profile />
