@@ -20,11 +20,11 @@ const getCandidateIndex = (candidateList, candidate) => {
 }
 
 const SuggestCandidateSelectedList = (state = initState, action) => {
-    var positionObjClone, candidateSelectClone = null
+    var positionObjClone, candidateSelectClone, positionItem = null
     switch (action.type) {
         case SUGGEST_CANDIDATE.SELECT_CANDIDATE:
             if (state.length === 0) {
-                var positionItem = { position: action.position, candidateSelect: [action.candidate] }
+                positionItem = { position: action.position, posId: action.posId, candidateSelect: [action.candidate] }
                 state.push(positionItem)
             } else {
                 var index = getPositionIndex(state, action.position)
@@ -33,7 +33,7 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
                     positionObjClone.candidateSelect.push(action.candidate)
                     state.splice(index, 1, positionObjClone)
                 } else {
-                    var positionItem = { position: action.position, candidateSelect: [action.candidate] }
+                    positionItem = { position: action.position, posId: action.posId, candidateSelect: [action.candidate] }
                     state.push(positionItem)
                 }
             }
@@ -57,6 +57,10 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
                     element.candidateSelect = clone
                 });
             }
+            return [...state]
+
+        case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
+            state.splice(0, state.length)
             return [...state]
         default:
             return [...state];

@@ -2,6 +2,7 @@ import { Type } from "../constant/index"
 import axios from "axios";
 import { API_URL } from "../util/util";
 import { history } from "../helper/History";
+import { store } from "react-notifications-component";
 
 export const addPositionRequire = (positionItem) => {
     return {
@@ -25,11 +26,11 @@ export const updatePositionID = (positionID, positionFormIndex) => {
     }
 }
 
-export const updateNOC = (nOC, positionFormIndex) => {
+export const selectPosLevel = (value, positionFormIndex) => {
     return {
-        type: Type.UPDATE_POSITION_NOC,
+        type: Type.SELECT_POS_LEVEL,
         positionFormIndex,
-        nOC
+        value
     }
 }
 
@@ -106,12 +107,12 @@ export const deleteHardSkillRequire = (hardSkillIndex, positionFormIndex) => {
     }
 }
 
-export const updateHardSkillExp = (hardSkillIndex, positionFormIndex, value, name) => {
+export const updateHardSkillLevel = (hardSkillIndex, positionFormIndex, value) => {
     return {
-        type: Type.UPDATE_HARD_SKILL_EXP,
+        type: Type.UPDATE_HARD_SKILL_LEVEL,
         positionFormIndex,
         hardSkillIndex,
-        value, name
+        value
     }
 }
 
@@ -145,34 +146,199 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
 export const createPosition = (positionItem) => {
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
-    var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
     var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
     return (dispatch) => {
-        axios.post(
-            urlToAddRequire,
-            position,
-            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-        ).then(res => {
-            if (res.status === 200) {
-                axios.post(
-                    urlToGetListSuggest,
-                    position,
-                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-                ).then(res => {
-                    if (res.status === 200) {
-                        dispatch(createPositionSuccess(res.data))
-                        history.push("/project/suggest-candidate")
-                    }
-                })
-            }
-        })
-        // 
+        //not create position requirement
+        if (positionItem.length === 0) {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please create position requirement",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }//not select position id 
+        else if (typeof positionItem.find(opt => opt.posID === 0) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please select position",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }//not select position level
+        else if (typeof positionItem.find(opt => opt.posLevel.length === 0) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please select position level",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }// not create language requirement
+        else if (typeof positionItem.find(opt => opt.language.length === 0) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please create language requirement",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }// not select language
+        else if (typeof positionItem.find(opt => opt.language.find(lang => lang.langID === 0)) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please select language",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }// not select language priority
+        else if (typeof positionItem.find(opt => opt.language.find(lang => lang.priority === 0)) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please select language priority",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }// not create hard skill requirement
+        else if (typeof positionItem.find(opt => opt.hardSkills.length === 0) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please create hard skill requirement",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }// not select hard skill
+        else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.hardSkillID === 0)) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please select hard skill",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }// not select hard skill level
+        else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.skillLevel === 0)) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please select hard skill level",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }// not select Certification Level
+        else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.certificationLevel === -1)) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please select certification Level",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }// not select hard skill priority
+        else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.priority === 0)) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please select hard skill priority",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }
+        //validated
+        else {
+            axios.post(
+                urlToAddRequire,
+                position,
+                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+            ).then(res => {
+                if (res.status === 200) {
+                    dispatch(createPositionSuccess())
+                    localStorage.setItem('positionRequire', JSON.stringify(positionItem))
+                    history.push("/project/suggest-candidate")
+                }
+            })
+        }
     }
 }
 
-export const createPositionSuccess = (result) => {
+export const createPositionSuccess = () => {
     return {
-        type: Type.CREATE_POSITION,
-        result
+        type: Type.CREATE_POSITION
+    }
+}
+
+export const createPositionFailed = () => {
+    return {
+        type: Type.CREATE_POSITION_FAIL
     }
 }

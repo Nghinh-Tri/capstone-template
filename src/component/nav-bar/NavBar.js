@@ -32,9 +32,9 @@ class NavBar extends Component {
             <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
                 <div className="container-fluid">
                     <div className="navbar-wrapper">
-                        <a className="navbar-brand" backgound='white' >{this.showTitle(this.props.location.pathname)}</a>
-                        <NavBarContent />
+                        <a className="navbar-brand" backgound='white' style={{fontSize:30, fontWeight:600}} >{this.showTitle(this.props.location.pathname)}</a>
                     </div>
+                    <NavBarContent />
                 </div>
             </nav>
         );

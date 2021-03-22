@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SelectSearch from '../../select-search/SelectSearch';
-import { fetchHardSkill } from "../../../../service/action/HardSkillSelectBarAction";
 import { fetchCertification } from "../../../../service/action/CertificationSelectBarAction";
 import { convertSkillList, convertCertificationList } from "../../../../service/util/util";
 import SelectBar from '../../select-search/SelectBar';
@@ -12,16 +10,23 @@ class HardSkillFormContent extends Component {
         super(props);
         this.state = {
             priority: [
-                { label: 1, value: 1 },
-                { label: 2, value: 2 },
-                { label: 3, value: 3 },
-                { label: 4, value: 4 },
-                { label: 5, value: 5 },
-                { label: 6, value: 6 },
-                { label: 7, value: 7 },
-                { label: 8, value: 8 },
-                { label: 9, value: 9 },
                 { label: 10, value: 10 },
+                { label: 9, value: 9 },
+                { label: 8, value: 8 },
+                { label: 7, value: 7 },
+                { label: 6, value: 6 },
+                { label: 5, value: 5 },
+                { label: 4, value: 4 },
+                { label: 3, value: 3 },
+                { label: 2, value: 2 },
+                { label: 1, value: 1 },
+            ],
+            skillLevel: [
+                { label: 'Basic Knowledge', value: 1 },
+                { label: 'Limited Experience', value: 2 },
+                { label: 'Practical', value: 3 },
+                { label: 'Applied Theory', value: 4 },
+                { label: 'Recognized Authority', value: 5 },
             ]
         }
     }
@@ -46,10 +51,10 @@ class HardSkillFormContent extends Component {
         var hardSkillListConverted = convertSkillList(listNotSelect)
         var certificationListConverted = convertCertificationList(certificationList)
         return (
-            <div className="row" style={{marginLeft:10 , marginBottom: 15, boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', width:'1130px' }} >
+            <div className="row" style={{ marginLeft: 10, marginBottom: 25, boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', width: '1130px' }} >
                 {/* Skill */}
                 <div class="col">
-                    <div class="row" style={{ marginBottom: 40, marginLeft: 20, marginTop: 20 }}>
+                    <div class="row" style={{ marginBottom: 10, marginLeft: 20, marginTop: 20 }}>
                         <label className="bmd-label" >
                             <h5 className="font-weight-bold">Skill</h5>
                         </label>
@@ -67,25 +72,30 @@ class HardSkillFormContent extends Component {
                 </div>
 
 
-                {/* Exp */}
+                {/* Skill Level */}
                 <div className='col'>
-                    <div class="row" style={{ marginBottom: 40, marginTop: 20 }}>
+                    <div class="row" style={{ marginBottom: 10, marginTop: 20 }}>
                         <label className="bmd-label">
-                            <h5 className="font-weight-bold">Experience</h5>
+                            <h5 className="font-weight-bold">Skill Level</h5>
                         </label>
                     </div>
 
-                    <div class="row" >
-                        <input type="number" name="exp" className="form-control" value={hardSkillDetail.exp} min="0" onChange={this.onUpdate}
-                            style={{ width: 50 }} />
-                        <label className="bmd-label" style={{ fontWeight: 600, marginLeft: 55, marginTop: 10 }}>Years</label>
+                    <div class="row" style={{ marginBottom: 20 }}>
+                        <SelectBar
+                            positionFormIndex={positionFormIndex}
+                            hardSkillIndex={hardSkillIndex}
+                            list={this.state.skillLevel}
+                            name="skillLevel"
+                            value={hardSkillDetail.skillLevel}
+                            onUpdateSkillLevel={this.props.onUpdateSkillLevel}
+                        />
                     </div>
                 </div>
 
 
                 {/* Certi */}
                 <div className="col">
-                    <div class="row" style={{ marginBottom: 40, marginTop: 20 }}>
+                    <div class="row" style={{ marginBottom: 10, marginTop: 20 }}>
                         <label className="bmd-label">
                             <h5 className="font-weight-bold">
                                 Certification Level
@@ -106,7 +116,7 @@ class HardSkillFormContent extends Component {
 
                 {/* Priority */}
                 <div className="col">
-                    <div class="row" style={{ marginBottom: 40, marginTop: 20 }}>
+                    <div class="row" style={{ marginBottom: 10, marginTop: 20 }}>
                         <label className="bmd-label">
                             <h5 className="font-weight-bold">
                                 Priority

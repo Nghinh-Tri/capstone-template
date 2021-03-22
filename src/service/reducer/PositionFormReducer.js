@@ -30,9 +30,9 @@ const positionReducer = (state = initState, action) => {
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
-        case Type.UPDATE_POSITION_NOC:
+        case Type.SELECT_POS_LEVEL:
             positionObj = { ...state[action.positionFormIndex] }
-            positionObj.numberOfCandidates = parseInt(action.nOC)
+            positionObj.posLevel = action.value
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
@@ -134,15 +134,15 @@ const positionReducer = (state = initState, action) => {
             return [...state]
 
 
-        case Type.UPDATE_HARD_SKILL_EXP:
+        case Type.UPDATE_HARD_SKILL_LEVEL:
             //Clone position obj (positionObj) at index in array
             positionObj = { ...state[action.positionFormIndex] }
             //Clone list hard skill in positionObj
             hardSkill = positionObj.hardSkills.slice()
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
-            hardSkillObj = hardSkill[action.hardSkillIndex]
-            //Change exp value in hardSkillObj
-            hardSkillObj.exp = parseInt(action.value)
+            hardSkillObj = { ...hardSkill[action.hardSkillIndex] }
+            //Change exp, proprity value in hardSkillObj
+            hardSkillObj.skillLevel = action.value
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
             hardSkill.splice(action.hardSkillIndex, 1, hardSkillObj)
             //Replace hard skill list in clone of position obj by clone of hard skill list

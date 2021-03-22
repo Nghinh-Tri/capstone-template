@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 export const API_URL = "https://esms2020.azurewebsites.net/api"
 
@@ -99,3 +100,32 @@ export const sortSuggestListBySoftSkillMatch = list => {
 export const sortSuggestListByHardSkillMatch = list => {
     list.sort((a, b) => { return b.hardSkillMatch - a.hardSkillMatch })
 }
+
+export const convertSuggestList = list => {
+    var result = [], empID = []
+    if (list.length > 0) {
+        list.forEach(element => {
+            var positionObj = { posID: element.posId, empIDs: [] }
+            element.candidateSelect.forEach(e => {
+                empID.push(e.empID)
+            });
+            positionObj.empIDs = empID
+            result.push(positionObj)
+        });
+    }
+    return result
+}
+
+export const getUserName = () => {
+    var result = ''
+    var token = localStorage.getItem('token')
+    var decode = jwtDecode(token)
+    Object.keys(decode).forEach(key => {
+        let res = key.split('/')
+        if (res[res.length - 1] === 'givenname') {
+            result = decode[key]
+        }
+    })
+    return result
+}
+

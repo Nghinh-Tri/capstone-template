@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { checkSession } from '../../service/action/AuthenticateAction';
 
 class Dashboard extends Component {
+
+    componentDidMount = () => {
+        this.props.checkSession()
+    }
+
     render() {
         return (
             <div className="container-fluid">
@@ -420,4 +427,12 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard;
+export const mapDispatchToProps = dispatch => {
+    return {
+        checkSession: () => {
+            dispatch(checkSession())
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Dashboard);

@@ -10,7 +10,7 @@ class HardSkillForm extends Component {
         this.state = {
             hardSkillDetail: {
                 hardSkillID: 0,
-                exp: 0,
+                skillLevel: 0,
                 certificationLevel: -1,
                 priority: 0
             },
@@ -51,7 +51,7 @@ class HardSkillForm extends Component {
                     hardSkillIndex={hardSkillIndex}
                     positionFormIndex={positionFormIndex}
                     onDeleteHardSkill={this.props.onDeleteHardSkill}
-                    updateHardSkillExp={this.props.updateHardSkillExp}
+                    onUpdateSkillLevel={this.props.onUpdateSkillLevel}
                     onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
                     onUpdateHardSkillID={this.props.onUpdateHardSkillID}
                     onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}

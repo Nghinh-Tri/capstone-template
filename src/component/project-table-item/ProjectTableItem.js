@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { showSpan, showStatus } from '../../service/util/util';
 
 class ProjectTableItem extends Component {    

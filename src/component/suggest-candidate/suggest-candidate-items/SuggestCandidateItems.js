@@ -22,11 +22,11 @@ class SuggestCandidateItems extends Component {
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>
-                <th className="text-center">{candidate.name}</th>
-                <th className="text-center">{candidate.languageMatch} / 10</th>
-                <th className="text-center">{candidate.softSkillMatch} / 10</th>
-                <th className="text-center">{candidate.hardSkillMatch} /10 </th>
-                <th className="text-center">{candidate.overallMatch} / 100</th>
+                <th className="text-center">{candidate.empName}</th>
+                <th className="text-center">{candidate.languageMatch.toFixed(2)} / 10</th>
+                <th className="text-center">{candidate.softSkillMatch.toFixed(2)} / 10</th>
+                <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
+                <th className="text-center">{candidate.overallMatch.toFixed(2)} / 100</th>
                 <th className="text-center">
                     <input type="checkbox" onClick={this.onSelect} checked={this.checkSelectCandidate(candidate.empID)} />
                 </th>

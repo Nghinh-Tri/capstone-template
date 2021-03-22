@@ -1,4 +1,7 @@
+import axios from "axios"
 import { SUGGEST_CANDIDATE } from "../constant"
+import { history } from "../helper/History"
+import { API_URL } from "../util/util"
 
 export const setPositionSelect = index => {
     return {
@@ -7,10 +10,10 @@ export const setPositionSelect = index => {
     }
 }
 
-export const selectCandidate = (candidate, position) => {
+export const selectCandidate = (candidate, position, posId) => {
     return {
         type: SUGGEST_CANDIDATE.SELECT_CANDIDATE,
-        candidate, position
+        candidate, position, posId
     }
 }
 
@@ -28,8 +31,29 @@ export const fetchSelectedList = () => {
 }
 
 export const fetchSuggestList = () => {
+    var projectID= localStorage.getItem('projectId')
+    var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
+    var positionItem = JSON.parse(localStorage.getItem('positionRequire'))
+    var position = { requiredPositions: positionItem }
+    console.log(position)
+    return (dispatch) => {
+        axios.post(
+            urlToGetListSuggest,
+            position,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+        ).then(res => {
+            if (res.status === 200) {
+                dispatch(fetchSuggestListSuccess(res.data))
+                history.push("/project/suggest-candidate")
+            }
+        })
+    }
+}
+
+export const fetchSuggestListSuccess = (list) => {
     return {
-        type: SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST
+        type: SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST,
+        list
     }
 }
 
@@ -38,4 +62,29 @@ export const sortSuggestList = value => {
         type: SUGGEST_CANDIDATE.SORT_LIST,
         value
     }
+}
+
+export const confirmSuggestList = suggestList => {
+    var projectID = localStorage.getItem('projectId')
+    var url = `${API_URL}/Project/addCandidate/${projectID}`
+    console.log('suggestList',suggestList)
+    return (dispatch) => {
+        axios.post(
+            url,
+            suggestList,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+        ).then(res => {
+            if (res.status === 200) {
+                dispatch(confirmSuggestListSuggest())
+                localStorage.removeItem('positionRequire')
+                localStorage.removeItem('projectId')
+                localStorage.removeItem('isNewPosition')
+                history.push("/project")
+            }
+        })
+    }
+}
+
+export const confirmSuggestListSuggest = () => {
+    return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST }
 }

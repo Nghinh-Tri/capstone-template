@@ -1,13 +1,11 @@
-import { SUGGEST_CANDIDATE, Type } from "../constant/index";
+import { SUGGEST_CANDIDATE } from "../constant/index";
 import { sortSuggestListByHardSkillMatch, sortSuggestListByLanguageMatch, sortSuggestListByOverallMatch, sortSuggestListBySoftSkillMatch } from "../util/util";
 const initState = []
 
 const SuggestCandidateList = (state = initState, action) => {
     switch (action.type) {
-        case Type.CREATE_POSITION:
-            state = action.result
-            return [...state]
         case SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST:
+            state = action.list
             if (state.length > 0) {
                 state.forEach(element => {
                     var clone = [...element.matchDetail]

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import HardSkillForm from './hard-skill-form/HardSkillForm';
-import SelectSearch from './select-search/SelectSearch';
 import SoftSkillForm from './soft-skill-form/SoftSkillForm';
-import * as Action from "../../service/action/PositionSelectBarAction";
 import { convertPositionList } from "../../service/util/util";
 import LanguageForm from './language-form/LanguageForm';
 import SelectBar from './select-search/SelectBar';
@@ -13,17 +10,20 @@ class CreatePositionForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isMinimize: false
+            isMinimize: false,
+            posLevel: [
+                { label: 'Intern', value: 1 },
+                { label: 'Fresher', value: 2 },
+                { label: 'Junior', value: 3 },
+                { label: 'Senior', value: 4 },
+                { label: 'Master', value: 5 },
+            ]
         }
     }
 
     onDeletePositionForm = (positionFormIndex) => {
         this.props.onDeletePositionForm(positionFormIndex)
-    }
-
-    onUpdatePositionID = (value, positionFormIndex) => {
-        this.props.onUpdatePositionID(value, positionFormIndex)
-    }
+    }   
 
     onHandleUpdateNOC = (event) => {
         var { positionFormIndex } = this.props
@@ -63,7 +63,7 @@ class CreatePositionForm extends Component {
                             positionFormIndex={positionFormIndex}
                             onAddHardSkill={this.props.onAddHardSkill}
                             onDeleteHardSkill={this.props.onDeleteHardSkill}
-                            updateHardSkillExp={this.props.updateHardSkillExp}
+                            onUpdateSkillLevel={this.props.onUpdateSkillLevel}
                             onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
                             onUpdateHardSkillID={this.props.onUpdateHardSkillID}
                             onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
@@ -72,12 +72,13 @@ class CreatePositionForm extends Component {
                 )
         }
         return (
-            <div className="card mb-50" style={{boxShadow:2}}>
+            <div className="card mb-50" style={{ width:'1220px' }}>
                 <div className="card-body">
-                    <div className="form-group">
+                    <div className="form-group">                        
                         <div className="row">
+
                             {/* Position */}
-                            <div className="col-1 mt-15-ml-30">
+                            <div className="col-1" style={{ marginLeft: 20, marginTop: 20, }}>
                                 <label className="bmd-label  ">
                                     <h4 className="font-weight-bold">
                                         Position
@@ -86,28 +87,32 @@ class CreatePositionForm extends Component {
                             </div>
 
                             {/* Select Bar */}
-                            <div className="col-4">
+                            <div className="col" style={{ marginLeft: 20, marginTop: 5 }}>
                                 <SelectBar
                                     list={listConverted}
-                                    onUpdatePositionID={this.onUpdatePositionID}
+                                    onUpdatePositionID={this.props.onUpdatePositionID}
                                     name="positionID"
                                     positionFormIndex={positionFormIndex}
                                     value={item.posID}
                                 />
                             </div>
 
-                            {/* Number of candidate */}
-                            <div className="col-2 mt">
+                            {/* Position Level */}
+                            <div className="col-auto" style={{ marginLeft: 20, marginTop: 20, }}>
                                 <label className="bmd-label ">
                                     <h4 className="font-weight-bold ">
-                                        Number of candidate
+                                        Position Level
                                     </h4>
                                 </label>
                             </div>
-                            <div className="col-3">
-                                <div className="form-group">
-                                    <input type="number" className="form-control" min="0" onChange={this.onHandleUpdateNOC} value={item.numberOfCandidates} />
-                                </div>
+                            <div className="col" style={{ marginLeft: 20, marginTop: 16 }}>
+                                <SelectBar
+                                    list={this.state.posLevel}
+                                    onSelectPosLevel={this.props.onSelectPosLevel}
+                                    name="posLevel"
+                                    positionFormIndex={positionFormIndex}
+                                    value={item.posLevel}
+                                />
                             </div>
 
                             {/* Button Add and Minimize */}
