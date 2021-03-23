@@ -1,14 +1,41 @@
 import axios from "axios";
-import { Type } from "../constant";
+import { alertConstants, Type } from "../constant";
 import { API_URL } from "../util/util";
 import { history } from "../helper/History";
+import { store } from "react-notifications-component";
 
-export const generateProject = (project) => {
+export const generateProject = (project, isCreateNew) => {
+    return (dispatch) => {
+        if (isCreateNew)
+            dispatch(generateProjectSuccess(project))
+        else {
+            dispatch(generateProjectFail())
+            store.addNotification({
+                message: "Cannot create new project",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }
+    }
+}
+
+export const generateProjectSuccess = (project) => {
     history.push('/project/create-project')
     return {
         type: Type.GENERATE_PROJECT,
         project
     }
+}
+
+export const generateProjectFail = () => {
+    return { type: alertConstants.ERROR }
 }
 
 export const createProject = (project, match) => {
@@ -25,8 +52,9 @@ export const createProject = (project, match) => {
                 localStorage.setItem('projectId', res.data.resultObj)
 
                 dispatch(createProjectSuccess(project))
-                if (typeof match === 'undefined')
+                if (typeof match === 'undefined') {
                     history.push('/project/create-position')
+                }
                 else {
                     history.push(`/project/detail/${match.params.id}`)
                 }

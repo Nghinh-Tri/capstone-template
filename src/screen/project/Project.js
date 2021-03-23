@@ -25,8 +25,9 @@ class Project extends Component {
         this.props.fetchProject(this.state.page)
     }
 
-    onGenerateProject = () => {
-        this.props.generateProject(this.state.project)
+    onGenerateProject = (isCreateNew) => {
+        localStorage.setItem('isUpdate', false)
+        this.props.generateProject(this.state.project, true)
         localStorage.setItem("projectId", 0)
     }
 
@@ -55,11 +56,14 @@ class Project extends Component {
 
     render() {
         var { projects } = this.props
+        var items = []
+        if (typeof projects.data !== 'undefined')
+            items = projects.data.items
         return (
             <div className="container-fluid">
                 <button type="button" className="btn btn-primary"
                     style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, }}
-                    onClick={this.onGenerateProject} >
+                    onClick={() => this.onGenerateProject(projects.isCreateNew)} >
                     <i className="material-icons mr-5">add_box</i>
                         Create New Project
                 </button>
@@ -70,7 +74,6 @@ class Project extends Component {
                             <div className="form-group">
                                 <div className="row">
                                     <div className="card-body">
-
                                         <div className="table-responsive">
                                             <table className="table">
                                                 <thead className=" text-primary">
@@ -82,26 +85,26 @@ class Project extends Component {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {this.onShowListProject(projects.items)}
+                                                    {this.onShowListProject(items)}
                                                 </tbody>
                                             </table>
                                         </div>
                                         <div className="row align-items-center">
                                             <div className="col">
                                                 <button type="button"
-                                                    style={{ fontWeight: 700, width:120 }}
+                                                    style={{ fontWeight: 700, width: 120 }}
                                                     className="btn btn-primary pull-right" onClick={this.onPrevios}>
                                                     Previous
                                                 </button>
                                             </div>
                                             <div className="col-auto">
-                                                <div className="text-center" style={{fontSize:20, fontWeight:700, color: '#9c27b0'}}>
+                                                <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
                                                     {projects.pageIndex} - {projects.pageCount}
                                                 </div>
                                             </div>
                                             <div className="col">
                                                 <button type="button"
-                                                    style={{ fontWeight: 700, width:120 }}
+                                                    style={{ fontWeight: 700, width: 120 }}
                                                     className="btn btn-primary" onClick={this.onNext}>
                                                     Next
                                                 </button>
@@ -113,6 +116,7 @@ class Project extends Component {
                         </div>
                     </div >
                 </div>
+
             </div>
         );
     }
@@ -126,8 +130,8 @@ const mapStateToProp = state => {
 
 const mapDispatchToProp = (dispatch) => {
     return {
-        generateProject: (project) => {
-            dispatch(Action.generateProject(project))
+        generateProject: (project, isCreateNew) => {
+            dispatch(Action.generateProject(project, isCreateNew))
         },
         fetchProject: (pageIndex) => {
             dispatch(Action.fetchProject(pageIndex))

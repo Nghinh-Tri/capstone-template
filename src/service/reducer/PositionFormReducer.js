@@ -12,6 +12,9 @@ const positionReducer = (state = initState, action) => {
             state = []
             return [...state]
 
+        case Type.ADD_MORE_CANDIDATE:
+            state = []
+            return [...state]
         //Position
         case Type.ADD_POSITION_REQUIRE:
             state.push(action.positionItem)

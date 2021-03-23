@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import ListEmployeeContent from "./ListEmployeeContent";
 import * as Action from "../../service/action/ListEmployeeAction";
+import { history } from '../../service/helper/History';
+import { addMoreCandidate } from '../../service/action/PositionAction';
 
 class ListEmployee extends Component {
 
@@ -27,16 +29,22 @@ class ListEmployee extends Component {
         return result
     }
 
+    onHandle = () => {
+        localStorage.setItem('projectId', this.props.project.projectID)
+        localStorage.setItem('isUpdate', true)
+        history.push("/project/create-position")
+        this.props.pushToCreatePosition()
+    }
+
     render() {
         var { listEmployee } = this.props
-        console.log(listEmployee)
         return (
             <div>
                 {this.showEmployee(listEmployee)}
                 <div className="row">
                     <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
                         <NavLink to="/project/create-position">
-                            <button className="btn btn-primary pull-right "> Add more position</button>
+                            <button className="btn btn-primary pull-right" onClick={this.onHandle}> Add more position</button>
                         </NavLink>
                     </div>
                 </div>
@@ -55,6 +63,9 @@ const mapDispatchToProp = dispatch => {
     return {
         fetchListEmployee: (projectID, page) => {
             dispatch(Action.fetchListEmployee(projectID, page))
+        },
+        pushToCreatePosition: () => {
+            dispatch(addMoreCandidate())
         }
     }
 }
