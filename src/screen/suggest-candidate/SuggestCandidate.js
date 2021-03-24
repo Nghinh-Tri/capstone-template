@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import SuggestCandidates from '../../component/suggest-candidate/SuggestCandidatesTable'
 import * as Action from "../../service/action/SuggestCandidateAction";
 import '../../css/SuggestNav.css'
 import { checkSession } from '../../service/action/AuthenticateAction';
+import { history } from '../../service/helper/History';
+import { compose } from 'redux';
 
 class SuggestCandidate extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isUpdate: false
+        }
+    }
 
     componentDidMount = () => {
         this.props.checkSession()
         this.props.fetchSuggestCandidateList()
+        if (typeof this.props.location.state !== 'undefined')
+            this.setState({ isUpdate: this.props.location.state.isUpdate })
     }
 
     onSelected = (index) => {
@@ -51,10 +62,13 @@ class SuggestCandidate extends Component {
         this.props.onSortSuggestList(value)
     }
 
+    onHandle = () => {
+        history.push('/project/confirm-select-candidates', { isUpdate: this.state.isUpdate })
+    }
+
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
-        console.log(candidateSelectedList)
-        console.log(suggestCandidateList)
+        // console.log(suggestCandidateList)
         return (
             <div>
                 <ProgressBar step="step3" />
@@ -78,11 +92,8 @@ class SuggestCandidate extends Component {
                     </div>
                 </div>
                 <div className="row pull-right">
-                    <NavLink to="/project/confirm-select-candidates">
-                        <button type="submit" className="btn btn-primary pull-right pt" style={{ marginBottom: 20, marginRight: 20, marginTop:0 }}>Next</button>
-                    </NavLink>
+                    <button type="submit" onClick={this.onHandle} className="btn btn-primary pull-right pt" style={{ marginBottom: 20, marginRight: 20, marginTop: 0 }}>Next</button>
                 </div>
-
             </div>
         );
     }
@@ -119,4 +130,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SuggestCandidate);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(SuggestCandidate);

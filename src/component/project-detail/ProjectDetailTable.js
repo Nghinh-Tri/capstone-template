@@ -3,24 +3,25 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { showSpan, showStatus } from '../../service/util/util';
 import * as Action from "../../service/action/ProjectAction";
+import moment from 'moment';
 
 class ProjectDetailTable extends Component {
 
     setUpdateButton = (project) => {
         if (project.status === 1)
-        return (<div className="col">
-            <NavLink to={`/project/detail/${project.projectID}/edit`}>
-                <button type="button" className="btn btn-primary pull-right">Update</button>
-            </NavLink>
-        </div>)
+            return (<div className="col">
+                <NavLink to={`/project/detail/${project.projectID}/edit`}>
+                    <button type="button" className="btn btn-primary pull-right">Update</button>
+                </NavLink>
+            </div>)
         return null;
     }
 
     setFinishButton = (status) => {
         if (status === 1)
-        return (<div className="pull-right">
-            <button className="btn btn-primary" onClick={this.onChangeStatusToFinish}> Finish</button>
-        </div>)
+            return (<div className="pull-right">
+                <button className="btn btn-primary" onClick={this.onChangeStatusToFinish}> Finish</button>
+            </div>)
         return null
     }
 
@@ -32,6 +33,7 @@ class ProjectDetailTable extends Component {
 
     render() {
         var { project } = this.props
+        console.log(project)
         return (
             <div className="card-body">
                 <div className="form-group">
@@ -54,14 +56,14 @@ class ProjectDetailTable extends Component {
                             {/* Date Begin - Date End Est */}
                             <div className="row">
                                 {/* Date Begin */}
-                                <div className="col-auto" style={{marginLeft:5}}>
+                                <div className="col-auto" style={{ marginLeft: 5 }}>
                                     <label className="bmd-label-floating">
                                         <h4 className="font-weight-bold">Date Begin : </h4>
                                     </label>
                                 </div>
                                 <div className="col-auto">
                                     <label className="bmd-label-floating">
-                                        <h4 className="font-weight-bold">{project.dateBegin}</h4>
+                                        <h4 className="font-weight-bold">{moment(project.dateBegin).format('DD-MM-YYYY')}</h4>
                                     </label>
                                 </div>
                                 {/* Date End Est */}
@@ -72,7 +74,7 @@ class ProjectDetailTable extends Component {
                                 </div>
                                 <div className="">
                                     <label className="bmd-label-floating">
-                                        <h4 className="font-weight-bold">{project.dateEstimatedEnd}</h4>
+                                        <h4 className="font-weight-bold">{moment(project.dateEstimatedEnd).format('DD-MM-YYYY')}</h4>
                                     </label>
                                 </div>
                             </div>
@@ -86,6 +88,19 @@ class ProjectDetailTable extends Component {
                                 <div className="mr-40">
                                     <label className="bmd-label-floating">
                                         <h4 className="font-weight-bold">{project.description}</h4>
+                                    </label>
+                                </div>
+                            </div>
+                            {/* Description */}
+                            <div className="row">
+                                <div className="mr-20-ml-20">
+                                    <label className="bmd-label-floating">
+                                        <h4 className="font-weight-bold">Stakeholder : </h4>
+                                    </label>
+                                </div>
+                                <div className="mr-40">
+                                    <label className="bmd-label-floating">
+                                        <h4 className="font-weight-bold">{project.skateholder}</h4>
                                     </label>
                                 </div>
                             </div>

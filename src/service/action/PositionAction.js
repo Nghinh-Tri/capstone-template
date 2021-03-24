@@ -143,7 +143,8 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
     }
 }
 
-export const createPosition = (positionItem) => {
+export const createPosition = (positionItem, isUpdate) => {
+    console.log(isUpdate)
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
     var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
@@ -324,7 +325,7 @@ export const createPosition = (positionItem) => {
                 if (res.status === 200) {
                     dispatch(createPositionSuccess())
                     localStorage.setItem('positionRequire', JSON.stringify(positionItem))
-                    history.push("/project/suggest-candidate")
+                    history.push("/project/suggest-candidate", { isUpdate: isUpdate })
                 }
             })
         }
@@ -344,5 +345,5 @@ export const createPositionFailed = () => {
 }
 
 export const addMoreCandidate = () => {
-    return{type: Type.ADD_MORE_CANDIDATE}
+    return { type: Type.ADD_MORE_CANDIDATE }
 }

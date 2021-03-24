@@ -4,11 +4,20 @@ import ProgressBar from '../../component/progress-bar/ProgressBar';
 import './ConfirmPage.css'
 import * as Action from "../../service/action/SuggestCandidateAction";
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { convertSuggestList } from '../../service/util/util';
 import { checkSession } from '../../service/action/AuthenticateAction';
+import { history } from '../../service/helper/History';
+import { compose } from 'redux';
 
 class ConfirmSelectCandidate extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isUpdate: false
+        }
+    }
 
     showList = (candidateList) => {
         var result = null
@@ -21,6 +30,8 @@ class ConfirmSelectCandidate extends Component {
     componentDidMount = () => {
         this.props.checkSession()
         this.props.fetchSelectCandidate()
+        if (typeof this.props.location.state !== 'undefined')
+            this.setState({ isUpdate: this.props.location.state.isUpdate })
     }
 
     onSuggest = () => {
@@ -28,6 +39,10 @@ class ConfirmSelectCandidate extends Component {
         var list = convertSuggestList(candidateList)
         var obj = { candidates: list }
         this.props.confirmSuggestList(obj)
+    }
+
+    onBack = () => {
+        history.push('/project/suggest-candidate', { isUpdate: this.state.isUpdate })
     }
 
     render() {
@@ -40,18 +55,13 @@ class ConfirmSelectCandidate extends Component {
                 </div>
                 <div className="row pull-right">
                     <div className="col">
-                        <NavLink to="/project/suggest-candidate">
-                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
-                        </NavLink>
+                        <button onClick={this.onBack} type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
                     </div>
                     <div className="col">
                         <button type="button" className="btn btn-primary pull-right" onClick={this.onSuggest} style={{ width: 110, fontWeight: 600 }}>Suggest</button>
                     </div>
                 </div>
-
             </div>
-
-
         );
     }
 }
@@ -76,4 +86,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmSelectCandidate);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(ConfirmSelectCandidate);

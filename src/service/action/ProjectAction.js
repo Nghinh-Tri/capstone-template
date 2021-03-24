@@ -48,15 +48,29 @@ export const createProject = (project, match) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             if (res.status === 200) {
-                project.projectId = res.data.resultObj
-                localStorage.setItem('projectId', res.data.resultObj)
-
-                dispatch(createProjectSuccess(project))
-                if (typeof match === 'undefined') {
-                    history.push('/project/create-position')
-                }
-                else {
-                    history.push(`/project/detail/${match.params.id}`)
+                if (res.data.isSuccessed) {
+                    project.projectId = res.data.resultObj
+                    localStorage.setItem('projectId', res.data.resultObj)
+                    dispatch(createProjectSuccess(project))
+                    if (typeof match === 'undefined') {
+                        history.push('/project/create-position')
+                    }
+                    else {
+                        history.push(`/project/detail/${match.params.id}`)
+                    }
+                } else {
+                    store.addNotification({
+                        message: "This project is already existed",
+                        type: "danger",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 2000,
+                            onScreen: false
+                        }
+                    })
                 }
             }
         }).catch(err => {

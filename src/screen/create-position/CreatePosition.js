@@ -20,12 +20,15 @@ class CreatePosition extends Component {
                 language: [],
                 softSkillIDs: [],
                 hardSkills: []
-            }
+            },
+            isUpdate: false
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
+        if (typeof this.props.location.state !== 'undefined')
+            this.setState({ isUpdate: this.props.location.state.isUpdate })
         if (localStorage.getItem('projectId') === '0') {
             this.props.history.push('/project/create-project')
         } else
@@ -106,7 +109,7 @@ class CreatePosition extends Component {
 
     onCreatePosition = (event) => {
         event.preventDefault()
-        this.props.onCreatePosition(this.props.items)
+        this.props.onCreatePosition(this.props.items, this.state.isUpdate)
     }
 
     getPositionListNotSelect = () => {
@@ -171,8 +174,7 @@ class CreatePosition extends Component {
                         <div className="col">
                             <div >
                                 <button type="button" className="btn btn-primary" style={{ fontWeight: 700, borderRadius: 60, marginLeft: 10, background: '#31DF44' }} onClick={this.onAddPosition}>
-                                    <i className="material-icons mr-5">add_box</i>
-                                    More Position
+                                    <i className="material-icons mr-5">add_box</i>More Position
                                  </button>
                             </div>
                         </div>
@@ -250,8 +252,8 @@ const mapDispatchToProp = (dispatch, props) => {
         onUpdateHardSkillCerti: (value, hardSkillIndex, positionFormIndex) => {
             dispatch(Action.updateHardSkillCerti(value, hardSkillIndex, positionFormIndex))
         },
-        onCreatePosition: (positionItem) => {
-            dispatch(Action.createPosition(positionItem))
+        onCreatePosition: (positionItem, isUpdate) => {
+            dispatch(Action.createPosition(positionItem, isUpdate))
         },
         fetchPostionList: () => {
             dispatch(fetchPostionList())

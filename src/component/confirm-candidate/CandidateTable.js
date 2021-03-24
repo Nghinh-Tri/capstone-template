@@ -5,13 +5,13 @@ class CandidateTable extends Component {
     showCandidate = (candidateList) => {
         var result = null
         result = candidateList.map((candidate, index) => {
-            return (<tr>
+            return (<tr key={index}>
                 <th className="text-center">{index + 1}</th>
                 <th className="text-center">{candidate.empName}</th>
                 <th className="text-center">{candidate.languageMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.softSkillMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
-                <th className="text-center">{candidate.overallMatch.toFixed(2)} / 100</th>      
+                <th className="text-center">{candidate.overallMatch.toFixed(2)} / 100</th>
             </tr>)
         })
         return result

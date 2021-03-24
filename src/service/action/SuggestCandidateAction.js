@@ -35,7 +35,6 @@ export const fetchSuggestList = () => {
     var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
     var positionItem = JSON.parse(localStorage.getItem('positionRequire'))
     var position = { requiredPositions: positionItem }
-    console.log(position)
     return (dispatch) => {
         axios.post(
             urlToGetListSuggest,
@@ -44,7 +43,6 @@ export const fetchSuggestList = () => {
         ).then(res => {
             if (res.status === 200) {
                 dispatch(fetchSuggestListSuccess(res.data))
-                history.push("/project/suggest-candidate")
             }
         })
     }

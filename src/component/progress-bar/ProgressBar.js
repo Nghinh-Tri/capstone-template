@@ -10,11 +10,28 @@ class ProgressBar extends Component {
             step2: "",
             step3: "",
             step4: "",
+            isUpdate: false
         }
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.location !== prevState.location) {
+            return { someState: nextProps.location };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.location !== this.props.location) {
+            console.log(this.props.location)
+            if (typeof this.props.location.state !== 'undefined')
+                this.setState({ isUpdate: this.props.location.state.isUpdate })
+        }
+    }
 
     componentDidMount = () => {
+        if (typeof this.props.location.state !== 'undefined')
+            this.setState({ isUpdate: this.props.location.state.isUpdate })
         var { step } = this.props
         if (step === "step1") {
             this.setState({
@@ -51,7 +68,7 @@ class ProgressBar extends Component {
     }
 
     render() {
-        var isUpdate = this.props.location.state.isUpdate
+        var { isUpdate } = this.state
         return (
             <ul className="progressbar">
                 <li className={this.state.step1} style={this.state.step1 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>{isUpdate ? 'Update Project' : 'Create Project'}</li>
