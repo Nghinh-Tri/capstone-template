@@ -27,7 +27,7 @@ export const generateProject = (project, isCreateNew) => {
 }
 
 export const generateProjectSuccess = (project) => {
-    history.push('/project/create-project')
+    history.push('/project/create-project', { isUpdate: false })
     return {
         type: Type.GENERATE_PROJECT,
         project

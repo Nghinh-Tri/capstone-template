@@ -31,8 +31,7 @@ class ListEmployee extends Component {
 
     onHandle = () => {
         localStorage.setItem('projectId', this.props.project.projectID)
-        localStorage.setItem('isUpdate', true)
-        history.push("/project/create-position")
+        history.push("/project/create-position", { isUpdate: true })
         this.props.pushToCreatePosition()
     }
 
@@ -43,9 +42,7 @@ class ListEmployee extends Component {
                 {this.showEmployee(listEmployee)}
                 <div className="row">
                     <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
-                        <NavLink to="/project/create-position">
-                            <button className="btn btn-primary pull-right" onClick={this.onHandle}> Add more position</button>
-                        </NavLink>
+                        <button className="btn btn-primary pull-right" onClick={this.onHandle}> Add more position</button>
                     </div>
                 </div>
             </div>

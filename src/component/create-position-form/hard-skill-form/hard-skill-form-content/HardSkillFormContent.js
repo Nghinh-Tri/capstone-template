@@ -51,7 +51,7 @@ class HardSkillFormContent extends Component {
         var hardSkillListConverted = convertSkillList(listNotSelect)
         var certificationListConverted = convertCertificationList(certificationList)
         return (
-            <div className="row" style={{ marginLeft: 10, marginBottom: 25, boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', width: '1130px' }} >
+            <div className="row" style={{ marginLeft: 10, marginRight: 10, marginBottom: 25, boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', }} >
                 {/* Skill */}
                 <div class="col">
                     <div class="row" style={{ marginBottom: 10, marginLeft: 20, marginTop: 20 }}>

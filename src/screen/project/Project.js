@@ -26,7 +26,6 @@ class Project extends Component {
     }
 
     onGenerateProject = (isCreateNew) => {
-        localStorage.setItem('isUpdate', false)
         this.props.generateProject(this.state.project, true)
         localStorage.setItem("projectId", 0)
     }
