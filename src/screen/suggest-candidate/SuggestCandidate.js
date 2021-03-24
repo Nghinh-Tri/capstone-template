@@ -53,6 +53,7 @@ class SuggestCandidate extends Component {
 
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
+        console.log(candidateSelectedList)
         console.log(suggestCandidateList)
         return (
             <div>

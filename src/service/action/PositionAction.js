@@ -342,3 +342,7 @@ export const createPositionFailed = () => {
         type: Type.CREATE_POSITION_FAIL
     }
 }
+
+export const addMoreCandidate = () => {
+    return{type: Type.ADD_MORE_CANDIDATE}
+}

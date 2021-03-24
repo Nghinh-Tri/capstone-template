@@ -30,7 +30,7 @@ class LanguageFormContent extends Component {
         var { item, languageIndex, positionFormIndex, languageList } = this.props
         var listConverted = convertLanguageList(languageList)
         return (
-            <div className="row" style={{ position: 'relative', marginLeft: 10, marginBottom: 15, boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', width: '1130px', height: '70px' }} >
+            <div className="row" style={{ position: 'relative', marginLeft: 10, marginRight:10, marginBottom: 15, boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', height: '70px' }} >
                 {/* Language */}
                 <div class="col-1" style={{ marginLeft: 20, marginTop: 20, }}>
                     <label className="bmd-label">

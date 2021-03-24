@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 
 class ProgressBar extends Component {
 
@@ -8,9 +9,10 @@ class ProgressBar extends Component {
             step1: "",
             step2: "",
             step3: "",
-            step4: ""
+            step4: "",
         }
     }
+
 
     componentDidMount = () => {
         var { step } = this.props
@@ -49,9 +51,10 @@ class ProgressBar extends Component {
     }
 
     render() {
+        var isUpdate = this.props.location.state.isUpdate
         return (
             <ul className="progressbar">
-                <li className={this.state.step1} style={this.state.step1 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Create Project</li>
+                <li className={this.state.step1} style={this.state.step1 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>{isUpdate ? 'Update Project' : 'Create Project'}</li>
                 <li className={this.state.step2} style={this.state.step2 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Position Require</li>
                 <li className={this.state.step3} style={this.state.step3 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Suggest Candiates</li>
                 <li className={this.state.step4} style={this.state.step4 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Confirm</li>
@@ -60,4 +63,4 @@ class ProgressBar extends Component {
     }
 }
 
-export default ProgressBar;
+export default withRouter(ProgressBar);

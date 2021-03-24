@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { compose } from 'redux';
 import CreatePositionForm from '../../component/create-position-form/CreatePositionForm';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import { checkSession } from '../../service/action/AuthenticateAction';
@@ -257,4 +259,4 @@ const mapDispatchToProp = (dispatch, props) => {
     }
 }
 
-export default connect(mapStateToProp, mapDispatchToProp)(CreatePosition);
+export default compose(withRouter, connect(mapStateToProp, mapDispatchToProp))(CreatePosition);
