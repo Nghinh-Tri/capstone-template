@@ -10,6 +10,7 @@ var firebaseConfig = {
 };
 
 // Initialize Firebase
+firebase.messaging.isSupported()
 firebase.initializeApp(firebaseConfig);
 
 export default firebase
