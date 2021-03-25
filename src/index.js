@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import MainReducer from './service/reducer/MainReducer';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
+import serviceWorker from "./serviceWorker";
 
 const store = createStore(
     MainReducer,
@@ -20,7 +21,7 @@ ReactDOM.render(
     </React.StrictMode>,
     document.getElementById('root')
 );
-
+serviceWorker()
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
