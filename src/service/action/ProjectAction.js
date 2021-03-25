@@ -3,6 +3,7 @@ import { alertConstants, Type } from "../constant";
 import { API_URL } from "../util/util";
 import { history } from "../helper/History";
 import { store } from "react-notifications-component";
+import moment from "moment";
 
 export const generateProject = (project, isCreateNew) => {
     return (dispatch) => {
@@ -42,6 +43,8 @@ export const createProject = (project, match) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Project/${empID}`
     return (dispatch) => {
+        var date = moment(project.dateEndEst, "DD/MM/YYYY").diff(moment(project.dateBegin, "DD/MM/YYYY"))
+        
         return axios.post(
             url,
             project,
@@ -60,7 +63,7 @@ export const createProject = (project, match) => {
                     }
                 } else {
                     store.addNotification({
-                        message: "This project is already existed",
+                        message: res.data.message,
                         type: "danger",
                         insert: "top",
                         container: "top-center",
@@ -85,6 +88,12 @@ export const createProjectSuccess = project => {
     return {
         type: Type.CREATE_PROJECT,
         project
+    }
+}
+
+export const createProjectFail = () => {
+    return {
+        type: alertConstants.ERROR
     }
 }
 
