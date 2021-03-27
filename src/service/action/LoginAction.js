@@ -14,9 +14,25 @@ export const login = (username, password) => {
                     localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
                     localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
                     var role = getRole()
-                    console.log(role)
-                    dispatch(success(JSON.stringify(res.data.resultObj)))
-                    history.push('/');
+                    if (role === 'PM' || role === 'Employee') {
+                        dispatch(success(JSON.stringify(res.data.resultObj)))
+                        history.push('/');
+                    } else {
+                        localStorage.clear()
+                        dispatch(failure())
+                        store.addNotification({
+                            message: "User role is not match",
+                            type: "danger",
+                            insert: "top",
+                            container: "top-center",
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                                duration: 2000,
+                                onScreen: false
+                            }
+                        })
+                    }
                 }
             }).catch(err => {
                 dispatch(failure(err.toString()))
@@ -47,7 +63,8 @@ export const login = (username, password) => {
                         }
                     })
                 }
-            })
+            }
+            )
     }
 }
 
