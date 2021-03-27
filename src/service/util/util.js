@@ -129,3 +129,16 @@ export const getUserName = () => {
     return result
 }
 
+export const getRole = () => {
+    var result = ''
+    var token = localStorage.getItem('token')
+    var decode = jwtDecode(token)
+    Object.keys(decode).forEach(key => {
+        let res = key.split('/')
+        if (res[res.length - 1] === 'role') {
+            result = decode[key]
+        }
+    })
+    return result
+}
+
