@@ -12,6 +12,7 @@ import SuggestCandidateList from "./SuggestCandidateList";
 import SuggestCandidateSelect from "./SuggestCandidateSelect"
 import SuggestCandidateSelectedListReducer from "./SuggestCandidateSelectedListReducer";
 import ListEmployeeReducer from "./ListEmployeeReducer";
+import ProjectTypeReducer from "./ProjectTypeReducer";
 
 const MainReducer = combineReducers({
     authentication,
@@ -26,7 +27,8 @@ const MainReducer = combineReducers({
     SuggestCandidateList,
     SuggestCandidateSelect,
     SuggestCandidateSelectedListReducer,
-    ListEmployeeReducer
+    ListEmployeeReducer,
+    ProjectTypeReducer
 })
 
 export default MainReducer

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from "../../service/action/ProjectAction";
-import { formatDate } from '../../service/util/util';
-
+import { convertProjectTypeList, formatDate } from '../../service/util/util';
+import SelectBar from "../../component/create-position-form/select-search/SelectBar";
 class CreateProject extends Component {
 
     constructor(props) {
@@ -15,7 +15,8 @@ class CreateProject extends Component {
             dateBegin: "",
             dateEndEst: "",
             description: "",
-            stakeholder: ""
+            stakeholder: "",
+            projectTypeID: 0
         }
     }
 
@@ -28,8 +29,13 @@ class CreateProject extends Component {
         })
     }
 
+    onSelectProjectType = (value) => {        
+        this.setState({ projectTypeID: parseInt(value) })
+    }
+
     componentDidMount = () => {
         this.props.checkSession()
+        this.props.fetchProjectType()
         var { match } = this.props
         if (typeof match === 'undefined') {
             var { project } = this.props
@@ -59,27 +65,32 @@ class CreateProject extends Component {
 
     onSave = (event) => {
         event.preventDefault()
-        var { id, name, dateBegin, dateEndEst, description, stakeholder } = this.state
+        var { id, name, dateBegin, dateEndEst, description, stakeholder,projectTypeID } = this.state
         var project = {
             projectId: id,
             projectName: name,
             description: description,
             skateholder: stakeholder,
             dateBegin: dateBegin,
-            dateEstimatedEnd: dateEndEst
+            dateEstimatedEnd: dateEndEst,
+            projectTypeID: projectTypeID
         }
-        this.props.createProject(project, this.props.match)        
+        this.props.createProject(project, this.props.match)
     }
 
     render() {
         var { name, dateBegin, dateEndEst, description, stakeholder } = this.state
+        var { projectType } = this.props
+        var result = []
+        if (projectType.length > 0)
+            result = projectType
+        result = convertProjectTypeList(result)
         return (
             <div>
                 <ProgressBar step="step1" />
-
                 <div className="card">
                     <div className="card-header card-header-primary">
-                        <p className="card-title" style={{marginLeft:40 , fontSize:28, fontWeight:600}}>
+                        <p className="card-title" style={{ marginLeft: 40, fontSize: 28, fontWeight: 600 }}>
                             {typeof this.props.match === 'undefined' ? "Create Project" : "Edit Project"}
                         </p>
                     </div>
@@ -87,11 +98,19 @@ class CreateProject extends Component {
                         <form onSubmit={this.onSave}>
                             {/* Name */}
                             <div className="row">
-                                <div className="col-md-12">
+                                <div className="col">
                                     <div className="form-group">
                                         <label className="bmd-label-floating">Project Name</label>
                                         <input type="text" className="form-control" value={name} name="name" onChange={this.onHandle} />
                                     </div>
+                                </div>
+                                <div className="col-auto" style={{ marginTop: 18, marginLeft: 112 }}>
+                                    <label className="bmd-label-floating">Project Name</label>
+                                </div>
+                                <div className="col" style={{marginTop:15}}>
+                                    <SelectBar name='projectType'
+                                        list={result}
+                                        onSelectProjectType={this.onSelectProjectType} />
                                 </div>
                             </div>
 
@@ -100,7 +119,6 @@ class CreateProject extends Component {
                                 {/* Date begin */}
                                 <div className="col-md-6">
                                     <label className="bmd-label">Date begin</label>
-
                                     <div className="form-group">
                                         <input type="date" name="dateBegin" defaultValue={dateBegin} className="form-control" onChange={this.onHandle} readOnly={typeof this.props.match === 'undefined' ? false : true} />
                                     </div>
@@ -136,7 +154,7 @@ class CreateProject extends Component {
                             </div>
 
                             {/* Button */}
-                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700}} >
+                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }} >
                                 {typeof this.props.match === 'undefined' ? "Create" : "Edit"}
                             </button>
                         </form>
@@ -152,7 +170,8 @@ class CreateProject extends Component {
 const mapStateToProps = (state) => {
     return {
         project: state.ProjectFormReducer,
-        projectDetail: state.ProjectFetchReducer
+        projectDetail: state.ProjectFetchReducer,
+        projectType: state.ProjectTypeReducer
     }
 }
 
@@ -169,6 +188,9 @@ const mapDispatchToProp = (dispatch) => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        fetchProjectType: () => {
+            dispatch(Action.fetchProjectType())
         }
     }
 }

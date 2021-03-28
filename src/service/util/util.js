@@ -85,6 +85,17 @@ export const convertLanguageList = (list) => {
     return result;
 }
 
+export const convertProjectTypeList = (list) => {
+    var result = []
+    list.forEach(element => {
+        result.push({
+            label: element.name,
+            value: element.id,
+        })
+    });
+    return result;
+}
+
 export const sortSuggestListByOverallMatch = list => {
     list.sort((a, b) => { return b.overallMatch - a.overallMatch })
 }

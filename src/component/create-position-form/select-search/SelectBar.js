@@ -47,7 +47,7 @@ class SelectBar extends Component {
     onSelectPosLevel = (value) => {
         var { positionFormIndex } = this.props
         this.props.onSelectPosLevel(value, positionFormIndex)
-    }    
+    }
 
     showDefaultOption = () => {
         var { list } = this.props
@@ -386,6 +386,27 @@ class SelectBar extends Component {
         }
     }
 
+    onSelectProjectType = (value) => {
+        this.props.onSelectProjectType(value)
+    }
+
+    showProjectType = () => {
+        return (
+            <Select
+                style={{ minWidth: 290, maxWidth: 'auto' }}
+                showArrow
+                showSearch
+                placeholder="Select project type"
+                onChange={this.onSelectProjectType}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+            >
+                {this.showPriorityOption()}
+            </Select>)
+    }
+
     showSelect = () => {
         var { name } = this.props
         switch (name) {
@@ -407,6 +428,8 @@ class SelectBar extends Component {
                 return this.showSkillLevel()
             case 'posLevel':
                 return this.showPosLevel()
+            case 'projectType':
+                return this.showProjectType()
             default:
                 break;
         }

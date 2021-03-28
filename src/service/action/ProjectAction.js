@@ -44,7 +44,7 @@ export const createProject = (project, match) => {
     var url = `${API_URL}/Project/${empID}`
     return (dispatch) => {
         var date = moment(project.dateEndEst, "DD/MM/YYYY").diff(moment(project.dateBegin, "DD/MM/YYYY"))
-        
+
         return axios.post(
             url,
             project,
@@ -173,4 +173,24 @@ export const changeStatusToFinish = projectID => {
                 dispatch(fetchProjectDetail(projectID))
             })
     }
+}
+
+export const fetchProjectType = () => {
+    var url = `${API_URL}/Project/getProjectTypes`
+    return (dispatch) => {
+        axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            dispatch(fetchProjectTypeSuccess(res.data.resultObj))
+        }).catch(err => {
+            if (err.response.status === 401) {
+                history.push('/login')
+            }
+        })
+    }
+}
+
+export const fetchProjectTypeSuccess = projectType => {
+    return { type: Type.FETCH_PROJECT_TYPE, projectType }
 }
