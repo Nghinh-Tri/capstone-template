@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from "../../service/action/ProjectAction";
-import { convertProjectTypeList, formatDate } from '../../service/util/util';
+import { convertProjectTypeList } from '../../service/util/util';
 import SelectBar from "../../component/create-position-form/select-search/SelectBar";
+import { compose } from 'redux';
+import { withRouter } from 'react-router';
+import moment from 'moment';
 class CreateProject extends Component {
 
     constructor(props) {
@@ -29,7 +32,7 @@ class CreateProject extends Component {
         })
     }
 
-    onSelectProjectType = (value) => {        
+    onSelectProjectType = (value) => {
         this.setState({ projectTypeID: parseInt(value) })
     }
 
@@ -37,26 +40,15 @@ class CreateProject extends Component {
         this.props.checkSession()
         this.props.fetchProjectType()
         var { match } = this.props
-        if (typeof match === 'undefined') {
-            var { project } = this.props
-            this.setState({
-                id: project.projectID,
-                name: project.projectName,
-                dateBegin: project.dateBegin,
-                dateEndEst: project.dateEstimatedEnd,
-                description: project.description,
-                stakeholder: project.skateholder
-            })
-        }
-        else {
+        if (typeof match.params.id !== 'undefined') {
             var id = match.params.id
             this.props.fetchProjectDetail(id)
             var { projectDetail } = this.props
             this.setState({
                 id: projectDetail.projectID,
                 name: projectDetail.projectName,
-                dateBegin: formatDate(projectDetail.dateBegin),
-                dateEndEst: formatDate(projectDetail.dateEstimatedEnd),
+                dateBegin: moment(projectDetail.dateBegin).format('YYYY-MM-DD'),
+                dateEndEst: moment(projectDetail.dateEstimatedEnd).format('YYYY-MM-DD'),
                 description: projectDetail.description,
                 stakeholder: projectDetail.skateholder
             })
@@ -65,7 +57,7 @@ class CreateProject extends Component {
 
     onSave = (event) => {
         event.preventDefault()
-        var { id, name, dateBegin, dateEndEst, description, stakeholder,projectTypeID } = this.state
+        var { id, name, dateBegin, dateEndEst, description, stakeholder, projectTypeID } = this.state
         var project = {
             projectId: id,
             projectName: name,
@@ -87,11 +79,12 @@ class CreateProject extends Component {
         result = convertProjectTypeList(result)
         return (
             <div>
-                <ProgressBar step="step1" />
+                {this.props.location.state !== null ? <ProgressBar step="step1" /> : ''}
+
                 <div className="card">
                     <div className="card-header card-header-primary">
                         <p className="card-title" style={{ marginLeft: 40, fontSize: 28, fontWeight: 600 }}>
-                            {typeof this.props.match === 'undefined' ? "Create Project" : "Edit Project"}
+                            {typeof this.props.match.params.id === 'undefined' ? "Create Project" : "Edit Project"}
                         </p>
                     </div>
                     <div className="card-body">
@@ -107,7 +100,7 @@ class CreateProject extends Component {
                                 <div className="col-auto" style={{ marginTop: 18, marginLeft: 112 }}>
                                     <label className="bmd-label-floating">Project Name</label>
                                 </div>
-                                <div className="col" style={{marginTop:15}}>
+                                <div className="col" style={{ marginTop: 15 }}>
                                     <SelectBar name='projectType'
                                         list={result}
                                         onSelectProjectType={this.onSelectProjectType} />
@@ -120,7 +113,7 @@ class CreateProject extends Component {
                                 <div className="col-md-6">
                                     <label className="bmd-label">Date begin</label>
                                     <div className="form-group">
-                                        <input type="date" name="dateBegin" defaultValue={dateBegin} className="form-control" onChange={this.onHandle} readOnly={typeof this.props.match === 'undefined' ? false : true} />
+                                        <input type='date' name="dateBegin" className="form-control" defaultValue={dateBegin} onChange={this.onHandle} readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
                                     </div>
                                 </div>
                                 {/* Date end estimate */}
@@ -155,14 +148,12 @@ class CreateProject extends Component {
 
                             {/* Button */}
                             <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }} >
-                                {typeof this.props.match === 'undefined' ? "Create" : "Edit"}
+                                {typeof this.props.match.params.id === 'undefined' ? "Create" : "Edit"}
                             </button>
                         </form>
                     </div>
                 </div>
-
             </div>
-
         );
     }
 }
@@ -195,4 +186,4 @@ const mapDispatchToProp = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProp)(CreateProject);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProp))(CreateProject);

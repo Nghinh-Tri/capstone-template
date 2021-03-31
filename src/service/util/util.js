@@ -14,10 +14,12 @@ export const callAPI = (endpoint, method = 'GET', body) => {
 export const showStatus = status => {
     switch (status) {
         case 0:
-            return "Pending "
+            return "Pending"
         case 1:
-            return "On Going"
+            return "No Employee"
         case 2:
+            return "On Going"
+        case 3:
             return "Finish"
         default:
             break;
@@ -27,10 +29,12 @@ export const showStatus = status => {
 export const showSpan = status => {
     switch (status) {
         case 0:
-            return "badge-secondary"
+            return "badge-warning"
         case 1:
-            return "badge-primary"
+            return "badge-secondary"
         case 2:
+            return "badge-primary"
+        case 3:
             return "badge-success"
         default:
             break;

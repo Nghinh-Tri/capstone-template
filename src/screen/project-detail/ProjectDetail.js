@@ -41,13 +41,11 @@ class ProjectDetail extends Component {
                     </div>
 
                     <div className='col'>
-                        <div className="card">
                             {this.state.select === 1 ?
                                 <ProjectDetailTable project={project} match={this.props.match} />
                                 :
                                 <ListEmployee project={project}/>
-                            }
-                        </div >
+                            }                     
                     </div>
                 </div>
             </div>

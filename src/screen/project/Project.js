@@ -48,7 +48,6 @@ class Project extends Component {
 
     onPrevios = () => {
         var { projects } = this.props
-        console.log(projects.pageIndex > 1)
         if (projects.pageIndex > 1)
             this.props.fetchProject(projects.pageIndex - 1)
     }
@@ -98,7 +97,7 @@ class Project extends Component {
                                             </div>
                                             <div className="col-auto">
                                                 <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                                    {projects.pageIndex} - {projects.pageCount}
+                                                    {typeof projects.data !== 'undefined' ? projects.data.pageIndex + " - " + projects.data.pageCount : 0 - 0}
                                                 </div>
                                             </div>
                                             <div className="col">

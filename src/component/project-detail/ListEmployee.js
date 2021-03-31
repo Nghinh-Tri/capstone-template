@@ -25,6 +25,8 @@ class ListEmployee extends Component {
             result = list.map((item, index) => {
                 return (<ListEmployeeContent key={index} item={item} />)
             })
+        } else {
+            return (<h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>)
         }
         return result
     }
@@ -32,17 +34,23 @@ class ListEmployee extends Component {
     onHandle = () => {
         localStorage.setItem('projectId', this.props.project.projectID)
         history.push("/project/create-position", { isUpdate: true })
+        localStorage.setItem('projectType', this.props.project.typeID)
         this.props.pushToCreatePosition()
     }
 
     render() {
         var { listEmployee } = this.props
         return (
-            <div>
-                {this.showEmployee(listEmployee)}
-                <div className="row">
-                    <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
-                        <button className="btn btn-primary pull-right" onClick={this.onHandle}> Add more position</button>
+            <div className="card">
+                <div className="card-header card-header-primary">
+                    <h4 className="card-title">Project Detail</h4>
+                </div>
+                <div className="card-body">
+                    {this.showEmployee(listEmployee)}
+                    <div className="row">
+                        <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
+                            <button className="btn btn-primary pull-right" onClick={this.onHandle}> Add more position</button>
+                        </div>
                     </div>
                 </div>
             </div>

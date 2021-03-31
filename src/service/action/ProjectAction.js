@@ -43,8 +43,6 @@ export const createProject = (project, match) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Project/${empID}`
     return (dispatch) => {
-        var date = moment(project.dateEndEst, "DD/MM/YYYY").diff(moment(project.dateBegin, "DD/MM/YYYY"))
-
         return axios.post(
             url,
             project,
@@ -54,8 +52,9 @@ export const createProject = (project, match) => {
                 if (res.data.isSuccessed) {
                     project.projectId = res.data.resultObj
                     localStorage.setItem('projectId', res.data.resultObj)
+                    localStorage.setItem('projectType', project.projectTypeID)
                     dispatch(createProjectSuccess(project))
-                    if (typeof match === 'undefined') {
+                    if (typeof match.params.id === 'undefined') {
                         history.push('/project/create-position')
                     }
                     else {
@@ -77,6 +76,7 @@ export const createProject = (project, match) => {
                 }
             }
         }).catch(err => {
+           
             if (err.response.status === 401) {
                 history.push('/login')
             }

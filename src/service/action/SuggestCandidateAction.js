@@ -31,10 +31,11 @@ export const fetchSelectedList = () => {
 }
 
 export const fetchSuggestList = () => {
-    var projectID= localStorage.getItem('projectId')
+    var projectID = localStorage.getItem('projectId')
+    var projectType = localStorage.getItem('projectType')
     var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
     var positionItem = JSON.parse(localStorage.getItem('positionRequire'))
-    var position = { requiredPositions: positionItem }
+    var position = { requiredPositions: positionItem, projectTypeID: parseInt(projectType) }
     return (dispatch) => {
         axios.post(
             urlToGetListSuggest,
@@ -65,7 +66,6 @@ export const sortSuggestList = value => {
 export const confirmSuggestList = suggestList => {
     var projectID = localStorage.getItem('projectId')
     var url = `${API_URL}/Project/addCandidate/${projectID}`
-    console.log('suggestList',suggestList)
     return (dispatch) => {
         axios.post(
             url,
