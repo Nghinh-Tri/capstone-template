@@ -44,13 +44,15 @@ class CreateProject extends Component {
             var id = match.params.id
             this.props.fetchProjectDetail(id)
             var { projectDetail } = this.props
+            console.log(projectDetail)
             this.setState({
                 id: projectDetail.projectID,
                 name: projectDetail.projectName,
                 dateBegin: moment(projectDetail.dateBegin).format('YYYY-MM-DD'),
                 dateEndEst: moment(projectDetail.dateEstimatedEnd).format('YYYY-MM-DD'),
                 description: projectDetail.description,
-                stakeholder: projectDetail.skateholder
+                stakeholder: projectDetail.skateholder,
+                projectTypeID: projectDetail.typeID
             })
         }
     }
@@ -71,7 +73,8 @@ class CreateProject extends Component {
     }
 
     render() {
-        var { name, dateBegin, dateEndEst, description, stakeholder } = this.state
+        var { name, dateBegin, dateEndEst, description, stakeholder, projectTypeID } = this.state
+        console.log(projectTypeID)
         var { projectType } = this.props
         var result = []
         if (projectType.length > 0)
@@ -98,11 +101,12 @@ class CreateProject extends Component {
                                     </div>
                                 </div>
                                 <div className="col-auto" style={{ marginTop: 18, marginLeft: 112 }}>
-                                    <label className="bmd-label-floating">Project Name</label>
+                                    <label className="bmd-label-floating">Project Type</label>
                                 </div>
                                 <div className="col" style={{ marginTop: 15 }}>
                                     <SelectBar name='projectType'
                                         list={result}
+                                        value={projectTypeID}
                                         onSelectProjectType={this.onSelectProjectType} />
                                 </div>
                             </div>

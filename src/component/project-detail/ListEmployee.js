@@ -39,7 +39,7 @@ class ListEmployee extends Component {
     }
 
     render() {
-        var { listEmployee } = this.props
+        var { listEmployee, project } = this.props
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -47,11 +47,13 @@ class ListEmployee extends Component {
                 </div>
                 <div className="card-body">
                     {this.showEmployee(listEmployee)}
-                    <div className="row">
-                        <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
-                            <button className="btn btn-primary pull-right" onClick={this.onHandle}> Add more position</button>
+                    {project.status === 3 ? '' :
+                        <div className="row">
+                            <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
+                                <button className="btn btn-primary pull-right" onClick={this.onHandle}> Add more position</button>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         );

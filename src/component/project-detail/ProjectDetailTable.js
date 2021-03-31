@@ -132,7 +132,6 @@ class ProjectDetailTable extends Component {
                         </div>
 
 
-                        <div className="row">
                             <div className='row pull-right'>
                                 <div className='col'>
                                     {this.setUpdateButton(project)}
@@ -141,7 +140,6 @@ class ProjectDetailTable extends Component {
                                     {this.setFinishButton(project)}
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

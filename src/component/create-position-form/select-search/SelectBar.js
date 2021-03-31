@@ -391,20 +391,41 @@ class SelectBar extends Component {
     }
 
     showProjectType = () => {
-        return (
-            <Select
-                style={{ minWidth: 290, maxWidth: 'auto' }}
-                showArrow
-                showSearch
-                placeholder="Select project type"
-                onChange={this.onSelectProjectType}
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-            >
-                {this.showPriorityOption()}
-            </Select>)
+        var { value } = this.props
+        console.log(value)
+        if (value === 0) {
+            return (
+                <Select 
+                    style={{ minWidth: 290, maxWidth: 'auto' }}
+                    showArrow
+                    showSearch
+                    placeholder="Select project type"
+                    onChange={this.onSelectProjectType}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>
+            )
+        } else {
+            return (
+                <Select value={value}
+                    style={{ minWidth: 290, maxWidth: 'auto' }}
+                    showArrow
+                    showSearch
+                    placeholder="Select project type"
+                    onChange={this.onSelectProjectType}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>
+            )
+        }
     }
 
     showSelect = () => {
