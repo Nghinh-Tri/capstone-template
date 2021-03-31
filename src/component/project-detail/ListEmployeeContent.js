@@ -8,13 +8,13 @@ class ListEmployeeContent extends Component {
         result = employees.map((employee, index) => {
             return (<tr key={index}>
                 <th className="text-center">{index + 1}</th>
-                <th className="text-center">{employee.name}</th>
-                <th className="text-center">{employee.dateIn === null ? "-" : moment(employee.dateIn).format('DD-MM-YYYY')}</th>
-                <th className="text-center">{employee.status === 0 ?
+                <th className="">{employee.name}</th>
+                <th className="">{employee.dateIn === null ? "-" : moment(employee.dateIn).format('DD-MM-YYYY')}</th>
+                {/* <th className="text-center">{employee.status === 0 ?
                     <span className={`badge badge-pill badge-secondary span`}>Pending</span>
                     :
                     <span className={`badge badge-pill badge-success span`}>On Going</span>
-                }</th>
+                }</th> */}
             </tr>)
         })
         return result
@@ -34,9 +34,9 @@ class ListEmployeeContent extends Component {
                                 <thead className=" text-primary">
                                     <tr>
                                         <th className="font-weight-bold text-center">No</th>
-                                        <th className="font-weight-bold text-center">Name</th>
-                                        <th className="font-weight-bold text-center">Date In</th>
-                                        <th className="font-weight-bold text-center">Status</th>
+                                        <th className="font-weight-bold">Name</th>
+                                        <th className="font-weight-bold">Date In</th>
+                                        {/* <th className="font-weight-bold text-center">Status</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import ListEmployeeContent from "./ListEmployeeContent";
 import * as Action from "../../service/action/ListEmployeeAction";
 import { history } from '../../service/helper/History';
