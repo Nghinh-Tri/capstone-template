@@ -51,7 +51,7 @@ const route = [
     {
         path: "/profile",
         exact: true,
-        main: () => <Profile />
+        main: () => <Profile empID={JSON.parse(localStorage.getItem('EMP'))}/>
     }
 ]
 
