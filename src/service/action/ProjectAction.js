@@ -102,14 +102,22 @@ export const updateProjectDetail = (name, value) => {
     }
 }
 
-export const fetchProject = (pageIndex) => {
+export const fetchProject = (pageIndex, search) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = ''
     var role = getRole()
-    if (role === 'PM')
-        url = `${API_URL}/Project/getProjects/${empID}?PageIndex=${pageIndex}&PageSize=10`
-    if (role === 'Employee')
-        url = `${API_URL}/Project/getEmployeeProjects/${empID}?PageIndex=${pageIndex}&PageSize=10`
+    if (role === 'PM') {
+        if (search.length > 0)
+            url = `${API_URL}/Project/getProjects/${empID}?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
+        else
+            url = `${API_URL}/Project/getProjects/${empID}?PageIndex=${pageIndex}&PageSize=10`
+    }
+    if (role === 'Employee') {
+        if (search.length > 0)
+            url = `${API_URL}/Project/getEmployeeProjects/${empID}?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
+        else
+            url = `${API_URL}/Project/getEmployeeProjects/${empID}?PageIndex=${pageIndex}&PageSize=10`
+    }
     return (dispatch) => {
         axios.get(
             url,

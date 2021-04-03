@@ -4,6 +4,7 @@ import * as Action from "../../service/action/ProjectAction";
 import ProjectTableItem from "../../component/project-table-item/ProjectTableItem";
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { getRole } from '../../service/util/util';
+import Search from '../../component/search/Search';
 
 class Project extends Component {
 
@@ -17,13 +18,14 @@ class Project extends Component {
                 description: '',
                 stakeholder: ''
             },
-            page: 1
+            page: 1,
+            search: ''
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchProject(this.state.page)
+        this.props.fetchProject(this.state.page, this.state.search)
     }
 
     onGenerateProject = (isCreateNew) => {
@@ -44,13 +46,18 @@ class Project extends Component {
     onNext = () => {
         var { projects } = this.props
         if (projects.pageIndex < projects.pageCount)
-            this.props.fetchProject(projects.pageIndex + 1)
+            this.props.fetchProject(projects.pageIndex + 1, this.state.search)
     }
 
     onPrevios = () => {
         var { projects } = this.props
         if (projects.pageIndex > 1)
-            this.props.fetchProject(projects.pageIndex - 1)
+            this.props.fetchProject(projects.pageIndex - 1, this.state.search)
+    }
+
+    searchProject = (value) => {
+        this.setState({ search: value })
+        this.props.fetchProject(1, value)
     }
 
     render() {
@@ -62,7 +69,6 @@ class Project extends Component {
         } else {
             items = projects.items
         }
-        console.log(projects)
         return (
             <div className="container-fluid">
                 {getRole() === 'PM' ?
@@ -79,6 +85,11 @@ class Project extends Component {
                     <div className="card mb-80">
                         <div className="card-body">
                             <div className="form-group">
+                                <div className="row">
+                                    <Search search="project"
+                                        placeholder="Search project name ..."
+                                        searchProject={this.searchProject} />
+                                </div>
                                 <div className="row">
                                     <div className="card-body">
                                         <div className="table-responsive">
@@ -137,7 +148,6 @@ class Project extends Component {
                         </div>
                     </div >
                 </div>
-
             </div>
         );
     }
@@ -154,8 +164,8 @@ const mapDispatchToProp = (dispatch) => {
         generateProject: (project, isCreateNew) => {
             dispatch(Action.generateProject(project, isCreateNew))
         },
-        fetchProject: (pageIndex) => {
-            dispatch(Action.fetchProject(pageIndex))
+        fetchProject: (pageIndex, search) => {
+            dispatch(Action.fetchProject(pageIndex, search))
         },
         checkSession: () => {
             dispatch(checkSession())
