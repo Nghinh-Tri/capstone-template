@@ -49,6 +49,7 @@ class SelectBar extends Component {
         this.props.onSelectPosLevel(value, positionFormIndex)
     }
 
+    //important
     showDefaultOption = () => {
         var { list } = this.props
         var listConverted = this.getUnSelectedList(list)
@@ -59,6 +60,7 @@ class SelectBar extends Component {
         return result
     }
 
+    //important
     showSelectedOption = () => {
         var { list, value } = this.props
         var listConverted = this.getSelectedList(value, list)
@@ -206,6 +208,7 @@ class SelectBar extends Component {
         }
     }
 
+    //important
     showPriorityOption = () => {
         var { list } = this.props
         var result = null
@@ -395,7 +398,7 @@ class SelectBar extends Component {
         console.log(value)
         if (value === 0) {
             return (
-                <Select 
+                <Select
                     style={{ minWidth: 290, maxWidth: 'auto' }}
                     showArrow
                     showSearch
@@ -428,34 +431,76 @@ class SelectBar extends Component {
         }
     }
 
+    //important
     showSelect = () => {
-        var { name } = this.props
-        switch (name) {
-            case 'positionID':
-                return this.showPosition()
-            case 'language':
-                return this.showLanguage()
-            case 'languagePriority':
-                return this.showLanguagePriority()
-            case 'softSkillID':
-                return this.showSoftSkill()
-            case 'hardSkill':
-                return this.showHardSkill()
-            case 'hardSkillPriority':
-                return this.showHardSkillPriority()
-            case 'certiLevel':
-                return this.showCertificateLevel()
-            case 'skillLevel':
-                return this.showSkillLevel()
-            case 'posLevel':
-                return this.showPosLevel()
-            case 'projectType':
-                return this.showProjectType()
+        // var { name } = this.props
+        // switch (name) {
+        //     case 'positionID':
+        //         return this.showPosition()
+        //     case 'language':
+        //         return this.showLanguage()
+        //     case 'languagePriority':
+        //         return this.showLanguagePriority()
+        //     case 'softSkillID':
+        //         return this.showSoftSkill()
+        //     case 'hardSkill':
+        //         return this.showHardSkill()
+        //     case 'hardSkillPriority':
+        //         return this.showHardSkillPriority()
+        //     case 'certiLevel':
+        //         return this.showCertificateLevel()
+        //     case 'skillLevel':
+        //         return this.showSkillLevel()
+        //     case 'posLevel':
+        //         return this.showPosLevel()
+        //     case 'projectType':
+        //         return this.showProjectType()
+        //     default:
+        //         break;
+        var { type } = this.props
+        switch (type) {
+            case 'common':
+                return this.showCommon()
+            case 'special':
+                return this.showSpecial()
+
             default:
                 break;
         }
     }
 
+    showSpecial = () => {
+        var { value } = this.props
+        return (
+            <Select value={value}
+                style={{ minWidth: 290, maxWidth: 'auto' }}
+                showArrow
+                showSearch
+                placeholder="Select project type"
+                onChange={this.onSelectSpecial}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+            >
+                {this.showPriorityOption()}
+            </Select>
+        )
+    }
+
+    onSelectSpecial = (value) => {
+        var {name} = this.props
+        switch (name) {
+            case 'positionSelect':
+                this.props.onSelectPos(value)
+                break;
+        
+            default:
+                break;
+        }
+    }
+
+    //important
     getUnSelectedList = (list) => {
         var result = []
         for (let index = 0; index < list.length; index++) {
@@ -465,6 +510,7 @@ class SelectBar extends Component {
         return result
     }
 
+    //important
     getSelectedList = (value, list) => {
         var result = []
         for (let index = 0; index < list.length; index++) {
@@ -474,6 +520,7 @@ class SelectBar extends Component {
         return result
     }
 
+    //important
     render() {
         return (
             <div>

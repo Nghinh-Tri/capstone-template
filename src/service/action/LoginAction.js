@@ -14,6 +14,7 @@ export const login = (username, password) => {
                     localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
                     localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
                     var role = getRole()
+                    console.log(role)
                     if (role === 'PM' || role === 'Employee') {
                         dispatch(success(JSON.stringify(res.data.resultObj)))
                         history.push('/');

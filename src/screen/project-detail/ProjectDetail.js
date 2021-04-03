@@ -4,6 +4,7 @@ import * as Action from "../../service/action/ProjectAction";
 import ProjectDetailTable from "../../component/project-detail/ProjectDetailTable";
 import ListEmployee from '../../component/project-detail/ListEmployee';
 import { checkSession } from '../../service/action/AuthenticateAction';
+import { NavLink } from 'react-router-dom';
 
 class ProjectDetail extends Component {
 
@@ -32,21 +33,26 @@ class ProjectDetail extends Component {
                     <div className='col-auto' style={{ marginTop: 30 }}>
                         <ul className='ul'>
                             <li className='li'>
-                                <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Project Detail</a>
+                                <a  className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Project Detail</a>
                             </li>
                             <li className='li' >
-                                <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >List Employees</a>
+                                <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >Employee List</a>
                             </li>
                         </ul>
                     </div>
 
                     <div className='col'>
-                            {this.state.select === 1 ?
-                                <ProjectDetailTable project={project} match={this.props.match} />
-                                :
-                                <ListEmployee project={project}/>
-                            }                     
+                        {this.state.select === 1 ?
+                            <ProjectDetailTable project={project} match={this.props.match} />
+                            :
+                            <ListEmployee project={project} />
+                        }
                     </div>
+                </div>
+                <div className='row pull-right'>
+                    <NavLink to="/project">
+                        <button type="button" className="btn btn-primary " style={{marginRight:30, width: 110, fontWeight: 600, marginTop:-8 }}>Back</button>
+                    </NavLink>
                 </div>
             </div>
         );

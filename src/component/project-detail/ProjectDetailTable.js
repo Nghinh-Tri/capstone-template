@@ -4,28 +4,9 @@ import { NavLink } from 'react-router-dom';
 import { showSpan, showStatus } from '../../service/util/util';
 import * as Action from "../../service/action/ProjectAction";
 import moment from 'moment';
-import { Input } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 
-class ProjectDetailTable extends Component {
-
-    setUpdateButton = (project) => {
-        if (project.status === 2)
-            return (<div className="col">
-                <NavLink to={`/project/detail/${project.projectID}/edit`}>
-                    <button type="button" className="btn btn-primary pull-right">Update</button>
-                </NavLink>
-            </div>)
-        return null;
-    }
-
-    setFinishButton = (project) => {
-        if (project.status === 2)
-            return (<div className="pull-right">
-                <button className="btn btn-primary" onClick={this.onChangeStatusToFinish}> Finish</button>
-            </div>)
-        return null
-    }
+class ProjectDetailTable extends Component {    
 
     onChangeStatusToFinish = () => {
         var { match } = this.props
@@ -37,7 +18,6 @@ class ProjectDetailTable extends Component {
         var result = {}
         if (typeof project !== 'undefined')
             result = project
-            console.log(result)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -47,23 +27,26 @@ class ProjectDetailTable extends Component {
                     <div className="form-group">
                         {/* Project detail */}
                         <div className="row">
+
                             {/* Project Name */}
-                            <div className="col-auto">
+                            <div className="col-2">
                                 <label className="bmd-label">
                                     <h4 className="font-weight-bold">Project Name : </h4>
                                 </label>
                             </div>
-                            <div className="col-auto" style={{ marginTop: -15, width: 500 }}>
-                                <Input className="form-group" value={result.projectName} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                            <div className="col" style={{ fontSize: 20, marginTop: 3, marginLeft: 10, fontWeight: 400 }}>
+                                {result.projectName}
                             </div>
+                        </div>
 
-                            {/* Project Status */}
-                            <div className="col-auto">
+                        {/* Project Status */}
+                        <div className="row">
+                            <div className="col-2">
                                 <label className="bmd-label">
                                     <h4 className="font-weight-bold">Project Status : </h4>
                                 </label>
                             </div>
-                            <div className="col" style={{ marginTop: -5, width: 250, fontWeight: 600, fontSize: 20 }}>
+                            <div className="col" style={{ marginTop: 3, width: 250, fontWeight: 600, fontSize: 20, marginLeft: 5 }}>
                                 <span className={`badge badge-pill ${showSpan(project.status)} span`}>
                                     {showStatus(project.status)}
                                 </span>
@@ -71,75 +54,81 @@ class ProjectDetailTable extends Component {
                         </div>
                         <div className='row'>
                             {/* Project Type */}
-                            <div className="col-auto">
+                            <div className="col-2">
                                 <label className="bmd-label">
                                     <h4 className="font-weight-bold">Project Type : </h4>
                                 </label>
                             </div>
-                            <div className="col" style={{ marginLeft: 10, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={result.typeName} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                            <div className="col" style={{ fontSize: 20, marginTop: 3, marginLeft: 10, fontWeight: 400 }}>
+                                {result.typeName}
                             </div>
                         </div>
 
                         {/* Date */}
                         <div className="row">
                             {/* Date begin */}
-                            <div className="col-auto">
+                            <div className="col-2">
                                 <label className="bmd-label">
-                                    <h4 className="font-weight-bold">Date Begin : </h4>
+                                    <h4 className="font-weight-bold">Started Date : </h4>
                                 </label>
                             </div>
-                            <div className="col-auto" style={{ marginLeft: 20, marginTop: -15, width: 250, fontWeight: 600, fontSize: 20 }}>
-                                <Input className="form-group" value={moment(result.dateBegin).format('DD-MM-YYYY')} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                            <div className="col-auto" style={{ fontSize: 20, marginTop: 3, marginLeft: 10, fontWeight: 400 }}>
+                                {moment(result.dateBegin).format('DD-MM-YYYY')}
                             </div>
-                            <div className="col-auto" style={{ marginLeft: 68 }} >
+                            <div className="col-2" style={{ marginLeft: 68 }} >
                                 <label className="bmd-label">
-                                    <h4 className="font-weight-bold">Estimated End : </h4>
+                                    <h4 className="font-weight-bold">End Date : </h4>
                                 </label>
                             </div>
-                            <div className="col-auto" style={{ marginTop: -15, width: 250, fontWeight: 600, fontSize: 20 }}>
-                                <Input className="form-group" value={moment(result.dateEstimatedEnd).format('DD-MM-YYYY')} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                            <div className="col-auto" style={{ fontSize: 20, marginTop: 3, marginLeft: 10, fontWeight: 400 }}>
+                                {moment(result.dateEstimatedEnd).format('DD-MM-YYYY')}
                             </div>
-
                         </div>
 
                         {/* Description*/}
                         <div className="row">
-                            <div className="col-auto">
+                            <div className="col-2">
                                 <label className="bmd-label">
                                     <h4 className="font-weight-bold">Description : </h4>
                                 </label>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col form-group" style={{ marginTop: -8, width: 250, fontWeight: 600, fontSize: 20 }}>
-                                <TextArea className="form-group" disabled="true" rows="10" defaultValue={result.description} style={{ color: "black", cursor: 'default' }} />
+                            <div className="col form-group" style={{ marginTop: -8, width: 250 }}>
+                                <TextArea className="form-group" disabled="true" rows="auto" value={result.description} style={{ color: "black", cursor: 'default' ,fontSize: 18 }} />
                             </div>
                         </div>
 
                         {/* Stakeholder*/}
                         <div className="row">
-                            <div className="col-auto">
+                            <div className="col-2">
                                 <label className="bmd-label">
                                     <h4 className="font-weight-bold">Stakeholder : </h4>
                                 </label>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col form-group" style={{ marginTop: -8, width: 250, fontWeight: 600, fontSize: 20 }}>
-                                <TextArea className="form-group" disabled="true" rows="10" defaultValue={result.skateholder} style={{ color: "black", cursor: 'default' }} />
+                            <div className="col form-group" style={{ marginTop: -8, width: 250 }}>
+                                <TextArea className="form-group" disabled="true" rows="auto" value={result.skateholder} style={{ color: "black", cursor: 'default',fontSize: 18 }} />
                             </div>
                         </div>
 
 
-                            <div className='row pull-right'>
+                        <div className='row pull-right'>
+                            {project.status === 2 || project.status === 1 ?
                                 <div className='col'>
-                                    {this.setUpdateButton(project)}
+                                    <NavLink to={`/project/detail/${project.projectID}/edit`}>
+                                        <button type="button" className="btn btn-primary">Update</button>
+                                    </NavLink>
                                 </div>
+                                : ''}
+
+                            {project.status === 2 ?
                                 <div className='col'>
-                                    {this.setFinishButton(project)}
+                                    <button className="btn btn-primary" onClick={this.onChangeStatusToFinish}> Finish</button>
                                 </div>
-                            </div>
+                                : ''}
+                        </div>
                     </div>
                 </div>
             </div>

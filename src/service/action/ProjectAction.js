@@ -1,9 +1,8 @@
 import axios from "axios";
 import { alertConstants, Type } from "../constant";
-import { API_URL } from "../util/util";
+import { API_URL, getRole } from "../util/util";
 import { history } from "../helper/History";
 import { store } from "react-notifications-component";
-import moment from "moment";
 
 export const generateProject = (project, isCreateNew) => {
     return (dispatch) => {
@@ -76,7 +75,6 @@ export const createProject = (project, match) => {
                 }
             }
         }).catch(err => {
-           
             if (err.response.status === 401) {
                 history.push('/login')
             }
@@ -106,7 +104,12 @@ export const updateProjectDetail = (name, value) => {
 
 export const fetchProject = (pageIndex) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
-    var url = `${API_URL}/Project/getProjects/${empID}?PageIndex=${pageIndex}&PageSize=5`
+    var url = ''
+    var role = getRole()
+    if (role === 'PM')
+        url = `${API_URL}/Project/getProjects/${empID}?PageIndex=${pageIndex}&PageSize=10`
+    if (role === 'Employee')
+        url = `${API_URL}/Project/getEmployeeProjects/${empID}?PageIndex=${pageIndex}&PageSize=10`
     return (dispatch) => {
         axios.get(
             url,

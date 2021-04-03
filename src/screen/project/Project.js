@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as Action from "../../service/action/ProjectAction";
 import ProjectTableItem from "../../component/project-table-item/ProjectTableItem";
 import { checkSession } from '../../service/action/AuthenticateAction';
+import { getRole } from '../../service/util/util';
 
 class Project extends Component {
 
@@ -55,16 +56,24 @@ class Project extends Component {
     render() {
         var { projects } = this.props
         var items = []
-        if (typeof projects.data !== 'undefined')
-            items = projects.data.items
+        if (getRole() === 'PM') {
+            if (typeof projects.data !== 'undefined')
+                items = projects.data.items
+        } else {
+            items = projects.items
+        }
+        console.log(projects)
         return (
             <div className="container-fluid">
-                <button type="button" className="btn btn-primary"
-                    style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, }}
-                    onClick={() => this.onGenerateProject(projects.isCreateNew)} >
-                    <i className="material-icons mr-5">add_box</i>
+                {getRole() === 'PM' ?
+                    <button type="button" className="btn btn-primary"
+                        style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, }}
+                        onClick={() => this.onGenerateProject(projects.isCreateNew)} >
+                        <i className="material-icons mr-5">add_box</i>
                         Create New Project
                 </button>
+                    : ''
+                }
 
                 <div className="row">
                     <div className="card mb-80">
@@ -74,13 +83,25 @@ class Project extends Component {
                                     <div className="card-body">
                                         <div className="table-responsive">
                                             <table className="table">
-                                                <thead className=" text-primary">
-                                                    <tr>
-                                                        <th className="font-weight-bold text-center">No</th>
-                                                        <th className="font-weight-bold text-center">Project Name</th>
-                                                        <th className="font-weight-bold text-center">Status</th>
-                                                        <th className="font-weight-bold text-center"></th>
-                                                    </tr>
+                                                <thead className="text-primary">
+                                                    {getRole() === "PM" ?
+                                                        <tr>
+                                                            <th className="font-weight-bold text-center">No</th>
+                                                            <th className="font-weight-bold">Project Name</th>
+                                                            <th className="font-weight-bold">Project Type</th>
+                                                            <th className="font-weight-bold text-center">Started Date</th>
+                                                            <th className="font-weight-bold text-center">Status</th>
+                                                            <th className="font-weight-bold text-center"></th>
+                                                        </tr>
+                                                        :
+                                                        <tr>
+                                                            <th className="font-weight-bold text-center">No</th>
+                                                            <th className="font-weight-bold">Project Name</th>
+                                                            <th className="font-weight-bold">Position</th>
+                                                            <th className="font-weight-bold text-center">Joined Date</th>
+                                                            <th className="font-weight-bold text-center"></th>
+                                                        </tr>
+                                                    }
                                                 </thead>
                                                 <tbody>
                                                     {this.onShowListProject(items)}
@@ -97,7 +118,9 @@ class Project extends Component {
                                             </div>
                                             <div className="col-auto">
                                                 <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                                    {typeof projects.data !== 'undefined' ? projects.data.pageIndex + " - " + projects.data.pageCount : 0 - 0}
+                                                    {typeof projects.data !== 'undefined' ?
+                                                        projects.data.pageIndex + " - " + projects.data.pageCount :
+                                                        projects.pageIndex + ' - ' + projects.pageCount}
                                                 </div>
                                             </div>
                                             <div className="col">
