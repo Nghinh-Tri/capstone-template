@@ -80,19 +80,24 @@ class ListEmployee extends Component {
                     <h4 className="card-title">Employee List</h4>
                 </div>
                 <div className="card-body">
-                    <div className='row' style={{marginLeft:10}} >
-                        <div className='col-auto'>
-                            <h4 className="font-weight-bold" style={{marginTop:5}}>Position</h4>
-                        </div>
-                        <div className='col'>
-                            <SelectBar type='special'
-                                name='positionSelect'
-                                list={postList}
-                                value={this.state.positionSelect}
-                                onSelectPos={this.onSelectPos} />
-                        </div>
-                    </div>
-                    {this.showEmployee(listEmployee)}
+                    {listEmployee.length > 0 ?
+                        <React.Fragment>
+                            <div className='row' style={{ marginLeft: 10 }} >
+                                <div className='col-auto'>
+                                    <h4 className="font-weight-bold" style={{ marginTop: 5 }}>Position</h4>
+                                </div>
+                                <div className='col'>
+                                    <SelectBar type='special'
+                                        name='positionSelect'
+                                        list={postList}
+                                        value={this.state.positionSelect}
+                                        onSelectPos={this.onSelectPos} />
+                                </div>
+                            </div>
+                            {this.showEmployee(listEmployee)}
+                        </React.Fragment>
+                        : <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                    }
                     {project.status === 3 ? '' :
                         <div className="row">
                             <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>

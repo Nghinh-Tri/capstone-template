@@ -26,9 +26,9 @@ class ProjectDetailTable extends Component {
                 <div className="card-body">
                     <div className="form-group">
                         {/* Project detail */}
-                        <div className="row">
 
-                            {/* Project Name */}
+                        {/* Project Name */}
+                        <div className="row">
                             <div className="col-2">
                                 <label className="bmd-label">
                                     <h4 className="font-weight-bold">Project Name : </h4>
@@ -52,8 +52,9 @@ class ProjectDetailTable extends Component {
                                 </span>
                             </div>
                         </div>
+
+                        {/* Project Type */}
                         <div className='row'>
-                            {/* Project Type */}
                             <div className="col-2">
                                 <label className="bmd-label">
                                     <h4 className="font-weight-bold">Project Type : </h4>
@@ -112,7 +113,6 @@ class ProjectDetailTable extends Component {
                                 <TextArea className="form-group" disabled="true" rows="auto" value={result.skateholder} style={{ color: "black", cursor: 'default', fontSize: 18 }} />
                             </div>
                         </div>
-
 
                         <div className='row pull-right'>
                             {project.status === 2 || project.status === 1 ?

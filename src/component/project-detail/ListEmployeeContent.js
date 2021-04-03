@@ -3,19 +3,16 @@ import React, { Component } from 'react';
 
 class ListEmployeeContent extends Component {
 
-    showCandidate = (employees,posName) => {
+    showCandidate = (employees, posName) => {
         var result = null
         result = employees.map((employee, index) => {
             return (<tr key={index}>
                 <th className="text-center">{index + 1}</th>
                 <th className="">{employee.name}</th>
                 <th className="">{posName}</th>
-                <th className="text-center">{employee.dateIn === null ? "-" : moment(employee.dateIn).format('DD-MM-YYYY')}</th>
-                {/* <th className="text-center">{employee.status === 0 ?
-                    <span className={`badge badge-pill badge-secondary span`}>Pending</span>
-                    :
-                    <span className={`badge badge-pill badge-success span`}>On Going</span>
-                }</th> */}
+                <th className="text-center">
+                    {employee.dateIn === null ? "-" : moment(employee.dateIn).format('DD-MM-YYYY')}
+                </th>
             </tr>)
         })
         return result
@@ -23,13 +20,9 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item } = this.props
-        console.log('show',item)
         return (
             <div>
                 <div className="card-body">
-                    {/* <div className='row header'>
-                        <h4 className="font-weight-bold">{item.posName}</h4>
-                    </div> */}
                     <div className="row">
                         <div className="card-body confirm-table">
                             <table className="table">
@@ -39,11 +32,10 @@ class ListEmployeeContent extends Component {
                                         <th className="font-weight-bold">Name</th>
                                         <th className="font-weight-bold">Position</th>
                                         <th className="font-weight-bold text-center">Date In</th>
-                                        {/* <th className="font-weight-bold text-center">Status</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.showCandidate(item.employees,item.posName)}
+                                    {this.showCandidate(item.employees, item.posName)}
                                 </tbody>
                             </table>
                         </div>

@@ -1,3 +1,4 @@
+import { getRoles } from '@testing-library/dom';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -94,7 +95,7 @@ class PositionTable extends Component {
             )
         })
         return result
-    }    
+    }
 
     render() {
         var { positionDetail } = this.props
@@ -107,27 +108,29 @@ class PositionTable extends Component {
                     {positionDetail.posName !== null && typeof positionDetail.posName !== 'undefined' ?
                         <div>
                             {/* Name */}
-                            <div className="row">
-                                <div className="col-auto">
-                                    <label className="bmd-label">
-                                        <h4 style={{ fontWeight: 700 }}>Position : </h4>
-                                    </label>
-                                </div>
-                                <div className="col" style={{ marginLeft: -20 }}>
-                                    <label className="bmd-label">
-                                        <h4>{positionDetail.posName.trim()}</h4>
-                                    </label>
-                                </div>
-                                <div className='col-auto' style={{ marginLeft: 85, fontWeight: 600 }}>
+                            {getRoles() === 'Employee' ?
+                                <div className="row">
+                                    <div className="col-auto">
+                                        <label className="bmd-label">
+                                            <h4 style={{ fontWeight: 700 }}>Position : </h4>
+                                        </label>
+                                    </div>
+                                    <div className="col" style={{ marginLeft: -20 }}>
+                                        <label className="bmd-label">
+                                            <h4>{positionDetail.posName.trim()}</h4>
+                                        </label>
+                                    </div>
+                                    <div className='col-auto' style={{ marginLeft: 85, fontWeight: 600 }}>
 
-                                    <h4>Level :</h4>
+                                        <h4>Level :</h4>
+                                    </div>
+                                    <div className="col" style={{ marginLeft: -20 }} >
+                                        <label className="bmd-label">
+                                            <h4 style={{ fontWeight: 500 }}>{showPositionLevel(positionDetail.posLevel)}</h4>
+                                        </label>
+                                    </div>
                                 </div>
-                                <div className="col" style={{ marginLeft: -20 }} >
-                                    <label className="bmd-label">
-                                        <h4 style={{ fontWeight: 500 }}>{showPositionLevel(positionDetail.posLevel)}</h4>
-                                    </label>
-                                </div>
-                            </div>
+                                : ''}
 
                             {/* Language */}
                             <div className="row">
@@ -157,14 +160,14 @@ class PositionTable extends Component {
                                     <label className="bmd-label">
                                         <h4 className="" style={{ fontWeight: 700 }}>Hard Skills : </h4>
                                     </label>
-                                </div>                                
+                                </div>
                             </div>
                             {/* List Hard Skills */}
                             {this.showHardSkill(positionDetail.hardSkills)}
                         </div>
                         :
                         <h4 className='text-center'>No Data</h4>
-                    }                   
+                    }
                 </div>
             </div>
         );
