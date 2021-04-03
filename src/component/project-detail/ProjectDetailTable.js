@@ -6,7 +6,7 @@ import * as Action from "../../service/action/ProjectAction";
 import moment from 'moment';
 import TextArea from 'antd/lib/input/TextArea';
 
-class ProjectDetailTable extends Component {    
+class ProjectDetailTable extends Component {
 
     onChangeStatusToFinish = () => {
         var { match } = this.props
@@ -75,13 +75,13 @@ class ProjectDetailTable extends Component {
                             <div className="col-auto" style={{ fontSize: 20, marginTop: 3, marginLeft: 10, fontWeight: 400 }}>
                                 {moment(result.dateBegin).format('DD-MM-YYYY')}
                             </div>
-                            <div className="col-2" style={{ marginLeft: 68 }} >
+                            <div className="col-auto" style={{ marginLeft: 70, marginTop: 10 }} >
                                 <label className="bmd-label">
-                                    <h4 className="font-weight-bold">End Date : </h4>
+                                    <h4 className="font-weight-bold">End Date {result.dateEnd === null ? '(Estimate)' : ''} : </h4>
                                 </label>
                             </div>
                             <div className="col-auto" style={{ fontSize: 20, marginTop: 3, marginLeft: 10, fontWeight: 400 }}>
-                                {moment(result.dateEstimatedEnd).format('DD-MM-YYYY')}
+                                {result.dateEnd === null ? moment(result.dateEstimatedEnd).format('DD-MM-YYYY') : moment(result.dateEnd).format('DD-MM-YYYY')}
                             </div>
                         </div>
 
@@ -95,7 +95,7 @@ class ProjectDetailTable extends Component {
                         </div>
                         <div className="row">
                             <div className="col form-group" style={{ marginTop: -8, width: 250 }}>
-                                <TextArea className="form-group" disabled="true" rows="auto" value={result.description} style={{ color: "black", cursor: 'default' ,fontSize: 18 }} />
+                                <TextArea className="form-group" disabled="true" rows="auto" value={result.description} style={{ color: "black", cursor: 'default', fontSize: 18 }} />
                             </div>
                         </div>
 
@@ -109,7 +109,7 @@ class ProjectDetailTable extends Component {
                         </div>
                         <div className="row">
                             <div className="col form-group" style={{ marginTop: -8, width: 250 }}>
-                                <TextArea className="form-group" disabled="true" rows="auto" value={result.skateholder} style={{ color: "black", cursor: 'default',fontSize: 18 }} />
+                                <TextArea className="form-group" disabled="true" rows="auto" value={result.skateholder} style={{ color: "black", cursor: 'default', fontSize: 18 }} />
                             </div>
                         </div>
 

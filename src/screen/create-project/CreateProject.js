@@ -105,6 +105,8 @@ class CreateProject extends Component {
                                 </div>
                                 <div className="col" style={{ marginTop: 15 }}>
                                     <SelectBar name='projectType'
+                                        type='common'
+                                        placeholder="Select project type"
                                         list={result}
                                         value={projectTypeID}
                                         onSelectProjectType={this.onSelectProjectType} />

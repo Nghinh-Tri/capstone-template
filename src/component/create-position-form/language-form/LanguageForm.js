@@ -66,15 +66,17 @@ class LanguageForm extends Component {
 
     render() {
         var { language, positionFormIndex } = this.props
-
         const showLanguage = (language, positionFormIndex) => {
             if (this.state.isMinimize)
                 return ""
             else {
                 return (<div className="card-body">
                     {this.showItems(language, positionFormIndex)}
-                    <span className="material-icons add"
-                        onClick={() => this.onAddLanguage(positionFormIndex)}>add_box</span>
+                    {this.props.languageList.length === language.length ?
+                        '' :
+                        <span className="material-icons add"
+                            onClick={() => this.onAddLanguage(positionFormIndex)}>add_box</span>
+                    }
                 </div>)
             }
 

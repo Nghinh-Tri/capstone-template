@@ -67,8 +67,11 @@ class SoftSkillForm extends Component {
             else {
                 return (<div className="card-body">
                     {this.showItems(softSkill, positionFormIndex)}
-                    <span className="material-icons add"
-                        onClick={() => this.onAddSoftSkill(positionFormIndex)}>add_box</span>
+                    {this.props.softSkillList.length === softSkill.length ?
+                        '' :
+                        <span className="material-icons add"
+                            onClick={() => this.onAddSoftSkill(positionFormIndex)}>add_box</span>
+                    }
                 </div>)
             }
 
@@ -88,7 +91,6 @@ class SoftSkillForm extends Component {
                 </div>
                 {showSoftSkill(softSkill, positionFormIndex)}
             </div>
-
         );
     }
 }

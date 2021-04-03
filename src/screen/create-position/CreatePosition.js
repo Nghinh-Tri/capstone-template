@@ -29,8 +29,8 @@ class CreatePosition extends Component {
         this.props.checkSession()
         if (typeof this.props.location.state !== 'undefined')
             this.setState({ isUpdate: this.props.location.state.isUpdate })
-        if (localStorage.getItem('projectId') === '0') {
-            this.props.history.push('/project/create-project')
+        if (localStorage.getItem('projectId') === '0' || localStorage.getItem('projectId') === null) {
+            this.props.history.push('/project')
         } else
             this.props.fetchPostionList()
     }
@@ -171,13 +171,14 @@ class CreatePosition extends Component {
                 <form onSubmit={this.onCreatePosition} >
                     {this.showItems(this.props.items)}
                     <div className="row">
-                        <div className="col">
-                            <div >
+                        {this.props.positionList.length === this.props.items.length ?
+                            '' :
+                            <div className="col">
                                 <button type="button" className="btn btn-primary" style={{ fontWeight: 700, borderRadius: 60, marginLeft: 10, background: '#31DF44' }} onClick={this.onAddPosition}>
                                     <i className="material-icons mr-5">add_box</i>More Position
-                                 </button>
+                                </button>
                             </div>
-                        </div>
+                        }
                         <div className='col' >
                             <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }}>Create Position</button>
                         </div>

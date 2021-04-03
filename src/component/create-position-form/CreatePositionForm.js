@@ -23,7 +23,7 @@ class CreatePositionForm extends Component {
 
     onDeletePositionForm = (positionFormIndex) => {
         this.props.onDeletePositionForm(positionFormIndex)
-    }   
+    }
 
     onHandleUpdateNOC = (event) => {
         var { positionFormIndex } = this.props
@@ -72,13 +72,13 @@ class CreatePositionForm extends Component {
                 )
         }
         return (
-            <div className="card mb-50" style={{ marginRight:20 }}>
+            <div className="card mb-50" style={{ marginRight: 20 }}>
                 <div className="card-body">
-                    <div className="form-group">                        
+                    <div className="form-group">
                         <div className="row">
 
                             {/* Position */}
-                            <div className="col-1" style={{ marginLeft: 20, marginTop: 20, }}>
+                            <div className="col-1" style={{ marginLeft: 20, marginTop: 10, }}>
                                 <label className="bmd-label  ">
                                     <h4 className="font-weight-bold">
                                         Position
@@ -88,28 +88,30 @@ class CreatePositionForm extends Component {
 
                             {/* Select Bar */}
                             <div className="col" style={{ marginLeft: 20, marginTop: 5 }}>
-                                <SelectBar
+                                <SelectBar name="positionID"
+                                    type='unique'
+                                    placeholder='Select position'
                                     list={listConverted}
                                     onUpdatePositionID={this.props.onUpdatePositionID}
-                                    name="positionID"
                                     positionFormIndex={positionFormIndex}
                                     value={item.posID}
                                 />
                             </div>
 
                             {/* Position Level */}
-                            <div className="col-auto" style={{ marginLeft: 20, marginTop: 20, }}>
+                            <div className="col-auto" style={{ marginLeft: 20, marginTop: 10, }}>
                                 <label className="bmd-label ">
                                     <h4 className="font-weight-bold ">
                                         Position Level
                                     </h4>
                                 </label>
                             </div>
-                            <div className="col" style={{ marginLeft: 20, marginTop: 16 }}>
-                                <SelectBar
+                            <div className="col" style={{ marginLeft: 20, marginTop: 5 }}>
+                                <SelectBar name="posLevel"
+                                    type="multi"
+                                    placeholder="Select skill level"
                                     list={this.state.posLevel}
                                     onSelectPosLevel={this.props.onSelectPosLevel}
-                                    name="posLevel"
                                     positionFormIndex={positionFormIndex}
                                     value={item.posLevel}
                                 />

@@ -31,7 +31,7 @@ class HardSkillForm extends Component {
                     var clone = { ...listNotSelect[i] }
                     clone.isSelect = true
                     listNotSelect[i] = clone
-                }                 
+                }
             }
         }
         return listNotSelect
@@ -77,8 +77,11 @@ class HardSkillForm extends Component {
             else
                 return (<div className="card-body">
                     {this.showItems(hardSkill, positionFormIndex)}
-                    <span className="material-icons add"
-                        onClick={() => this.onAddHardSkill(positionFormIndex)}>add_box</span>
+                    {this.props.hardSkillList.length === hardSkill.length ?
+                        '' :
+                        <span className="material-icons add"
+                            onClick={() => this.onAddHardSkill(positionFormIndex)}>add_box</span>
+                    }
                 </div>)
         }
 
@@ -98,7 +101,6 @@ class HardSkillForm extends Component {
                 </div>
                 {showHardSkill(hardSkill, positionFormIndex)}
             </div>
-
         );
     }
 }

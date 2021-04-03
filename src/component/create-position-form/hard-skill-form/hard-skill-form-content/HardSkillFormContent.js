@@ -60,11 +60,12 @@ class HardSkillFormContent extends Component {
                         </label>
                     </div>
                     <div class="row" style={{ marginBottom: 20, marginLeft: 20 }}>
-                        <SelectBar
+                        <SelectBar name="hardSkill"
+                            type="unique"
+                            placeholder="Select a hard skill"
                             positionFormIndex={positionFormIndex}
                             hardSkillIndex={hardSkillIndex}
                             list={hardSkillListConverted}
-                            name="hardSkill"
                             value={hardSkillDetail.hardSkillID}
                             onUpdateHardSkillID={this.props.onUpdateHardSkillID}
                         />
@@ -81,11 +82,12 @@ class HardSkillFormContent extends Component {
                     </div>
 
                     <div class="row" style={{ marginBottom: 20 }}>
-                        <SelectBar
+                        <SelectBar name="skillLevel"
+                            type="common"
+                            placeholder="Select skill level"
                             positionFormIndex={positionFormIndex}
                             hardSkillIndex={hardSkillIndex}
                             list={this.state.skillLevel}
-                            name="skillLevel"
                             value={hardSkillDetail.skillLevel}
                             onUpdateSkillLevel={this.props.onUpdateSkillLevel}
                         />
@@ -103,11 +105,12 @@ class HardSkillFormContent extends Component {
                         </label>
                     </div>
                     <div class="row" style={{ marginBottom: 20 }}>
-                        <SelectBar
+                        <SelectBar name="certiLevel"
+                            type="common"
+                            placeholder="Select skill level"
                             positionFormIndex={positionFormIndex}
                             hardSkillIndex={hardSkillIndex}
                             list={certificationListConverted}
-                            name="certiLevel"
                             value={hardSkillDetail.certificationLevel}
                             onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
                         />
@@ -124,11 +127,12 @@ class HardSkillFormContent extends Component {
                         </label>
                     </div>
                     <div class="row" style={{ marginBottom: 20 }}>
-                        <SelectBar
+                        <SelectBar name="hardSkillPriority"
+                            type="common"
+                            placeholder="Select priority"
                             positionFormIndex={positionFormIndex}
                             hardSkillIndex={hardSkillIndex}
                             list={this.state.priority}
-                            name="hardSkillPriority"
                             value={hardSkillDetail.priority}
                             onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
                         />

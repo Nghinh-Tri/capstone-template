@@ -13,16 +13,17 @@ class SoftSkillFormContent extends Component {
         var listConverted = convertSkillList(softSkillList)
         return (
             <div className="row" style={{ marginLeft: 10, marginRight: 10, marginBottom: 15, boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', height: '70px' }}>
-                <div class="col-1" style={{ marginBottom: 45, marginLeft: 20, marginTop: 20 }}>
+                <div class="col-1" style={{ marginBottom: 45, marginLeft: 20, marginTop: 15 }}>
                     <label className="bmd-label" >
                         <h5 className="font-weight-bold">Skill</h5>
                     </label>
                 </div>
-                <div class="col" style={{ marginBottom: 45, marginLeft: 20, marginTop: 5 }}>
-                    <SelectBar
+                <div class="col" style={{ marginBottom: 45, marginLeft: 20, marginTop: 15 }}>
+                    <SelectBar name="softSkillID"
+                        type='unique'
+                        placeholder="Select a soft skill"
                         list={listConverted}
                         onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
-                        name="softSkillID"
                         positionFormIndex={positionFormIndex}
                         softSkillIndex={softSkillIndex}
                         value={item}
