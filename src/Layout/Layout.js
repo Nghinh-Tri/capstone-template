@@ -4,6 +4,10 @@ import Navigation from '../component/navigation/Navigation';
 import NavBar from '../component/nav-bar/NavBar';
 import RouteList from '../RouterMap'
 import firebase from "../service/firebase/firebase";
+import { notification } from 'antd';
+import { connect } from 'react-redux';
+
+import { sendNotificate } from "../service/action/FirebaseAction";
 
 class Layout extends Component {
 
@@ -14,6 +18,18 @@ class Layout extends Component {
         }).then(token => {
             console.log('token', token)
         })
+        // this.showNotificate()
+    }
+
+    showNotificate = () => {
+        notification.info({
+            description: 'This is the content of the notification.',
+            placement: 'bottomRight',
+            style: {
+                fontWeight: 500,
+                border: 20
+            }
+        });
     }
 
     showContent = (RouteList) => {
@@ -27,6 +43,9 @@ class Layout extends Component {
         }
         return <Switch> {result} </Switch>
     }
+    onHandle = () => {
+        this.props.sendNoti()
+    }
     render() {
         return (
             <div className="wrapper ">
@@ -34,6 +53,7 @@ class Layout extends Component {
                 <div className="main-panel">
                     <NavBar />
                     <div className="content">
+                        <button onClick={this.onHandle}>Send Noti</button>
                         {this.showContent(RouteList)}
                     </div>
                 </div>
@@ -41,4 +61,12 @@ class Layout extends Component {
         );
     }
 }
-export default Layout;
+
+const map = (dispatch) => {
+    return{
+        sendNoti:()=>{
+            dispatch(sendNotificate())
+        }
+    }
+}
+export default connect(null,map) (Layout);

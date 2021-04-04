@@ -86,3 +86,7 @@ export const ROLE = {
     PROJECT_MANAGER: 'PROJECT_MANAGER',
     EMPLOYEE: 'EMPLOYEE'
 }
+
+export const FIREBASE = {
+    RECIEVE_MESSAGE: 'RECIEVE_MESSAGE'
+}

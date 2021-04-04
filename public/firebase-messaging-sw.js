@@ -11,12 +11,13 @@ if ('serviceWorker' in navigator) {
 }
 
 firebase.initializeApp({
-    apiKey: "AIzaSyAL89OLoHUyjPc0QVMZfqMxVDx6p73HJRs",
-    authDomain: "esms-1e15a.firebaseapp.com",
-    projectId: "esms-1e15a",
-    storageBucket: "esms-1e15a.appspot.com",
-    messagingSenderId: "239302255847",
-    appId: "1:239302255847:web:1a4b9ef59c02236ded6e42"
+    apiKey: "AIzaSyAKUe0_p7UjQE2Eg_KYl8hcwJN2hDAkzR4",
+    authDomain: "capstone-esms.firebaseapp.com",
+    projectId: "capstone-esms",
+    storageBucket: "capstone-esms.appspot.com",
+    messagingSenderId: "84350334649",
+    appId: "1:84350334649:web:0580f7bbc68ea168b50d68",
+    measurementId: "G-B9W8ZXZET7"
 })
 
 const initMessaging = firebase.messaging()
