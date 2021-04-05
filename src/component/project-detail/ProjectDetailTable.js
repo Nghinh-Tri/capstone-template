@@ -5,12 +5,23 @@ import { showSpan, showStatus } from '../../service/util/util';
 import * as Action from "../../service/action/ProjectAction";
 import moment from 'moment';
 import TextArea from 'antd/lib/input/TextArea';
+import confirm from 'antd/lib/modal/confirm';
 
 class ProjectDetailTable extends Component {
 
     onChangeStatusToFinish = () => {
-        var { match } = this.props
-        this.props.changeStatusToFinish(match.params.id)
+        var { match, changeStatusToFinish } = this.props
+        confirm({
+            title: 'Are you sure finish this project?',
+            okText: 'Yes',
+            cancelText: 'No',
+            onOk() {
+                changeStatusToFinish(match.params.id)
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     }
 
     render() {
