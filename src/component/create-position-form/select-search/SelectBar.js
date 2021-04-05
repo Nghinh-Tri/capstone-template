@@ -69,19 +69,35 @@ class SelectBar extends Component {
 
     showUnique = () => {
         var { value } = this.props
-        return (
-            <Select value={value === 0 ? null : value}
-                style={{ width: 200 }}
-                showSearch
-                placeholder={this.props.placeholder}
-                onSelect={this.onSelectUnique}
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-            >
-                {this.showSelectedOption()}
-            </Select>)
+        if (value === 0) {
+            return (
+                <Select
+                    showSearch
+                    style={{ width: 250 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectUnique}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showDefaultOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={{ width: 250 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectUnique}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showSelectedOption()}
+                </Select>)
+        }
     }
 
     showSpecial = () => {
