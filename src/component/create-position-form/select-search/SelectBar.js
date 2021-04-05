@@ -52,19 +52,35 @@ class SelectBar extends Component {
 
     showCommon = () => {
         var { value, name } = this.props
-        return (
-            <Select value={value === 0 || value === -1 ? null : value}
-                showSearch
-                style={name === 'projectType' ? { width: 300 } : { width: 200 }}
-                placeholder={this.props.placeholder}
-                onSelect={this.onSelectCommon}
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                    option.children.indexOf(input) >= 0
-                }
-            >
-                {this.showPriorityOption()}
-            </Select>)
+        if (value === 0 || value === -1) {
+            return (
+                <Select
+                    showSearch
+                    style={name === 'projectType' ? { width: 300 } : { width: 200 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={name === 'projectType' ? { width: 300 } : { width: 200 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        }
     }
 
     showUnique = () => {
@@ -73,7 +89,7 @@ class SelectBar extends Component {
             return (
                 <Select
                     showSearch
-                    style={{ width: 250 }}
+                    style={{ width: 200 }}
                     placeholder={this.props.placeholder}
                     onSelect={this.onSelectUnique}
                     optionFilterProp="children"
@@ -86,7 +102,7 @@ class SelectBar extends Component {
         } else {
             return (
                 <Select value={value}
-                    style={{ width: 250 }}
+                    style={{ width: 200 }}
                     showSearch
                     placeholder={this.props.placeholder}
                     onSelect={this.onSelectUnique}

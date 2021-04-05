@@ -27,7 +27,7 @@ class ProjectDetailTable extends Component {
     render() {
         var { project } = this.props
         var result = {}
-        if (typeof project !== 'undefined')
+        if (typeof project.projectID !== 'undefined')
             result = project
         return (
             <div className="card">

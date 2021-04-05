@@ -4,16 +4,30 @@ import Navigation from '../component/navigation/Navigation';
 import NavBar from '../component/nav-bar/NavBar';
 import RouteList from '../RouterMap'
 import firebase from "../service/firebase/firebase";
+import { notification } from 'antd';
+import { connect } from 'react-redux';
+import { recieveNotificate } from '../service/action/FirebaseAction';
 
 class Layout extends Component {
 
     componentDidMount = () => {
         const messaging = firebase.messaging()
-        messaging.requestPermission().then(() => {
-            return messaging.getToken()
-        }).then(token => {
-            console.log('token', token)
-        })
+        messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
+            .then(token => {
+                if (token)
+                    this.props.recievedNoti(token)
+            })
+        messaging.onMessage((payload) => {
+            this.showNotificate(payload.notification)
+        });
+    }
+
+    showNotificate = (messaging) => {
+        notification.info({
+            message: messaging.title,
+            description: messaging.body,
+            placement: 'bottomRight'
+        });
     }
 
     showContent = (RouteList) => {
@@ -26,6 +40,9 @@ class Layout extends Component {
             });
         }
         return <Switch> {result} </Switch>
+    }
+    onHandle = () => {
+        this.props.sendNoti()
     }
     render() {
         return (
@@ -41,4 +58,11 @@ class Layout extends Component {
         );
     }
 }
-export default Layout;
+const map = (dispatch) => {
+    return {
+        recievedNoti: (token) => {
+            dispatch(recieveNotificate(token))
+        }
+    }
+}
+export default connect(null, map)(Layout);

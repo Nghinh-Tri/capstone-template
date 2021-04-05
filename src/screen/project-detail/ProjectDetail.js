@@ -11,7 +11,8 @@ class ProjectDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            select: 1
+            select: 1,
+            project: {}
         }
     }
 
@@ -21,19 +22,33 @@ class ProjectDetail extends Component {
         this.props.fetchProjectDetail(match.params.id)
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.project !== prevState.project) {
+            return { someState: nextProps.project };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.project !== this.props.project) {
+            if (typeof this.props.project.isCreateNew === 'undefined')
+                this.setState({ project: this.props.project })
+        }
+    }
+
     onClickMenu = (value) => {
         this.setState({ select: value })
     }
 
     render() {
-        var { project } = this.props
+        var { project } = this.state
         return (
             <div>
                 <div className='row'>
                     <div className='col-auto' style={{ marginTop: 30 }}>
                         <ul className='ul'>
                             <li className='li'>
-                                <a  className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Project Detail</a>
+                                <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Project Detail</a>
                             </li>
                             <li className='li' >
                                 <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >Employee List</a>
@@ -51,7 +66,7 @@ class ProjectDetail extends Component {
                 </div>
                 <div className='row pull-right'>
                     <NavLink to="/project">
-                        <button type="button" className="btn btn-primary " style={{marginRight:30, width: 110, fontWeight: 600, marginTop:-8 }}>Back</button>
+                        <button type="button" className="btn btn-primary " style={{ marginRight: 30, width: 110, fontWeight: 600, marginTop: -8 }}>Back</button>
                     </NavLink>
                 </div>
             </div>

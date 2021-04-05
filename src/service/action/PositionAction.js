@@ -144,7 +144,6 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
 }
 
 export const createPosition = (positionItem, isUpdate) => {
-    console.log(isUpdate)
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
     var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
@@ -345,5 +344,6 @@ export const createPositionFailed = () => {
 }
 
 export const addMoreCandidate = () => {
+    history.push("/project/create-position", { isUpdate: true })
     return { type: Type.ADD_MORE_CANDIDATE }
 }
