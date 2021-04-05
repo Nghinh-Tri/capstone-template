@@ -52,6 +52,7 @@ export const createProject = (project, match) => {
                     project.projectId = res.data.resultObj
                     localStorage.setItem('projectId', res.data.resultObj)
                     localStorage.setItem('projectType', project.projectTypeID)
+                    localStorage.setItem('projectName', project.projectName)
                     dispatch(createProjectSuccess(project))
                     if (typeof match.params.id === 'undefined') {
                         history.push('/project/create-position')
@@ -75,9 +76,9 @@ export const createProject = (project, match) => {
                 }
             }
         }).catch(err => {
-            if (err.response.status === 401) {
-                history.push('/login')
-            }
+            // if (err.response.status === 401) {
+            //     history.push('/login')
+            // }
         })
     }
 }

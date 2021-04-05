@@ -59,7 +59,7 @@ class ListEmployee extends Component {
 
     onHandle = () => {
         localStorage.setItem('projectId', this.props.project.projectID)
-        history.push("/project/create-position", { isUpdate: true })
+        localStorage.setItem('projectName', this.props.project.projectName)
         localStorage.setItem('projectType', this.props.project.typeID)
         this.props.pushToCreatePosition()
     }

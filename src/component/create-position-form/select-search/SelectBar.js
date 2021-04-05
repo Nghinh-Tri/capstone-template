@@ -52,36 +52,68 @@ class SelectBar extends Component {
 
     showCommon = () => {
         var { value, name } = this.props
-        return (
-            <Select value={value === 0 || value === -1 ? null : value}
-                showSearch
-                style={name === 'projectType' ? { width: 300 } : { width: 200 }}
-                placeholder={this.props.placeholder}
-                onSelect={this.onSelectCommon}
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                    option.children.indexOf(input) >= 0
-                }
-            >
-                {this.showPriorityOption()}
-            </Select>)
+        if (value === 0 || value === -1) {
+            return (
+                <Select
+                    showSearch
+                    style={name === 'projectType' ? { width: 300 } : { width: 200 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={name === 'projectType' ? { width: 300 } : { width: 200 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        }
     }
 
     showUnique = () => {
         var { value } = this.props
-        return (
-            <Select value={value === 0 ? null : value}
-                style={{ width: 200 }}
-                showSearch
-                placeholder={this.props.placeholder}
-                onSelect={this.onSelectUnique}
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-            >
-                {this.showSelectedOption()}
-            </Select>)
+        if (value === 0) {
+            return (
+                <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectUnique}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showDefaultOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={{ width: 200 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectUnique}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showSelectedOption()}
+                </Select>)
+        }
     }
 
     showSpecial = () => {

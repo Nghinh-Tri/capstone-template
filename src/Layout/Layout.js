@@ -6,29 +6,27 @@ import RouteList from '../RouterMap'
 import firebase from "../service/firebase/firebase";
 import { notification } from 'antd';
 import { connect } from 'react-redux';
-
-import { sendNotificate } from "../service/action/FirebaseAction";
+import { recieveNotificate } from '../service/action/FirebaseAction';
 
 class Layout extends Component {
 
     componentDidMount = () => {
         const messaging = firebase.messaging()
-        messaging.requestPermission().then(() => {
-            return messaging.getToken()
-        }).then(token => {
-            console.log('token', token)
-        })
-        // this.showNotificate()
+        messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
+            .then(token => {
+                if (token)
+                    this.props.recievedNoti(token)
+            })
+        messaging.onMessage((payload) => {
+            this.showNotificate(payload.notification)
+        });
     }
 
-    showNotificate = () => {
+    showNotificate = (messaging) => {
         notification.info({
-            description: 'This is the content of the notification.',
-            placement: 'bottomRight',
-            style: {
-                fontWeight: 500,
-                border: 20
-            }
+            message: messaging.title,
+            description: messaging.body,
+            placement: 'bottomRight'
         });
     }
 
@@ -53,7 +51,6 @@ class Layout extends Component {
                 <div className="main-panel">
                     <NavBar />
                     <div className="content">
-                        <button onClick={this.onHandle}>Send Noti</button>
                         {this.showContent(RouteList)}
                     </div>
                 </div>
@@ -61,12 +58,11 @@ class Layout extends Component {
         );
     }
 }
-
 const map = (dispatch) => {
-    return{
-        sendNoti:()=>{
-            dispatch(sendNotificate())
+    return {
+        recievedNoti: (token) => {
+            dispatch(recieveNotificate(token))
         }
     }
 }
-export default connect(null,map) (Layout);
+export default connect(null, map)(Layout);

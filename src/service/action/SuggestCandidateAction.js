@@ -2,6 +2,8 @@ import axios from "axios"
 import { SUGGEST_CANDIDATE } from "../constant"
 import { history } from "../helper/History"
 import { API_URL } from "../util/util"
+import { sendNotificate } from "./FirebaseAction"
+import { getUserName } from "../util/util";
 
 export const setPositionSelect = index => {
     return {
@@ -66,6 +68,7 @@ export const sortSuggestList = value => {
 export const confirmSuggestList = suggestList => {
     var projectID = localStorage.getItem('projectId')
     var url = `${API_URL}/Project/addCandidate/${projectID}`
+    console.log(suggestList)
     return (dispatch) => {
         axios.post(
             url,
@@ -73,10 +76,13 @@ export const confirmSuggestList = suggestList => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
             if (res.status === 200) {
+                var projectName = localStorage.getItem('projectName')
                 dispatch(confirmSuggestListSuggest())
+                dispatch(sendNotificate(getUserName(), projectName))
                 localStorage.removeItem('positionRequire')
                 localStorage.removeItem('projectId')
                 localStorage.removeItem('isNewPosition')
+                localStorage.removeItem('projectName')
                 history.push("/project")
             }
         })
