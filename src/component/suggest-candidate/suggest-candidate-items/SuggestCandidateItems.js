@@ -22,7 +22,7 @@ class SuggestCandidateItems extends Component {
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>
-                <th className="text-center">{candidate.empName}</th>
+                <th className="">{candidate.empName}</th>
                 <th className="text-center">{candidate.languageMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.softSkillMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>

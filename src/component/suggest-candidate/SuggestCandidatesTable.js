@@ -59,12 +59,12 @@ class SuggestCandidates extends Component {
                     <div className="form-group">
                         <div className="row">
                             <div className="card-body">
-                                <div className="table-responsive">
+                                <div className="" >
                                     <table className="table">
                                         <thead className=" text-primary">
                                             <tr>
                                                 <th className="font-weight-bold text-center">No</th>
-                                                <th className="font-weight-bold text-center">Name</th>
+                                                <th className="font-weight-bold">Name</th>
                                                 <th className="font-weight-bold text-center">
                                                     <div className='row justify-content-center'>
                                                         <div className='col-auto align-self-center' style={{ paddingRight: 0 }}>
@@ -107,10 +107,18 @@ class SuggestCandidates extends Component {
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            {this.showCandidate(item.matchDetail, selectedItem)}
-                                        </tbody>
+                                        {console.log(item.matchDetail.length)}
+                                        {item.matchDetail.length === 0 ?
+                                            ''
+                                            :
+                                            <tbody>
+                                                {this.showCandidate(item.matchDetail, selectedItem)}
+                                            </tbody>
+                                        }
                                     </table>
+                                    {item.matchDetail.length === 0 ?
+                                        <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                                        : ''}
                                 </div>
                             </div>
                         </div>

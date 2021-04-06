@@ -98,7 +98,7 @@ class ListEmployee extends Component {
                         </React.Fragment>
                         : <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
                     }
-                    {project.status === 3 ? '' :
+                    {project.status === 4 ? '' :
                         <div className="row">
                             <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
                                 <button className="btn btn-primary pull-right" onClick={this.onHandle}> Add more position</button>

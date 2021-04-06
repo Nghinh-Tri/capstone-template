@@ -7,7 +7,7 @@ class CandidateTable extends Component {
         result = candidateList.map((candidate, index) => {
             return (<tr key={index}>
                 <th className="text-center">{index + 1}</th>
-                <th className="text-center">{candidate.empName}</th>
+                <th className="">{candidate.empName}</th>
                 <th className="text-center">{candidate.languageMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.softSkillMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
@@ -31,7 +31,7 @@ class CandidateTable extends Component {
                                 <thead className=" text-primary">
                                     <tr>
                                         <th className="font-weight-bold text-center">No</th>
-                                        <th className="font-weight-bold text-center">Name</th>
+                                        <th className="font-weight-bold">Name</th>
                                         <th className="font-weight-bold text-center">Match Language</th>
                                         <th className="font-weight-bold text-center">Match Soft Skill</th>
                                         <th className="font-weight-bold text-center">Match Hard Skill</th>

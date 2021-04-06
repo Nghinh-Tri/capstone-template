@@ -146,7 +146,8 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
 export const createPosition = (positionItem, isUpdate) => {
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
-    var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
+    var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID}`
+    var urlCheckValidate = `${API_URL}/Project/checkStatus`
     return (dispatch) => {
         //not create position requirement
         if (positionItem.length === 0) {
@@ -317,14 +318,42 @@ export const createPosition = (positionItem, isUpdate) => {
         //validated
         else {
             axios.post(
-                urlToAddRequire,
+                urlCheckValidate,
                 position,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
             ).then(res => {
                 if (res.status === 200) {
-                    dispatch(createPositionSuccess())
-                    localStorage.setItem('positionRequire', JSON.stringify(positionItem))
-                    history.push("/project/suggest-candidate", { isUpdate: isUpdate })
+                    if (res.data.isSuccessed) {
+                        axios.post(
+                            urlToAddRequire,
+                            position,
+                            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+                        ).then(res => {
+                            if (res.status === 200) {
+                                dispatch(createPositionSuccess())
+                                localStorage.setItem('positionRequire', JSON.stringify(positionItem))
+                                history.push("/project/suggest-candidate", { isUpdate: isUpdate })
+                            }
+                            else {
+                                dispatch(createPositionFailed())
+                            }
+                        })
+                    }
+                    else {
+                        dispatch(createPositionFailed())
+                        store.addNotification({
+                            message: res.data.message,
+                            type: "danger",
+                            insert: "top",
+                            container: "top-center",
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                                duration: 2000,
+                                onScreen: false
+                            }
+                        })
+                    }
                 }
             })
         }

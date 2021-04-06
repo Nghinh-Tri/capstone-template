@@ -115,7 +115,7 @@ class ProjectDetailTable extends Component {
                         </div>
 
                         <div className='row pull-right'>
-                            {project.status === 2 || project.status === 1 ?
+                            {project.status === 3 || project.status === 2 ?
                                 <div className='col'>
                                     <NavLink to={`/project/detail/${project.projectID}/edit`}>
                                         <button type="button" className="btn btn-primary">Update</button>
@@ -123,7 +123,7 @@ class ProjectDetailTable extends Component {
                                 </div>
                                 : ''}
 
-                            {project.status === 2 ?
+                            {project.status === 3 ?
                                 <div className='col'>
                                     <button className="btn btn-primary" onClick={this.onChangeStatusToFinish}> Finish</button>
                                 </div>
