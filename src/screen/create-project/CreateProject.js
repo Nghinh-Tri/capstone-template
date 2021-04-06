@@ -41,19 +41,32 @@ class CreateProject extends Component {
         this.props.fetchProjectType()
         var { match } = this.props
         if (typeof match.params.id !== 'undefined') {
-            var id = match.params.id
-            this.props.fetchProjectDetail(id)
+            this.props.fetchProjectDetail(match.params.id)
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.projectDetail !== prevState.projectDetail) {
+            return { someState: nextProps.someValue };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.projectDetail !== this.props.projectDetail) {
             var { projectDetail } = this.props
-            console.log(projectDetail)
-            this.setState({
-                id: projectDetail.projectID,
-                name: projectDetail.projectName,
-                dateBegin: moment(projectDetail.dateBegin).format('YYYY-MM-DD'),
-                dateEndEst: moment(projectDetail.dateEstimatedEnd).format('YYYY-MM-DD'),
-                description: projectDetail.description,
-                stakeholder: projectDetail.skateholder,
-                projectTypeID: projectDetail.typeID
-            })
+            if (typeof projectDetail.isCreateNew === 'undefined') {
+                console.log('componentDidUpdate', this.props.projectDetail)
+                this.setState({
+                    id: projectDetail.projectID,
+                    name: projectDetail.projectName,
+                    dateBegin: moment(projectDetail.dateBegin).format('YYYY-MM-DD'),
+                    dateEndEst: moment(projectDetail.dateEstimatedEnd).format('YYYY-MM-DD'),
+                    description: projectDetail.description,
+                    stakeholder: projectDetail.skateholder,
+                    projectTypeID: projectDetail.typeID
+                })
+            }
         }
     }
 
@@ -74,7 +87,6 @@ class CreateProject extends Component {
 
     render() {
         var { name, dateBegin, dateEndEst, description, stakeholder, projectTypeID } = this.state
-        console.log(projectTypeID)
         var { projectType } = this.props
         var result = []
         if (projectType.length > 0)
@@ -96,7 +108,7 @@ class CreateProject extends Component {
                             <div className="row">
                                 <div className="col">
                                     <div className="form-group">
-                                        <label className="bmd-label-floating">Project Name</label>
+                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Name</label>
                                         <input type="text" className="form-control" value={name} name="name" onChange={this.onHandle} />
                                     </div>
                                 </div>
@@ -136,7 +148,7 @@ class CreateProject extends Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="form-group">
-                                        <label className="bmd-label-floating">Description</label>
+                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Description</label>
                                         <textarea className="form-control" name="description" rows="5" defaultValue={description} onChange={this.onHandle} />
                                     </div>
                                 </div>
@@ -146,7 +158,7 @@ class CreateProject extends Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="form-group">
-                                        <label className="bmd-label-floating">Stakeholder</label>
+                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Stakeholder</label>
                                         <textarea className="form-control" name="stakeholder" rows="5" defaultValue={stakeholder} onChange={this.onHandle} />
                                     </div>
                                 </div>

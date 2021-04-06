@@ -8,6 +8,7 @@ import '../../css/SuggestNav.css'
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { history } from '../../service/helper/History';
 import { compose } from 'redux';
+import { checkSuggestList } from '../../service/util/util';
 
 class SuggestCandidate extends Component {
 
@@ -66,8 +67,14 @@ class SuggestCandidate extends Component {
         history.push('/project/confirm-select-candidates', { isUpdate: this.state.isUpdate })
     }
 
+    onCancel = () => {
+        history.goBack()
+    }
+
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
+        console.log(suggestCandidateList)
+        var noItem = checkSuggestList(suggestCandidateList)
         return (
             <div>
                 <ProgressBar step="step3" />
@@ -91,7 +98,11 @@ class SuggestCandidate extends Component {
                     </div>
                 </div>
                 <div className="row pull-right">
-                    <button type="submit" onClick={this.onHandle} className="btn btn-primary pull-right pt" style={{ marginBottom: 20, marginRight: 20, marginTop: 0 }}>Next</button>
+                    {noItem ?
+                        <button type="submit" onClick={this.onCancel} className="btn btn-primary pull-right pt" style={{ marginBottom: 20, marginRight: 20, marginTop: 0 }}>Cancel</button>
+                        :
+                        <button type="submit" onClick={this.onHandle} className="btn btn-primary pull-right pt" style={{ marginBottom: 20, marginRight: 20, marginTop: 0 }}>Next</button>
+                    }
                 </div>
             </div>
         );

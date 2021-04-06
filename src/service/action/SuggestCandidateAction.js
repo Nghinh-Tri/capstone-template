@@ -4,6 +4,7 @@ import { history } from "../helper/History"
 import { API_URL } from "../util/util"
 import { sendNotificate } from "./FirebaseAction"
 import { getUserName } from "../util/util";
+import { store } from "react-notifications-component"
 
 export const setPositionSelect = index => {
     return {
@@ -76,19 +77,39 @@ export const confirmSuggestList = suggestList => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
             if (res.status === 200) {
-                var projectName = localStorage.getItem('projectName')
-                dispatch(confirmSuggestListSuggest())
-                dispatch(sendNotificate(getUserName(), projectName))
-                localStorage.removeItem('positionRequire')
-                localStorage.removeItem('projectId')
-                localStorage.removeItem('isNewPosition')
-                localStorage.removeItem('projectName')
-                history.push("/project")
+                if (res.data.isSuccessed) {
+                    var projectName = localStorage.getItem('projectName')
+                    dispatch(confirmSuggestListSuccess())
+                    dispatch(sendNotificate(getUserName(), projectName))
+                    localStorage.removeItem('positionRequire')
+                    localStorage.removeItem('projectId')
+                    localStorage.removeItem('isNewPosition')
+                    localStorage.removeItem('projectName')
+                    history.push("/project")
+                } else {
+                    dispatch(confirmSuggestListFail())
+                    store.addNotification({
+                        message: res.data.message,
+                        type: "danger",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 2000,
+                            onScreen: false
+                        }
+                    })
+                }
             }
         })
     }
 }
 
-export const confirmSuggestListSuggest = () => {
+export const confirmSuggestListSuccess = () => {
     return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST }
+}
+
+export const confirmSuggestListFail = () => {
+    return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST_FAIL }
 }

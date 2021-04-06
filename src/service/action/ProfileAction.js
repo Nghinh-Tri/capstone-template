@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Type } from "../constant";
+import { history } from "../helper/History";
 import { API_URL } from "../util/util";
 
 export const fetchProfileDetail = (id) => {
@@ -39,4 +40,10 @@ export const fetchPositionProfileDetailSuccess = (resultObj) => {
         type: Type.FETCH_POSITION_PROFILE_DETAIL,
         resultObj
     }
+}
+
+
+export const pushToProfilePage = () => {
+    history.push('/profile')
+    return { type: Type.PROFILE_PAGE }
 }

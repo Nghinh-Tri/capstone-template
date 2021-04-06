@@ -37,3 +37,4 @@ export const sessionAllow = () => {
 export const logout = () => {
     return { type: Type.LOGOUT };
 }
+
