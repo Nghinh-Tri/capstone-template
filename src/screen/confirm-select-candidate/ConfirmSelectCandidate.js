@@ -47,11 +47,16 @@ class ConfirmSelectCandidate extends Component {
 
     render() {
         var { candidateList } = this.props
+        console.log('items', candidateList)
         return (
             <div>
                 <ProgressBar step="step4" />
                 <div className='card mb-80'>
-                    {this.showList(candidateList)}
+                    {candidateList.length === 0 ?
+                        <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >No data</h4>
+                        :
+                        this.showList(candidateList)
+                    }
                 </div>
                 <div className="row pull-right">
                     <div className="col">

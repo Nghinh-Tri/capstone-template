@@ -46,7 +46,10 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
             candidateSelectClone = positionObjClone.candidateSelect.slice()
             candidateSelectClone.splice(candidateIndex, 1)
             positionObjClone.candidateSelect = candidateSelectClone
-            state.splice(index, 1, positionObjClone)
+            if (positionObjClone.candidateSelect.length === 0)
+                state.splice(positionIndex, 1)
+            else
+                state.splice(positionIndex, 1, positionObjClone)
             return [...state]
 
         case SUGGEST_CANDIDATE.FETCH_SELECTED_LIST:

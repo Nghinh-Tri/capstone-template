@@ -1,3 +1,4 @@
+import { Checkbox } from 'antd';
 import React, { Component } from 'react';
 import SuggestCandidateItems from './suggest-candidate-items/SuggestCandidateItems';
 
@@ -26,6 +27,10 @@ class SuggestCandidates extends Component {
         else {
             this.props.onUnselectCandidate(candidate, this.props.item.position)
         }
+    }
+
+    onSelectAll = (event) => {
+        console.log('select all', event.target)
     }
 
     showCandidate = (candidateList, selectedItem) => {
@@ -105,9 +110,11 @@ class SuggestCandidates extends Component {
                                                         </div>
                                                     </div>
                                                 </th>
+                                                <th className="font-weight-bold text-center">
+                                                    <input type="checkbox" name="selectAll" onSelect={this.onSelectAll} />
+                                                </th>
                                             </tr>
                                         </thead>
-                                        {console.log(item.matchDetail.length)}
                                         {item.matchDetail.length === 0 ?
                                             ''
                                             :

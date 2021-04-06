@@ -69,40 +69,55 @@ export const sortSuggestList = value => {
 export const confirmSuggestList = suggestList => {
     var projectID = localStorage.getItem('projectId')
     var url = `${API_URL}/Project/addCandidate/${projectID}`
-    console.log(suggestList)
     return (dispatch) => {
-        axios.post(
-            url,
-            suggestList,
-            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-        ).then(res => {
-            if (res.status === 200) {
-                if (res.data.isSuccessed) {
-                    var projectName = localStorage.getItem('projectName')
-                    dispatch(confirmSuggestListSuccess())
-                    dispatch(sendNotificate(getUserName(), projectName))
-                    localStorage.removeItem('positionRequire')
-                    localStorage.removeItem('projectId')
-                    localStorage.removeItem('isNewPosition')
-                    localStorage.removeItem('projectName')
-                    history.push("/project")
-                } else {
-                    dispatch(confirmSuggestListFail())
-                    store.addNotification({
-                        message: res.data.message,
-                        type: "danger",
-                        insert: "top",
-                        container: "top-center",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                            duration: 2000,
-                            onScreen: false
-                        }
-                    })
+        if (suggestList.candidates.length === 0) {
+            dispatch(confirmSuggestListFail())
+            store.addNotification({
+                message: "Please select candidates",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
                 }
-            }
-        })
+            })
+        } else {
+            axios.post(
+                url,
+                suggestList,
+                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+            ).then(res => {
+                if (res.status === 200) {
+                    if (res.data.isSuccessed) {
+                        var projectName = localStorage.getItem('projectName')
+                        dispatch(confirmSuggestListSuccess())
+                        dispatch(sendNotificate(getUserName(), projectName))
+                        localStorage.removeItem('positionRequire')
+                        localStorage.removeItem('projectId')
+                        localStorage.removeItem('isNewPosition')
+                        localStorage.removeItem('projectName')
+                        history.push("/project")
+                    } else {
+                        dispatch(confirmSuggestListFail())
+                        store.addNotification({
+                            message: res.data.message,
+                            type: "danger",
+                            insert: "top",
+                            container: "top-center",
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                                duration: 2000,
+                                onScreen: false
+                            }
+                        })
+                    }
+                }
+            })
+        }
     }
 }
 
