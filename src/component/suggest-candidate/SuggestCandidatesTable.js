@@ -22,7 +22,7 @@ class SuggestCandidates extends Component {
 
     onSelect = (value, candidate) => {
         if (value) {
-            this.props.onSelectCandidate(candidate, this.props.item.position, this.props.item.posId)
+            this.props.onSelectCandidate(candidate, this.props.item)
         }
         else {
             this.props.onUnselectCandidate(candidate, this.props.item.position)
@@ -30,7 +30,11 @@ class SuggestCandidates extends Component {
     }
 
     onSelectAll = (event) => {
-        console.log('select all', event.target)
+        var value = event.target.checked
+        if (value)
+            this.props.onSelectAll(this.props.item)
+        else
+            this.props.onUnSelectAll(this.props.item.position)
     }
 
     showCandidate = (candidateList, selectedItem) => {
@@ -48,6 +52,8 @@ class SuggestCandidates extends Component {
 
     render() {
         var { item, selectedItem } = this.props
+        console.log('item',item)
+        console.log('selectedItem',selectedItem)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -111,7 +117,7 @@ class SuggestCandidates extends Component {
                                                     </div>
                                                 </th>
                                                 <th className="font-weight-bold text-center">
-                                                    <input type="checkbox" name="selectAll" onSelect={this.onSelectAll} />
+                                                    <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
                                                 </th>
                                             </tr>
                                         </thead>
@@ -132,7 +138,6 @@ class SuggestCandidates extends Component {
                     </div>
                 </div>
             </div >
-
         );
     }
 }

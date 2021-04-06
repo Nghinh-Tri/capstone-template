@@ -24,20 +24,50 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
     switch (action.type) {
         case SUGGEST_CANDIDATE.SELECT_CANDIDATE:
             if (state.length === 0) {
-                positionItem = { position: action.position, posId: action.posId, candidateSelect: [action.candidate] }
+                positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [action.candidate], selectAll: false }
+                if (positionItem.candidateSelect.length === action.candidateList.matchDetail.length)
+                    positionItem.selectAll = true
                 state.push(positionItem)
             } else {
-                var index = getPositionIndex(state, action.position)
+                var index = getPositionIndex(state, action.candidateList.position)
                 if (index !== -1) {
                     positionObjClone = { ...state[index] }
                     positionObjClone.candidateSelect.push(action.candidate)
+                    if (positionObjClone.candidateSelect.length === action.candidateList.matchDetail.length)
+                        positionObjClone.selectAll = true
                     state.splice(index, 1, positionObjClone)
                 } else {
-                    positionItem = { position: action.position, posId: action.posId, candidateSelect: [action.candidate] }
+                    positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [action.candidate], selectAll: false }
+                    if (positionItem.candidateSelect.length === action.candidateList.matchDetail.length)
+                        positionItem.selectAll = true
                     state.push(positionItem)
                 }
             }
             return [...state];
+
+        case SUGGEST_CANDIDATE.SELECT_ALL_CANDIDATE:
+            if (action.candidateList.matchDetail.length > 0) {
+                if (state.length > 0) {
+                    var index = getPositionIndex(state, action.position)
+                    if (index !== -1) {
+                        positionObjClone = { ...state[index] }
+                        positionObjClone.candidateSelect = [...action.candidateList.matchDetail]
+                        state.splice(index, 1, positionObjClone)
+                    } else {
+                        positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [...action.candidateList.matchDetail], selectAll: true }
+                        state.push(positionItem)
+                    }
+                } else {
+                    positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [...action.candidateList.matchDetail], selectAll: true }
+                    state.push(positionItem)
+                }
+            }
+            return [...state]
+
+        case SUGGEST_CANDIDATE.UNSELECT_ALL_CANDIDATE:
+            var index = getPositionIndex(state, action.position)
+            state.splice(index, 1)
+            return [...state]
 
         case SUGGEST_CANDIDATE.UNSELECT_CANDIDATE:
             var positionIndex = getPositionIndex(state, action.position)
@@ -46,6 +76,7 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
             candidateSelectClone = positionObjClone.candidateSelect.slice()
             candidateSelectClone.splice(candidateIndex, 1)
             positionObjClone.candidateSelect = candidateSelectClone
+            positionObjClone.selectAll = false
             if (positionObjClone.candidateSelect.length === 0)
                 state.splice(positionIndex, 1)
             else

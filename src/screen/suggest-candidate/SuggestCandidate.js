@@ -43,8 +43,8 @@ class SuggestCandidate extends Component {
         return result
     }
 
-    selectCandidate = (candidate, position, posId) => {
-        this.props.selectCandidate(candidate, position, posId)
+    selectCandidate = (candidate, item) => {
+        this.props.selectCandidate(candidate, item)
     }
 
     unselectCandidate = (candidate, position) => {
@@ -71,6 +71,14 @@ class SuggestCandidate extends Component {
         history.goBack()
     }
 
+    onSelectAll = (item) => {
+        this.props.selectAll(item)
+    }
+
+    onUnSelectAll = (position) => {
+        this.props.unSelectAll(position)
+    }
+
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
         console.log(suggestCandidateList)
@@ -92,6 +100,8 @@ class SuggestCandidate extends Component {
                                 onSelectCandidate={this.selectCandidate}
                                 selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
                                 onUnselectCandidate={this.unselectCandidate}
+                                onSelectAll={this.onSelectAll}
+                                onUnSelectAll={this.onUnSelectAll}
                             /> :
                             ''
                         }
@@ -122,8 +132,8 @@ const mapDispatchToProps = (dispatch) => {
         onPositionSelect: index => {
             dispatch(Action.setPositionSelect(index))
         },
-        selectCandidate: (candidate, position, posId) => {
-            dispatch(Action.selectCandidate(candidate, position, posId))
+        selectCandidate: (candidate, candidateList) => {
+            dispatch(Action.selectCandidate(candidate, candidateList))
         },
         unSelectCandidate: (candidate, position) => {
             dispatch(Action.unselectCandiate(candidate, position))
@@ -136,6 +146,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        selectAll: (candidateList) => {
+            dispatch(Action.selectAllCandidates(candidateList))
+        },
+        unSelectAll: (position) => {
+            dispatch(Action.unselectAllCandiates(position))
         }
     }
 }

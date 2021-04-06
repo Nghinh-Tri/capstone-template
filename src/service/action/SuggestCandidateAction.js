@@ -13,10 +13,17 @@ export const setPositionSelect = index => {
     }
 }
 
-export const selectCandidate = (candidate, position, posId) => {
+export const selectCandidate = (candidate, candidateList) => {
     return {
         type: SUGGEST_CANDIDATE.SELECT_CANDIDATE,
-        candidate, position, posId
+        candidate,candidateList
+    }
+}
+
+export const selectAllCandidates = (candidateList) => {
+    return {
+        type: SUGGEST_CANDIDATE.SELECT_ALL_CANDIDATE,
+        candidateList
     }
 }
 
@@ -24,6 +31,13 @@ export const unselectCandiate = (candidate, position) => {
     return {
         type: SUGGEST_CANDIDATE.UNSELECT_CANDIDATE,
         candidate, position
+    }
+}
+
+export const unselectAllCandiates = (position) => {
+    return {
+        type: SUGGEST_CANDIDATE.UNSELECT_ALL_CANDIDATE,
+        position
     }
 }
 
