@@ -56,7 +56,6 @@ class CreateProject extends Component {
         if (prevProps.projectDetail !== this.props.projectDetail) {
             var { projectDetail } = this.props
             if (typeof projectDetail.isCreateNew === 'undefined') {
-                console.log('componentDidUpdate', this.props.projectDetail)
                 this.setState({
                     id: projectDetail.projectID,
                     name: projectDetail.projectName,

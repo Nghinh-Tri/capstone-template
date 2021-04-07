@@ -5,6 +5,7 @@ import ProjectTableItem from "../../component/project-table-item/ProjectTableIte
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { getRole } from '../../service/util/util';
 import Search from '../../component/search/Search';
+import { Spin } from 'antd';
 
 class Project extends Component {
 
@@ -19,13 +20,29 @@ class Project extends Component {
                 stakeholder: ''
             },
             page: 1,
-            search: ''
+            search: '',
+            isLoading: true
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
         this.props.fetchProject(this.state.page, this.state.search)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.projects !== prevState.projects) {
+            return { someState: nextProps.projects };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.projects !== this.props.projects) {
+            if (typeof this.props.projects.data !== 'undefined') {
+                this.setState({ isLoading: false })
+            }
+        }
     }
 
     onGenerateProject = (isCreateNew) => {
@@ -85,11 +102,13 @@ class Project extends Component {
                     <div className="card mb-80">
                         <div className="card-body">
                             <div className="form-group">
-                                <div className="row">
-                                    <Search search="project"
-                                        placeholder="Search project name ..."
-                                        searchProject={this.searchProject} />
-                                </div>
+                                {this.state.isLoading ? '' :
+                                    <div className="row">
+                                        <Search search="project"
+                                            placeholder="Search project name ..."
+                                            searchProject={this.searchProject} />
+                                    </div>
+                                }
                                 <div className="row">
                                     <div className="card-body">
                                         <div className="table-responsive">
@@ -114,34 +133,43 @@ class Project extends Component {
                                                         </tr>
                                                     }
                                                 </thead>
-                                                <tbody>
-                                                    {this.onShowListProject(items)}
-                                                </tbody>
+                                                {this.state.isLoading ? '' :
+                                                    <tbody>
+                                                        {this.onShowListProject(items)}
+                                                    </tbody>
+                                                }
                                             </table>
                                         </div>
-                                        <div className="row align-items-center">
-                                            <div className="col">
-                                                <button type="button"
-                                                    style={{ fontWeight: 700, width: 120 }}
-                                                    className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                                    Previous
-                                                </button>
+                                        {this.state.isLoading ?
+                                            <div className='row justify-content-center'>
+                                                <Spin className='text-center' size="large" />
                                             </div>
-                                            <div className="col-auto">
-                                                <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                                    {typeof projects.data !== 'undefined' ?
-                                                        projects.data.pageIndex + " - " + projects.data.pageCount :
-                                                        projects.pageIndex + ' - ' + projects.pageCount}
+                                            : ''}
+                                        {this.state.isLoading ? '' :
+                                            <div className="row align-items-center">
+                                                <div className="col">
+                                                    <button type="button"
+                                                        style={{ fontWeight: 700, width: 120 }}
+                                                        className="btn btn-primary pull-right" onClick={this.onPrevios}>
+                                                        Previous
+                                                </button>
+                                                </div>
+                                                <div className="col-auto">
+                                                    <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
+                                                        {typeof projects.data !== 'undefined' ?
+                                                            projects.data.pageIndex + " - " + projects.data.pageCount :
+                                                            projects.pageIndex + ' - ' + projects.pageCount}
+                                                    </div>
+                                                </div>
+                                                <div className="col">
+                                                    <button type="button"
+                                                        style={{ fontWeight: 700, width: 120 }}
+                                                        className="btn btn-primary" onClick={this.onNext}>
+                                                        Next
+                                                </button>
                                                 </div>
                                             </div>
-                                            <div className="col">
-                                                <button type="button"
-                                                    style={{ fontWeight: 700, width: 120 }}
-                                                    className="btn btn-primary" onClick={this.onNext}>
-                                                    Next
-                                                </button>
-                                            </div>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

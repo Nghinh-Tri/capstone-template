@@ -180,10 +180,9 @@ class CreatePosition extends Component {
                             </div>
                         }
                         <div className='col' >
-                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }}>Create Position</button>
+                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }}>Require Position</button>
                         </div>
                     </div>
-
                 </form>
             </div>
         );
