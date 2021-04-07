@@ -159,13 +159,14 @@ export const getSuggestAgainList = list => {
 }
 
 export const getSuggestAgainButton = (list) => {
+    var i = 0
     list.forEach(element => {
         element.employees.forEach(emp => {
             if (emp.dateIn === null)
-                return true
+                i++
         });
     });
-    return false
+    return i === 0
 }
 
 export const getUserName = () => {

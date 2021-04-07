@@ -81,6 +81,8 @@ class ListEmployee extends Component {
         var postList = []
         if (this.state.positionList.length > 1)
             postList = this.state.positionList
+        var notNeedSuggest = getSuggestAgainButton(listEmployee)
+        console.log(notNeedSuggest)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -117,7 +119,7 @@ class ListEmployee extends Component {
                         : <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
                     }
                     <div className="row pull-right">
-                        {project.status === 4 && getSuggestAgainButton() ? '' :
+                        {project.status === 4 || notNeedSuggest ? '' :
                             <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
                                 <button className="btn btn-primary pull-right" onClick={this.onSuggestAgain}>Suggest Again</button>
                             </div>
