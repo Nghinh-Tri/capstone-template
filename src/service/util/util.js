@@ -75,12 +75,20 @@ export const convertSkillList = (list) => {
 
 export const convertCertificationList = (list) => {
     var result = []
-    result.push({ label: 'All', value: 0 })
     list.forEach(element => {
-        result.push({ label: 'Level ' + element.certiLevel + ' - ' + element.certificationName, value: element.certiLevel })
+        result.push({ label: element.certificationLevel, value: element.certificationLevel })
     });
     return result;
 }
+
+// export const convertCertificationList = (list) => {
+//     var result = []
+//     result.push({ label: 'All', value: 0 })
+//     list.forEach(element => {
+//         result.push({ label: 'Level ' + element.certiLevel + ' - ' + element.certificationName, value: element.certiLevel })
+//     });
+//     return result;
+// }
 
 export const convertLanguageList = (list) => {
     var result = []
