@@ -126,9 +126,7 @@ export const fetchProject = (pageIndex, search) => {
         ).then(res => {
             dispatch(fetchProjectSuccess(res.data.resultObj))
         }).catch(err => {
-            if (err.response.status === 401) {
-                history.push('/login')
-            }
+          
         })
     }
 }
@@ -196,9 +194,7 @@ export const fetchProjectType = () => {
         ).then(res => {
             dispatch(fetchProjectTypeSuccess(res.data.resultObj))
         }).catch(err => {
-            if (err.response.status === 401) {
-                history.push('/login')
-            }
+
         })
     }
 }

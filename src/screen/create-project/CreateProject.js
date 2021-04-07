@@ -129,17 +129,19 @@ class CreateProject extends Component {
                             <div className="row">
                                 {/* Date begin */}
                                 <div className="col-md-6">
-                                    <label className="bmd-label">Date begin</label>
+                                    <label className="bmd-label">Start Date</label>
                                     <div className="form-group">
-                                        <input type='date' name="dateBegin" className="form-control" defaultValue={dateBegin} onChange={this.onHandle} readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
+                                        <input type='date' name="dateBegin" className="form-control" min={moment(moment().day(10)).format('YYYY-MM-DD')}
+                                            defaultValue={dateBegin} onChange={this.onHandle} readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
                                     </div>
                                 </div>
                                 {/* Date end estimate */}
                                 <div className="col-md-6">
-                                    <label className="bmd-label">Date End Estimate</label>
+                                    <label className="bmd-label">End Date</label>
 
                                     <div className="form-group">
-                                        <input type="date" name="dateEndEst" defaultValue={dateEndEst} className="form-control" onChange={this.onHandle} />
+                                        <input type="date" name="dateEndEst" min={moment(moment().day(11)).format('YYYY-MM-DD')}
+                                        defaultValue={dateEndEst} className="form-control" onChange={this.onHandle} />
                                     </div>
                                 </div>
                             </div>
