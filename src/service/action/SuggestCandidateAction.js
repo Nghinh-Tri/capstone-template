@@ -16,7 +16,7 @@ export const setPositionSelect = index => {
 export const selectCandidate = (candidate, candidateList) => {
     return {
         type: SUGGEST_CANDIDATE.SELECT_CANDIDATE,
-        candidate,candidateList
+        candidate, candidateList
     }
 }
 
@@ -80,7 +80,7 @@ export const sortSuggestList = value => {
     }
 }
 
-export const confirmSuggestList = suggestList => {
+export const confirmSuggestList = (suggestList) => {
     var projectID = localStorage.getItem('projectId')
     var url = `${API_URL}/Project/addCandidate/${projectID}`
     return (dispatch) => {
@@ -114,22 +114,22 @@ export const confirmSuggestList = suggestList => {
                         localStorage.removeItem('isNewPosition')
                         localStorage.removeItem('projectName')
                         history.push("/project")
-                    } else {
-                        dispatch(confirmSuggestListFail())
-                        store.addNotification({
-                            message: res.data.message,
-                            type: "danger",
-                            insert: "top",
-                            container: "top-center",
-                            animationIn: ["animated", "fadeIn"],
-                            animationOut: ["animated", "fadeOut"],
-                            dismiss: {
-                                duration: 2000,
-                                onScreen: false
-                            }
-                        })
                     }
                 }
+            }).catch(err => {
+                dispatch(confirmSuggestListFail())
+                store.addNotification({
+                    message: err.response.data.message,
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
+                    }
+                })
             })
         }
     }

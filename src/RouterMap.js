@@ -34,6 +34,11 @@ const route = [
         main: () => <SuggestCandidate />
     },
     {
+        path: '/project/suggest-candidate/emp/:id',
+        exact: true,
+        main: ({ match }) => <Profile match={match} />
+    },
+    {
         path: '/project/confirm-select-candidates',
         exact: true,
         main: () => <ConfirmSelectCandidate />
@@ -44,6 +49,11 @@ const route = [
         main: ({ match }) => <ProjectDetail match={match} />
     },
     {
+        path: '/project/detail/emp/:id',
+        exact: true,
+        main: ({ match }) => <Profile match={match} />
+    },
+    {
         path: '/project/detail/:id/edit',
         exact: true,
         main: ({ match, history }) => <CreateProject match={match} history={history} />
@@ -51,7 +61,7 @@ const route = [
     {
         path: "/profile",
         exact: true,
-        main: () => <Profile empID={JSON.parse(localStorage.getItem('EMP'))}/>
+        main: () => <Profile empID={JSON.parse(localStorage.getItem('EMP'))} />
     }
 ]
 

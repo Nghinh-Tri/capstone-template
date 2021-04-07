@@ -1,11 +1,10 @@
-import { getRoles } from '@testing-library/dom';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchPositionProfileDetail } from '../../service/action/ProfileAction';
 import { history } from '../../service/helper/History';
-import { showHardSkillLevel, showPositionLevel } from '../../service/util/util';
+import { showHardSkillLevel, showPositionLevel, getRole } from '../../service/util/util';
 
 class PositionTable extends Component {
 
@@ -103,12 +102,10 @@ class PositionTable extends Component {
             <div className="card">
                 <div className="card-header card-header-primary">
                     <h4 className="card-title">Position Detail</h4>
-                </div>
-                <div className="card-body">
+                </div>  <div className="card-body">
                     {positionDetail.posName !== null && typeof positionDetail.posName !== 'undefined' ?
                         <div>
-                            {/* Name */}
-                            {getRoles() === 'Employee' ?
+                            {this.props.empID !== JSON.parse(localStorage.getItem('EMP')) || getRole() === 'Employee' ?
                                 <div className="row">
                                     <div className="col-auto">
                                         <label className="bmd-label">
@@ -169,6 +166,7 @@ class PositionTable extends Component {
                         <h4 className='text-center'>No Data</h4>
                     }
                 </div>
+
             </div>
         );
     }

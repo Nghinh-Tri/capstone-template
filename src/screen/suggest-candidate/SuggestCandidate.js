@@ -81,7 +81,6 @@ class SuggestCandidate extends Component {
 
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
-        console.log(suggestCandidateList)
         var noItem = checkSuggestList(suggestCandidateList)
         return (
             <div>

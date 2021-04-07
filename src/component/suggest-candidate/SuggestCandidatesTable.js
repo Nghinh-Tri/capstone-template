@@ -52,8 +52,6 @@ class SuggestCandidates extends Component {
 
     render() {
         var { item, selectedItem } = this.props
-        console.log('item',item)
-        console.log('selectedItem',selectedItem)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">

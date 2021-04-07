@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 class ListEmployeeContent extends Component {
 
@@ -7,9 +8,12 @@ class ListEmployeeContent extends Component {
         var result = null
         result = employees.map((employee, index) => {
             return (<tr key={index}>
-                <th className="text-center">{index + 1}</th>
-                <th className="">{employee.name}</th>
+                <th >
+                    <NavLink className="text-primary" to={`/project/detail/emp/${employee.empID}`}>{employee.name}</NavLink>
+                </th>
                 <th className="">{posName}</th>
+                <th className="">{employee.email}</th>
+                <th className="">{employee.phoneNumber}</th>
                 <th className="text-center">
                     {employee.dateIn === null ? "-" : moment(employee.dateIn).format('DD-MM-YYYY')}
                 </th>
@@ -21,27 +25,9 @@ class ListEmployeeContent extends Component {
     render() {
         var { item } = this.props
         return (
-            <div>
-                <div className="card-body">
-                    <div className="row">
-                        <div className="card-body confirm-table">
-                            <table className="table">
-                                <thead className=" text-primary">
-                                    <tr>
-                                        <th className="font-weight-bold text-center">No</th>
-                                        <th className="font-weight-bold">Name</th>
-                                        <th className="font-weight-bold">Position</th>
-                                        <th className="font-weight-bold text-center">Date In</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.showCandidate(item.employees, item.posName)}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <tbody>
+                {this.showCandidate(item.employees, item.posName)}
+            </tbody>
         );
     }
 }

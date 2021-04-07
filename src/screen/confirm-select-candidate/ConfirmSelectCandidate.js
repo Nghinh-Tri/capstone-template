@@ -47,7 +47,6 @@ class ConfirmSelectCandidate extends Component {
 
     render() {
         var { candidateList } = this.props
-        console.log('items', candidateList)
         return (
             <div>
                 <ProgressBar step="step4" />

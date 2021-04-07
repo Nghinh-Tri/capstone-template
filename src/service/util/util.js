@@ -121,18 +121,51 @@ export const sortSuggestListByHardSkillMatch = list => {
 }
 
 export const convertSuggestList = list => {
-    var result = [], empID = []
+    var result = []
     if (list.length > 0) {
         list.forEach(element => {
             var positionObj = { posID: element.posId, empIDs: [] }
-            element.candidateSelect.forEach(e => {
-                empID.push(e.empID)
-            });
-            positionObj.empIDs = empID
+            if (positionObj.posID === element.posId) {
+                var empID = []
+                element.candidateSelect.forEach(e => {
+                    empID.push(e.empID)
+                });
+                positionObj.empIDs = empID
+            }
             result.push(positionObj)
         });
     }
     return result
+}
+
+export const getSuggestAgainList = list => {
+    var result = []
+    if (list.length > 0) {
+        list.forEach(element => {
+            var positionObj = { posID: element.posID, empIDs: [] }
+            if (positionObj.posID === element.posID) {
+                var empID = []
+                element.employees.forEach(e => {
+                    if (e.dateIn === null)
+                        empID.push(e.empID)
+                });
+                positionObj.empIDs = empID
+            }
+            if (positionObj.empIDs.length > 0)
+                result.push(positionObj)
+        });
+    }
+    return result
+}
+
+export const getSuggestAgainButton = (list) => {
+    list.forEach(element => {
+        element.employees.forEach(emp => {
+            if (emp.dateIn === null)
+                return true
+        });
+    });
+    return false
 }
 
 export const getUserName = () => {

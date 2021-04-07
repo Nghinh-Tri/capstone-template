@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import PositionTable from '../../component/profile/PositionTable';
 import ProfileTable from '../../component/profile/ProfileTable';
 import { checkSession } from '../../service/action/AuthenticateAction';
+import { history } from '../../service/helper/History';
 
 class Profile extends Component {
 
@@ -18,12 +18,21 @@ class Profile extends Component {
         this.props.checkSession()
     }
 
+    onBack = () => {
+        history.goBack()
+    }
+
     onClickMenu = (value) => {
         this.setState({ select: value })
     }
 
     render() {
-        var {empID} = this.props
+        var result = ''
+        var { empID } = this.props
+        if (typeof empID === 'undefined')
+            result = this.props.match.params.id
+        else
+            result = empID
         return (
             <div>
                 <div className='row'>
@@ -40,12 +49,17 @@ class Profile extends Component {
 
                     <div className='col'>
                         {this.state.select === 1 ?
-                            <ProfileTable empID={empID} />
+                            <ProfileTable empID={result} />
                             :
-                            <PositionTable empID={empID} />
-                        }                        
+                            <PositionTable empID={result} />
+                        }
                     </div>
                 </div>
+                {typeof this.props.match.params.id !== 'undefined' ?
+                    <div className='row pull-right' style={{ marginRight: 20, marginTop: -20 }}>
+                        <button className="btn btn-primary " onClick={this.onBack}>Back</button>
+                    </div>
+                    : ''}
             </div>
         );
     }

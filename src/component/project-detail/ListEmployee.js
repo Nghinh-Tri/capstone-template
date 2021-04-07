@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ListEmployeeContent from "./ListEmployeeContent";
 import * as Action from "../../service/action/ListEmployeeAction";
-import { history } from '../../service/helper/History';
 import { addMoreCandidate } from '../../service/action/PositionAction';
 import SelectBar from "../create-position-form/select-search/SelectBar";
+import { getSuggestAgainButton, getSuggestAgainList } from '../../service/util/util';
+import { confirmSuggestList } from '../../service/action/SuggestCandidateAction';
+import { compose } from 'redux';
+import { withRouter } from 'react-router';
+import { sendNotificate } from '../../service/action/FirebaseAction';
 class ListEmployee extends Component {
 
     constructor(props) {
@@ -68,12 +72,15 @@ class ListEmployee extends Component {
         this.setState({ positionSelect: value })
     }
 
+    onSuggestAgain = () => {
+        this.props.suggestAgain(this.props.match.params.id)
+    }
+
     render() {
         var { listEmployee, project } = this.props
         var postList = []
         if (this.state.positionList.length > 1)
             postList = this.state.positionList
-
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -94,17 +101,33 @@ class ListEmployee extends Component {
                                         onSelectPos={this.onSelectPos} />
                                 </div>
                             </div>
-                            {this.showEmployee(listEmployee)}
+                            <table className="table">
+                                <thead className=" text-primary">
+                                    <tr>
+                                        <th className="font-weight-bold">Name</th>
+                                        <th className="font-weight-bold">Position</th>
+                                        <th className="font-weight-bold">Email</th>
+                                        <th className="font-weight-bold">Phone</th>
+                                        <th className="font-weight-bold text-center">Date In</th>
+                                    </tr>
+                                </thead>
+                                {this.showEmployee(listEmployee)}
+                            </table>
                         </React.Fragment>
                         : <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
                     }
-                    {project.status === 4 ? '' :
-                        <div className="row">
+                    <div className="row pull-right">
+                        {project.status === 4 && getSuggestAgainButton() ? '' :
+                            <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
+                                <button className="btn btn-primary pull-right" onClick={this.onSuggestAgain}>Suggest Again</button>
+                            </div>
+                        }
+                        {project.status === 4 ? '' :
                             <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
                                 <button className="btn btn-primary pull-right" onClick={this.onHandle}> Add more position</button>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
         );
@@ -124,8 +147,11 @@ const mapDispatchToProp = dispatch => {
         },
         pushToCreatePosition: () => {
             dispatch(addMoreCandidate())
+        },
+        suggestAgain: (projectID) => {
+            dispatch(sendNotificate('aaa', projectID))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProp)(ListEmployee);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProp))(ListEmployee);
