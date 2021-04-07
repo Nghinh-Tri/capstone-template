@@ -55,7 +55,7 @@ class Profile extends Component {
                         }
                     </div>
                 </div>
-                {typeof this.props.match.params.id !== 'undefined' ?
+                {typeof this.props.match !== 'undefined' ?
                     <div className='row pull-right' style={{ marginRight: 20, marginTop: -20 }}>
                         <button className="btn btn-primary " onClick={this.onBack}>Back</button>
                     </div>
