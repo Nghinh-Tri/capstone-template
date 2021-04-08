@@ -3,9 +3,16 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import { connect } from 'react-redux';
 import { fetchDataStatistics } from "../../service/action/StatisticAction";
 import TimeLine from '../../component/Chart/timeLine';
-
+import { Spin } from 'antd';
 
 class Dashboard extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoad: true
+        }
+    }
 
 
     componentDidMount = () => {
@@ -14,25 +21,40 @@ class Dashboard extends Component {
     }
 
 
+    componentWillReceiveProps(prevProps) {
+        if (prevProps.dataStatistics !== this.props.dataStatistics) {
+            if (this.props.dataStatistics.length > 0)
+                this.setState({ isLoad: false })
+            console.log('componentWillReceiveProps', this.props.dataStatistics)
+        }
+    }
     onShowTimeLineList = (dataStatisticList) => {
         var result = null
-        if (typeof dataStatisticList !== 'undefined') {
+        if (typeof dataStatisticList !== 'undefined' || dataStatisticList.length > 0) {
             return (
                 <TimeLine dataStatisticList={dataStatisticList} />
             )
         }
         return result
     }
-    
+
     render() {
+        var result = []
         var { dataStatistics } = this.props
+        if (dataStatistics.length > 0)
+            result = dataStatistics
         return (
 
             <div className="container-fluid">
-                {this.onShowTimeLineList(dataStatistics)}
-                
+                {this.state.isLoad ?
+                    <div className='row justify-content-center'>
+                        <Spin className='text-center' size="large" />
+                    </div>
+                    :
+                    this.onShowTimeLineList(result)
+                }
                 {/* <TimeLine/> */}
-                 <div className="row">
+                <div className="row">
                     <div className="col-lg-3 col-md-6 col-sm-6">
                         <div className="card card-stats">
                             <div className="card-header card-header-warning card-header-icon">
@@ -206,7 +228,7 @@ class Dashboard extends Component {
                         </div>
                     </div>
 
-                </div> 
+                </div>
 
             </div>
         );
