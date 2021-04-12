@@ -45,6 +45,19 @@ export const showBadge = status => {
     }
 }
 
+export const showRequestStatus = status => {
+    switch (status) {
+        case 0:
+            return "Waiting"
+        case 1:
+            return "Suggest Again"
+        case 2:
+            return "Finish"
+        default:
+            break;
+    }
+}
+
 export const showSpan = status => {
     switch (status) {
         case 0:

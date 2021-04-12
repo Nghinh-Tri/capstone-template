@@ -405,3 +405,26 @@ export const addMorePosition = (position) => {
     history.push("/project/create-position", { type: 'addMorePosition', position: position })
     return { type: Type.ADD_MORE_POSITION }
 }
+
+export const getPrevRequire = (projectId, posID) => {
+    var url = `${API_URL}/Project/getRequiredPosByID/${projectId}&&${posID}`
+    console.log(url)
+    return (dispatch) => {
+        return axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            console.log('res',res)
+            dispatch(getPrevRequireSuccess(res.data.resultObj))
+        })
+    }
+}
+
+export const getPrevRequireSuccess = prevRequire => {
+    return { type: Type.GET_PREV_REQUIRE, prevRequire }
+}
+
+export const suggestAgain = () => {
+    history.push('/project/suggest-candidate')
+    return { type: Type.SUGGEST_AGAIN }
+}

@@ -106,9 +106,12 @@ class SuggestCandidates extends Component {
                     </table>
                 </div>
                 {typeof item.matchDetail !== 'undefined' ?
-                    item.matchDetail.length === 0 ? <div className='row justify-content-center' style={{ width: 'auto' }} >
-                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-                    </div> : '' : ''}
+                    item.matchDetail.length === 0 ?
+                        <div className='row justify-content-center' style={{ width: 'auto' }} >
+                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                        </div>
+                        : ''
+                    : ''}
             </React.Fragment>
         );
     }

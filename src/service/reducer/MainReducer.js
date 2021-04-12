@@ -19,6 +19,7 @@ import DataStatisticsReducer from "./DataStatisticsReducer";
 import ProjectFieldReducer from "./ProjectFieldReducer";
 import PositionRequireReducer from "./PositionRequireReducer";
 import ProjectDetailFetchReducer from "./ProjectDetailFetchReducer";
+import PreviosRequrieReducer from "./PreviosRequrieReducer";
 
 const MainReducer = combineReducers({
     authentication,
@@ -40,7 +41,8 @@ const MainReducer = combineReducers({
     DataStatisticsReducer,
     ProjectFieldReducer,
     PositionRequireReducer,
-    ProjectDetailFetchReducer
+    ProjectDetailFetchReducer,
+    PreviosRequrieReducer
 })
 
 export default MainReducer

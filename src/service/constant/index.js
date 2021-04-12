@@ -66,6 +66,9 @@ export const Type = {
     FETCH_PROFILE: "FETCH_PROFILE",
 
     AWAITING_STATISTICS: "AWAITING_STATISTICS",
+
+    GET_PREV_REQUIRE: 'GET_PREV_REQUIRE',
+    SUGGEST_AGAIN: 'SUGGEST_AGAIN',
 };
 
 export const alertConstants = {
