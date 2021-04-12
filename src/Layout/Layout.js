@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import Navigation from '../component/navigation/Navigation';
+import Header from '../component/header/Header';
 import NavBar from '../component/nav-bar/NavBar';
 import RouteList from '../RouterMap'
+import { Route, Switch } from 'react-router-dom';
 import firebase from "../service/firebase/firebase";
-import { notification } from 'antd';
-import { connect } from 'react-redux';
+import { store } from 'react-notifications-component';
 import { recieveNotificate } from '../service/action/FirebaseAction';
+import { connect } from 'react-redux';
 
 class Layout extends Component {
 
@@ -23,11 +23,19 @@ class Layout extends Component {
     }
 
     showNotificate = (messaging) => {
-        notification.info({
-            message: messaging.title,
-            description: messaging.body,
-            placement: 'bottomRight'
-        });
+        store.addNotification({
+            title: messaging.title,
+            message: messaging.body,
+            type: "info",
+            insert: "top",
+            container: "bottom-right",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 5000,
+                onScreen: true
+            }
+        })
     }
 
     showContent = (RouteList) => {
@@ -41,17 +49,23 @@ class Layout extends Component {
         }
         return <Switch> {result} </Switch>
     }
-    onHandle = () => {
-        this.props.sendNoti()
-    }
+
     render() {
         return (
-            <div className="wrapper ">
-                <Navigation />
-                <div className="main-panel">
-                    <NavBar />
-                    <div className="content">
-                        {this.showContent(RouteList)}
+            <div>
+                <Header />
+                <div id="layoutSidenav">
+                    <div id="layoutSidenav_nav">
+                        <NavBar />
+                    </div>
+                    <div id="layoutSidenav_content">
+
+                        <main>
+                            <div class="container-fluid">
+                                {this.showContent(RouteList)}
+                            </div>
+                        </main>
+
                     </div>
                 </div>
             </div>

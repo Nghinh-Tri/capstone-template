@@ -3,12 +3,8 @@ import { alertConstants, FIREBASE } from "../constant"
 import { API_URL } from "../util/util"
 import { fetchProject } from "./ProjectAction";
 
-export const sendNotificate = (pmName, projectName) => {
-    var url = `${API_URL}/Notification?topic=news`
-    var message = {
-        title: `Project Manager ${pmName} send you a request`,
-        body: `Project ${projectName} has been create`
-    }
+export const sendNotificate = (message) => {
+    var url = `${API_URL}/Notification?topic=news`    
     return (dispatch) => {
         if (localStorage.getItem('token') !== null) {
             axios.post(
@@ -26,7 +22,7 @@ export const sendNotificate = (pmName, projectName) => {
 
 export const recieveNotificate = (token) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
-    var url = `${API_URL}/Notification/subscription?token=${token}&topic=${empID}`
+    var url = `${API_URL}/Notification/subscription?token=${token}&topic=pm${empID}`
     return (dispatch) => {
         if (localStorage.getItem('token') !== null) {
             axios.post(

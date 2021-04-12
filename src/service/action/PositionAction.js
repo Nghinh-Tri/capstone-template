@@ -19,14 +19,39 @@ export const deletePositionRequire = positionFormIndex => {
 }
 
 export const updatePositionID = (positionID, positionFormIndex) => {
-    return {
-        type: Type.UPDATE_POSITION_ID,
-        positionFormIndex,
-        positionID
+    var projectType = localStorage.getItem('projectType')
+    var projectField = localStorage.getItem('projectField')
+    var fetchHardSkill = `${API_URL}/Skill/type/${projectType}&&${positionID}`
+    var fetchSoftSkill = `${API_URL}/Skill/field/${projectField}`
+    return (dispatch) => {
+        return axios.get(
+            fetchHardSkill,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            console.log('hs', res.data.resultObj)
+            var hardSkill = res.data.resultObj === null ? [] : res.data.resultObj
+            return axios.get(
+                fetchSoftSkill,
+                { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+            ).then(res => {
+                console.log('ss', res.data.resultObj)
+
+                var softSkill = res.data.resultObj === null ? [] : res.data.resultObj
+                dispatch(updatePositionIDSuccess(positionID, positionFormIndex, hardSkill, softSkill))
+            })
+        })
     }
 }
 
-export const selectPosLevel = (value, positionFormIndex) => {
+export const updatePositionIDSuccess = (positionID, positionFormIndex, hardSkill, softSkill) => {
+    return {
+        type: Type.UPDATE_POSITION_ID,
+        positionFormIndex,
+        positionID, hardSkill, softSkill
+    }
+}
+
+export const updateCandidateNeeds = (value, positionFormIndex) => {
     return {
         type: Type.SELECT_POS_LEVEL,
         positionFormIndex,
@@ -82,12 +107,11 @@ export const deleteSoftSkillRequire = (softSkillIndex, positionFormIndex) => {
     }
 }
 
-export const updateSoftSkillID = (softSkillID, softSkillIndex, positionFormIndex) => {
+export const updateSoftSkillID = (value, positionFormIndex) => {
     return {
         type: Type.UPDATE_SOFT_SKILL,
         positionFormIndex,
-        softSkillIndex,
-        softSkillID
+        value
     }
 }
 
@@ -146,6 +170,7 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
 export const createPosition = (positionItem, isUpdate) => {
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
+    console.log('position', position)
     var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID}`
     var urlCheckValidate = `${API_URL}/Project/checkStatus`
     return (dispatch) => {
@@ -169,21 +194,6 @@ export const createPosition = (positionItem, isUpdate) => {
             dispatch(createPositionFailed())
             store.addNotification({
                 message: "Please select position",
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: false
-                }
-            })
-        }//not select position level
-        else if (typeof positionItem.find(opt => opt.posLevel.length === 0) !== 'undefined') {
-            dispatch(createPositionFailed())
-            store.addNotification({
-                message: "Please select position level",
                 type: "danger",
                 insert: "top",
                 container: "top-center",
@@ -240,123 +250,112 @@ export const createPosition = (positionItem, isUpdate) => {
                 }
             })
         }// not create hard skill requirement
-        else if (typeof positionItem.find(opt => opt.hardSkills.length === 0) !== 'undefined') {
-            dispatch(createPositionFailed())
-            store.addNotification({
-                message: "Please create hard skill requirement",
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: false
-                }
-            })
-        }// not select hard skill
-        else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.hardSkillID === 0)) !== 'undefined') {
-            dispatch(createPositionFailed())
-            store.addNotification({
-                message: "Please select hard skill",
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: false
-                }
-            })
-        }// not select hard skill level
-        else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.skillLevel === 0)) !== 'undefined') {
-            dispatch(createPositionFailed())
-            store.addNotification({
-                message: "Please select hard skill level",
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: false
-                }
-            })
-        }// not select Certification Level
-        else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.certificationLevel === -1)) !== 'undefined') {
-            dispatch(createPositionFailed())
-            store.addNotification({
-                message: "Please select certification Level",
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: false
-                }
-            })
-        }// not select hard skill priority
-        else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.priority === 0)) !== 'undefined') {
-            dispatch(createPositionFailed())
-            store.addNotification({
-                message: "Please select hard skill priority",
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: false
-                }
-            })
-        }
-        //validated
-        else {
-            axios.post(
-                urlCheckValidate,
-                position,
-                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-            ).then(res => {
-                if (res.status === 200) {
-                    if (res.data.isSuccessed) {
-                        axios.post(
-                            urlToAddRequire,
-                            position,
-                            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-                        ).then(res => {
-                            if (res.status === 200) {
-                                dispatch(createPositionSuccess())
-                                localStorage.setItem('positionRequire', JSON.stringify(positionItem))
-                                history.push("/project/suggest-candidate", { isUpdate: isUpdate })
-                            }
-                            else {
-                                dispatch(createPositionFailed())
-                            }
-                        })
+        else
+            if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.hardSkillID === 0)) !== 'undefined') {
+                dispatch(createPositionFailed())
+                store.addNotification({
+                    message: "Please select hard skill",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
                     }
-                    else {
-                        dispatch(createPositionFailed())
-                        store.addNotification({
-                            message: res.data.message,
-                            type: "danger",
-                            insert: "top",
-                            container: "top-center",
-                            animationIn: ["animated", "fadeIn"],
-                            animationOut: ["animated", "fadeOut"],
-                            dismiss: {
-                                duration: 2000,
-                                onScreen: false
-                            }
-                        })
+                })
+            }// not select hard skill level
+            else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.skillLevel === 0)) !== 'undefined') {
+                dispatch(createPositionFailed())
+                store.addNotification({
+                    message: "Please select hard skill level",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
                     }
-                }
-            })
-        }
+                })
+            }// not select Certification Level
+            else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.certificationLevel === -1)) !== 'undefined') {
+                dispatch(createPositionFailed())
+                store.addNotification({
+                    message: "Please select certification Level",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
+                    }
+                })
+            }// not select hard skill priority
+            else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.priority === 0)) !== 'undefined') {
+                dispatch(createPositionFailed())
+                store.addNotification({
+                    message: "Please select hard skill priority",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
+                    }
+                })
+
+            }// not select hard skill
+
+            //validated
+            else {
+                console.log('aaa')
+                axios.post(
+                    urlCheckValidate,
+                    position,
+                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+                ).then(res => {
+                    if (res.status === 200) {
+                        if (res.data.isSuccessed) {
+                            axios.post(
+                                urlToAddRequire,
+                                position,
+                                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+                            ).then(res => {
+                                if (res.status === 200) {
+                                    dispatch(createPositionSuccess())
+                                    localStorage.setItem('positionRequire', JSON.stringify(positionItem))
+                                    history.push("/project/suggest-candidate", { isUpdate: isUpdate })
+                                }
+                                else {
+                                    dispatch(createPositionFailed())
+                                }
+                            })
+                        }
+                        else {
+                            dispatch(createPositionFailed())
+                            store.addNotification({
+                                message: res.data.message,
+                                type: "danger",
+                                insert: "top",
+                                container: "top-center",
+                                animationIn: ["animated", "fadeIn"],
+                                animationOut: ["animated", "fadeOut"],
+                                dismiss: {
+                                    duration: 2000,
+                                    onScreen: false
+                                }
+                            })
+                        }
+                    }
+                })
+            }
     }
 }
 
@@ -372,7 +371,37 @@ export const createPositionFailed = () => {
     }
 }
 
-export const addMoreCandidate = () => {
-    history.push("/project/create-position", { isUpdate: true })
-    return { type: Type.ADD_MORE_CANDIDATE }
+export const addMoreCandidate = (posID) => {
+    var projectType = localStorage.getItem('projectType')
+    var projectField = localStorage.getItem('projectField')
+    var fetchHardSkill = `${API_URL}/Skill/type/${projectType}&&${posID}`
+    var fetchSoftSkill = `${API_URL}/Skill/field/${projectField}`
+    return (dispatch) => {
+        return axios.get(
+            fetchHardSkill,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            console.log('hs', res.data.resultObj)
+            var hardSkill = res.data.resultObj === null ? [] : res.data.resultObj
+            return axios.get(
+                fetchSoftSkill,
+                { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+            ).then(res => {
+                console.log('ss', res.data.resultObj)
+
+                var softSkill = res.data.resultObj === null ? [] : res.data.resultObj
+                dispatch(addMoreCandidateSuccess(posID, hardSkill, softSkill))
+            })
+        })
+    }
+}
+
+export const addMoreCandidateSuccess = (posID, hardSkill, softSkill) => {
+    history.push("/project/create-position", { type: 'addMoreCandidate' })
+    return { type: Type.ADD_MORE_CANDIDATE, posID, hardSkill, softSkill }
+}
+
+export const addMorePosition = (position) => {
+    history.push("/project/create-position", { type: 'addMorePosition', position: position })
+    return { type: Type.ADD_MORE_POSITION }
 }

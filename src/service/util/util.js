@@ -28,6 +28,23 @@ export const showStatus = status => {
     }
 }
 
+export const showBadge = status => {
+    switch (status) {
+        case 0:
+            return "error"
+        case 1:
+            return "default"
+        case 2:
+            return "warning"
+        case 3:
+            return "processing"
+        case 4:
+            return "success"
+        default:
+            break;
+    }
+}
+
 export const showSpan = status => {
     switch (status) {
         case 0:
@@ -76,7 +93,11 @@ export const convertSkillList = (list) => {
 export const convertCertificationList = (list) => {
     var result = []
     list.forEach(element => {
-        result.push({ label: element.certificationLevel, value: element.certificationLevel })
+        result.push(
+            {
+                label: element.certificationLevel === 0 ? 'All' : 'Level ' + element.certificationLevel,
+                value: element.certificationLevel
+            })
     });
     return result;
 }
@@ -258,4 +279,39 @@ export const checkSuggestList = (list) => {
             noItem++
     });
     return noItem === list.length
+}
+
+export const getPositionName = (list, posID) => {
+    var result = ''
+    list.forEach(element => {
+        if (element.posID === posID) {
+            result = element.name.toString().trim()
+        }
+    });
+    return result
+}
+
+
+export const convertPositionRequire = (items) => {
+    var result = []
+    items.forEach(element => {
+        var obj = {
+            posID: element.posID,
+            candidateNeeded: element.candidateNeeded,//posLevel:0
+            language: element.language,
+            softSkillIDs: element.softSkillIDs,
+            hardSkills: []
+        }
+        element.hardSkills.forEach(hs => {
+            var hardSkill = {
+                hardSkillID: hs.hardSkillID,
+                certificationLevel: hs.certificationLevel,
+                priority: hs.priority,
+                skillLevel: hs.skillLevel,
+            }
+            obj.hardSkills.push(hardSkill)
+        });
+        result.push(obj)
+    });
+    return result
 }

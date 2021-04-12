@@ -8,11 +8,14 @@ class SuggestCandidateItems extends Component {
     }
 
     checkSelectCandidate = (empID) => {
-        var { candidateSelectedList } = this.props
+        var { candidateSelectedList, position } = this.props
         if (candidateSelectedList !== null) {
-            for (let index = 0; index < candidateSelectedList.length; index++) {
-                if (candidateSelectedList[index].empID === empID)
-                    return true
+            if (candidateSelectedList.position === position) {
+                for (let index = 0; index < candidateSelectedList.candidateSelect.length; index++) {
+                    if (candidateSelectedList.candidateSelect[index].empID === empID) {
+                        return true
+                    }
+                }
             }
         }
         return false

@@ -1,49 +1,63 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ListEmployeeContent from "./ListEmployeeContent";
-import * as Action from "../../service/action/ListEmployeeAction";
-import { addMoreCandidate } from '../../service/action/PositionAction';
-import SelectBar from "../create-position-form/select-search/SelectBar";
-import { getSuggestAgainButton, getSuggestAgainList } from '../../service/util/util';
-import { confirmSuggestList } from '../../service/action/SuggestCandidateAction';
-import { compose } from 'redux';
-import { withRouter } from 'react-router';
-import { sendNotificate } from '../../service/action/FirebaseAction';
+import * as Action from '../../service/action/ListEmployeeAction'
+import SelectBar from "../select-search/SelectBar";
+import ListEmployeeContent from './ListEmployeeContent';
+import { addMoreCandidate, addMorePosition } from '../../service/action/PositionAction';
+import { history } from '../../service/helper/History';
+import { Spin } from 'antd';
+
+
 class ListEmployee extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             page: 1,
-            positionList: [
-                { label: 'All', value: 0 }
-            ],
-            positionSelect: 0
+            positionList: [],
+            positionSelect: 0,
+            count: 0,
+            isLoading: true
         }
     }
 
     componentDidMount = () => {
-        this.props.fetchListEmployee(this.props.project.projectID, this.state.page)
+        this.props.fetchListEmployee(this.props.projectID, 1)
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.listEmployee !== prevState.listEmployee) {
-            return { someState: nextProps.listEmployee };
-        }
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.listEmployee !== this.props.listEmployee) {
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.listEmployee !== this.props.listEmployee) {
             var { listEmployee } = this.props
+            var { positionSelect, count } = this.state
+            var temp = []
             listEmployee.forEach(element => {
                 var position = { label: element.posName, value: element.posID }
-                this.setState(prev => ({
-                    positionList: [...prev.positionList, position]
-                }))
+                if (count === 0) {
+                    count++
+                    positionSelect = element.posID
+                }
+                temp.push(position)
             });
+            console.log('temp', temp)
+            this.setState({ positionList: temp, positionSelect: positionSelect, count: count, isLoading: false })
         }
     }
+
+    // componentWillReceiveProps = () => {
+    //     var { listEmployee } = this.props
+    //     var { positionSelect, count } = this.state
+    //     var temp = []
+    //     listEmployee.forEach(element => {
+    //         var position = { label: element.posName, value: element.posID }
+    //         if (count === 0) {
+    //             count++
+    //             positionSelect = element.posID
+    //         }
+    //         temp.push(position)
+    //     });
+    //     console.log('temp', temp)
+    //     this.setState({ positionList: temp, positionSelect: positionSelect, count: count, isLoading: false })
+    // }
 
     showEmployee = (list) => {
         var result = null
@@ -56,82 +70,91 @@ class ListEmployee extends Component {
                 }
             })
         } else {
-            return (<h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>)
+            return (<div className='row justify-content-center'>
+                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+            </div>)
         }
         return result
-    }
-
-    onHandle = () => {
-        localStorage.setItem('projectId', this.props.project.projectID)
-        localStorage.setItem('projectName', this.props.project.projectName)
-        localStorage.setItem('projectType', this.props.project.typeID)
-        this.props.pushToCreatePosition()
     }
 
     onSelectPos = (value) => {
         this.setState({ positionSelect: value })
     }
 
-    onSuggestAgain = () => {
-        this.props.suggestAgain(this.props.match.params.id)
+    onAddMorePosition = () => {
+        localStorage.setItem('projectId', this.props.projectID)
+        localStorage.setItem('projectType', this.props.projectType)
+        localStorage.setItem('projectField', this.props.projectField)
+        this.props.addMorePosition(this.state.positionList)
+    }
+
+    onAddMoreCandidates = () => {
+        localStorage.setItem('projectId', this.props.projectID)
+        localStorage.setItem('projectType', this.props.projectType)
+        localStorage.setItem('projectField', this.props.projectField)
+        this.props.addMoreCandidate(this.state.positionSelect)
     }
 
     render() {
-        var { listEmployee, project } = this.props
+        var { listEmployee } = this.props
         var postList = []
-        if (this.state.positionList.length > 1)
+        if (this.state.positionList.length >= 1)
             postList = this.state.positionList
-        var notNeedSuggest = getSuggestAgainButton(listEmployee)
-        console.log(notNeedSuggest)
         return (
-            <div className="card">
-                <div className="card-header card-header-primary">
-                    <h4 className="card-title">Employee List</h4>
-                </div>
-                <div className="card-body">
-                    {listEmployee.length > 0 ?
-                        <React.Fragment>
-                            <div className='row' style={{ marginLeft: 10 }} >
-                                <div className='col-auto'>
-                                    <h4 className="font-weight-bold" style={{ marginTop: 5 }}>Position</h4>
-                                </div>
-                                <div className='col'>
+            <React.Fragment>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>List Employee</div>
+                    {this.state.isLoading ?
+                        <div className='row justify-content-center'>
+                            <Spin className='text-center' size="large" />
+                        </div> :
+                        <>
+                            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" >
+                                <div className='col-auto' style={{ marginTop: 20 }}>
                                     <SelectBar type='special'
                                         name='positionSelect'
                                         list={postList}
                                         value={this.state.positionSelect}
                                         onSelectPos={this.onSelectPos} />
                                 </div>
+
+                            </form>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <th className="font-weight-bold">Name</th>
+                                            <th className="font-weight-bold">Position</th>
+                                            <th className="font-weight-bold">Email</th>
+                                            <th className="font-weight-bold">Phone</th>
+                                            <th width={120} className="font-weight-bold text-center">Date In</th>
+                                        </thead>
+                                        {listEmployee.length > 0 ?
+                                            <tbody>
+                                                {this.showEmployee(listEmployee)}
+                                            </tbody>
+                                            : ''}
+                                    </table>
+                                </div>
+                                {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                    <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                                </div>}
+                                <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMoreCandidates}  >
+                                    Add More Candidates
+                        </button>
+                                <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
+                                    Select Candidates Again
+                        </button>
                             </div>
-                            <table className="table">
-                                <thead className=" text-primary">
-                                    <tr>
-                                        <th className="font-weight-bold">Name</th>
-                                        <th className="font-weight-bold">Position</th>
-                                        <th className="font-weight-bold">Email</th>
-                                        <th className="font-weight-bold">Phone</th>
-                                        <th className="font-weight-bold text-center">Date In</th>
-                                    </tr>
-                                </thead>
-                                {this.showEmployee(listEmployee)}
-                            </table>
-                        </React.Fragment>
-                        : <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-                    }
-                    <div className="row pull-right">
-                        {project.status === 4 || notNeedSuggest ? '' :
-                            <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
-                                <button className="btn btn-primary pull-right" onClick={this.onSuggestAgain}>Suggest Again</button>
-                            </div>
-                        }
-                        {project.status === 4 ? '' :
-                            <div className="col pull-right" style={{ marginRight: 20, marginBottom: 10 }}>
-                                <button className="btn btn-primary pull-right" onClick={this.onHandle}> Add more position</button>
-                            </div>
-                        }
-                    </div>
+                        </>}
                 </div>
-            </div>
+                {this.state.isLoading ? '' :
+                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMorePosition} >
+                        Add More Position
+                    </button>
+                }
+            </React.Fragment>
         );
     }
 }
@@ -147,13 +170,16 @@ const mapDispatchToProp = dispatch => {
         fetchListEmployee: (projectID, page) => {
             dispatch(Action.fetchListEmployee(projectID, page))
         },
-        pushToCreatePosition: () => {
-            dispatch(addMoreCandidate())
+        addMoreCandidate: (posID) => {
+            dispatch(addMoreCandidate(posID))
         },
-        suggestAgain: (projectID) => {
-            dispatch(sendNotificate('aaa', projectID))
+        addMorePosition: (position) => {
+            dispatch(addMorePosition(position))
         }
+        // suggestAgain: (projectID) => {
+        //     dispatch(sendNotificate('aaa', projectID))
+        // }
     }
 }
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProp))(ListEmployee);
+export default connect(mapStateToProps, mapDispatchToProp)(ListEmployee);

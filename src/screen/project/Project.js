@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from "../../service/action/ProjectAction";
-import ProjectTableItem from "../../component/project-table-item/ProjectTableItem";
+// import ProjectTableItem from "../../component/project-table-item/ProjectTableItem";
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { getRole } from '../../service/util/util';
+import { getRole, showSpan, showStatus } from '../../service/util/util';
+// import Search from '../../component/search/Search';
+import { Pagination, Spin } from 'antd';
 import Search from '../../component/search/Search';
-import { Spin } from 'antd';
+import moment from 'moment';
+import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-bootstrap';
 
 class Project extends Component {
 
@@ -54,7 +58,38 @@ class Project extends Component {
         var result = null
         if (typeof projectList !== 'undefined') {
             result = projectList.map((project, index) => {
-                return (<ProjectTableItem key={index} project={project} index={index} />);
+                return (<React.Fragment>
+                    { getRole() === 'PM' ?
+                        <tr>
+                            <th style={{ width: 50 }}>{index + 1}</th>
+                            <th style={{ width: 250 }}>{project.projectName}</th>
+                            <th style={{ width: 250 }}>{project.typeName}</th>
+                            <th style={{ width: 80 }}>{moment(project.dateBegin).format('DD-MM-YYYY')}</th>
+                            <th style={{ width: 80 }} className="text-center" >
+                                <span className={`badge badge-pill ${showSpan(project.status)} span`}>
+                                    {showStatus(project.status)}
+                                </span>
+                            </th>
+                            <th style={{ width: 100 }}>
+                                <NavLink className='text-primary' to={`/project/detail/${project.projectID}`}>
+                                    Detail
+                                </NavLink>
+                            </th>
+                        </tr>
+                        :
+                        <tr>
+                            <th style={{ width: 50 }}>{index + 1}</th>
+                            <th style={{ width: 250 }}>{project.projectName}</th>
+                            <th style={{ width: 250 }}>{project.posName}</th>
+                            <th style={{ width: 80 }}>{moment(project.dateIn).format('DD-MM-YYYY')}</th>
+                            <th style={{ width: 100 }} >
+                                <NavLink to={`/project/detail/${project.projectID}`}>
+                                    Detail
+                                </NavLink>
+                            </th>
+                        </tr>
+                    }
+                </React.Fragment>);
             })
         }
         return result
@@ -77,6 +112,10 @@ class Project extends Component {
         this.props.fetchProject(1, value)
     }
 
+    onSelectPage = (e) => {
+        this.props.fetchProject(e, this.state.search)
+    }
+
     render() {
         var { projects } = this.props
         var items = []
@@ -87,96 +126,74 @@ class Project extends Component {
             items = projects.items
         }
         return (
-            <div className="container-fluid">
-                {getRole() === 'PM' ?
-                    <button type="button" className="btn btn-primary"
-                        style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, }}
-                        onClick={() => this.onGenerateProject(projects.isCreateNew)} >
-                        <i className="material-icons mr-5">add_box</i>
-                        Create New Project
-                </button>
-                    : ''
-                }
-
-                <div className="row">
-                    <div className="card mb-80">
-                        <div className="card-body">
-                            <div className="form-group">
-                                {this.state.isLoading ? '' :
-                                    <div className="row">
-                                        <Search search="project"
-                                            placeholder="Search project name ..."
-                                            searchProject={this.searchProject} />
-                                    </div>
-                                }
-                                <div className="row">
-                                    <div className="card-body">
-                                        <div className="table-responsive">
-                                            <table className="table">
-                                                <thead className="text-primary">
-                                                    {getRole() === "PM" ?
-                                                        <tr>
-                                                            <th className="font-weight-bold text-center">No</th>
-                                                            <th className="font-weight-bold">Project Name</th>
-                                                            <th className="font-weight-bold">Project Type</th>
-                                                            <th className="font-weight-bold text-center">Started Date</th>
-                                                            <th className="font-weight-bold text-center">Status</th>
-                                                            <th className="font-weight-bold text-center"></th>
-                                                        </tr>
-                                                        :
-                                                        <tr>
-                                                            <th className="font-weight-bold text-center">No</th>
-                                                            <th className="font-weight-bold">Project Name</th>
-                                                            <th className="font-weight-bold">Position</th>
-                                                            <th className="font-weight-bold text-center">Joined Date</th>
-                                                            <th className="font-weight-bold text-center"></th>
-                                                        </tr>
-                                                    }
-                                                </thead>
-                                                {this.state.isLoading ? '' :
-                                                    <tbody>
-                                                        {this.onShowListProject(items)}
-                                                    </tbody>
-                                                }
-                                            </table>
-                                        </div>
-                                        {this.state.isLoading ?
-                                            <div className='row justify-content-center'>
-                                                <Spin className='text-center' size="large" />
-                                            </div>
-                                            : ''}
-                                        {this.state.isLoading ? '' :
-                                            <div className="row align-items-center">
-                                                <div className="col">
-                                                    <button type="button"
-                                                        style={{ fontWeight: 700, width: 120 }}
-                                                        className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                                        Previous
-                                                </button>
-                                                </div>
-                                                <div className="col-auto">
-                                                    <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                                        {typeof projects.data !== 'undefined' ?
-                                                            projects.data.pageIndex + " - " + projects.data.pageCount :
-                                                            projects.pageIndex + ' - ' + projects.pageCount}
-                                                    </div>
-                                                </div>
-                                                <div className="col">
-                                                    <button type="button"
-                                                        style={{ fontWeight: 700, width: 120 }}
-                                                        className="btn btn-primary" onClick={this.onNext}>
-                                                        Next
-                                                </button>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
+            <React.Fragment>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Projects</li>
+                </ol>
+                <div className="container-fluid">
+                    {getRole() === 'PM' ?
+                        <button type="button" className="btn btn-primary"
+                            style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, marginBottom: 15 }}
+                            onClick={() => this.onGenerateProject(projects.isCreateNew)} >
+                            <div className='row' style={{ paddingLeft: 7, paddingRight: 7 }}>
+                                <i className="material-icons">add_box</i>Create New Project
                             </div>
-                        </div>
-                    </div >
+                        </button>
+                        : ''
+                    }
                 </div>
-            </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                    Projects
+                </div>
+                    <Search search="project"
+                        placeholder="Search project name ..."
+                        searchProject={this.searchProject} />
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    {getRole() === "PM" ?
+                                        <tr>
+                                            <th className="font-weight-bold">No</th>
+                                            <th className="font-weight-bold">Project Name</th>
+                                            <th className="font-weight-bold">Project Type</th>
+                                            <th className="font-weight-bold ">Started Date</th>
+                                            <th className="font-weight-bold text-center" style={{ width: 80 }}>Status</th>
+                                            <th className="font-weight-bold"></th>
+                                        </tr>
+                                        :
+                                        <tr>
+                                            <th className="font-weight-bold">No</th>
+                                            <th className="font-weight-bold">Project Name</th>
+                                            <th className="font-weight-bold">Position</th>
+                                            <th className="font-weight-bold">Joined Date</th>
+                                            <th className="font-weight-bold"></th>
+                                        </tr>
+                                    }
+                                </thead>
+                                {this.state.isLoading ? '' :
+                                    <tbody>
+                                        {this.onShowListProject(items)}
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    {this.state.isLoading ?
+                        <div className='row justify-content-center'>
+                            <Spin className='text-center' size="large" />
+                        </div>
+                        : ''}
+                    {this.state.isLoading ? '' :
+                        <div className='row justify-content-center' style={{ marginBottom: 20 }} >
+                            <Pagination current={projects.data.pageIndex} total={projects.data.totalRecords} onChange={this.onSelectPage} />
+                        </div>
+                    }
+                </div>
+
+            </React.Fragment >
         );
     }
 }

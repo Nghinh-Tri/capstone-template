@@ -6,13 +6,7 @@ const projectFormReducer = (state = initState, action) => {
     switch (action.type) {
         case Type.FETCH_PROJECT:
             state = action.resultObj
-            return state
-        case Type.FETCH_PROJECT_DETAIL:
-            state = action.resultObj
-            return state
-        case Type.UPDATE_PROJECT:
-            state = action.resultObj
-            return state
+            return state          
         default:
             return state;
     }

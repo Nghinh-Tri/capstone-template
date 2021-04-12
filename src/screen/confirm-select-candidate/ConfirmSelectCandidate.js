@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CandidateTable from '../../component/confirm-candidate/CandidateTable';
+import CandidateTable from '../../component/candidate-table/CandidateTable';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import './ConfirmPage.css'
 import * as Action from "../../service/action/SuggestCandidateAction";
@@ -49,16 +49,14 @@ class ConfirmSelectCandidate extends Component {
         var { candidateList } = this.props
         return (
             <div>
-                <ProgressBar step="step4" />
-                <div className='card mb-80'>
-                    {candidateList.length === 0 ?
-                        <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >No data</h4>
-                        :
-                        this.showList(candidateList)
-                    }
-                </div>
-                <div className="row pull-right">
-                    <div className="col">
+                <ProgressBar current={3} />
+                {candidateList.length === 0 ?
+                    <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >No data</h4>
+                    :
+                    this.showList(candidateList)
+                }
+                <div className="row pull-right" style={{ marginBottom: 10, marginTop:-10 }}>
+                    <div className="col" >
                         <button onClick={this.onBack} type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
                     </div>
                     <div className="col">

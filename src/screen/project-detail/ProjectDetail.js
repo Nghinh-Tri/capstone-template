@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from "../../service/action/ProjectAction";
-import ProjectDetailTable from "../../component/project-detail/ProjectDetailTable";
-import ListEmployee from '../../component/project-detail/ListEmployee';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { NavLink } from 'react-router-dom';
+import { Tabs } from 'antd';
+import ProjectProfile from '../../component/project-detail/ProjectProfile';
+import ListEmployee from '../../component/project-detail/ListEmployee';
+import PositionRequire from '../../component/project-detail/PositionRequire';
+const TabPane = Tabs.TabPane;
 
 class ProjectDetail extends Component {
 
@@ -12,7 +14,9 @@ class ProjectDetail extends Component {
         super(props);
         this.state = {
             select: 1,
-            project: {}
+            project: {},
+            projectField: 0,
+            projectType: 0
         }
     }
 
@@ -37,39 +41,42 @@ class ProjectDetail extends Component {
     }
 
     onClickMenu = (value) => {
-        this.setState({ select: value })
+        this.setState({ select: parseInt(value) })
+    }
+
+    projectTypeField = (type, field) => {
+        this.setState({ projectType: type, projectField: field })
+    }
+
+    showDetail = (select) => {
+        if (select === 1)
+            return <ProjectProfile projectID={this.props.match.params.id} projectTypeField={this.projectTypeField} />
+        if (select === 2)
+            return <ListEmployee projectID={this.props.match.params.id} projectType={this.state.projectType} projectField={this.state.projectField} />
+        if (select === 3)
+            return <PositionRequire projectID={this.props.match.params.id} />
     }
 
     render() {
-        var { project } = this.state
+        var { project, select } = this.state
         return (
-            <div>
-                <div className='row'>
-                    <div className='col-auto' style={{ marginTop: 30 }}>
-                        <ul className='ul'>
-                            <li className='li'>
-                                <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Project Detail</a>
-                            </li>
-                            <li className='li' >
-                                <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >Employee List</a>
-                            </li>
-                        </ul>
+            <React.Fragment>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Projects Detail</li>
+                </ol>
+                <div className='card mb-4'>
+                    <div class="card-header">
+                        <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
+                            <TabPane tab="Project Detail" key={1}></TabPane>
+                            <TabPane tab="List Employee" key={2}></TabPane>
+                            <TabPane tab="Position Suggestion" key={3}></TabPane>
+                        </Tabs>
                     </div>
-
-                    <div className='col'>
-                        {this.state.select === 1 ?
-                            <ProjectDetailTable project={project} match={this.props.match} />
-                            :
-                            <ListEmployee project={project} />
-                        }
+                    <div class="card-body">
+                        {this.showDetail(select)}
                     </div>
                 </div>
-                <div className='row pull-right'>
-                    <NavLink to="/project">
-                        <button type="button" className="btn btn-primary " style={{ marginRight: 30, width: 110, fontWeight: 600, marginTop: -8 }}>Back</button>
-                    </NavLink>
-                </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

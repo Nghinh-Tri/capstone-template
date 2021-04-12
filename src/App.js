@@ -1,15 +1,13 @@
 import './App.css';
-
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import LoginPage from './screen/LoginPage/LoginPage';
-import { history } from './service/helper/History';
-import { Route, Router } from 'react-router-dom';
-import { PrivateRoute } from './service/PrivateRouter';
-import RouteList from './RouterMap'
-import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
-import Layout from "./Layout/Layout";
+import LoginPage from './screen/login/Login';
+import React, { Component } from 'react';
+import Layout from './Layout/Layout';
+import { Route, Router } from 'react-router-dom';
+import RouteList from './RouterMap'
+import { history } from './service/helper/History';
+import { PrivateRoute } from './service/PrivateRouter';
+import ReactNotification from 'react-notifications-component'
 
 class App extends Component {
 
@@ -40,11 +38,4 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        alert: state.alertReducer
-    };
-}
-
-
-export default connect(mapStateToProps, null)(App);
+export default App;

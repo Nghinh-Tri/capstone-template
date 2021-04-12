@@ -22,7 +22,7 @@ class SuggestCandidates extends Component {
 
     onSelect = (value, candidate) => {
         if (value) {
-            this.props.onSelectCandidate(candidate, this.props.item)
+            this.props.onSelectCandidate(candidate, this.props.item, this.getCandidateNeeds(this.props.item.posId))
         }
         else {
             this.props.onUnselectCandidate(candidate, this.props.item.position)
@@ -38,104 +38,78 @@ class SuggestCandidates extends Component {
     }
 
     showCandidate = (candidateList, selectedItem) => {
+        var { item } = this.props
         var result = null
         result = candidateList.map((candidate, index) => {
             return (<SuggestCandidateItems key={index}
                 onSelect={this.onSelect}
                 candidate={candidate}
                 index={index}
-                candidateSelectedList={selectedItem === null ? null : selectedItem.candidateSelect}
+                position={item.position}
+                candidateSelectedList={selectedItem === null ? null : selectedItem}
             />)
         })
         return result
     }
 
+    getCandidateNeeds = (posId) => {
+        var candidateNeeds = 0
+        var require = JSON.parse(localStorage.getItem('positionRequire'))
+        require.forEach(element => {
+            if (element.posID === posId)
+                candidateNeeds = element.candidateNeeded
+        });
+        return candidateNeeds
+    }
+
     render() {
         var { item, selectedItem } = this.props
+        var candidateNeeds = this.getCandidateNeeds(item.posId)
         return (
-            <div className="card">
-                <div className="card-header card-header-primary">
-                    <div className="row">
-                        <div className="col-9">
-                            <h4 className="font-weight-bold" style={{ color: 'whitesmoke' }}>{item.position}</h4>
-                        </div>
-                        <div className="col">
-                            <h4 className="font-weight-bold pull-right" style={{ color: 'whitesmoke' }}>Select - {selectedItem === null ? 0 : selectedItem.candidateSelect.length}</h4>
-                        </div>
-                    </div>
-                </div>
-                <div className="card-body">
-                    <div className="form-group">
-                        <div className="row">
-                            <div className="card-body">
-                                <div className="" >
-                                    <table className="table">
-                                        <thead className=" text-primary">
-                                            <tr>
-                                                <th className="font-weight-bold text-center">No</th>
-                                                <th className="font-weight-bold">Name</th>
-                                                <th className="font-weight-bold text-center">
-                                                    <div className='row justify-content-center'>
-                                                        <div className='col-auto align-self-center' style={{ paddingRight: 0 }}>
-                                                            Match Language
-                                                        </div>
-                                                        <div className='col-1' style={{ paddingLeft: 0, cursor: "pointer" }}>
-                                                            <i className="material-icons" name='langugage' style={{ paddingTop: 5 }} onClick={this.onSortLanguage}>swap_vert</i>
-                                                        </div>
-                                                    </div>
-                                                </th>
-                                                <th className="font-weight-bold text-center">
-                                                    <div className='row justify-content-center '>
-                                                        <div className='col-auto align-self-center' style={{ paddingRight: 0 }}>
-                                                            Match Soft Skill
-                                                        </div>
-                                                        <div className='col-1' style={{ paddingLeft: 0, cursor: "pointer" }}>
-                                                            <i className="material-icons" style={{ paddingTop: 5 }} onClick={this.onSortSoftSkill}>swap_vert</i>
-                                                        </div>
-                                                    </div>
-                                                </th>
-                                                <th className="font-weight-bold text-center">
-                                                    <div className='row justify-content-center '>
-                                                        <div className='col-auto align-self-center' style={{ paddingRight: 0 }}>
-                                                            Match Hard Skill
-                                                        </div>
-                                                        <div className='col-1' style={{ paddingLeft: 0, cursor: "pointer" }}>
-                                                            <i className="material-icons" style={{ paddingTop: 5 }} onClick={this.onSortHardSkill}>swap_vert</i>
-                                                        </div>
-                                                    </div>
-                                                </th>
-                                                <th className="font-weight-bold text-center">
-                                                    <div className='row justify-content-center '>
-                                                        <div className='col-auto align-self-center' style={{ paddingRight: 0 }}>
-                                                            Overall Match
-                                                        </div>
-                                                        <div className='col-1' style={{ paddingLeft: 0, cursor: "pointer" }}>
-                                                            <i className="material-icons" style={{ paddingTop: 5 }} onClick={this.onSortOverall}>swap_vert</i>
-                                                        </div>
-                                                    </div>
-                                                </th>
-                                                <th className="font-weight-bold text-center">
-                                                    <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        {item.matchDetail.length === 0 ?
-                                            ''
-                                            :
-                                            <tbody>
-                                                {this.showCandidate(item.matchDetail, selectedItem)}
-                                            </tbody>
-                                        }
-                                    </table>
-                                    {item.matchDetail.length === 0 ?
-                                        <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+            <React.Fragment>
+                <div class="table-responsive">
+                    <h5 className="pull-right" style={{ marginTop: 0 }}>Select {selectedItem === null ? 0 : selectedItem.candidateSelect.length} / {candidateNeeds} </h5>
+
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th className="font-weight-bold text-center">No</th>
+                                <th className="font-weight-bold">Name</th>
+                                <th className="font-weight-bold text-center">
+                                    Match Language
+                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortLanguage}>swap_vert</i>
+                                </th>
+                                <th className="font-weight-bold text-center">
+                                    Match Soft Skill
+                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortSoftSkill}>swap_vert</i>
+                                </th>
+                                <th className="font-weight-bold text-center">
+                                    Match Hard Skill
+                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortHardSkill}>swap_vert</i>
+                                </th>
+                                <th className="font-weight-bold text-center">
+                                    Overall Match
+                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortOverall}>swap_vert</i>
+                                </th>
+                                <th className="font-weight-bold text-center">
+                                    {candidateNeeds >= item.matchDetail.length ?
+                                        <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
                                         : ''}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        {typeof item.matchDetail !== 'undefined' ? (
+                            <tbody>
+                                {this.showCandidate(typeof item.matchDetail !== 'undefined' ? item.matchDetail : [], selectedItem)}
+                            </tbody>
+                        ) : ('')}
+                    </table>
                 </div>
-            </div >
+                {typeof item.matchDetail !== 'undefined' ?
+                    item.matchDetail.length === 0 ? <div className='row justify-content-center' style={{ width: 'auto' }} >
+                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                    </div> : '' : ''}
+            </React.Fragment>
         );
     }
 }

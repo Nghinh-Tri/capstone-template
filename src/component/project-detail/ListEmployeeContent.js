@@ -7,17 +7,21 @@ class ListEmployeeContent extends Component {
     showCandidate = (employees, posName) => {
         var result = null
         result = employees.map((employee, index) => {
-            return (<tr key={index}>
-                <th >
-                    <NavLink className="text-primary" to={`/project/detail/emp/${employee.empID}`}>{employee.name}</NavLink>
-                </th>
-                <th className="">{posName}</th>
-                <th className="">{employee.email}</th>
-                <th className="">{employee.phoneNumber}</th>
-                <th className="text-center">
-                    {employee.dateIn === null ? "-" : moment(employee.dateIn).format('DD-MM-YYYY')}
-                </th>
-            </tr>)
+            return (
+
+                <tr key={index}>
+                    <th >
+                        <NavLink className="text-primary" to={`/project/detail/emp/${employee.empID}`}>{employee.name}</NavLink>
+                    </th>
+                    <th className="">{posName}</th>
+                    <th className="">{employee.email}</th>
+                    <th className="">{employee.phoneNumber}</th>
+                    <th className="text-center">
+                        {employee.dateIn === null ? "-" : moment(employee.dateIn).format('DD-MM-YYYY')}
+                    </th>
+                </tr>
+
+            )
         })
         return result
     }
@@ -25,9 +29,9 @@ class ListEmployeeContent extends Component {
     render() {
         var { item } = this.props
         return (
-            <tbody>
+            <React.Fragment>
                 {this.showCandidate(item.employees, item.posName)}
-            </tbody>
+            </React.Fragment>
         );
     }
 }

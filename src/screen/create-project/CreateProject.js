@@ -4,7 +4,7 @@ import ProgressBar from '../../component/progress-bar/ProgressBar';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from "../../service/action/ProjectAction";
 import { convertProjectTypeList } from '../../service/util/util';
-import SelectBar from "../../component/create-position-form/select-search/SelectBar";
+import SelectBar from "../../component/select-search/SelectBar";
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import moment from 'moment';
@@ -19,7 +19,8 @@ class CreateProject extends Component {
             dateEndEst: "",
             description: "",
             stakeholder: "",
-            projectTypeID: 0
+            projectTypeID: 1,
+            projectFieldID: 1,
         }
     }
 
@@ -36,11 +37,16 @@ class CreateProject extends Component {
         this.setState({ projectTypeID: parseInt(value) })
     }
 
+    onSelectProjectField = (value) => {
+        this.setState({ projectFieldID: parseInt(value) })
+    }
+
     componentDidMount = () => {
         this.props.checkSession()
         this.props.fetchProjectType()
-        var { match } = this.props
-        if (typeof match.params.id !== 'undefined') {
+        this.props.fetchProjectField()
+        var { location, match } = this.props
+        if (!location.pathname.toString().includes('create-project')) {
             this.props.fetchProjectDetail(match.params.id)
         }
     }
@@ -63,7 +69,8 @@ class CreateProject extends Component {
                     dateEndEst: moment(projectDetail.dateEstimatedEnd).format('YYYY-MM-DD'),
                     description: projectDetail.description,
                     stakeholder: projectDetail.skateholder,
-                    projectTypeID: projectDetail.typeID
+                    projectTypeID: projectDetail.typeID,
+                    projectFieldID: projectDetail.fieldID
                 })
             }
         }
@@ -71,35 +78,42 @@ class CreateProject extends Component {
 
     onSave = (event) => {
         event.preventDefault()
-        var { id, name, dateBegin, dateEndEst, description, stakeholder, projectTypeID } = this.state
-        var project = {
-            projectId: id,
-            projectName: name,
-            description: description,
-            skateholder: stakeholder,
-            dateBegin: dateBegin,
-            dateEstimatedEnd: dateEndEst,
-            projectTypeID: projectTypeID
+        var { id, name, dateBegin, dateEndEst, description, projectTypeID, projectFieldID } = this.state
+        if (this.props.location.pathname.toString().includes('create-project')) {
+            var project = {
+                projectId: id,
+                projectName: name,
+                description: description,
+                dateBegin: dateBegin,
+                dateEstimatedEnd: dateEndEst,
+                projectTypeID: projectTypeID,
+                projectFieldID: projectFieldID
+            }
+            this.props.createProject(project, this.props.location.pathname)
         }
-        this.props.createProject(project, this.props.match)
+        else {
+            var project = {
+                description: description,
+                dateEstimatedEnd: dateEndEst,
+                typeID: projectTypeID,
+                fieldID: projectFieldID
+            }
+            this.props.updateProject(project, id)
+        }
     }
 
     render() {
-        var { name, dateBegin, dateEndEst, description, stakeholder, projectTypeID } = this.state
-        var { projectType } = this.props
-        var result = []
-        if (projectType.length > 0)
-            result = projectType
-        result = convertProjectTypeList(result)
+        var { name, dateBegin, dateEndEst, description, stakeholder, projectTypeID, projectFieldID } = this.state
+        var { projectType, projectField } = this.props
+        var projectTypeConverted = convertProjectTypeList(projectType)
+        var projectFieldConverted = convertProjectTypeList(projectField)
         return (
             <div>
-                {this.props.location.state !== null ? <ProgressBar step="step1" /> : ''}
+                {this.props.location.state !== null ? <ProgressBar current='0' /> : ''}
 
                 <div className="card">
-                    <div className="card-header card-header-primary">
-                        <p className="card-title" style={{ marginLeft: 40, fontSize: 28, fontWeight: 600 }}>
-                            {typeof this.props.match.params.id === 'undefined' ? "Create Project" : "Edit Project"}
-                        </p>
+                    <div className="card-header">
+                        {typeof this.props.match.params.id === 'undefined' ? "Create Project" : "Edit Project"}
                     </div>
                     <div className="card-body">
                         <form onSubmit={this.onSave}>
@@ -108,39 +122,55 @@ class CreateProject extends Component {
                                 <div className="col">
                                     <div className="form-group">
                                         <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Name</label>
-                                        <input type="text" className="form-control" value={name} name="name" onChange={this.onHandle} />
+                                        <input type="text"
+                                            className="form-control"
+                                            value={name} name="name" onChange={this.onHandle}
+                                            readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
                                     </div>
                                 </div>
-                                <div className="col-auto" style={{ marginTop: 18, marginLeft: 112 }}>
-                                    <label className="bmd-label-floating">Project Type</label>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <div className="form-group">
+                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Types</label>
+                                        <SelectBar name='projectType'
+                                            type='common'
+                                            placeholder="Select project type"
+                                            list={projectTypeConverted}
+                                            value={projectTypeID}
+                                            onSelectProjectType={this.onSelectProjectType} />
+                                    </div>
                                 </div>
-                                <div className="col" style={{ marginTop: 15 }}>
-                                    <SelectBar name='projectType'
-                                        type='common'
-                                        placeholder="Select project type"
-                                        list={result}
-                                        value={projectTypeID}
-                                        onSelectProjectType={this.onSelectProjectType} />
+                                <div className="col">
+                                    <div className="form-group">
+                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Fields</label>
+                                        <SelectBar name='projectField'
+                                            type='common'
+                                            placeholder="Select project fields"
+                                            list={projectFieldConverted}
+                                            value={projectFieldID}
+                                            onSelectProjectType={this.onSelectProjectField} />
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Date */}
                             <div className="row">
                                 {/* Date begin */}
-                                <div className="col-md-6">
-                                    <label className="bmd-label">Start Date</label>
+                                <div className="col">
                                     <div className="form-group">
+                                        <label className="bmd-label">Start Date</label>
                                         <input type='date' name="dateBegin" className="form-control" min={moment(moment().day(10)).format('YYYY-MM-DD')}
                                             defaultValue={dateBegin} onChange={this.onHandle} readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
                                     </div>
                                 </div>
                                 {/* Date end estimate */}
-                                <div className="col-md-6">
-                                    <label className="bmd-label">End Date</label>
-
+                                <div className="col">
                                     <div className="form-group">
+                                        <label className="bmd-label">End Date</label>
                                         <input type="date" name="dateEndEst" min={moment(moment().day(11)).format('YYYY-MM-DD')}
-                                        defaultValue={dateEndEst} className="form-control" onChange={this.onHandle} />
+                                            defaultValue={dateEndEst} className="form-control" onChange={this.onHandle} />
                                     </div>
                                 </div>
                             </div>
@@ -151,16 +181,6 @@ class CreateProject extends Component {
                                     <div className="form-group">
                                         <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Description</label>
                                         <textarea className="form-control" name="description" rows="5" defaultValue={description} onChange={this.onHandle} />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Stakeholder */}
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="form-group">
-                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Stakeholder</label>
-                                        <textarea className="form-control" name="stakeholder" rows="5" defaultValue={stakeholder} onChange={this.onHandle} />
                                     </div>
                                 </div>
                             </div>
@@ -181,14 +201,15 @@ const mapStateToProps = (state) => {
     return {
         project: state.ProjectFormReducer,
         projectDetail: state.ProjectFetchReducer,
-        projectType: state.ProjectTypeReducer
+        projectType: state.ProjectTypeReducer,
+        projectField: state.ProjectFieldReducer
     }
 }
 
 const mapDispatchToProp = (dispatch) => {
     return {
-        createProject: (project, match) => {
-            dispatch(Action.createProject(project, match))
+        createProject: (project, pathname) => {
+            dispatch(Action.createProject(project, pathname))
         },
         fetchProjectDetail: projectID => {
             dispatch(Action.fetchProjectDetail(projectID))
@@ -201,6 +222,9 @@ const mapDispatchToProp = (dispatch) => {
         },
         fetchProjectType: () => {
             dispatch(Action.fetchProjectType())
+        },
+        fetchProjectField: () => {
+            dispatch(Action.fetchProjectField())
         }
     }
 }

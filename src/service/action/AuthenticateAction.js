@@ -8,6 +8,7 @@ export const checkSession = () => {
     var token = localStorage.getItem('token')
     var decode = jwtDecode(token)
     var time = null
+
     Object.keys(decode).forEach(key => {
         let res = key.split('/')
         if (res[res.length - 1] === 'exp') {

@@ -14,7 +14,54 @@ const positionReducer = (state = initState, action) => {
 
         case Type.ADD_MORE_CANDIDATE:
             state = []
+            var obj = {
+                posID: parseInt(action.posID),
+                candidateNeeded: 1,//posLevel:0
+                language: [{
+                    langID: 0,
+                    priority: 10
+                }],
+                softSkillIDs: [],
+                hardSkills: []
+            }
+
+            if (action.hardSkill.length > 0) {
+                action.hardSkill.forEach(element => {
+                    var hardSkill = {
+                        hardSkillID: parseInt(element.skillID),
+                        skillLevel: 1,
+                        certificationLevel: 0,
+                        priority: 10,
+                        isDelete: false
+                    }
+                    obj.hardSkills.push(hardSkill)
+                });
+            }
+            if (action.softSkill.length > 0) {
+                var array = []
+                action.softSkill.forEach(element => {
+                    array.push(parseInt(element))
+                });
+                obj.softSkillIDs = array
+            }
+            state.push(obj)
             return [...state]
+
+        case Type.ADD_MORE_POSITION:
+            state = []
+            var obj = {
+                posID: 0,
+                candidateNeeded: 1,//posLevel:0
+                language: [{
+                    langID: 0,
+                    priority: 10
+                }],
+                softSkillIDs: [],
+                hardSkills: []
+            }
+            state.push(obj)
+            return [...state]
+
         //Position
         case Type.ADD_POSITION_REQUIRE:
             state.push(action.positionItem)
@@ -30,12 +77,34 @@ const positionReducer = (state = initState, action) => {
         case Type.UPDATE_POSITION_ID:
             positionObj = { ...state[action.positionFormIndex] }
             positionObj.posID = action.positionID
+            positionObj.hardSkills = []
+            positionObj.softSkillIDs = []
+            positionObj.language = []
+            if (action.hardSkill.length > 0) {
+                action.hardSkill.forEach(element => {
+                    var hardSkill = {
+                        hardSkillID: parseInt(element.skillID),
+                        skillLevel: 1,
+                        certificationLevel: 0,
+                        priority: 10,
+                        isDelete: false
+                    }
+                    positionObj.hardSkills.push(hardSkill)
+                });
+            }
+            if (action.softSkill.length > 0) {
+                var array = []
+                action.softSkill.forEach(element => {
+                    array.push(parseInt(element))
+                });
+                positionObj.softSkillIDs = array
+            }
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
         case Type.SELECT_POS_LEVEL:
             positionObj = { ...state[action.positionFormIndex] }
-            positionObj.posLevel = action.value
+            positionObj.candidateNeeded = parseInt(action.value)
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
@@ -46,7 +115,6 @@ const positionReducer = (state = initState, action) => {
             languageClone.push(action.languageItem)
             positionObj.language = languageClone
             state.splice(action.positionFormIndex, 1, positionObj)
-            console.log(state)
             return [...state]
 
         case Type.DELETE_LANGUAGE_REQUIRE:
@@ -91,30 +159,10 @@ const positionReducer = (state = initState, action) => {
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
-        //Soft Skill
-        case Type.ADD_SOFT_SKILL_REQUIRE:
-            positionObj = { ...state[action.positionFormIndex] }
-            softSkill = positionObj.softSkillIDs.slice()
-            softSkill.push(0)
-            positionObj.softSkillIDs = softSkill
-            state.splice(action.positionFormIndex, 1, positionObj)
-            return [...state]
-
-
-        case Type.DELETE_SOFT_SKILL_REQUIRE:
-            positionObj = { ...state[action.positionFormIndex] }
-            softSkill = positionObj.softSkillIDs.slice()
-            softSkill.splice(action.softSkillIndex, 1)
-            positionObj.softSkillIDs = softSkill
-            state.splice(action.positionFormIndex, 1, positionObj)
-            return [...state]
-
-
+        //Soft Skill       
         case Type.UPDATE_SOFT_SKILL:
             positionObj = { ...state[action.positionFormIndex] }
-            softSkill = positionObj.softSkillIDs.slice()
-            softSkill.splice(action.softSkillIndex, 1, action.softSkillID)
-            positionObj.softSkillIDs = softSkill
+            positionObj.softSkillIDs = action.value
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
@@ -207,6 +255,17 @@ const positionReducer = (state = initState, action) => {
             return [...state]
 
         default:
+            if (state.length === 0)
+                state.push({
+                    posID: 0,
+                    candidateNeeded: 1,//posLevel:0
+                    language: [{
+                        langID: 0,
+                        priority: 10
+                    }],
+                    softSkillIDs: [],
+                    hardSkills: []
+                })
             return [...state]
     }
 }

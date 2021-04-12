@@ -1,66 +1,54 @@
+import { Tabs } from 'antd';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PositionTable from '../../component/profile/PositionTable';
-import ProfileTable from '../../component/profile/ProfileTable';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { history } from '../../service/helper/History';
+import PersonalProfile from '../../component/profile/PersonalProfile';
+import SkillProfile from '../../component/profile/SkillProfile';
+import { checkSession } from "../../service/action/AuthenticateAction";
+import { connect } from "react-redux";
+const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            select: 1
+            select: 1,
         }
     }
 
-    componentDidMount = () => {
-        this.props.checkSession()
-    }
-
-    onBack = () => {
-        history.goBack()
-    }
-
     onClickMenu = (value) => {
-        this.setState({ select: value })
+        this.setState({ select: parseInt(value) })
+    }
+
+    showDetail = (select, result) => {
+        if (select === 1)
+            return <PersonalProfile empID={result} />
+        if (select === 2)
+            return <SkillProfile empID={result} />;
     }
 
     render() {
-        var result = ''
-        var { empID } = this.props
-        if (typeof empID === 'undefined')
-            result = this.props.match.params.id
-        else
-            result = empID
+        var { select } = this.state
+        var result = "";
+        var { empID } = this.props;
+        if (typeof empID === "undefined") result = this.props.match.params.id;
+        else result = empID;
         return (
-            <div>
-                <div className='row'>
-                    <div className='col-auto' style={{ marginTop: 30 }}>
-                        <ul className='ul'>
-                            <li className='li'>
-                                <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Profile</a>
-                            </li>
-                            <li className='li' >
-                                <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >Position</a>
-                            </li>
-                        </ul>
+            <React.Fragment>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Profile Detail</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
+                            <TabPane tab="Personal Infomation" key={1}></TabPane>
+                            <TabPane tab="Skill Information" key={2}></TabPane>
+                        </Tabs>
                     </div>
-
-                    <div className='col'>
-                        {this.state.select === 1 ?
-                            <ProfileTable empID={result} />
-                            :
-                            <PositionTable empID={result} />
-                        }
+                    <div class="card-body">
+                        {this.showDetail(select, result)}
                     </div>
                 </div>
-                {typeof this.props.match !== 'undefined' ?
-                    <div className='row pull-right' style={{ marginRight: 20, marginTop: -20 }}>
-                        <button className="btn btn-primary " onClick={this.onBack}>Back</button>
-                    </div>
-                    : ''}
-            </div>
+            </React.Fragment>
         );
     }
 }
@@ -68,9 +56,9 @@ class Profile extends Component {
 const mapDispatchToProp = (dispatch) => {
     return {
         checkSession: () => {
-            dispatch(checkSession())
-        }
-    }
-}
+            dispatch(checkSession());
+        },
+    };
+};
 
 export default connect(null, mapDispatchToProp)(Profile);

@@ -3,46 +3,50 @@ import TableItems from './table-item';
 
 class CandidateTable extends Component {
 
-    showListStaff = (staffList) => {
-        var result = null;
-        result = staffList.map((staff, index) => {
-            return (<TableItems key={index} staff={staff} index={index} />);
+    showCandidate = (candidateList) => {
+        var result = null
+        result = candidateList.map((candidate, index) => {
+            return (<tr key={index}>
+                <th className="text-center">{index + 1}</th>
+                <th className="">{candidate.empName}</th>
+                <th className="text-center">{candidate.languageMatch.toFixed(2)} / 10</th>
+                <th className="text-center">{candidate.softSkillMatch.toFixed(2)} / 10</th>
+                <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
+                <th className="text-center">{candidate.overallMatch.toFixed(2)} / 100</th>
+            </tr>)
         })
-        return result;
+        return result
     }
 
-    showStatus = (status) => {
-        switch (status) {
-            case 'Pending':
-                return 'secondary'
-            case 'On-going':
-                return 'primary'
-            case 'Finish':
-                return 'success'
-            default:
-                break;
-        }
-    }
     render() {
-        var { project } = this.props;
+        var { item } = this.props;
         return (
-            <div className="table-responsive">
-                <table className="table">
-                    <thead className=" text-primary">
-                        <tr>
-                            <th className="text-center font-weight-bold">No</th>
-                            <th className="text-center font-weight-bold">ID</th>
-                            <th className="text-center font-weight-bold">Name</th>
-                            <th className="text-center font-weight-bold">Position</th>
-                            <th className="text-center font-weight-bold">Date In</th>
-                            <th className="text-center font-weight-bold">Date Out</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* {this.showListStaff(project.staff)} */}
-                    </tbody>
-                </table>
-            </div>
+            <React.Fragment>
+                <div className='card mb-4'>
+                    <div className='card-header'>
+                        {item.position}
+                    </div>
+                    <div className='card-body'>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th className="font-weight-bold text-center" width={40}>No</th>
+                                        <th className="font-weight-bold" width={300}>Name</th>
+                                        <th className="font-weight-bold text-center" width={200}>Match Language</th>
+                                        <th className="font-weight-bold text-center" width={200}>Match Soft Skill</th>
+                                        <th className="font-weight-bold text-center" width={200}>Match Hard Skill</th>
+                                        <th className="font-weight-bold text-center" width={200}>Overall Match</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.showCandidate(item.candidateSelect)}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </React.Fragment>
         );
     }
 }

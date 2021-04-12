@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchHardSkill } from '../../../service/action/HardSkillSelectBarAction';
-import HardSkillFormContent from './hard-skill-form-content/HardSkillFormContent';
+import HardSkillFormContent from './HardSkillFormContent';
+import { fetchHardSkill } from "../../../service/action/HardSkillSelectBarAction";
 
 class HardSkillForm extends Component {
 
@@ -10,17 +10,18 @@ class HardSkillForm extends Component {
         this.state = {
             hardSkillDetail: {
                 hardSkillID: 0,
-                skillLevel: 0,
-                certificationLevel: -1,
-                priority: 0
+                skillLevel: 1,
+                certificationLevel: 0,
+                priority: 10,
+                isDelete: true
             },
-            isMinimize: false
+            isMinimize: true
         }
     }
 
     componentDidMount = () => {
         this.props.fetchHardSkillList()
-    }
+    }  
 
     getHardSkillListNotSelect = () => {
         var { hardSkillList, hardSkill } = this.props
@@ -37,16 +38,13 @@ class HardSkillForm extends Component {
         return listNotSelect
     }
 
-    onAddHardSkill = (positionFormIndex) => {
-        this.props.onAddHardSkill(positionFormIndex, this.state.hardSkillDetail)
-    }
-
     showItems = (hardSkill, positionFormIndex) => {
         var result = null;
         var listNotSelect = this.getHardSkillListNotSelect()
         result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
             return (
                 <HardSkillFormContent key={hardSkillIndex}
+                    length={hardSkill.length}
                     hardSkillDetail={hardSkillDetail}
                     hardSkillIndex={hardSkillIndex}
                     positionFormIndex={positionFormIndex}
@@ -62,6 +60,10 @@ class HardSkillForm extends Component {
         return result;
     }
 
+    onAddHardSkill = (positionFormIndex) => {
+        this.props.onAddHardSkill(positionFormIndex, this.state.hardSkillDetail)
+    }
+
     setMinimize = () => {
         this.setState({
             isMinimize: !this.state.isMinimize
@@ -69,37 +71,41 @@ class HardSkillForm extends Component {
     }
 
     render() {
-        var { hardSkill, positionFormIndex } = this.props
-
-        const showHardSkill = (hardSkill, positionFormIndex) => {
-            if (this.state.isMinimize)
-                return ""
-            else
-                return (<div className="card-body">
-                    {this.showItems(hardSkill, positionFormIndex)}
-                    {this.props.hardSkillList.length === hardSkill.length ?
-                        '' :
-                        <span className="material-icons add"
-                            onClick={() => this.onAddHardSkill(positionFormIndex)}>add_box</span>
-                    }
-                </div>)
-        }
-
+        var { positionFormIndex, hardSkill } = this.props
         return (
-            <div className="card">
-                <div className="card-header ">
-                    <div className="row">
-                        <div className="col">
-                            <h5 className="font-weight-bold">Hard Skill</h5>
-                        </div>
-                        <div className="col pull-right">
-                            <span className="material-icons pull-right clear" onClick={this.setMinimize} >
-                                {this.state.isMinimize === false ? 'minimize' : 'crop_free'}
-                            </span>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table mr-1"></i>Hard Skills
+                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setMinimize} >
+                        {!this.state.isMinimize ? 'minimize' : 'crop_free'}
+                    </span>
+                </div>
+                {!this.state.isMinimize ?
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th width={200}>Hard Skill</th>
+                                        <th width={200}>Skill Level</th>
+                                        <th width={200}>Certification Level</th>
+                                        <th width={200}>Priority</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.showItems(hardSkill, positionFormIndex)}
+                                </tbody>
+                            </table>
+                            {this.props.hardSkillList.length === hardSkill.length ?
+                                '' :
+                                <div className="col">
+                                    <i className="material-icons" style={{ cursor: 'pointer', color: 'blue' }}
+                                        onClick={() => this.onAddHardSkill(positionFormIndex)}>add_box</i>
+                                </div>
+                            }
                         </div>
                     </div>
-                </div>
-                {showHardSkill(hardSkill, positionFormIndex)}
+                    : ''}
             </div>
         );
     }
