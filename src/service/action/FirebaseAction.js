@@ -4,16 +4,23 @@ import { API_URL } from "../util/util"
 import { fetchProject } from "./ProjectAction";
 
 export const sendNotificate = (message) => {
-    var url = `${API_URL}/Notification?topic=news`    
+    var sendUrl = `${API_URL}/Notification?topic=news`
+    var token = JSON.parse(localStorage.getItem('FirebaseToken'))
     return (dispatch) => {
-        if (localStorage.getItem('token') !== null) {
+        if (localStorage.getItem('token') !== null && token !== null) {
+            var unsubcriptUrl = `${API_URL}/Notification/unsubscription?token=${token}&topic=news`
             axios.post(
-                url,
-                message,
+                unsubcriptUrl,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-            ).then(res => {
-                dispatch(sendNotificateSuccess())
-            })
+            ).then(
+                axios.post(
+                    sendUrl,
+                    message,
+                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+                ).then(res => {
+                    dispatch(sendNotificateSuccess())
+                })
+            )
         } else {
             dispatch(recieveNotificateFail())
         }
@@ -23,6 +30,7 @@ export const sendNotificate = (message) => {
 export const recieveNotificate = (token) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Notification/subscription?token=${token}&topic=pm${empID}`
+    console.log(url)
     return (dispatch) => {
         if (localStorage.getItem('token') !== null) {
             axios.post(

@@ -200,7 +200,7 @@ class CreateProject extends Component {
 const mapStateToProps = (state) => {
     return {
         project: state.ProjectFormReducer,
-        projectDetail: state.ProjectFetchReducer,
+        projectDetail: state.ProjectDetailFetchReducer,
         projectType: state.ProjectTypeReducer,
         projectField: state.ProjectFieldReducer
     }

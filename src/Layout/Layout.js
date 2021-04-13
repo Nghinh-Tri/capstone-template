@@ -5,7 +5,7 @@ import RouteList from '../RouterMap'
 import { Route, Switch } from 'react-router-dom';
 import firebase from "../service/firebase/firebase";
 import { store } from 'react-notifications-component';
-import { recieveNotificate } from '../service/action/FirebaseAction';
+import { recieveNotificate, sendNotificate } from '../service/action/FirebaseAction';
 import { connect } from 'react-redux';
 
 class Layout extends Component {
@@ -14,8 +14,10 @@ class Layout extends Component {
         const messaging = firebase.messaging()
         messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
             .then(token => {
-                if (token)
+                if (token) {
+                    localStorage.setItem('FirebaseToken', JSON.stringify(token))
                     this.props.recievedNoti(token)
+                }
             })
         messaging.onMessage((payload) => {
             this.showNotificate(payload.notification)
@@ -32,7 +34,7 @@ class Layout extends Component {
             animationIn: ["animate__animated", "animate__fadeIn"],
             animationOut: ["animate__animated", "animate__fadeOut"],
             dismiss: {
-                duration: 5000,
+                duration: 10000,
                 onScreen: true
             }
         })
@@ -48,7 +50,7 @@ class Layout extends Component {
             });
         }
         return <Switch> {result} </Switch>
-    }
+    }   
 
     render() {
         return (
@@ -59,7 +61,6 @@ class Layout extends Component {
                         <NavBar />
                     </div>
                     <div id="layoutSidenav_content">
-
                         <main>
                             <div class="container-fluid">
                                 {this.showContent(RouteList)}
