@@ -26,7 +26,7 @@ class ProjectProfile extends Component {
         var { project } = this.props
         if (typeof project.projectID !== 'undefined') {
             this.setState({ isLoad: false })
-            this.props.projectTypeField(project.typeID,project.fieldID,project.status)
+            this.props.projectTypeField(project.typeID, project.fieldID, project.status, project.projectName)
         }
     }
 

@@ -72,6 +72,7 @@ class ListEmployee extends Component {
                         projectType={this.props.projectType}
                         projectField={this.props.projectField}
                         projectStatus={this.props.status}
+                        projectName={this.props.projectName}
                     />)
                 }
             })

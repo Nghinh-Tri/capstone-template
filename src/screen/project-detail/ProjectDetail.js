@@ -17,7 +17,8 @@ class ProjectDetail extends Component {
             project: {},
             projectField: 0,
             projectType: 0,
-            status: -1
+            status: -1,
+            name: ''
         }
     }
 
@@ -45,15 +46,15 @@ class ProjectDetail extends Component {
         this.setState({ select: parseInt(value) })
     }
 
-    projectTypeField = (type, field, status) => {
-        this.setState({ projectType: type, projectField: field, status: status })
+    projectTypeField = (type, field, status, name) => {
+        this.setState({ projectType: type, projectField: field, status: status, name: name })
     }
 
     showDetail = (select) => {
         if (select === 1)
             return <ProjectProfile projectID={this.props.match.params.id} projectTypeField={this.projectTypeField} />
         if (select === 2)
-            return <ListEmployee projectID={this.props.match.params.id} projectType={this.state.projectType} projectField={this.state.projectField} status={this.state.status} />
+            return <ListEmployee projectID={this.props.match.params.id} projectType={this.state.projectType} projectField={this.state.projectField} status={this.state.status} projectName={this.state.name} />
         if (select === 3)
             return <PositionRequire projectID={this.props.match.params.id} />
     }

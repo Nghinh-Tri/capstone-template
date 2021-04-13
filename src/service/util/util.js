@@ -18,7 +18,7 @@ export const showStatus = status => {
         case 1:
             return "No Employee"
         case 2:
-            return "Cofirmed"
+            return "Confirmed"
         case 3:
             return "On Going"
         case 4:
@@ -48,10 +48,12 @@ export const showBadge = status => {
 export const showRequestStatus = status => {
     switch (status) {
         case 0:
-            return "Waiting"
+            return "New"
         case 1:
-            return "Suggest Again"
+            return "Waiting"
         case 2:
+            return "Suggest Again"
+        case 3:
             return "Finish"
         default:
             break;

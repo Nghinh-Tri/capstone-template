@@ -89,6 +89,7 @@ class ListEmployeeContent extends Component {
             localStorage.setItem('projectId', this.props.projectID)
             localStorage.setItem('projectType', this.props.projectType)
             localStorage.setItem('projectField', this.props.projectField)
+            localStorage.setItem('projectName', this.props.projectName)
             localStorage.setItem('positionRequire', JSON.stringify(array))
             this.props.suggestAgain()
         } else {
