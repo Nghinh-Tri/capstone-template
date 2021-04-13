@@ -5,22 +5,22 @@ class Barchart extends Component {
 
 
     render() {
-        var { dataStatisticList } = this.props
-        const arrLabel = [];
-        const arryDataset = [];
-        dataStatisticList.map((dataItem, index) => {
-            arrLabel.push(dataItem.name);
-            arryDataset.push(dataItem.noe)
-        })
+        // var { dataStatisticList } = this.props
+        // const arrLabel = [];
+        // const arryDataset = [];
+        // dataStatisticList.map((dataItem, index) => {
+        //     arrLabel.push(dataItem.name);
+        //     arryDataset.push(dataItem.noe)
+        // })
 
         return (
             <div>
                 <Bar
                     data={{
-                        labels: arrLabel,
+                        labels: ['a','b','c'],
                         datasets: [{
                             label: 'NOE ',
-                            data: arryDataset,
+                            data: [20,30,20],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(255, 159, 64, 0.2)',

@@ -6,14 +6,14 @@ class PineChart extends Component {
 
   render() {
 
-    var { dataStatisticList } = this.props
-    const arrLabel = [];
-    const arryDataset = [];
-    dataStatisticList.map((dataItem, index) => {
-      arrLabel.push(dataItem.name);
-      arryDataset.push(dataItem.nop)
-    })
-    
+    // var { dataStatisticList } = this.props
+    // const arrLabel = [];
+    // const arryDataset = [];
+    // dataStatisticList.map((dataItem, index) => {
+    //   arrLabel.push(dataItem.name);
+    //   arryDataset.push(dataItem.nop)
+    // })
+
 
     return (
       <div>
@@ -21,11 +21,11 @@ class PineChart extends Component {
         <Pie
           data={
             {
-              labels: arrLabel,
+              labels: ['a', ['b']],
               datasets: [
                 {
                   label: 'NOE',
-                  data: arryDataset,
+                  data: [10, 20],
                   backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
