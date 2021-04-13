@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Chrono } from "react-chrono"
 import './Style.css'
+import moment from 'moment';
+
+
 
 
 class timeLine extends Component {
@@ -12,16 +15,17 @@ class timeLine extends Component {
     var txt2 = "DateEnd: ";
     dataStatisticList.map(item => data.push({
       title: item.name,
-      cardTitle: txt1.concat(item.dateCreated),
-      cardSubtitle: txt2.concat(item.dateEnd),
+      cardTitle: txt1.concat(moment(item.dateCreated).format('DD-MM-YYYY')),
+      cardSubtitle: txt2.concat(moment(item.dateEnd).format('DD-MM-YYYY')),
       cardDetailedText: "Description",
     }));
 
+
     return (
       <div className="timeLine">
-        <div style={{ width: "2000px", height: "400px" }}>
-          <Chrono items={data} mode="HORIZONTAL" >
-
+        <div style={{ width: "100%", height: "1000px" }}>
+          <Chrono items={data} mode="VERTICAL" >
+            
           </Chrono>
         </div>
       </div>
