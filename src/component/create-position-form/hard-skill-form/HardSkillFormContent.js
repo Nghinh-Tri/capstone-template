@@ -61,6 +61,7 @@ class HardSkillFormContent extends Component {
                     <SelectBar name="skillLevel"
                         type="common"
                         placeholder="Select skill level"
+                        isDelete={hardSkillDetail.isDelete}
                         positionFormIndex={positionFormIndex}
                         hardSkillIndex={hardSkillIndex}
                         list={this.state.skillLevel}
@@ -72,6 +73,7 @@ class HardSkillFormContent extends Component {
                     <SelectBar name="certiLevel"
                         type="common"
                         placeholder="Select skill level"
+                        isDelete={hardSkillDetail.isDelete}
                         positionFormIndex={positionFormIndex}
                         hardSkillIndex={hardSkillIndex}
                         list={certificationListConverted}
@@ -83,6 +85,7 @@ class HardSkillFormContent extends Component {
                     <SelectBar name="hardSkillPriority"
                         type="common"
                         placeholder="Select priority"
+                        isDelete={hardSkillDetail.isDelete}
                         positionFormIndex={positionFormIndex}
                         hardSkillIndex={hardSkillIndex}
                         list={this.state.priority}

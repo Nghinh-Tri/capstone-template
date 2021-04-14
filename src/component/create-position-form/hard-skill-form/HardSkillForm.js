@@ -27,8 +27,15 @@ class HardSkillForm extends Component {
         var { hardSkillList, hardSkill } = this.props
         var listNotSelect = hardSkillList.slice(0, hardSkillList.length)
         for (let i = 0; i < listNotSelect.length; i++) {
-            for (let k = 0; k < hardSkill.length; k++) {
-                if (listNotSelect[i].skillID === hardSkill[k].hardSkillID) {
+            for (let k = 0; k < hardSkill.minium.length; k++) {
+                if (listNotSelect[i].skillID === hardSkill.minium[k].hardSkillID) {
+                    var clone = { ...listNotSelect[i] }
+                    clone.isSelect = true
+                    listNotSelect[i] = clone
+                }
+            }
+            for (let k = 0; k < hardSkill.option.length; k++) {
+                if (listNotSelect[i].skillID === hardSkill.option[k].hardSkillID) {
                     var clone = { ...listNotSelect[i] }
                     clone.isSelect = true
                     listNotSelect[i] = clone
@@ -48,28 +55,6 @@ class HardSkillForm extends Component {
                     hardSkillDetail={hardSkillDetail}
                     hardSkillIndex={hardSkillIndex}
                     positionFormIndex={positionFormIndex}
-                    // onDeleteHardSkill={this.props.onDeleteHardSkill}
-                    onUpdateSkillLevel={this.props.onUpdateSkillLevel}
-                    onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
-                    // onUpdateHardSkillID={this.props.onUpdateHardSkillID}
-                    onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
-                    listNotSelect={listNotSelect}
-                />
-            );
-        })
-        return result;
-    }
-
-    showOptionSkills = (hardSkill, positionFormIndex) => {
-        var result = null;
-        var listNotSelect = this.getHardSkillListNotSelect()
-        result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
-            return (
-                <HardSkillFormContent key={hardSkillIndex}
-                    length={hardSkill.length}
-                    hardSkillDetail={hardSkillDetail}
-                    hardSkillIndex={hardSkillIndex}
-                    positionFormIndex={positionFormIndex}
                     onDeleteHardSkill={this.props.onDeleteHardSkill}
                     onUpdateSkillLevel={this.props.onUpdateSkillLevel}
                     onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
@@ -80,7 +65,7 @@ class HardSkillForm extends Component {
             );
         })
         return result;
-    }
+    }  
 
     onAddHardSkill = (positionFormIndex) => {
         this.props.onAddHardSkill(positionFormIndex, this.state.hardSkillDetail)
@@ -123,7 +108,7 @@ class HardSkillForm extends Component {
                                     <tr >
                                         <td colspan={4}>Option Skills</td>
                                     </tr>
-                                    {this.showOptionSkills(hardSkill.option, positionFormIndex)}
+                                    {this.showMinimumSkills(hardSkill.option, positionFormIndex)}
                                 </tbody>
                             </table>
                             {this.props.hardSkillList.length === hardSkill.length ?

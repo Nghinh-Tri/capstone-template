@@ -131,40 +131,20 @@ export const deleteHardSkillRequire = (hardSkillIndex, positionFormIndex) => {
     }
 }
 
-export const updateHardSkillLevel = (hardSkillIndex, positionFormIndex, value) => {
-    return {
-        type: Type.UPDATE_HARD_SKILL_LEVEL,
-        positionFormIndex,
-        hardSkillIndex,
-        value
-    }
+export const updateHardSkillLevel = (hardSkillIndex, positionFormIndex, value, isDelete) => {
+    return { type: Type.UPDATE_HARD_SKILL_LEVEL, positionFormIndex, hardSkillIndex, value, isDelete }
 }
 
 export const updateHardSkillID = (value, hardSkillIndex, positionFormIndex) => {
-    return {
-        type: Type.UPDATE_HARD_SKILL_ID,
-        positionFormIndex,
-        hardSkillIndex,
-        value
-    }
+    return { type: Type.UPDATE_HARD_SKILL_ID, positionFormIndex, hardSkillIndex, value }
 }
 
-export const updateHardSkillPriority = (value, hardSkillIndex, positionFormIndex) => {
-    return {
-        type: Type.UPDATE_HARD_SKILL_PRIORITY,
-        positionFormIndex,
-        hardSkillIndex,
-        value
-    }
+export const updateHardSkillPriority = (value, hardSkillIndex, positionFormIndex, isDelete) => {
+    return { type: Type.UPDATE_HARD_SKILL_PRIORITY, positionFormIndex, hardSkillIndex, value, isDelete }
 }
 
-export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) => {
-    return {
-        type: Type.UPDATE_HARD_SKILL_CERTI,
-        positionFormIndex,
-        hardSkillIndex,
-        value
-    }
+export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex, isDelete) => {
+    return { type: Type.UPDATE_HARD_SKILL_CERTI, positionFormIndex, hardSkillIndex, value, isDelete }
 }
 
 export const createPosition = (positionItem, isUpdate) => {
@@ -414,7 +394,7 @@ export const getPrevRequire = (projectId, posID) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log('res',res)
+            console.log('res', res)
             dispatch(getPrevRequireSuccess(res.data.resultObj))
         })
     }

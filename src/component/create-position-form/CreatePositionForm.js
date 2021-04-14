@@ -65,7 +65,7 @@ class CreatePositionForm extends Component {
     }
 
     onHandle = (e) => {
-        var { name, value } = e.target
+        var { value } = e.target
         if (value <= 0) {
             store.addNotification({
                 message: "Candidate must bigger than 0",
@@ -86,7 +86,7 @@ class CreatePositionForm extends Component {
     render() {
         var { positionItem, positionList, positionFormIndex, length } = this.props
         var listConverted = convertPositionList(positionList)
-        // console.log('positionItem', positionItem)
+        console.log('positionItem', positionItem)
         return (
             <React.Fragment>
                 <tr>

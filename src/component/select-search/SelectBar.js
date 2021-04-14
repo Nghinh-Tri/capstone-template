@@ -29,7 +29,7 @@ class SelectBar extends Component {
         var { list } = this.props
         var result = null
         result = list.map((item, index) => {
-            return (<Option key={index} value={item.value}>{item.label}</Option>)
+            return (<Option key={index} value={item.value} >{item.label}</Option>)
         })
         return result
     }
@@ -160,6 +160,7 @@ class SelectBar extends Component {
                 <Select value={value}
                     style={{ minWidth: 250, maxWidth: 'auto' }}
                     mode='multiple'
+                    disabled={this.props.minium}
                     showArrow
                     showSearch
                     placeholder={this.props.placeholder}
@@ -181,13 +182,13 @@ class SelectBar extends Component {
                 this.props.onUpdateLanguagePriority(value, this.props.languageIndex, this.props.positionFormIndex)
                 break;
             case 'skillLevel':
-                this.props.onUpdateSkillLevel(value, this.props.hardSkillIndex, this.props.positionFormIndex)
+                this.props.onUpdateSkillLevel(value, this.props.hardSkillIndex, this.props.positionFormIndex, this.props.isDelete)
                 break;
             case 'certiLevel':
-                this.props.onUpdateHardSkillCerti(value, this.props.hardSkillIndex, this.props.positionFormIndex)
+                this.props.onUpdateHardSkillCerti(value, this.props.hardSkillIndex, this.props.positionFormIndex, this.props.isDelete)
                 break
             case 'hardSkillPriority':
-                this.props.onUpdateHardSkillPriority(value, this.props.hardSkillIndex, this.props.positionFormIndex)
+                this.props.onUpdateHardSkillPriority(value, this.props.hardSkillIndex, this.props.positionFormIndex, this.props.isDelete)
                 break
             case 'projectType':
                 this.props.onSelectProjectType(value)
@@ -234,9 +235,6 @@ class SelectBar extends Component {
     onSelectMulti = (value) => {
         var { name } = this.props
         switch (name) {
-            case 'posLevel':
-                this.props.onSelectPosLevel(value, this.props.positionFormIndex)
-                break;
             case 'softSkillID':
                 this.props.onUpdateSoftSkillID(value, this.props.positionFormIndex)
                 break
