@@ -32,6 +32,7 @@ const positionReducer = (state = initState, action) => {
                         skillLevel: 1,
                         certificationLevel: 0,
                         priority: 10,
+                        certiList: [...element.certiList],
                         isDelete: false
                     }
                     obj.hardSkills.minium.push(hardSkill)
@@ -81,21 +82,38 @@ const positionReducer = (state = initState, action) => {
             positionObj.hardSkills = { minium: [], option: [] }
             positionObj.softSkillIDs = { minium: [], option: [] }
             positionObj.language = []
-            console.log('hardSkill', action.hardSkill)
 
             if (action.hardSkill.length > 0) {
-                action.hardSkill.forEach(element => {
-                    console.log('ele', element)
+                var info = [...action.hardSkill]
+                info.forEach(element => {
+                    console.log('element', element, element.certiList.length)
                     var hardSkill = {
                         hardSkillID: parseInt(element.skillID),
                         skillLevel: 1,
                         certificationLevel: 0,
                         priority: 10,
-                        certiList: element.certiList,
+                        certiList: [...element.certiList],
                         isDelete: false
                     }
                     positionObj.hardSkills.minium.push(hardSkill)
                 });
+                // for (let index = 0; index < info.length; index++) {
+                //     var element = { ...info[index] }
+                //     // console.log('element', element, element.certiList)
+                //     var certiList = [...info[index].certiList]
+                //     // console.log('certiList', certiList)
+
+                //     var hardSkill = {
+                //         hardSkillID: parseInt(element.skillID),
+                //         skillLevel: 1,
+                //         certificationLevel: 0,
+                //         priority: 10,
+                //         certiList: [...element.certiList],
+                //         isDelete: false
+                //     }
+                //     positionObj.hardSkills.minium.push(hardSkill)
+                // }
+
             }
             if (action.softSkill.length > 0) {
                 var array = []

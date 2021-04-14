@@ -36,6 +36,7 @@ export const updatePositionID = (positionID, positionFormIndex) => {
             ).then(res1 => {
                 hardSkill = res1.data.resultObj === null ? [] : res1.data.resultObj
                 hardSkill.forEach(element => {
+                    element.certiList = []
                     var certiUrl = `${API_URL}/Certification/getCertifications/${element.skillID}`
                     axios.get(
                         certiUrl,
@@ -45,7 +46,7 @@ export const updatePositionID = (positionID, positionFormIndex) => {
                         element.certiList = certiList
                     })
                 });
-                console.log('hardSkill',hardSkill)
+                // console.log('hardSkill', hardSkill)
                 dispatch(updatePositionIDSuccess(positionID, positionFormIndex, hardSkill, softSkill))
             })
         })
