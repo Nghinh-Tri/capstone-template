@@ -21,8 +21,8 @@ const positionReducer = (state = initState, action) => {
                     langID: 0,
                     priority: 10
                 }],
-                softSkillIDs: [],
-                hardSkills: []
+                softSkillIDs: { minium: [], option: [] },
+                hardSkills: { minium: [], option: [] }
             }
 
             if (action.hardSkill.length > 0) {
@@ -34,7 +34,7 @@ const positionReducer = (state = initState, action) => {
                         priority: 10,
                         isDelete: false
                     }
-                    obj.hardSkills.push(hardSkill)
+                    obj.hardSkills.minium.push(hardSkill)
                 });
             }
             if (action.softSkill.length > 0) {
@@ -42,7 +42,7 @@ const positionReducer = (state = initState, action) => {
                 action.softSkill.forEach(element => {
                     array.push(parseInt(element))
                 });
-                obj.softSkillIDs = array
+                obj.softSkillIDs.minium = array
             }
             state.push(obj)
             return [...state]
@@ -56,14 +56,15 @@ const positionReducer = (state = initState, action) => {
                     langID: 0,
                     priority: 10
                 }],
-                softSkillIDs: [],
-                hardSkills: []
+                softSkillIDs: { minium: [], option: [] },
+                hardSkills: { minium: [], option: [] }
             }
             state.push(obj)
             return [...state]
 
         //Position
         case Type.ADD_POSITION_REQUIRE:
+            console.log('action.positionItem',action.positionItem)
             state.push(action.positionItem)
             localStorage.setItem("isNewPosition", false)
             return [...state]
@@ -77,8 +78,8 @@ const positionReducer = (state = initState, action) => {
         case Type.UPDATE_POSITION_ID:
             positionObj = { ...state[action.positionFormIndex] }
             positionObj.posID = action.positionID
-            positionObj.hardSkills = []
-            positionObj.softSkillIDs = []
+            positionObj.hardSkills = { minium: [], option: [] }
+            positionObj.softSkillIDs = { minium: [], option: [] }
             positionObj.language = []
             if (action.hardSkill.length > 0) {
                 action.hardSkill.forEach(element => {
@@ -89,7 +90,7 @@ const positionReducer = (state = initState, action) => {
                         priority: 10,
                         isDelete: false
                     }
-                    positionObj.hardSkills.push(hardSkill)
+                    positionObj.hardSkills.minium.push(hardSkill)
                 });
             }
             if (action.softSkill.length > 0) {
@@ -97,7 +98,7 @@ const positionReducer = (state = initState, action) => {
                 action.softSkill.forEach(element => {
                     array.push(parseInt(element))
                 });
-                positionObj.softSkillIDs = array
+                positionObj.softSkillIDs.minium = array
             }
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
@@ -168,17 +169,20 @@ const positionReducer = (state = initState, action) => {
 
         //Hard Skill
         case Type.ADD_HARD_SKILL_REQUIRE:
+            console.log('state', state[action.positionFormIndex] )
+
             positionObj = { ...state[action.positionFormIndex] }
-            hardSkill = positionObj.hardSkills.slice()
-            hardSkill.push(action.hardSkillItem)
-            positionObj.hardSkills = hardSkill
-            state.splice(action.positionFormIndex, 1, positionObj)
+            console.log('positionObj state', positionObj)
+            // hardSkill = positionObj.hardSkills.option.slice()
+            // hardSkill.push(action.hardSkillItem)
+            // positionObj.hardSkills = hardSkill
+            // state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
 
         case Type.DELETE_HARD_SKILL_REQUIRE:
             positionObj = { ...state[action.positionFormIndex] }
-            hardSkill = positionObj.hardSkills.slice()
+            hardSkill = positionObj.hardSkills.option.slice()
             hardSkill.splice(action.hardSkillIndex, 1)
             positionObj.hardSkills = hardSkill
             state.splice(action.positionFormIndex, 1, positionObj)
@@ -189,7 +193,7 @@ const positionReducer = (state = initState, action) => {
             //Clone position obj (positionObj) at index in array
             positionObj = { ...state[action.positionFormIndex] }
             //Clone list hard skill in positionObj
-            hardSkill = positionObj.hardSkills.slice()
+            hardSkill = positionObj.hardSkills.option.slice()
             //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
             hardSkillObj = { ...hardSkill[action.hardSkillIndex] }
             //Change exp, proprity value in hardSkillObj
@@ -197,7 +201,7 @@ const positionReducer = (state = initState, action) => {
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
             hardSkill.splice(action.hardSkillIndex, 1, hardSkillObj)
             //Replace hard skill list in clone of position obj by clone of hard skill list
-            positionObj.hardSkills = hardSkill
+            positionObj.hardSkills.option = hardSkill
             //Replace position obj in array at index by clone of position obj
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
@@ -263,8 +267,8 @@ const positionReducer = (state = initState, action) => {
                         langID: 0,
                         priority: 10
                     }],
-                    softSkillIDs: [],
-                    hardSkills: []
+                    softSkillIDs: { minium: [], option: [] },
+                    hardSkills: { minium: [], option: [] }
                 })
             return [...state]
     }

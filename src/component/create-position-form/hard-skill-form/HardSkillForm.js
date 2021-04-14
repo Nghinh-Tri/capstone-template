@@ -94,12 +94,7 @@ class HardSkillForm extends Component {
 
     render() {
         var { positionFormIndex, hardSkill } = this.props
-        var minimize = [], option = []
-        hardSkill.forEach(element => {
-            if (element.isDelete)
-                option.push(element)
-            else minimize.push(element)
-        });
+
         return (
             <div class="card mb-4">
                 <div class="card-header">
@@ -124,11 +119,11 @@ class HardSkillForm extends Component {
                                     <tr >
                                         <td colspan={4}>Minimum Skills</td>
                                     </tr>
-                                    {this.showMinimumSkills(minimize, positionFormIndex)}
+                                    {this.showMinimumSkills(hardSkill.minium, positionFormIndex)}
                                     <tr >
                                         <td colspan={4}>Option Skills</td>
                                     </tr>
-                                    {this.showOptionSkills(option, positionFormIndex)}
+                                    {this.showOptionSkills(hardSkill.option, positionFormIndex)}
                                 </tbody>
                             </table>
                             {this.props.hardSkillList.length === hardSkill.length ?

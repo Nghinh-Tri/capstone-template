@@ -22,8 +22,8 @@ class PositionRequire extends Component {
                     langID: 0,
                     priority: 10
                 }],
-                softSkillIDs: [],
-                hardSkills: []
+                softSkillIDs: { minium: [], option: [] },
+                hardSkills: { minium: [], option: [] }
             },
             isUpdate: false,
             updateType: '',
