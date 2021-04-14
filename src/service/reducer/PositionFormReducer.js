@@ -163,7 +163,7 @@ const positionReducer = (state = initState, action) => {
         //Soft Skill       
         case Type.UPDATE_SOFT_SKILL:
             positionObj = { ...state[action.positionFormIndex] }
-            positionObj.softSkillIDs = action.value
+            positionObj.softSkillIDs.option = action.value
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 

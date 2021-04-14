@@ -86,7 +86,7 @@ class CreatePositionForm extends Component {
     render() {
         var { positionItem, positionList, positionFormIndex, length } = this.props
         var listConverted = convertPositionList(positionList)
-        console.log('positionItem', positionItem)
+        // console.log('positionItem', positionItem)
         return (
             <React.Fragment>
                 <tr>
@@ -105,9 +105,9 @@ class CreatePositionForm extends Component {
                     <td width={145}>
                         <input className="text-center" type="number" min={1} value={positionItem.candidateNeeded} className="form-control" style={{ height: 30, width: 120 }} name="candidateNeed" onChange={this.onHandle} />
                     </td>
-                    {/* <td className='text-center'>{typeof positionItem.hardSkills.option.find(e => e.hardSkillID === 0) === 'object' ? positionItem.hardSkills.minium.length + positionItem.hardSkills.option.length - 1 : positionItem.hardSkills.minium.length + positionItem.hardSkills.option.length} </td> */}
+                    <td className='text-center'>{typeof positionItem.hardSkills.option.find(e => e.hardSkillID === 0) === 'object' ? positionItem.hardSkills.minium.length + positionItem.hardSkills.option.length - 1 : positionItem.hardSkills.minium.length + positionItem.hardSkills.option.length} </td>
                     <td className='text-center'>{typeof positionItem.language.find(e => e.langID === 0) === 'object' ? positionItem.language.length - 1 : positionItem.language.length}</td>
-                    {/* <td className='text-center'>{positionItem.softSkillIDs.option.length + positionItem.softSkillIDs.minium.length}</td> */}
+                    <td className='text-center'>{positionItem.softSkillIDs.option.length + positionItem.softSkillIDs.minium.length}</td>
                     <td width={100} className='text-center'>
                         <a style={{ color: 'blue' }} onClick={this.onShowRequireDetail} >Detail</a>
                         <Modal width={1070} title={getPositionName(positionList, positionItem.posID)} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
