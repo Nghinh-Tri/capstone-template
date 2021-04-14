@@ -1,8 +1,16 @@
-import { Card, Popover, Select, Tooltip } from 'antd';
+import { Select, Tooltip } from 'antd';
 import { Option } from 'antd/lib/mentions';
 import React, { Component } from 'react';
 
 class SelectBar extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            level: -1
+        }
+    }
+
 
     showDefaultOption = () => {
         var { list } = this.props
@@ -38,14 +46,13 @@ class SelectBar extends Component {
         var { list } = this.props
         var result = null
         result = list.map((item, index) => {
-            return (<Option key={index} value={item.value} onMouseEnter={this.onMouseEnter} >
-                <Tooltip title='aasdas' placement='right' >
+            return (<Option key={index} value={item.value} title={item.value} onMouseEnter={this.onMouseEnter} >
+                <Tooltip title={this.showContent()} placement='right' >
                     <div style={{ width: "100%" }}>
-                        <div style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+                        <div style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: 100 }}>
                             {item.label}
                         </div>
                     </div>
-
                 </Tooltip>
 
             </Option>)
@@ -54,7 +61,16 @@ class SelectBar extends Component {
     }
 
     showContent = () => {
-        return (<p>aaa</p>)
+        var { level } = this.state
+        var { list } = this.props
+        var result = ''
+        list.forEach(element => {
+            if (element.value === level)
+                element.name.forEach(e => {
+                    result = result + '- ' + e + ' \n'
+                });
+        });
+        return result
     }
 
     showSelect = () => {
@@ -76,18 +92,7 @@ class SelectBar extends Component {
     }
 
     onMouseEnter = (e) => {
-        // console.log('e', e.currentTarget.title)
-        var result = null
-        var array = [1, 2, 3]
-        result = array.map((value, key) => {
-            return (<Card style={{ width: 300 }}>
-                <p>Card content</p>
-                <p>Card content</p>
-                <p>Card content</p>
-            </Card>)
-
-        })
-        return result
+        this.setState({ level: parseInt(e.currentTarget.title) })
     }
 
     showCerti = () => {

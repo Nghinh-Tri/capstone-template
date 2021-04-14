@@ -23,7 +23,7 @@ export const updatePositionID = (positionID, positionFormIndex) => {
     var projectField = localStorage.getItem('projectField')
     var fetchHardSkill = `${API_URL}/Skill/type/${projectType}&&${positionID}`
     var fetchSoftSkill = `${API_URL}/Skill/field/${projectField}`
-    var hardSkill = [], softSkill = [], certiList = []
+    var hardSkill = [], softSkill = []
     return (dispatch) => {
         axios.get(
             fetchSoftSkill,
@@ -34,8 +34,10 @@ export const updatePositionID = (positionID, positionFormIndex) => {
                 fetchHardSkill,
                 { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
             ).then(res1 => {
-                hardSkill = res1.data.resultObj === null ? [] : res1.data.resultObj               
-                dispatch(fetchCertiList(positionID, positionFormIndex, hardSkill, softSkill))
+                hardSkill = res1.data.resultObj === null ? [] : res1.data.resultObj
+                console.log('hardSkill', hardSkill)
+
+                dispatch(updatePositionIDSuccess(positionID, positionFormIndex, hardSkill, softSkill))
             })
         })
     }
@@ -44,7 +46,7 @@ export const updatePositionID = (positionID, positionFormIndex) => {
 export const fetchCertiList = (positionID, positionFormIndex, hardSkill, softSkill) => {
     var certiList = []
     return (dispatch) => {
-        console.log('hardSkill',hardSkill)
+        console.log('hardSkill', hardSkill)
         hardSkill.forEach(element => {
             element.certiList = []
             var certiUrl = `${API_URL}/Certification/getCertifications/${element.skillID}`
@@ -57,7 +59,7 @@ export const fetchCertiList = (positionID, positionFormIndex, hardSkill, softSki
             })
         });
         var replace = hardSkill.slice(0)
-        console.log('replace',replace)
+        console.log('replace', replace)
         dispatch(updatePositionIDSuccess(positionID, positionFormIndex, replace, softSkill))
     }
 }
@@ -155,7 +157,20 @@ export const updateHardSkillLevel = (hardSkillIndex, positionFormIndex, value, i
 }
 
 export const updateHardSkillID = (value, hardSkillIndex, positionFormIndex) => {
-    return { type: Type.UPDATE_HARD_SKILL_ID, positionFormIndex, hardSkillIndex, value }
+    var certiUrl = `${API_URL}/Certification/getCertifications/${value}`
+    return (dispatch) => {
+        axios.get(
+            certiUrl,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res2 => {
+            var certiList = res2.data.resultObj === null ? [] : res2.data.resultObj
+            dispatch(updateHardSkillIDSuccess(value, hardSkillIndex, positionFormIndex, certiList))
+        })
+    }
+}
+
+export const updateHardSkillIDSuccess = (value, hardSkillIndex, positionFormIndex, certiList) => {
+    return { type: Type.UPDATE_HARD_SKILL_ID, positionFormIndex, hardSkillIndex, value, certiList }
 }
 
 export const updateHardSkillPriority = (value, hardSkillIndex, positionFormIndex, isDelete) => {

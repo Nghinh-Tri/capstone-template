@@ -106,25 +106,30 @@ export const convertSkillList = (list) => {
 }
 
 export const convertCertificationList = (list) => {
-    var result = []
+    var result = [], map = new Map()
+    result.push({
+        label: 'All',
+        value: 0,
+        name: ['All']
+    })
     list.forEach(element => {
-        result.push(
-            {
-                label: element.certificationLevel === 0 ? 'All' : 'Level ' + element.certificationLevel,
-                value: element.certificationLevel
-            })
+        if (map.has(element.certiLevel)) {
+            var array = map.get(element.certiLevel)
+            array.push(element.certificationName)
+            map.set(element.certiLevel, array)
+
+        } else {
+            var array = []
+            array.push(element.certificationName)
+            map.set(element.certiLevel, array)
+        }
     });
+    map.forEach((value, key) => {
+        var obj = { label: 'Level ' + key, value: key, name: value }
+        result.push(obj)
+    })
     return result;
 }
-
-// export const convertCertificationList = (list) => {
-//     var result = []
-//     result.push({ label: 'All', value: 0 })
-//     list.forEach(element => {
-//         result.push({ label: 'Level ' + element.certiLevel + ' - ' + element.certificationName, value: element.certiLevel })
-//     });
-//     return result;
-// }
 
 export const convertLanguageList = (list) => {
     var result = []

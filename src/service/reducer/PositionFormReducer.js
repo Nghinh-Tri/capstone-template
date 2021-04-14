@@ -32,7 +32,7 @@ const positionReducer = (state = initState, action) => {
                         skillLevel: 1,
                         certificationLevel: 0,
                         priority: 10,
-                        certiList: [...element.certiList],
+                        certiList: element.certifications,
                         isDelete: false
                     }
                     obj.hardSkills.minium.push(hardSkill)
@@ -65,7 +65,6 @@ const positionReducer = (state = initState, action) => {
 
         //Position
         case Type.ADD_POSITION_REQUIRE:
-            console.log('action.positionItem', action.positionItem)
             state.push(action.positionItem)
             localStorage.setItem("isNewPosition", false)
             return [...state]
@@ -84,44 +83,18 @@ const positionReducer = (state = initState, action) => {
             positionObj.language = []
 
             if (action.hardSkill.length > 0) {
-                var info = action.hardSkill.slice(0)
-                console.log('info', info)
 
-                var ele = action.hardSkill[0].certiList.slice(0)
-                console.log('ele', ele)
-                info.map((value, index) => {
-                    console.log('info', value)
-
-                })
-                // info.forEach(element => {    
-                //     console.log('element', element, element.certiList.length)
-                //     var hardSkill = {
-                //         hardSkillID: parseInt(element.skillID),
-                //         skillLevel: 1,
-                //         certificationLevel: 0,
-                //         priority: 10,
-                //         certiList: [...element.certiList],
-                //         isDelete: false
-                //     }
-                //     positionObj.hardSkills.minium.push(hardSkill)
-                // });
-                // for (let index = 0; index < info.length; index++) {
-                //     var element = { ...info[index] }
-                //     // console.log('element', element, element.certiList)
-                //     var certiList = [...info[index].certiList]
-                //     // console.log('certiList', certiList)
-
-                //     var hardSkill = {
-                //         hardSkillID: parseInt(element.skillID),
-                //         skillLevel: 1,
-                //         certificationLevel: 0,
-                //         priority: 10,
-                //         certiList: [...element.certiList],
-                //         isDelete: false
-                //     }
-                //     positionObj.hardSkills.minium.push(hardSkill)
-                // }
-
+                action.hardSkill.forEach(element => {
+                    var hardSkill = {
+                        hardSkillID: parseInt(element.skillID),
+                        skillLevel: 1,
+                        certificationLevel: 0,
+                        priority: 10,
+                        certiList: element.certifications,
+                        isDelete: false
+                    }
+                    positionObj.hardSkills.minium.push(hardSkill)
+                });
             }
             if (action.softSkill.length > 0) {
                 var array = []
@@ -130,7 +103,6 @@ const positionReducer = (state = initState, action) => {
                 });
                 positionObj.softSkillIDs.minium = array
             }
-            console.log('positionObj', positionObj)
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
@@ -256,6 +228,7 @@ const positionReducer = (state = initState, action) => {
             hardSkillObj = { ...hardSkill[action.hardSkillIndex] }
             //Change exp, proprity value in hardSkillObj
             hardSkillObj.hardSkillID = action.value
+            hardSkillObj.certiList = action.certiList
             //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
             hardSkill.splice(action.hardSkillIndex, 1, hardSkillObj)
             //Replace hard skill list in clone of position obj by clone of hard skill list

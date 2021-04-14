@@ -42,7 +42,8 @@ class HardSkillFormContent extends Component {
     render() {
         var { hardSkillIndex, positionFormIndex, certificationList, hardSkillDetail, listNotSelect, length } = this.props
         var hardSkillListConverted = convertSkillList(listNotSelect)
-        var certificationListConverted = convertCertificationList(certificationList)
+        var certificationListConverted = convertCertificationList(hardSkillDetail.certiList)
+        // console.log('certificationListConverted', certificationListConverted)
         return (
             <tr>
                 <td>
