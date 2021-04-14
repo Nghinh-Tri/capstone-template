@@ -34,22 +34,31 @@ export const updatePositionID = (positionID, positionFormIndex) => {
                 fetchHardSkill,
                 { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
             ).then(res1 => {
-                hardSkill = res1.data.resultObj === null ? [] : res1.data.resultObj
-                hardSkill.forEach(element => {
-                    element.certiList = []
-                    var certiUrl = `${API_URL}/Certification/getCertifications/${element.skillID}`
-                    axios.get(
-                        certiUrl,
-                        { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
-                    ).then(res2 => {
-                        certiList = res2.data.resultObj === null ? [] : res2.data.resultObj
-                        element.certiList = certiList
-                    })
-                });
-                // console.log('hardSkill', hardSkill)
-                dispatch(updatePositionIDSuccess(positionID, positionFormIndex, hardSkill, softSkill))
+                hardSkill = res1.data.resultObj === null ? [] : res1.data.resultObj               
+                dispatch(fetchCertiList(positionID, positionFormIndex, hardSkill, softSkill))
             })
         })
+    }
+}
+
+export const fetchCertiList = (positionID, positionFormIndex, hardSkill, softSkill) => {
+    var certiList = []
+    return (dispatch) => {
+        console.log('hardSkill',hardSkill)
+        hardSkill.forEach(element => {
+            element.certiList = []
+            var certiUrl = `${API_URL}/Certification/getCertifications/${element.skillID}`
+            axios.get(
+                certiUrl,
+                { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+            ).then(res2 => {
+                certiList = res2.data.resultObj === null ? [] : res2.data.resultObj
+                element.certiList = certiList
+            })
+        });
+        var replace = hardSkill.slice(0)
+        console.log('replace',replace)
+        dispatch(updatePositionIDSuccess(positionID, positionFormIndex, replace, softSkill))
     }
 }
 

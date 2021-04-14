@@ -84,19 +84,27 @@ const positionReducer = (state = initState, action) => {
             positionObj.language = []
 
             if (action.hardSkill.length > 0) {
-                var info = [...action.hardSkill]
-                info.forEach(element => {
-                    console.log('element', element, element.certiList.length)
-                    var hardSkill = {
-                        hardSkillID: parseInt(element.skillID),
-                        skillLevel: 1,
-                        certificationLevel: 0,
-                        priority: 10,
-                        certiList: [...element.certiList],
-                        isDelete: false
-                    }
-                    positionObj.hardSkills.minium.push(hardSkill)
-                });
+                var info = action.hardSkill.slice(0)
+                console.log('info', info)
+
+                var ele = action.hardSkill[0].certiList.slice(0)
+                console.log('ele', ele)
+                info.map((value, index) => {
+                    console.log('info', value)
+
+                })
+                // info.forEach(element => {    
+                //     console.log('element', element, element.certiList.length)
+                //     var hardSkill = {
+                //         hardSkillID: parseInt(element.skillID),
+                //         skillLevel: 1,
+                //         certificationLevel: 0,
+                //         priority: 10,
+                //         certiList: [...element.certiList],
+                //         isDelete: false
+                //     }
+                //     positionObj.hardSkills.minium.push(hardSkill)
+                // });
                 // for (let index = 0; index < info.length; index++) {
                 //     var element = { ...info[index] }
                 //     // console.log('element', element, element.certiList)
