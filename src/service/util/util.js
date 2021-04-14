@@ -319,10 +319,10 @@ export const convertPositionRequire = (items) => {
             posID: element.posID,
             candidateNeeded: element.candidateNeeded,//posLevel:0
             language: element.language,
-            softSkillIDs: element.softSkillIDs,
+            softSkillIDs: [],
             hardSkills: []
         }
-        element.hardSkills.forEach(hs => {
+        element.hardSkills.minium.forEach(hs => {
             var hardSkill = {
                 hardSkillID: hs.hardSkillID,
                 certificationLevel: hs.certificationLevel,
@@ -331,6 +331,21 @@ export const convertPositionRequire = (items) => {
             }
             obj.hardSkills.push(hardSkill)
         });
+        element.hardSkills.option.forEach(hs => {
+            var hardSkill = {
+                hardSkillID: hs.hardSkillID,
+                certificationLevel: hs.certificationLevel,
+                priority: hs.priority,
+                skillLevel: hs.skillLevel,
+            }
+            obj.hardSkills.push(hardSkill)
+        });
+        element.softSkillIDs.minium.forEach(sk => {
+            obj.softSkillIDs.push(sk)
+        })
+        element.softSkillIDs.option.forEach(sk => {
+            obj.softSkillIDs.push(sk)
+        })
         result.push(obj)
     });
     return result

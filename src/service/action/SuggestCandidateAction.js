@@ -53,7 +53,26 @@ export const fetchSuggestList = () => {
     var projectType = localStorage.getItem('projectType')
     var projectField = localStorage.getItem('projectField')
     var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
-    var positionItem = JSON.parse(localStorage.getItem('positionRequire'))
+    // var positionItem = JSON.parse(localStorage.getItem('positionRequire'))
+    var positionItem = [
+        {
+            posID: 4,
+            candidateNeeded: 5,
+            language: [
+                { langID: 1, priority: 10 }
+            ],
+            softSkillIDs: [
+                20, 22, 24, 26, 27, 29, 36, 40, 43, 47
+            ],
+            hardSkills: [
+                { hardSkillID: 1, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                { hardSkillID: 2, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                { hardSkillID: 7, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                { hardSkillID: 13, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                { hardSkillID: 62, certificationLevel: 0, priority: 10, skillLevel: 1 },
+            ]
+        }
+    ]
     var position = { requiredPositions: positionItem, projectTypeID: parseInt(projectType), projectFieldID: parseInt(projectField) }
     return (dispatch) => {
         axios.post(
