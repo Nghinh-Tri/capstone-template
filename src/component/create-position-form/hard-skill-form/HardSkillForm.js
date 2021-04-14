@@ -13,6 +13,7 @@ class HardSkillForm extends Component {
                 skillLevel: 1,
                 certificationLevel: 0,
                 priority: 10,
+                certiList: [],
                 isDelete: true
             },
             isMinimize: true
@@ -65,7 +66,7 @@ class HardSkillForm extends Component {
             );
         })
         return result;
-    }  
+    }
 
     onAddHardSkill = (positionFormIndex) => {
         this.props.onAddHardSkill(positionFormIndex, this.state.hardSkillDetail)

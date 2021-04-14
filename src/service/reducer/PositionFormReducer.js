@@ -81,13 +81,17 @@ const positionReducer = (state = initState, action) => {
             positionObj.hardSkills = { minium: [], option: [] }
             positionObj.softSkillIDs = { minium: [], option: [] }
             positionObj.language = []
+            console.log('hardSkill', action.hardSkill)
+
             if (action.hardSkill.length > 0) {
                 action.hardSkill.forEach(element => {
+                    console.log('ele', element)
                     var hardSkill = {
                         hardSkillID: parseInt(element.skillID),
                         skillLevel: 1,
                         certificationLevel: 0,
                         priority: 10,
+                        certiList: element.certiList,
                         isDelete: false
                     }
                     positionObj.hardSkills.minium.push(hardSkill)
@@ -100,6 +104,7 @@ const positionReducer = (state = initState, action) => {
                 });
                 positionObj.softSkillIDs.minium = array
             }
+            console.log('positionObj', positionObj)
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 

@@ -1,4 +1,4 @@
-import { Select } from 'antd';
+import { Card, Popover, Select, Tooltip } from 'antd';
 import { Option } from 'antd/lib/mentions';
 import React, { Component } from 'react';
 
@@ -34,11 +34,36 @@ class SelectBar extends Component {
         return result
     }
 
+    showCertiOption = () => {
+        var { list } = this.props
+        var result = null
+        result = list.map((item, index) => {
+            return (<Option key={index} value={item.value} onMouseEnter={this.onMouseEnter} >
+                <Tooltip title='aasdas' placement='right' >
+                    <div style={{ width: "100%" }}>
+                        <div style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+                            {item.label}
+                        </div>
+                    </div>
+
+                </Tooltip>
+
+            </Option>)
+        })
+        return result
+    }
+
+    showContent = () => {
+        return (<p>aaa</p>)
+    }
+
     showSelect = () => {
         var { type } = this.props
         switch (type) {
             case 'common':
                 return this.showCommon()
+            case 'certi':
+                return this.showCerti()
             case 'special':
                 return this.showSpecial()
             case 'unique':
@@ -50,9 +75,57 @@ class SelectBar extends Component {
         }
     }
 
+    onMouseEnter = (e) => {
+        // console.log('e', e.currentTarget.title)
+        var result = null
+        var array = [1, 2, 3]
+        result = array.map((value, key) => {
+            return (<Card style={{ width: 300 }}>
+                <p>Card content</p>
+                <p>Card content</p>
+                <p>Card content</p>
+            </Card>)
+
+        })
+        return result
+    }
+
+    showCerti = () => {
+        var { value } = this.props
+        if (value === -1) {
+            return (
+                <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCertiOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={{ width: 200 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCertiOption()}
+                </Select>)
+        }
+    }
+
     showCommon = () => {
         var { value, name } = this.props
-        if (value === 0 || value === -1) {
+        if (value === 0) {
             return (
                 <Select
                     showSearch

@@ -71,7 +71,7 @@ class HardSkillFormContent extends Component {
                 </td>
                 <td>
                     <SelectBar name="certiLevel"
-                        type="common"
+                        type="certi"
                         placeholder="Select skill level"
                         isDelete={hardSkillDetail.isDelete}
                         positionFormIndex={positionFormIndex}

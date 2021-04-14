@@ -23,20 +23,29 @@ export const updatePositionID = (positionID, positionFormIndex) => {
     var projectField = localStorage.getItem('projectField')
     var fetchHardSkill = `${API_URL}/Skill/type/${projectType}&&${positionID}`
     var fetchSoftSkill = `${API_URL}/Skill/field/${projectField}`
+    var hardSkill = [], softSkill = [], certiList = []
     return (dispatch) => {
-        return axios.get(
-            fetchHardSkill,
+        axios.get(
+            fetchSoftSkill,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log('hs', res.data.resultObj)
-            var hardSkill = res.data.resultObj === null ? [] : res.data.resultObj
-            return axios.get(
-                fetchSoftSkill,
+            softSkill = res.data.resultObj === null ? [] : res.data.resultObj
+            axios.get(
+                fetchHardSkill,
                 { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
-            ).then(res => {
-                console.log('ss', res.data.resultObj)
-
-                var softSkill = res.data.resultObj === null ? [] : res.data.resultObj
+            ).then(res1 => {
+                hardSkill = res1.data.resultObj === null ? [] : res1.data.resultObj
+                hardSkill.forEach(element => {
+                    var certiUrl = `${API_URL}/Certification/getCertifications/${element.skillID}`
+                    axios.get(
+                        certiUrl,
+                        { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+                    ).then(res2 => {
+                        certiList = res2.data.resultObj === null ? [] : res2.data.resultObj
+                        element.certiList = certiList
+                    })
+                });
+                console.log('hardSkill',hardSkill)
                 dispatch(updatePositionIDSuccess(positionID, positionFormIndex, hardSkill, softSkill))
             })
         })
