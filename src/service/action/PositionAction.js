@@ -23,23 +23,44 @@ export const updatePositionID = (positionID, positionFormIndex) => {
     var projectField = localStorage.getItem('projectField')
     var fetchHardSkill = `${API_URL}/Skill/type/${projectType}&&${positionID}`
     var fetchSoftSkill = `${API_URL}/Skill/field/${projectField}`
+    var hardSkill = [], softSkill = []
     return (dispatch) => {
-        return axios.get(
-            fetchHardSkill,
+        axios.get(
+            fetchSoftSkill,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log('hs', res.data.resultObj)
-            var hardSkill = res.data.resultObj === null ? [] : res.data.resultObj
-            return axios.get(
-                fetchSoftSkill,
+            softSkill = res.data.resultObj === null ? [] : res.data.resultObj
+            axios.get(
+                fetchHardSkill,
                 { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
-            ).then(res => {
-                console.log('ss', res.data.resultObj)
+            ).then(res1 => {
+                hardSkill = res1.data.resultObj === null ? [] : res1.data.resultObj
+                console.log('hardSkill', hardSkill)
 
-                var softSkill = res.data.resultObj === null ? [] : res.data.resultObj
                 dispatch(updatePositionIDSuccess(positionID, positionFormIndex, hardSkill, softSkill))
             })
         })
+    }
+}
+
+export const fetchCertiList = (positionID, positionFormIndex, hardSkill, softSkill) => {
+    var certiList = []
+    return (dispatch) => {
+        console.log('hardSkill', hardSkill)
+        hardSkill.forEach(element => {
+            element.certiList = []
+            var certiUrl = `${API_URL}/Certification/getCertifications/${element.skillID}`
+            axios.get(
+                certiUrl,
+                { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+            ).then(res2 => {
+                certiList = res2.data.resultObj === null ? [] : res2.data.resultObj
+                element.certiList = certiList
+            })
+        });
+        var replace = hardSkill.slice(0)
+        console.log('replace', replace)
+        dispatch(updatePositionIDSuccess(positionID, positionFormIndex, replace, softSkill))
     }
 }
 
@@ -131,40 +152,33 @@ export const deleteHardSkillRequire = (hardSkillIndex, positionFormIndex) => {
     }
 }
 
-export const updateHardSkillLevel = (hardSkillIndex, positionFormIndex, value) => {
-    return {
-        type: Type.UPDATE_HARD_SKILL_LEVEL,
-        positionFormIndex,
-        hardSkillIndex,
-        value
-    }
+export const updateHardSkillLevel = (hardSkillIndex, positionFormIndex, value, isDelete) => {
+    return { type: Type.UPDATE_HARD_SKILL_LEVEL, positionFormIndex, hardSkillIndex, value, isDelete }
 }
 
 export const updateHardSkillID = (value, hardSkillIndex, positionFormIndex) => {
-    return {
-        type: Type.UPDATE_HARD_SKILL_ID,
-        positionFormIndex,
-        hardSkillIndex,
-        value
+    var certiUrl = `${API_URL}/Certification/getCertifications/${value}`
+    return (dispatch) => {
+        axios.get(
+            certiUrl,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res2 => {
+            var certiList = res2.data.resultObj === null ? [] : res2.data.resultObj
+            dispatch(updateHardSkillIDSuccess(value, hardSkillIndex, positionFormIndex, certiList))
+        })
     }
 }
 
-export const updateHardSkillPriority = (value, hardSkillIndex, positionFormIndex) => {
-    return {
-        type: Type.UPDATE_HARD_SKILL_PRIORITY,
-        positionFormIndex,
-        hardSkillIndex,
-        value
-    }
+export const updateHardSkillIDSuccess = (value, hardSkillIndex, positionFormIndex, certiList) => {
+    return { type: Type.UPDATE_HARD_SKILL_ID, positionFormIndex, hardSkillIndex, value, certiList }
 }
 
-export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) => {
-    return {
-        type: Type.UPDATE_HARD_SKILL_CERTI,
-        positionFormIndex,
-        hardSkillIndex,
-        value
-    }
+export const updateHardSkillPriority = (value, hardSkillIndex, positionFormIndex, isDelete) => {
+    return { type: Type.UPDATE_HARD_SKILL_PRIORITY, positionFormIndex, hardSkillIndex, value, isDelete }
+}
+
+export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex, isDelete) => {
+    return { type: Type.UPDATE_HARD_SKILL_CERTI, positionFormIndex, hardSkillIndex, value, isDelete }
 }
 
 export const createPosition = (positionItem, isUpdate) => {
@@ -414,7 +428,7 @@ export const getPrevRequire = (projectId, posID) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log('res',res)
+            console.log('res', res)
             dispatch(getPrevRequireSuccess(res.data.resultObj))
         })
     }

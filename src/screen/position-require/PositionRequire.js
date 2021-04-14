@@ -22,8 +22,8 @@ class PositionRequire extends Component {
                     langID: 0,
                     priority: 10
                 }],
-                softSkillIDs: [],
-                hardSkills: []
+                softSkillIDs: { minium: [], option: [] },
+                hardSkills: { minium: [], option: [] }
             },
             isUpdate: false,
             updateType: '',
@@ -86,20 +86,20 @@ class PositionRequire extends Component {
         this.props.onDeleteHardSkillItem(hardSkillIndex, positionFormIndex)
     }
 
-    onUpdateSkillLevel = (value, hardSkillIndex, positionFormIndex) => {
-        this.props.onUpdateSkillLevel(hardSkillIndex, positionFormIndex, value)
+    onUpdateSkillLevel = (value, hardSkillIndex, positionFormIndex, isDelete) => {
+        this.props.onUpdateSkillLevel(hardSkillIndex, positionFormIndex, value, isDelete)
     }
 
     onUpdateHardSkillID = (value, hardSkillIndex, positionFormIndex) => {
         this.props.onUpdateHardSkillID(value, hardSkillIndex, positionFormIndex)
     }
 
-    onUpdateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) => {
-        this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex)
+    onUpdateHardSkillCerti = (value, hardSkillIndex, positionFormIndex, isDelete) => {
+        this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex, isDelete)
     }
 
-    onUpdateHardSkillPriority = (value, hardSkillIndex, positionFormIndex) => {
-        this.props.updateHardSkillPriority(value, hardSkillIndex, positionFormIndex)
+    onUpdateHardSkillPriority = (value, hardSkillIndex, positionFormIndex, isDelete) => {
+        this.props.updateHardSkillPriority(value, hardSkillIndex, positionFormIndex, isDelete)
     }
 
     getPositionListNotSelect = () => {
@@ -260,17 +260,17 @@ const mapDispatchToProp = (dispatch, props) => {
         onDeleteHardSkillItem: (hardSkillIndex, positionFormIndex) => {
             dispatch(Action.deleteHardSkillRequire(hardSkillIndex, positionFormIndex))
         },
-        onUpdateSkillLevel: (hardSkillIndex, positionFormIndex, value) => {
-            dispatch(Action.updateHardSkillLevel(hardSkillIndex, positionFormIndex, value))
+        onUpdateSkillLevel: (hardSkillIndex, positionFormIndex, value, isDelete) => {
+            dispatch(Action.updateHardSkillLevel(hardSkillIndex, positionFormIndex, value, isDelete))
         },
-        updateHardSkillPriority: (value, hardSkillIndex, positionFormIndex) => {
-            dispatch(Action.updateHardSkillPriority(value, hardSkillIndex, positionFormIndex))
+        updateHardSkillPriority: (value, hardSkillIndex, positionFormIndex, isDelete) => {
+            dispatch(Action.updateHardSkillPriority(value, hardSkillIndex, positionFormIndex, isDelete))
         },
         onUpdateHardSkillID: (value, hardSkillIndex, positionFormIndex) => {
             dispatch(Action.updateHardSkillID(value, hardSkillIndex, positionFormIndex))
         },
-        onUpdateHardSkillCerti: (value, hardSkillIndex, positionFormIndex) => {
-            dispatch(Action.updateHardSkillCerti(value, hardSkillIndex, positionFormIndex))
+        onUpdateHardSkillCerti: (value, hardSkillIndex, positionFormIndex, isDelete) => {
+            dispatch(Action.updateHardSkillCerti(value, hardSkillIndex, positionFormIndex, isDelete))
         },
         onCreatePosition: (positionItem, isUpdate) => {
             dispatch(Action.createPosition(positionItem, isUpdate))

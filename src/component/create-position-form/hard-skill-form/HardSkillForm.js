@@ -13,6 +13,7 @@ class HardSkillForm extends Component {
                 skillLevel: 1,
                 certificationLevel: 0,
                 priority: 10,
+                certiList: [],
                 isDelete: true
             },
             isMinimize: true
@@ -27,8 +28,15 @@ class HardSkillForm extends Component {
         var { hardSkillList, hardSkill } = this.props
         var listNotSelect = hardSkillList.slice(0, hardSkillList.length)
         for (let i = 0; i < listNotSelect.length; i++) {
-            for (let k = 0; k < hardSkill.length; k++) {
-                if (listNotSelect[i].skillID === hardSkill[k].hardSkillID) {
+            for (let k = 0; k < hardSkill.minium.length; k++) {
+                if (listNotSelect[i].skillID === hardSkill.minium[k].hardSkillID) {
+                    var clone = { ...listNotSelect[i] }
+                    clone.isSelect = true
+                    listNotSelect[i] = clone
+                }
+            }
+            for (let k = 0; k < hardSkill.option.length; k++) {
+                if (listNotSelect[i].skillID === hardSkill.option[k].hardSkillID) {
                     var clone = { ...listNotSelect[i] }
                     clone.isSelect = true
                     listNotSelect[i] = clone
@@ -39,28 +47,6 @@ class HardSkillForm extends Component {
     }
 
     showMinimumSkills = (hardSkill, positionFormIndex) => {
-        var result = null;
-        var listNotSelect = this.getHardSkillListNotSelect()
-        result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
-            return (
-                <HardSkillFormContent key={hardSkillIndex}
-                    length={hardSkill.length}
-                    hardSkillDetail={hardSkillDetail}
-                    hardSkillIndex={hardSkillIndex}
-                    positionFormIndex={positionFormIndex}
-                    // onDeleteHardSkill={this.props.onDeleteHardSkill}
-                    onUpdateSkillLevel={this.props.onUpdateSkillLevel}
-                    onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
-                    // onUpdateHardSkillID={this.props.onUpdateHardSkillID}
-                    onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
-                    listNotSelect={listNotSelect}
-                />
-            );
-        })
-        return result;
-    }
-
-    showOptionSkills = (hardSkill, positionFormIndex) => {
         var result = null;
         var listNotSelect = this.getHardSkillListNotSelect()
         result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
@@ -94,12 +80,7 @@ class HardSkillForm extends Component {
 
     render() {
         var { positionFormIndex, hardSkill } = this.props
-        var minimize = [], option = []
-        hardSkill.forEach(element => {
-            if (element.isDelete)
-                option.push(element)
-            else minimize.push(element)
-        });
+
         return (
             <div class="card mb-4">
                 <div class="card-header">
@@ -124,11 +105,11 @@ class HardSkillForm extends Component {
                                     <tr >
                                         <td colspan={4}>Minimum Skills</td>
                                     </tr>
-                                    {this.showMinimumSkills(minimize, positionFormIndex)}
+                                    {this.showMinimumSkills(hardSkill.minium, positionFormIndex)}
                                     <tr >
                                         <td colspan={4}>Option Skills</td>
                                     </tr>
-                                    {this.showOptionSkills(option, positionFormIndex)}
+                                    {this.showMinimumSkills(hardSkill.option, positionFormIndex)}
                                 </tbody>
                             </table>
                             {this.props.hardSkillList.length === hardSkill.length ?

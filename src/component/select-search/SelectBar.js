@@ -1,8 +1,16 @@
-import { Select } from 'antd';
+import { Select, Tooltip } from 'antd';
 import { Option } from 'antd/lib/mentions';
 import React, { Component } from 'react';
 
 class SelectBar extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            level: -1
+        }
+    }
+
 
     showDefaultOption = () => {
         var { list } = this.props
@@ -29,8 +37,39 @@ class SelectBar extends Component {
         var { list } = this.props
         var result = null
         result = list.map((item, index) => {
-            return (<Option key={index} value={item.value}>{item.label}</Option>)
+            return (<Option key={index} value={item.value} >{item.label}</Option>)
         })
+        return result
+    }
+
+    showCertiOption = () => {
+        var { list } = this.props
+        var result = null
+        result = list.map((item, index) => {
+            return (<Option key={index} value={item.value} title={item.value} onMouseEnter={this.onMouseEnter} >
+                <Tooltip title={this.showContent()} placement='right' >
+                    <div style={{ width: "100%" }}>
+                        <div style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: 100 }}>
+                            {item.label}
+                        </div>
+                    </div>
+                </Tooltip>
+
+            </Option>)
+        })
+        return result
+    }
+
+    showContent = () => {
+        var { level } = this.state
+        var { list } = this.props
+        var result = ''
+        list.forEach(element => {
+            if (element.value === level)
+                element.name.forEach(e => {
+                    result = result + '- ' + e + ' \n'
+                });
+        });
         return result
     }
 
@@ -39,6 +78,8 @@ class SelectBar extends Component {
         switch (type) {
             case 'common':
                 return this.showCommon()
+            case 'certi':
+                return this.showCerti()
             case 'special':
                 return this.showSpecial()
             case 'unique':
@@ -50,9 +91,46 @@ class SelectBar extends Component {
         }
     }
 
+    onMouseEnter = (e) => {
+        this.setState({ level: parseInt(e.currentTarget.title) })
+    }
+
+    showCerti = () => {
+        var { value } = this.props
+        if (value === -1) {
+            return (
+                <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCertiOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={{ width: 200 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCertiOption()}
+                </Select>)
+        }
+    }
+
     showCommon = () => {
         var { value, name } = this.props
-        if (value === 0 || value === -1) {
+        if (value === 0) {
             return (
                 <Select
                     showSearch
@@ -160,6 +238,7 @@ class SelectBar extends Component {
                 <Select value={value}
                     style={{ minWidth: 250, maxWidth: 'auto' }}
                     mode='multiple'
+                    disabled={this.props.minium}
                     showArrow
                     showSearch
                     placeholder={this.props.placeholder}
@@ -181,13 +260,13 @@ class SelectBar extends Component {
                 this.props.onUpdateLanguagePriority(value, this.props.languageIndex, this.props.positionFormIndex)
                 break;
             case 'skillLevel':
-                this.props.onUpdateSkillLevel(value, this.props.hardSkillIndex, this.props.positionFormIndex)
+                this.props.onUpdateSkillLevel(value, this.props.hardSkillIndex, this.props.positionFormIndex, this.props.isDelete)
                 break;
             case 'certiLevel':
-                this.props.onUpdateHardSkillCerti(value, this.props.hardSkillIndex, this.props.positionFormIndex)
+                this.props.onUpdateHardSkillCerti(value, this.props.hardSkillIndex, this.props.positionFormIndex, this.props.isDelete)
                 break
             case 'hardSkillPriority':
-                this.props.onUpdateHardSkillPriority(value, this.props.hardSkillIndex, this.props.positionFormIndex)
+                this.props.onUpdateHardSkillPriority(value, this.props.hardSkillIndex, this.props.positionFormIndex, this.props.isDelete)
                 break
             case 'projectType':
                 this.props.onSelectProjectType(value)
@@ -234,9 +313,6 @@ class SelectBar extends Component {
     onSelectMulti = (value) => {
         var { name } = this.props
         switch (name) {
-            case 'posLevel':
-                this.props.onSelectPosLevel(value, this.props.positionFormIndex)
-                break;
             case 'softSkillID':
                 this.props.onUpdateSoftSkillID(value, this.props.positionFormIndex)
                 break

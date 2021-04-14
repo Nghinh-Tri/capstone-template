@@ -22,9 +22,29 @@ class SoftSkillForm extends Component {
         })
     }
 
+    getSoftSkillListNotSelect = () => {
+        var { softSkillList, softSkill } = this.props
+        var listNotSelect = [...softSkillList]
+        var minium = [...softSkill.minium]
+        var removeIndex = []
+        for (let i = 0; i < listNotSelect.length; i++) {
+            for (let k = 0; k < minium.length; k++) {
+                var id = listNotSelect[i].skillID
+                if (id === minium[k])
+                    removeIndex.push(i)
+            }
+        }
+        removeIndex.forEach(element => {
+            listNotSelect.splice(element, 1)
+        });
+        return listNotSelect
+    }
+
     render() {
         var { softSkillList, softSkill, positionFormIndex } = this.props
         var listConverted = convertSkillList(softSkillList)
+        var notSelectListConverted = convertSkillList(this.getSoftSkillListNotSelect())
+
         return (
             <div class="card mb-4">
                 <div class="card-header">
@@ -35,14 +55,38 @@ class SoftSkillForm extends Component {
                 </div>
                 {!this.state.isMinimize ?
                     <div class="card-body">
-                        <SelectBar name="softSkillID"
-                            type='multi'
-                            placeholder="Select a soft skill"
-                            list={listConverted}
-                            onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
-                            positionFormIndex={positionFormIndex}
-                            value={softSkill}
-                        />
+                        <div className="row">
+                            <div className="col">
+                                <div className="form-group">
+                                    <label className="bmd-label-static">Minimum Skills</label>
+                                    <SelectBar name="softSkillID"
+                                        type='multi'
+                                        minium={true}
+                                        placeholder="Select a soft skill"
+                                        list={listConverted}
+                                        onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
+                                        positionFormIndex={positionFormIndex}
+                                        value={softSkill.minium}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <div className="form-group">
+                                    <label className="bmd-label-static">Option Skills</label>
+                                    <SelectBar name="softSkillID"
+                                        type='multi'
+                                        minium={false}
+                                        placeholder="Select a soft skill"
+                                        list={notSelectListConverted}
+                                        onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
+                                        positionFormIndex={positionFormIndex}
+                                        value={softSkill.option}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     : ''}
             </div>
