@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from "../../service/action/ProjectAction";
+import * as Action from "../../service/action/project/ProjectAction";
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { Tabs } from 'antd';
 import ProjectProfile from '../../component/project-detail/ProjectProfile';
@@ -20,12 +20,6 @@ class ProjectDetail extends Component {
             status: -1,
             name: ''
         }
-    }
-
-    componentDidMount = () => {
-        this.props.checkSession()
-        var { match } = this.props
-        this.props.fetchProjectDetail(match.params.id)
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -60,7 +54,7 @@ class ProjectDetail extends Component {
     }
 
     render() {
-        var { project, select } = this.state
+        var { select } = this.state
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
@@ -83,24 +77,12 @@ class ProjectDetail extends Component {
     }
 }
 
-const mapStateToProp = state => {
-    return {
-        project: state.ProjectFetchReducer
-    }
-}
-
 const mapDispatchToProp = dispatch => {
     return {
-        fetchProjectDetail: projectID => {
-            dispatch(Action.fetchProjectDetail(projectID))
-        },
-        changeStatusToFinish: projectID => {
-            dispatch(Action.changeStatusToFinish(projectID))
-        },
         checkSession: () => {
             dispatch(checkSession())
         }
     }
 }
 
-export default connect(mapStateToProp, mapDispatchToProp)(ProjectDetail);
+export default connect(null, mapDispatchToProp)(ProjectDetail);

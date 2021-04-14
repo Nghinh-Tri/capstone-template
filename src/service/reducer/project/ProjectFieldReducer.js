@@ -1,4 +1,4 @@
-import { Type } from "../constant";
+import { Type } from "../../constant";
 
 const initState = []
 

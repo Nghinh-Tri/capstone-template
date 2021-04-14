@@ -1,7 +1,7 @@
 import axios from "axios"
 import { alertConstants, FIREBASE } from "../constant"
 import { API_URL } from "../util/util"
-import { fetchProject } from "./ProjectAction";
+import { fetchProject } from "./project/ProjectAction";
 
 export const sendNotificate = (message) => {
     var sendUrl = `${API_URL}/Notification?topic=news`

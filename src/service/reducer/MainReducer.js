@@ -1,7 +1,12 @@
 import { combineReducers } from "redux";
 import authentication from "./AuthenticateReducer";
-import ProjectFetchReducer from "./ProjectFetchReducer";
-import ProjectFormReducer from "./ProjectFormReducer";
+import ProjectFetchReducer from "./project/ProjectFetchReducer";
+import ProjectFormReducer from "./project/ProjectFormReducer";
+import ProjectTypeReducer from "./project/ProjectTypeReducer";
+import ProjectFieldReducer from "./project/ProjectFieldReducer";
+import ProjectDetailFetchReducer from "./project/ProjectDetailFetchReducer";
+import CreateProjectErrorReducer from "./project/CreateProjectErrorReducer";
+
 import PositionFormReducer from "./PositionFormReducer";
 import CertificationSelectBarReducer from "./CertificationSelectBarReducer";
 import HardSkillSelectBarReducer from "./HardSkillSelectBarReducer";
@@ -12,13 +17,10 @@ import SuggestCandidateList from "./SuggestCandidateList";
 import SuggestCandidateSelect from "./SuggestCandidateSelect"
 import SuggestCandidateSelectedListReducer from "./SuggestCandidateSelectedListReducer";
 import ListEmployeeReducer from "./ListEmployeeReducer";
-import ProjectTypeReducer from "./ProjectTypeReducer";
 import ProfileFetchReducer from "./ProfileFetchReducer";
 import PositionReducer from "./PositionReducer"
 import DataStatisticsReducer from "./DataStatisticsReducer";
-import ProjectFieldReducer from "./ProjectFieldReducer";
 import PositionRequireReducer from "./PositionRequireReducer";
-import ProjectDetailFetchReducer from "./ProjectDetailFetchReducer";
 import PreviosRequrieReducer from "./PreviosRequrieReducer";
 
 const MainReducer = combineReducers({
@@ -42,7 +44,8 @@ const MainReducer = combineReducers({
     ProjectFieldReducer,
     PositionRequireReducer,
     ProjectDetailFetchReducer,
-    PreviosRequrieReducer
+    PreviosRequrieReducer,
+    CreateProjectErrorReducer
 })
 
 export default MainReducer

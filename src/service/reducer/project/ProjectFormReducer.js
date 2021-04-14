@@ -1,4 +1,4 @@
-import { Type } from "../constant/index";
+import { Type } from "../../constant";
 
 var initState = {}
 

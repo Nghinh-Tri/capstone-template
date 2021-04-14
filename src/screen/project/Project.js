@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from "../../service/action/ProjectAction";
-// import ProjectTableItem from "../../component/project-table-item/ProjectTableItem";
+import * as Action from "../../service/action/project/ProjectAction";
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { getRole, showSpan, showStatus } from '../../service/util/util';
-// import Search from '../../component/search/Search';
 import { Pagination, Spin } from 'antd';
 import Search from '../../component/search/Search';
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
-// import { NavLink } from 'react-bootstrap';
 
 class Project extends Component {
 
@@ -187,9 +184,10 @@ class Project extends Component {
                         </div>
                         : ''}
                     {this.state.isLoading ? '' :
-                        <div className='row justify-content-center' style={{ marginBottom: 20 }} >
-                            <Pagination current={projects.data.pageIndex} total={projects.data.totalRecords} onChange={this.onSelectPage} />
-                        </div>
+                        projects.data.pageCount === 1 ? '' :
+                            <div className='row justify-content-center' style={{ marginBottom: 20 }} >
+                                <Pagination current={projects.data.pageIndex} total={projects.data.totalRecords} onChange={this.onSelectPage} />
+                            </div>
                     }
                 </div>
 

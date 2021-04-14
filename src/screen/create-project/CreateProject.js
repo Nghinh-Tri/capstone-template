@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import * as Action from "../../service/action/ProjectAction";
+import * as Action from "../../service/action/project/ProjectAction";
 import { convertProjectTypeList } from '../../service/util/util';
 import SelectBar from "../../component/select-search/SelectBar";
 import { compose } from 'redux';
@@ -14,13 +14,15 @@ class CreateProject extends Component {
         super(props);
         this.state = {
             id: 0,
-            name: "",
+            projectName: "",
             dateBegin: "",
-            dateEndEst: "",
+            dateEstimatedEnd: "",
             description: "",
             stakeholder: "",
             projectTypeID: 1,
             projectFieldID: 1,
+            fieldError: '',
+            messageError: ''
         }
     }
 
@@ -51,22 +53,15 @@ class CreateProject extends Component {
         }
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.projectDetail !== prevState.projectDetail) {
-            return { someState: nextProps.someValue };
-        }
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.projectDetail !== this.props.projectDetail) {
             var { projectDetail } = this.props
             if (typeof projectDetail.isCreateNew === 'undefined') {
                 this.setState({
                     id: projectDetail.projectID,
-                    name: projectDetail.projectName,
+                    projectName: projectDetail.projectName,
                     dateBegin: moment(projectDetail.dateBegin).format('YYYY-MM-DD'),
-                    dateEndEst: moment(projectDetail.dateEstimatedEnd).format('YYYY-MM-DD'),
+                    dateEstimatedEnd: moment(projectDetail.dateEstimatedEnd).format('YYYY-MM-DD'),
                     description: projectDetail.description,
                     stakeholder: projectDetail.skateholder,
                     projectTypeID: projectDetail.typeID,
@@ -76,16 +71,27 @@ class CreateProject extends Component {
         }
     }
 
+    componentWillReceiveProps = () => {
+        console.log('error1', this.props.error)
+        var { error } = this.props
+        if (error.message.includes(':')) {
+            var list = error.message.split(':')
+            this.setState({ messageError: list[1], fieldError: list[0], })
+        } else {
+            this.setState({ messageError: '', fieldError: '', })
+        }
+    }
+
     onSave = (event) => {
         event.preventDefault()
-        var { id, name, dateBegin, dateEndEst, description, projectTypeID, projectFieldID } = this.state
+        var { id, projectName: projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID } = this.state
         if (this.props.location.pathname.toString().includes('create-project')) {
             var project = {
                 projectId: id,
-                projectName: name,
+                projectName: projectName,
                 description: description,
                 dateBegin: dateBegin,
-                dateEstimatedEnd: dateEndEst,
+                dateEstimatedEnd: dateEstimatedEnd,
                 projectTypeID: projectTypeID,
                 projectFieldID: projectFieldID
             }
@@ -94,7 +100,7 @@ class CreateProject extends Component {
         else {
             var project = {
                 description: description,
-                dateEstimatedEnd: dateEndEst,
+                dateEstimatedEnd: dateEstimatedEnd,
                 typeID: projectTypeID,
                 fieldID: projectFieldID
             }
@@ -103,10 +109,11 @@ class CreateProject extends Component {
     }
 
     render() {
-        var { name, dateBegin, dateEndEst, description, stakeholder, projectTypeID, projectFieldID } = this.state
+        var { projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID, fieldError, messageError } = this.state
         var { projectType, projectField } = this.props
         var projectTypeConverted = convertProjectTypeList(projectType)
         var projectFieldConverted = convertProjectTypeList(projectField)
+        console.log('error', fieldError, messageError)
         return (
             <div>
                 {this.props.location.state !== null ? <ProgressBar current='0' /> : ''}
@@ -124,12 +131,14 @@ class CreateProject extends Component {
                                         <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Name</label>
                                         <input type="text"
                                             className="form-control"
-                                            value={name} name="name" onChange={this.onHandle}
+                                            value={projectName} name="projectName" onChange={this.onHandle}
                                             readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
+                                        {fieldError.trim().includes('projectName') ?
+                                            <div className="error text-danger font-weight-bold">{messageError}</div>
+                                            : ''}
                                     </div>
                                 </div>
                             </div>
-
                             <div className="row">
                                 <div className="col">
                                     <div className="form-group">
@@ -163,14 +172,20 @@ class CreateProject extends Component {
                                         <label className="bmd-label">Start Date</label>
                                         <input type='date' name="dateBegin" className="form-control" min={moment(moment().day(10)).format('YYYY-MM-DD')}
                                             defaultValue={dateBegin} onChange={this.onHandle} readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
+                                        {fieldError.trim().includes('dateBegin') ?
+                                            <div className="error text-danger font-weight-bold">{messageError}</div>
+                                            : ''}
                                     </div>
                                 </div>
                                 {/* Date end estimate */}
                                 <div className="col">
                                     <div className="form-group">
-                                        <label className="bmd-label">End Date</label>
-                                        <input type="date" name="dateEndEst" min={moment(moment().day(11)).format('YYYY-MM-DD')}
-                                            defaultValue={dateEndEst} className="form-control" onChange={this.onHandle} />
+                                        <label className="bmd-label">Estimate End Date</label>
+                                        <input type="date" name="dateEstimatedEnd" min={moment(moment().day(11)).format('YYYY-MM-DD')}
+                                            defaultValue={dateEstimatedEnd} className="form-control" onChange={this.onHandle} />
+                                        {fieldError.trim().includes('dateEstimatedEnd') ?
+                                            <div className="error text-danger font-weight-bold">{messageError}</div>
+                                            : ''}
                                     </div>
                                 </div>
                             </div>
@@ -202,7 +217,8 @@ const mapStateToProps = (state) => {
         project: state.ProjectFormReducer,
         projectDetail: state.ProjectDetailFetchReducer,
         projectType: state.ProjectTypeReducer,
-        projectField: state.ProjectFieldReducer
+        projectField: state.ProjectFieldReducer,
+        error: state.CreateProjectErrorReducer
     }
 }
 

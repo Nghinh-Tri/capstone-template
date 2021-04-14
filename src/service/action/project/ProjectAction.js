@@ -1,7 +1,7 @@
 import axios from "axios";
-import { alertConstants, Type } from "../constant";
-import { API_URL, getRole } from "../util/util";
-import { history } from "../helper/History";
+import { alertConstants, Type } from "../../constant";
+import { API_URL, getRole } from "../../util/util";
+import { history } from "../../helper/History";
 import { store } from "react-notifications-component";
 
 export const generateProject = (project, isCreateNew) => {
@@ -38,44 +38,48 @@ export const generateProjectFail = () => {
     return { type: alertConstants.ERROR }
 }
 
-export const createProject = (project, pathname) => {
+export const createProject = (project) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Project/${empID}`
+    console.log(url)
     return (dispatch) => {
-        return axios.post(
-            url,
-            project,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
-        ).then(res => {
-            if (res.status === 200) {
-                if (res.data.isSuccessed) {
-                    project.projectId = res.data.resultObj
-                    localStorage.setItem('projectId', res.data.resultObj)
-                    localStorage.setItem('projectType', project.projectTypeID)
-                    localStorage.setItem('projectField', project.projectFieldID)
-                    localStorage.setItem('projectName', project.projectName)
-                    dispatch(createProjectSuccess(project))
-                } else {
-                    store.addNotification({
-                        message: res.data.message,
-                        type: "danger",
-                        insert: "top",
-                        container: "top-center",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                            duration: 2000,
-                            onScreen: false
-                        }
-                    })
+        if (project.projectName.length === 0) {
+            dispatch(createProjectFailed('projectName : Please input project name'))
+        } else if (project.dateBegin.length === 0) {
+            dispatch(createProjectFailed('dateBegin : Please input start date'))
+        } else if (project.dateEstimatedEnd.length === 0) {
+            dispatch(createProjectFailed('dateEstimatedEnd : Please input esitmate end date'))
+        } else if (project.description.length === 0) {
+            dispatch(createProjectFailed('description : Please input description'))
+        }
+        else {
+            dispatch(createProjectFailed(''))
+            axios.post(
+                url,
+                project,
+                { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+            ).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    if (res.data.isSuccessed) {
+                        project.projectId = res.data.resultObj
+                        localStorage.setItem('projectId', res.data.resultObj)
+                        localStorage.setItem('projectType', project.projectTypeID)
+                        localStorage.setItem('projectField', project.projectFieldID)
+                        localStorage.setItem('projectName', project.projectName)
+                        dispatch(createProjectSuccess(project))
+                    } else {
+                        dispatch(createProjectFailed(res.data.message))
+                    }
                 }
-            }
-        }).catch(err => {
-            console.log(err.response)
-            // if (err.response.status === 401) {
-            //     history.push('/login')
-            // }
-        })
+            }).catch(err => {
+                console.log('a', err.response)
+                // if (err.response.status === 401) {
+                //     history.push('/login')
+                // }
+            })
+        }
+
     }
 }
 
@@ -84,6 +88,14 @@ export const createProjectSuccess = project => {
     return {
         type: Type.CREATE_PROJECT,
         project
+    }
+}
+
+export const createProjectFailed = message => {
+    console.log('message', message)
+    return {
+        type: Type.PROJECT_ERROR,
+        message
     }
 }
 

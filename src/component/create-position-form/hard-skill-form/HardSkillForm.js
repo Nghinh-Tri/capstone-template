@@ -21,7 +21,7 @@ class HardSkillForm extends Component {
 
     componentDidMount = () => {
         this.props.fetchHardSkillList()
-    }  
+    }
 
     getHardSkillListNotSelect = () => {
         var { hardSkillList, hardSkill } = this.props
@@ -38,7 +38,29 @@ class HardSkillForm extends Component {
         return listNotSelect
     }
 
-    showItems = (hardSkill, positionFormIndex) => {
+    showMinimumSkills = (hardSkill, positionFormIndex) => {
+        var result = null;
+        var listNotSelect = this.getHardSkillListNotSelect()
+        result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
+            return (
+                <HardSkillFormContent key={hardSkillIndex}
+                    length={hardSkill.length}
+                    hardSkillDetail={hardSkillDetail}
+                    hardSkillIndex={hardSkillIndex}
+                    positionFormIndex={positionFormIndex}
+                    // onDeleteHardSkill={this.props.onDeleteHardSkill}
+                    onUpdateSkillLevel={this.props.onUpdateSkillLevel}
+                    onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
+                    // onUpdateHardSkillID={this.props.onUpdateHardSkillID}
+                    onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                    listNotSelect={listNotSelect}
+                />
+            );
+        })
+        return result;
+    }
+
+    showOptionSkills = (hardSkill, positionFormIndex) => {
         var result = null;
         var listNotSelect = this.getHardSkillListNotSelect()
         result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
@@ -72,6 +94,12 @@ class HardSkillForm extends Component {
 
     render() {
         var { positionFormIndex, hardSkill } = this.props
+        var minimize = [], option = []
+        hardSkill.forEach(element => {
+            if (element.isDelete)
+                option.push(element)
+            else minimize.push(element)
+        });
         return (
             <div class="card mb-4">
                 <div class="card-header">
@@ -93,7 +121,14 @@ class HardSkillForm extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.showItems(hardSkill, positionFormIndex)}
+                                    <tr >
+                                        <td colspan={4}>Minimum Skills</td>
+                                    </tr>
+                                    {this.showMinimumSkills(minimize, positionFormIndex)}
+                                    <tr >
+                                        <td colspan={4}>Option Skills</td>
+                                    </tr>
+                                    {this.showOptionSkills(option, positionFormIndex)}
                                 </tbody>
                             </table>
                             {this.props.hardSkillList.length === hardSkill.length ?

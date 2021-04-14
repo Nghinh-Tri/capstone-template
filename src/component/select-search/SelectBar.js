@@ -56,7 +56,7 @@ class SelectBar extends Component {
             return (
                 <Select
                     showSearch
-                    style={name === 'projectType' || name === 'projectField' ? { width: 500 } : { width: 200 }}
+                    style={name === 'projectType' || name === 'projectField' ? { width: 590 } : { width: 200 }}
                     placeholder={this.props.placeholder}
                     onSelect={this.onSelectCommon}
                     optionFilterProp="children"
@@ -69,7 +69,7 @@ class SelectBar extends Component {
         } else {
             return (
                 <Select value={value}
-                    style={name === 'projectType' || name === 'projectField' ? { width: 598 } : { width: 200 }}
+                    style={name === 'projectType' || name === 'projectField' ? { width: 590 } : { width: 200 }}
                     showSearch
                     placeholder={this.props.placeholder}
                     onSelect={this.onSelectCommon}
@@ -89,7 +89,7 @@ class SelectBar extends Component {
             return (
                 <Select
                     showSearch
-                    style={{ width: 240 }}
+                    style={{ width: 200 }}
                     placeholder={this.props.placeholder}
                     onSelect={this.onSelectUnique}
                     optionFilterProp="children"
@@ -102,7 +102,7 @@ class SelectBar extends Component {
         } else {
             return (
                 <Select value={value}
-                    style={{ width: 240 }}
+                    style={{ width: 200 }}
                     disabled={typeof this.props.isDelete !== 'undefined' ? !this.props.isDelete : false}
                     showSearch
                     placeholder={this.props.placeholder}

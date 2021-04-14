@@ -35,7 +35,7 @@ class CreatePositionForm extends Component {
                 animationIn: ["animated", "fadeIn"],
                 animationOut: ["animated", "fadeOut"],
                 dismiss: {
-                    duration: 2000,
+                    duration: 6000,
                     onScreen: false
                 }
             })
@@ -75,7 +75,7 @@ class CreatePositionForm extends Component {
                 animationIn: ["animated", "fadeIn"],
                 animationOut: ["animated", "fadeOut"],
                 dismiss: {
-                    duration: 2000,
+                    duration: 6000,
                     onScreen: false
                 }
             })

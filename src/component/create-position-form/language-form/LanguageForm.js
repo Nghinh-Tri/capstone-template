@@ -75,10 +75,11 @@ class LanguageForm extends Component {
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
+                            <thead>
                                     <tr>
-                                        <th width={200}>Language</th>
-                                        <th width={200}>Priority</th>
+                                        <th width={240}>Language</th>
+                                        <th width={240}>Priority</th>
+                                        <th width={50}></th>
                                     </tr>
                                 </thead>
                                 <tbody>
