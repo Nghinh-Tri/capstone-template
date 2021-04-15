@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from '../../service/action/ListEmployeeAction'
-import SelectBar from "../select-search/SelectBar";
 import ListEmployeeContent from './ListEmployeeContent';
-import { addMoreCandidate, addMorePosition } from '../../service/action/PositionAction';
-import { history } from '../../service/helper/History';
-import { Spin } from 'antd';
+import { addMorePosition } from '../../service/action/PositionAction';
+import { Spin, Tabs } from 'antd';
+const TabPane = Tabs.TabPane;
 
 
 class ListEmployee extends Component {
@@ -17,7 +16,8 @@ class ListEmployee extends Component {
             positionList: [],
             positionSelect: 0,
             count: 0,
-            isLoading: true
+            isLoading: true,
+            posIndex: 0
         }
     }
 
@@ -27,65 +27,29 @@ class ListEmployee extends Component {
 
     componentDidUpdate = (prevProp) => {
         if (prevProp.listEmployee !== this.props.listEmployee) {
-            var { listEmployee } = this.props
-            var { positionSelect, count } = this.state
-            var temp = []
-            listEmployee.forEach(element => {
-                var position = { label: element.posName, value: element.posID }
-                if (count === 0) {
-                    count++
-                    positionSelect = element.posID
-                }
-                temp.push(position)
-            });
-            console.log('temp', temp)
-            this.setState({ positionList: temp, positionSelect: positionSelect, count: count, isLoading: false })
+            this.setState({ isLoading: false })
         }
     }
 
-    // componentWillReceiveProps = () => {
-    //     var { listEmployee } = this.props
-    //     var { positionSelect, count } = this.state
-    //     var temp = []
-    //     listEmployee.forEach(element => {
-    //         var position = { label: element.posName, value: element.posID }
-    //         if (count === 0) {
-    //             count++
-    //             positionSelect = element.posID
-    //         }
-    //         temp.push(position)
-    //     });
-    //     console.log('temp', temp)
-    //     this.setState({ positionList: temp, positionSelect: positionSelect, count: count, isLoading: false })
-    // }
-
     showEmployee = (list) => {
-        var result = null
         if (list.length > 0) {
-            result = list.map((item, index) => {
-                if (this.state.positionSelect === 0) {
-                    return (<ListEmployeeContent key={index} item={item} />)
-                } else if (this.state.positionSelect === item.posID) {
-                    return (<ListEmployeeContent key={index} item={item}
-                        positionSelect={this.state.positionSelect}
-                        projectID={this.props.projectID}
-                        projectType={this.props.projectType}
-                        projectField={this.props.projectField}
-                        projectStatus={this.props.status}
-                        projectName={this.props.projectName}
-                    />)
-                }
-            })
+            return (<ListEmployeeContent item={list[this.state.posIndex]}
+                positionSelect={this.state.positionSelect}
+                projectID={this.props.projectID}
+                projectType={this.props.projectType}
+                projectField={this.props.projectField}
+                projectStatus={this.props.status}
+                projectName={this.props.projectName}
+            />)
         } else {
             return (<div className='row justify-content-center'>
                 <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
             </div>)
         }
-        return result
     }
 
-    onSelectPos = (value) => {
-        this.setState({ positionSelect: value })
+    onSelected = (value) => {
+        this.setState({ posIndex: value })
     }
 
     onAddMorePosition = () => {
@@ -95,32 +59,31 @@ class ListEmployee extends Component {
         this.props.addMorePosition(this.state.positionList)
     }
 
+    showPositionTabs = () => {
+        var { listEmployee } = this.props;
+        var result = listEmployee.map((item, index) => {
+            console.log('tiem', item)
+            return (<TabPane tab={item.posName} key={index}></TabPane>)
+        });
+        return result;
+    };
+
     render() {
         var { listEmployee } = this.props
-        console.log(listEmployee)
-        var postList = []
-        if (this.state.positionList.length >= 1)
-            postList = this.state.positionList
+
         return (
             <React.Fragment>
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-table mr-1"></i>List Employee</div>
+                        <Tabs defaultActiveKey='0' onChange={this.onSelected}>
+                            {this.showPositionTabs()}
+                        </Tabs>
+                    </div>
                     {this.state.isLoading ?
                         <div className='row justify-content-center'>
                             <Spin className='text-center' size="large" />
                         </div> :
                         <>
-                            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" >
-                                <div className='col-auto' style={{ marginTop: 20 }}>
-                                    <SelectBar type='special'
-                                        name='positionSelect'
-                                        list={postList}
-                                        value={this.state.positionSelect}
-                                        onSelectPos={this.onSelectPos} />
-                                </div>
-
-                            </form>
                             <div class="card-body">
                                 {this.showEmployee(listEmployee)}
                                 {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >

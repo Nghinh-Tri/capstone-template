@@ -5,7 +5,6 @@ import ProgressBar from "../../component/progress-bar/ProgressBar";
 import * as Action from "../../service/action/SuggestCandidateAction";
 import { checkSession } from "../../service/action/AuthenticateAction";
 import { compose } from "redux";
-import SelectBar from "../../component/select-search/SelectBar";
 import SuggestCandidates from "../../component/suggest-candidate/SuggestCandidatesTable";
 import { history } from "../../service/helper/History";
 import { Spin, Tabs } from "antd";
@@ -61,10 +60,8 @@ class SuggestCandidate extends Component {
     componentDidUpdate = (prevProps, prevState) => {
         if (prevProps.suggestCandidateList !== this.props.suggestCandidateList) {
             console.log('select', this.props.candidateSelectedList)
-            // if (prevProps.selecedCandidateList !== this.props.selecedCandidateList) {
             if (this.props.suggestCandidateList.length > 0) {
                 var temp = [], count = this.state.count, select = this.state.positionSelect
-
                 this.props.suggestCandidateList.forEach(element => {
                     var obj = { label: element.position, value: element.posId }
                     if (count === 0) {
@@ -150,23 +147,7 @@ class SuggestCandidate extends Component {
                         <Tabs defaultActiveKey='0' onChange={this.onSelected}>
                             {this.showPositionTabs()}
                         </Tabs>
-                        {/* <i class="fas fa-table mr-1"></i>Candidates */}
                     </div>
-                    {this.state.isLoading ? '' :
-
-                        ''
-                        // <form class="d-none d-md-inline-block form-inline mr-auto ">
-                        //     <div className="col-auto" style={{ marginTop: 20, marginLeft: 10 }}>
-                        //         <SelectBar
-                        //             type="special"
-                        //             name="positionSelect"
-                        //             list={this.state.positionList}
-                        //             value={this.state.positionSelect}
-                        //             onSelectPos={this.onSelectPos}
-                        //         />
-                        //     </div>
-                        // </form>
-                    }
                     {this.state.isLoading ?
                         <div className='row justify-content-center'>
                             <Spin className='text-center' size="large" />
