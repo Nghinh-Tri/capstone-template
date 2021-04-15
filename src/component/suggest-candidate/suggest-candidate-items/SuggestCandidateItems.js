@@ -21,10 +21,24 @@ class SuggestCandidateItems extends Component {
         return false
     }
 
+    checkDisable = (empID) => {
+        var { candidateSelectedList, position } = this.props
+        if (candidateSelectedList !== null) {
+            if (candidateSelectedList.position === position) {
+                for (let index = 0; index < candidateSelectedList.candidateSelect.length; index++) {
+                    if (candidateSelectedList.candidateSelect[index].empID === empID) {
+                        return !candidateSelectedList.candidateSelect[index].check
+                    }
+                }
+            }
+        }
+        return false
+    }
+
     render() {
-        var { index, candidate } = this.props
+        var { index, candidate, candidateNeeds } = this.props
         return (
-            <tr>
+            <tr style={index < candidateNeeds ? { backgroundColor: '#F0F0F0' } : { backgroundColor: 'white' }} >
                 <th className="text-center">{index + 1}</th>
                 <th className="">
                     <NavLink className='text-primary' to={`/project/suggest-candidate/emp/${candidate.empID}`}> {candidate.empName}</NavLink>
@@ -34,7 +48,7 @@ class SuggestCandidateItems extends Component {
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
                 <th className="text-center">{candidate.overallMatch.toFixed(2)} / 100</th>
                 <th className="text-center">
-                    <input type="checkbox" onClick={this.onSelect} checked={this.checkSelectCandidate(candidate.empID)} />
+                    <input type="checkbox" onClick={this.onSelect} checked={this.checkSelectCandidate(candidate.empID)} disabled={this.checkDisable(candidate.empID)} />
                 </th>
             </tr>
         );

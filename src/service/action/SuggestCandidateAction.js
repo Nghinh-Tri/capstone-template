@@ -49,9 +49,12 @@ export const fetchSelectedList = () => {
 }
 
 export const fetchSuggestList = () => {
-    var projectID = localStorage.getItem('projectId')
-    var projectType = localStorage.getItem('projectType')
-    var projectField = localStorage.getItem('projectField')
+    // var projectID = localStorage.getItem('projectId')
+    var projectID = 149
+    // var projectType = localStorage.getItem('projectType')
+    var projectType = 1
+    // var projectField = localStorage.getItem('projectField')
+    var projectField = 1
     var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
     // var positionItem = JSON.parse(localStorage.getItem('positionRequire'))
     var positionItem = [
@@ -71,6 +74,21 @@ export const fetchSuggestList = () => {
                 { hardSkillID: 13, certificationLevel: 0, priority: 10, skillLevel: 1 },
                 { hardSkillID: 62, certificationLevel: 0, priority: 10, skillLevel: 1 },
             ]
+        },
+        {
+            posID: 13,
+            candidateNeeded: 5,
+            language: [
+                { langID: 1, priority: 10 }
+            ],
+            softSkillIDs: [
+                20, 22, 24, 26, 27, 29, 36, 40, 43, 47
+            ],
+            hardSkills: [
+                { hardSkillID: 3, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                { hardSkillID: 5, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                { hardSkillID: 6, certificationLevel: 0, priority: 10, skillLevel: 1 },
+            ]
         }
     ]
     var position = { requiredPositions: positionItem, projectTypeID: parseInt(projectType), projectFieldID: parseInt(projectField) }
@@ -81,7 +99,7 @@ export const fetchSuggestList = () => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
             if (res.status === 200) {
-                console.log(res.data)
+                // console.log(res.data)
                 dispatch(fetchSuggestListSuccess(res.data))
             }
         })

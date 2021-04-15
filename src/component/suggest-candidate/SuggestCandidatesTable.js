@@ -37,7 +37,7 @@ class SuggestCandidates extends Component {
             this.props.onUnSelectAll(this.props.item.position)
     }
 
-    showCandidate = (candidateList, selectedItem) => {
+    showCandidate = (candidateList, selectedItem, candidateNeeds) => {
         var { item } = this.props
         var result = null
         result = candidateList.map((candidate, index) => {
@@ -45,6 +45,7 @@ class SuggestCandidates extends Component {
                 onSelect={this.onSelect}
                 candidate={candidate}
                 index={index}
+                candidateNeeds={candidateNeeds}
                 position={item.position}
                 candidateSelectedList={selectedItem === null ? null : selectedItem}
             />)
@@ -54,7 +55,41 @@ class SuggestCandidates extends Component {
 
     getCandidateNeeds = (posId) => {
         var candidateNeeds = 0
-        var require = JSON.parse(localStorage.getItem('positionRequire'))
+        // var require = JSON.parse(localStorage.getItem('positionRequire'))
+        var require = [
+            {
+                posID: 4,
+                candidateNeeded: 6,
+                language: [
+                    { langID: 1, priority: 10 }
+                ],
+                softSkillIDs: [
+                    20, 22, 24, 26, 27, 29, 36, 40, 43, 47
+                ],
+                hardSkills: [
+                    { hardSkillID: 1, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                    { hardSkillID: 2, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                    { hardSkillID: 7, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                    { hardSkillID: 13, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                    { hardSkillID: 62, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                ]
+            },
+            {
+                posID: 13,
+                candidateNeeded: 5,
+                language: [
+                    { langID: 1, priority: 10 }
+                ],
+                softSkillIDs: [
+                    20, 22, 24, 26, 27, 29, 36, 40, 43, 47
+                ],
+                hardSkills: [
+                    { hardSkillID: 3, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                    { hardSkillID: 5, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                    { hardSkillID: 6, certificationLevel: 0, priority: 10, skillLevel: 1 },
+                ]
+            }
+        ]
         require.forEach(element => {
             if (element.posID === posId)
                 candidateNeeds = element.candidateNeeded
@@ -100,7 +135,7 @@ class SuggestCandidates extends Component {
                         </thead>
                         {typeof item.matchDetail !== 'undefined' ? (
                             <tbody>
-                                {this.showCandidate(typeof item.matchDetail !== 'undefined' ? item.matchDetail : [], selectedItem)}
+                                {this.showCandidate(typeof item.matchDetail !== 'undefined' ? item.matchDetail : [], selectedItem, candidateNeeds)}
                             </tbody>
                         ) : ('')}
                     </table>
