@@ -62,7 +62,6 @@ class ListEmployee extends Component {
     showPositionTabs = () => {
         var { listEmployee } = this.props;
         var result = listEmployee.map((item, index) => {
-            console.log('tiem', item)
             return (<TabPane tab={item.posName} key={index}></TabPane>)
         });
         return result;
@@ -85,19 +84,18 @@ class ListEmployee extends Component {
                         </div> :
                         <>
                             <div class="card-body">
-                                {this.showEmployee(listEmployee)}
-                                {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
-                                    <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-                                </div>}
-
+                                {listEmployee.length > 0 ? this.showEmployee(listEmployee)
+                                    : <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                                    </div>}
                             </div>
                         </>}
                 </div>
-                {this.state.isLoading || this.props.status === 4 ? '' :
+                {/* {this.state.isLoading || this.props.status === 4 ? '' :
                     <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMorePosition} >
                         Add More Position
                     </button>
-                }
+                } */}
             </React.Fragment>
         );
     }
