@@ -5,10 +5,10 @@ import ProgressBar from "../../component/progress-bar/ProgressBar";
 import * as Action from "../../service/action/SuggestCandidateAction";
 import { checkSession } from "../../service/action/AuthenticateAction";
 import { compose } from "redux";
-import SelectBar from "../../component/select-search/SelectBar";
 import SuggestCandidates from "../../component/suggest-candidate/SuggestCandidatesTable";
 import { history } from "../../service/helper/History";
-import { Spin } from "antd";
+import { Spin, Tabs } from "antd";
+const TabPane = Tabs.TabPane;
 
 class SuggestCandidate extends Component {
     constructor(props) {
@@ -58,10 +58,10 @@ class SuggestCandidate extends Component {
     };
 
     componentDidUpdate = (prevProps, prevState) => {
-        if (prevProps.suggestCandidateList !== this.props.suggestCandidateList)
+        if (prevProps.suggestCandidateList !== this.props.suggestCandidateList) {
+            console.log('select', this.props.candidateSelectedList)
             if (this.props.suggestCandidateList.length > 0) {
                 var temp = [], count = this.state.count, select = this.state.positionSelect
-
                 this.props.suggestCandidateList.forEach(element => {
                     var obj = { label: element.position, value: element.posId }
                     if (count === 0) {
@@ -72,6 +72,7 @@ class SuggestCandidate extends Component {
                 });
                 this.setState({ positionList: temp, positionSelect: select, count: count, isLoading: false })
             }
+        }
     }
 
     onSelected = (index) => {
@@ -118,37 +119,35 @@ class SuggestCandidate extends Component {
 
     getSelectItem = () => {
         var result = []
-        var { suggestCandidateList } = this.props
-        var { positionSelect } = this.state
+        var { suggestCandidateList, selectedIndex } = this.props
+        var { selectedIndex } = this.state
         for (let index = 0; index < suggestCandidateList.length; index++) {
-            if (suggestCandidateList[index].posId === positionSelect)
+            if (index === selectedIndex)
                 result = suggestCandidateList[index]
         }
         return result
     }
 
+    showPositionTabs = () => {
+        var { suggestCandidateList } = this.props;
+        var result = suggestCandidateList.map((item, index) => {
+            return (<TabPane tab={item.position} key={index}></TabPane>)
+        });
+        return result;
+    };
+
     render() {
-        var { candidateSelectedList, suggestCandidateList } = this.props
+        var { candidateSelectedList, suggestCandidateList, selectedIndex } = this.props
+        // console.log('a', suggestCandidateList[selectedIndex])
         return (
             <React.Fragment>
                 <ProgressBar current="2" />
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-table mr-1"></i>Candidates
+                        <Tabs defaultActiveKey='0' onChange={this.onSelected}>
+                            {this.showPositionTabs()}
+                        </Tabs>
                     </div>
-                    {this.state.isLoading ? '' :
-                        <form class="d-none d-md-inline-block form-inline mr-auto ">
-                            <div className="col-auto" style={{ marginTop: 20, marginLeft: 10 }}>
-                                <SelectBar
-                                    type="special"
-                                    name="positionSelect"
-                                    list={this.state.positionList}
-                                    value={this.state.positionSelect}
-                                    onSelectPos={this.onSelectPos}
-                                />
-                            </div>
-                        </form>
-                    }
                     {this.state.isLoading ?
                         <div className='row justify-content-center'>
                             <Spin className='text-center' size="large" />
@@ -156,9 +155,10 @@ class SuggestCandidate extends Component {
                         <div class="card-body">
                             <SuggestCandidates
                                 onSort={this.onSort}
-                                item={this.getSelectItem()}
+                                item={suggestCandidateList[selectedIndex]}
                                 onSelectCandidate={this.selectCandidate}
-                                selectedItem={this.getSelectedCandidateList(this.getSelectItem(), candidateSelectedList)}
+                                selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
+                                candidateSelectedList={candidateSelectedList}
                                 onUnselectCandidate={this.unselectCandidate}
                                 onSelectAll={this.onSelectAll}
                                 onUnSelectAll={this.onUnSelectAll}

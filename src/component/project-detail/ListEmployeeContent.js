@@ -13,7 +13,7 @@ class ListEmployeeContent extends Component {
         super(props);
         this.state = {
             visible: false,
-            isLoading: true
+            isLoading: false
         }
     }
 
@@ -23,10 +23,11 @@ class ListEmployeeContent extends Component {
     }
 
     componentDidUpdate = (prevProp) => {
-        if (prevProp.prevRequire !== this.props.prevRequire) {
-            if (typeof this.props.prevRequire.requiredPosID !== 'undefined')
-                this.setState({ isLoading: false })
-        }
+        // if (prevProp.item !== this.props.item) {
+        //     console.log('items',this.props.item)
+        //     // if (typeof this.props.prevRequire !== 'undefined')
+                // this.setState({ isLoading: false })
+        // }
     }
 
     showCandidate = (employees, posName) => {
@@ -151,7 +152,7 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item, prevRequire } = this.props
-        console.log('prevRequire', prevRequire)
+        // console.log('prevRequire', prevRequire)
         return (
             <React.Fragment>
                 {this.state.isLoading ?

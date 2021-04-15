@@ -30,7 +30,7 @@ class PositionRequireDetail extends Component {
                     <td>{index + 1}</td>
                     <td>{value.hardSkillName}</td>
                     <td>{value.skillLevel}</td>
-                    <td>{value.certificationLevel}</td>
+                    <td>{value.certificationLevel === 0 ? 'All': 'Level ' + value.certificationLevel}</td>
                     <td>{value.priority}</td>
                 </tr>
             )

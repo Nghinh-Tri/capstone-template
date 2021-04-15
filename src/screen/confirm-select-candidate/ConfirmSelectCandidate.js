@@ -4,7 +4,7 @@ import ProgressBar from '../../component/progress-bar/ProgressBar';
 import './ConfirmPage.css'
 import * as Action from "../../service/action/SuggestCandidateAction";
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { convertSuggestList } from '../../service/util/util';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { history } from '../../service/helper/History';
@@ -19,10 +19,15 @@ class ConfirmSelectCandidate extends Component {
         }
     }
 
+    onDeleteCandiate = (empID, postion) => {
+        this.props.removeCandidate(empID, postion)
+    }
+
     showList = (candidateList) => {
+        console.log('candidateList', candidateList)
         var result = null
         result = candidateList.map((item, index) => {
-            return (<CandidateTable key={index} item={item} />)
+            return (<CandidateTable key={index} item={item} position={item.position} onDeleteCandiate={this.onDeleteCandiate} />)
         })
         return result
     }
@@ -55,7 +60,7 @@ class ConfirmSelectCandidate extends Component {
                     :
                     this.showList(candidateList)
                 }
-                <div className="row pull-right" style={{ marginBottom: 10, marginTop:-10 }}>
+                <div className="row pull-right" style={{ marginBottom: 10, marginTop: -10 }}>
                     <div className="col" >
                         <button onClick={this.onBack} type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
                     </div>
@@ -78,6 +83,9 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchSelectCandidate: () => {
             dispatch(Action.fetchSelectedList())
+        },
+        removeCandidate: (candidate, position) => {
+            dispatch(Action.unselectCandiate(candidate, position))
         },
         confirmSuggestList: suggestList => {
             dispatch(Action.confirmSuggestList(suggestList))

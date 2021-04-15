@@ -1,3 +1,4 @@
+import { Tabs } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import moment from 'moment';
 import React, { Component } from 'react';
@@ -6,6 +7,7 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchPositionRequire } from '../../service/action/project/ProjectAction';
 import { showRequestStatus } from '../../service/util/util';
 import PositionRequireDetail from './PositionRequireDetail';
+const TabPane = Tabs.TabPane;
 
 class PositionRequire extends Component {
 
@@ -42,7 +44,14 @@ class PositionRequire extends Component {
                     <td className='text-center'>
                         <a style={{ color: 'blue' }} onClick={this.onShowRequireDetail} >Detail</a>
                         <Modal width={1050} title={value.posName} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
-                            <PositionRequireDetail hardSkills={value.hardSkills} language={value.language} softSkills={value.softSkillIDs} />
+                            <Tabs defaultActiveKey={1} title='Details'>
+                                <TabPane key={1} tab="Details">
+                                    <PositionRequireDetail hardSkills={value.hardSkills} language={value.language} softSkills={value.softSkillIDs} />
+                                </TabPane>
+                                <TabPane key={2} tab="Result">
+                                    
+                                </TabPane>
+                            </Tabs>
                         </Modal>
                     </td>
                 </tr>

@@ -46,6 +46,15 @@ const checkSelectable = (list, candidate, position) => {
     return result
 }
 
+const getNumberOfCheckCadidate = (list) => {
+    var result = 0
+    list.forEach(element => {
+        if (element.check)
+            result++
+    });
+    return result
+}
+
 const checkReachLimit = (list, limit, position) => {
     var result = false
     list.forEach(element => {
@@ -62,43 +71,47 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
     switch (action.type) {
         case SUGGEST_CANDIDATE.SELECT_CANDIDATE:
             if (state.length === 0) {
+                var clone = { ...action.candidate }
+                clone.check = true
                 positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [action.candidate], selectAll: false }
                 if (positionItem.candidateSelect.length === action.candidateList.matchDetail.length)
                     positionItem.selectAll = true
                 state.push(positionItem)
             } else {
-                var checkable = checkSelectable(state, action.candidate, action.candidateList.position)
-                if (checkable) {
-                    var isReachLimit = checkReachLimit(state, action.limit, action.candidateList.position)
-                    if (isReachLimit) {
-                        store.addNotification({
-                            message: `You have select enough candidate for this position`,
-                            type: "danger",
-                            insert: "top",
-                            container: "top-center",
-                            animationIn: ["animated", "fadeIn"],
-                            animationOut: ["animated", "fadeOut"],
-                            dismiss: {
-                                duration: 2000,
-                                onScreen: false
-                            }
-                        })
-                    } else {
-                        var index = getPositionIndex(state, action.candidateList.position)
-                        if (index !== -1) {
-                            positionObjClone = { ...state[index] }
-                            positionObjClone.candidateSelect.push(action.candidate)
-                            if (positionObjClone.candidateSelect.length === action.candidateList.matchDetail.length)
-                                positionObjClone.selectAll = true
-                            state.splice(index, 1, positionObjClone)
-                        } else {
-                            positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [action.candidate], selectAll: false }
-                            if (positionItem.candidateSelect.length === action.candidateList.matchDetail.length)
-                                positionItem.selectAll = true
-                            state.push(positionItem)
+                // var checkable = checkSelectable(state, action.candidate, action.candidateList.position)
+                // if (checkable) {
+                var isReachLimit = checkReachLimit(state, action.limit, action.candidateList.position)
+                if (isReachLimit) {
+                    store.addNotification({
+                        message: `You have select enough candidate for this position`,
+                        type: "danger",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 5000,
+                            onScreen: false
                         }
+                    })
+                } else {
+                    var index = getPositionIndex(state, action.candidateList.position)
+                    if (index !== -1) {
+                        positionObjClone = { ...state[index] }
+                        var clone = { ...action.candidate }
+                        clone.check = true
+                        positionObjClone.candidateSelect.push(action.candidate)
+                        if (positionObjClone.candidateSelect.length === action.candidateList.matchDetail.length)
+                            positionObjClone.selectAll = true
+                        state.splice(index, 1, positionObjClone)
+                    } else {
+                        positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [action.candidate], selectAll: false }
+                        if (positionItem.candidateSelect.lengthfCheckCandiadtes === action.candidateList.matchDetail.length)
+                            positionItem.selectAll = true
+                        state.push(positionItem)
                     }
                 }
+                // } 
             }
             return [...state];
 
