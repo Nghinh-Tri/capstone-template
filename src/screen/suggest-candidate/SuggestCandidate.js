@@ -59,7 +59,9 @@ class SuggestCandidate extends Component {
     };
 
     componentDidUpdate = (prevProps, prevState) => {
-        if (prevProps.suggestCandidateList !== this.props.suggestCandidateList)
+        if (prevProps.suggestCandidateList !== this.props.suggestCandidateList) {
+            console.log('select', this.props.candidateSelectedList)
+            // if (prevProps.selecedCandidateList !== this.props.selecedCandidateList) {
             if (this.props.suggestCandidateList.length > 0) {
                 var temp = [], count = this.state.count, select = this.state.positionSelect
 
@@ -73,6 +75,7 @@ class SuggestCandidate extends Component {
                 });
                 this.setState({ positionList: temp, positionSelect: select, count: count, isLoading: false })
             }
+        }
     }
 
     onSelected = (index) => {

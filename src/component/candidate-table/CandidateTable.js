@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import TableItems from './table-item';
 
 class CandidateTable extends Component {
+
+    removeCandiate = (empID, postion) => {
+        this.props.onDeleteCandiate(empID, postion)
+    }
 
     showCandidate = (candidateList) => {
         var result = null
@@ -13,7 +16,9 @@ class CandidateTable extends Component {
                 <th className="text-center">{candidate.softSkillMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
                 <th className="text-center">{candidate.overallMatch.toFixed(2)} / 100</th>
-                <th className="text-center">Delete</th>
+                <th className="text-center">
+                    <span class="material-icons" style={{ color: '#85C1E9', cursor: 'pointer' }} onClick={() => this.removeCandiate(candidate.empID, this.props.position)} >delete</span>
+                </th>
             </tr>)
         })
         return result
@@ -38,6 +43,7 @@ class CandidateTable extends Component {
                                         <th className="font-weight-bold text-center" width={200}>Match Soft Skill</th>
                                         <th className="font-weight-bold text-center" width={200}>Match Hard Skill</th>
                                         <th className="font-weight-bold text-center" width={200}>Overall Match</th>
+                                        <th className="font-weight-bold text-center" width={50}>Remove</th>
                                     </tr>
                                 </thead>
                                 <tbody>
