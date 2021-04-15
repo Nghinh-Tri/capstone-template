@@ -38,7 +38,7 @@ class SuggestCandidates extends Component {
     }
 
     showCandidate = (candidateList, selectedItem, candidateNeeds) => {
-        var { item } = this.props
+        var { item, candidateSelectedList } = this.props
         var result = null
         result = candidateList.map((candidate, index) => {
             return (<SuggestCandidateItems key={index}
@@ -47,7 +47,8 @@ class SuggestCandidates extends Component {
                 index={index}
                 candidateNeeds={candidateNeeds}
                 position={item.position}
-                candidateSelectedList={selectedItem === null ? null : selectedItem}
+                selectedItem={selectedItem === null ? null : selectedItem}
+                candidateSelectedList={candidateSelectedList}
             />)
         })
         return result
@@ -98,8 +99,9 @@ class SuggestCandidates extends Component {
     }
 
     render() {
-        var { item, selectedItem } = this.props
+        var { item, selectedItem, candidateSelectedList } = this.props
         var candidateNeeds = this.getCandidateNeeds(item.posId)
+        // console.log('aa', candidateSelectedList)
         return (
             <React.Fragment>
                 <div class="table-responsive">

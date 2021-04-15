@@ -88,8 +88,6 @@ class SuggestCandidate extends Component {
     };
 
     getSelectedCandidateList = (suggestCandidateItem, selecedCandidateList) => {
-        console.log('i', selecedCandidateList)
-
         for (let k = 0; k < selecedCandidateList.length; k++) {
             if (suggestCandidateItem.position === selecedCandidateList[k].position)
                 return selecedCandidateList[k];
@@ -176,6 +174,7 @@ class SuggestCandidate extends Component {
                                 item={suggestCandidateList[selectedIndex]}
                                 onSelectCandidate={this.selectCandidate}
                                 selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
+                                candidateSelectedList={candidateSelectedList}
                                 onUnselectCandidate={this.unselectCandidate}
                                 onSelectAll={this.onSelectAll}
                                 onUnSelectAll={this.onUnSelectAll}

@@ -13,6 +13,7 @@ class CandidateTable extends Component {
                 <th className="text-center">{candidate.softSkillMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
                 <th className="text-center">{candidate.overallMatch.toFixed(2)} / 100</th>
+                <th className="text-center">Delete</th>
             </tr>)
         })
         return result
