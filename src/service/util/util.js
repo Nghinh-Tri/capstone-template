@@ -22,7 +22,7 @@ export const showStatus = status => {
         case 3:
             return "On Going"
         case 4:
-            return "Finish"
+            return "Finished"
         default:
             break;
     }
@@ -172,19 +172,25 @@ export const sortSuggestListByHardSkillMatch = list => {
 
 export const convertSuggestList = list => {
     var result = []
+    var require = JSON.parse(localStorage.getItem("positionRequire"))
     if (list.length > 0) {
         list.forEach(element => {
-            var positionObj = { posID: element.posId, empIDs: [] }
-            if (positionObj.posID === element.posId) {
-                var empID = []
-                element.candidateSelect.forEach(e => {
-                    empID.push(e.empID)
-                });
-                positionObj.empIDs = empID
-            }
-            result.push(positionObj)
+            require.forEach(e => {
+                if (e.posID === element.posId) {
+                    var positionObj = { requiredPosID: e.requiredPosID, posID: element.posId, empIDs: [] }
+                    if (positionObj.posID === element.posId) {
+                        var empID = []
+                        element.candidateSelect.forEach(e => {
+                            empID.push(e.empID)
+                        });
+                        positionObj.empIDs = empID
+                    }
+                    result.push(positionObj)
+                }
+            });
         });
     }
+    console.log('result', result)
     return result
 }
 
@@ -316,6 +322,7 @@ export const convertPositionRequire = (items) => {
     var result = []
     items.forEach(element => {
         var obj = {
+            requiredPosID: 0,
             posID: element.posID,
             candidateNeeded: element.candidateNeeded,//posLevel:0
             language: element.language,

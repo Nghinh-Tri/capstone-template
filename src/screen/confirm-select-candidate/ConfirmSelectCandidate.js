@@ -24,7 +24,6 @@ class ConfirmSelectCandidate extends Component {
     }
 
     showList = (candidateList) => {
-        console.log('candidateList', candidateList)
         var result = null
         result = candidateList.map((item, index) => {
             return (<CandidateTable key={index} item={item} position={item.position} onDeleteCandiate={this.onDeleteCandiate} />)

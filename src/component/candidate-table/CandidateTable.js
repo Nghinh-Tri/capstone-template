@@ -17,7 +17,7 @@ class CandidateTable extends Component {
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
                 <th className="text-center">{candidate.overallMatch.toFixed(2)} / 100</th>
                 <th className="text-center">
-                    <span class="material-icons" style={{ color: '#85C1E9', cursor: 'pointer' }} onClick={() => this.removeCandiate(candidate.empID, this.props.position)} >delete</span>
+                    <span class="material-icons" style={{ color: '#85C1E9', cursor: 'pointer' }} onClick={() => this.removeCandiate(candidate, this.props.position)} >delete</span>
                 </th>
             </tr>)
         })
