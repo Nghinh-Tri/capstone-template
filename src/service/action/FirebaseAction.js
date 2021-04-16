@@ -30,7 +30,6 @@ export const sendNotificate = (message) => {
 export const recieveNotificate = (token) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Notification/subscription?token=${token}&topic=pm${empID}`
-    console.log(url)
     return (dispatch) => {
         if (localStorage.getItem('token') !== null) {
             axios.post(

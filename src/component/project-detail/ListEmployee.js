@@ -69,7 +69,7 @@ class ListEmployee extends Component {
 
     render() {
         var { listEmployee } = this.props
-
+        console.log('listEmployee',listEmployee)
         return (
             <React.Fragment>
                 <div class="card mb-4">
@@ -91,11 +91,11 @@ class ListEmployee extends Component {
                             </div>
                         </>}
                 </div>
-                {/* {this.state.isLoading || this.props.status === 4 ? '' :
+                {this.state.isLoading || this.props.status === 4 ? '' :
                     <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMorePosition} >
                         Add More Position
                     </button>
-                } */}
+                }
             </React.Fragment>
         );
     }

@@ -1,4 +1,4 @@
-import { Descriptions, Modal, Spin } from 'antd';
+import { Descriptions, Modal, notification, Spin } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { store } from 'react-notifications-component';
@@ -19,15 +19,15 @@ class ListEmployeeContent extends Component {
 
     componentDidMount = () => {
         console.log('componentDidMount', this.props.projectID, this.props.positionSelect)
-        this.props.getPrevRequire(this.props.projectID, this.props.positionSelect)
+        this.props.getPrevRequire(this.props.projectID, this.props.item.posID)
     }
 
     componentDidUpdate = (prevProp) => {
-        // if (prevProp.item !== this.props.item) {
-        //     console.log('items',this.props.item)
-        //     // if (typeof this.props.prevRequire !== 'undefined')
-                // this.setState({ isLoading: false })
-        // }
+        if (prevProp.item !== this.props.item) {
+            console.log('items', this.props.item)
+            // if (typeof this.props.prevRequire !== 'undefined')
+            this.setState({ isLoading: false })
+        }
     }
 
     showCandidate = (employees, posName) => {
@@ -59,13 +59,16 @@ class ListEmployeeContent extends Component {
         localStorage.setItem('projectId', this.props.projectID)
         localStorage.setItem('projectType', this.props.projectType)
         localStorage.setItem('projectField', this.props.projectField)
-        this.props.addMoreCandidate(this.props.positionSelect)
+        localStorage.setItem('projectName', this.props.projectName)
+        localStorage.setItem('positionRequire', this.props.prevRequire)
+        this.props.addMoreCandidate(this.props.item.posID)
     }
 
     handleOk = () => {
         var { prevRequire } = this.props
-        if (prevRequire.status === 0) {
+        if (prevRequire.status === 2 || prevRequire.status === 0) {
             var obj = {
+                requiredPosID: prevRequire.requiredPosID,
                 posID: prevRequire.posID,
                 candidateNeeded: prevRequire.missingEmployee,
                 language: [],
@@ -83,29 +86,19 @@ class ListEmployeeContent extends Component {
             prevRequire.softSkillIDs.forEach(element => {
                 obj.softSkillIDs.push(element.softSkillID)
             });
-
             var array = []
             array.push(obj)
-
             localStorage.setItem('projectId', this.props.projectID)
             localStorage.setItem('projectType', this.props.projectType)
             localStorage.setItem('projectField', this.props.projectField)
             localStorage.setItem('projectName', this.props.projectName)
             localStorage.setItem('positionRequire', JSON.stringify(array))
             this.props.suggestAgain()
-        } else {
-            store.addNotification({
-                title: 'Require is being confirm',
-                type: "info",
-                insert: "top",
-                container: "bottom-right",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                    duration: 5000,
-                    onScreen: true
-                }
-            })
+        } else if (prevRequire.status === 1) {
+            console.log('aaa')
+            notification.open({
+                message: 'Require is being confirm',
+            });
         }
     }
 
@@ -144,7 +137,6 @@ class ListEmployeeContent extends Component {
         var result = null
         result = softSkill.map((value, index) => {
             return (<>{value.softSkillName} < br /></>
-
             )
         })
         return result
@@ -152,7 +144,6 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item, prevRequire } = this.props
-        // console.log('prevRequire', prevRequire)
         return (
             <React.Fragment>
                 {this.state.isLoading ?
@@ -161,7 +152,7 @@ class ListEmployeeContent extends Component {
                     </div> :
                     <>
                         <div className='row pull-right' style={{ width: 'auto' }} >
-                            <h5 style={{ marginRight: 14 }} >{item.employees.length} / {item.candidateNeeded} Candidate Needs </h5>
+                            <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Candidate Needs </h5>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -184,41 +175,42 @@ class ListEmployeeContent extends Component {
                             : ''
                         }
                         {this.props.projectStatus === 4 ? "" :
-
-                            item.employees.length === item.candidateNeeded ?
+                            item.noe === item.candidateNeeded ?
                                 <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMoreCandidates}  >
                                     Add More Candidates
-                        </button>
+                                </button>
                                 :
-                                <>
-                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
-                                        Select Candidates Again
-                        </button>
-                                    <Modal title="Requirement" width={1000}
-                                        visible={this.state.visible}
-                                        onOk={this.handleOk}
-                                        onCancel={this.handleCancel} >
-                                        <Descriptions>
-                                            <Descriptions.Item>{prevRequire.posName} </Descriptions.Item>
-                                            <Descriptions.Item label='Candidate Needs'>{prevRequire.missingEmployee} </Descriptions.Item>
-                                        </Descriptions>
-                                        <Descriptions>
-                                            <Descriptions.Item label='Hard Skill'>
-                                                {this.showHardSkill(prevRequire.hardSkills)}
-                                            </Descriptions.Item>
-                                        </Descriptions>
-                                        <Descriptions>
-                                            <Descriptions.Item label='Language'>
-                                                {this.showLanguage(prevRequire.language)}
-                                            </Descriptions.Item>
-                                        </Descriptions>
-                                        <Descriptions>
-                                            <Descriptions.Item label='Soft Skill'>
-                                                {this.showSoftSkill(prevRequire.softSkillIDs)}
-                                            </Descriptions.Item>
-                                        </Descriptions>
-                                    </Modal>
-                                </>
+                                typeof prevRequire.posName !== 'undefined' ?
+                                    <>
+                                        <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
+                                            Select Candidates Again
+                                        </button>
+                                        <Modal title="Requirement" width={1000}
+                                            visible={this.state.visible}
+                                            onOk={this.handleOk}
+                                            onCancel={this.handleCancel} >
+                                            <Descriptions>
+                                                <Descriptions.Item>{prevRequire.posName} </Descriptions.Item>
+                                                <Descriptions.Item label='Candidate Needs'>{prevRequire.missingEmployee} </Descriptions.Item>
+                                            </Descriptions>
+                                            <Descriptions>
+                                                <Descriptions.Item label='Hard Skill'>
+                                                    {this.showHardSkill(prevRequire.hardSkills)}
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                            <Descriptions>
+                                                <Descriptions.Item label='Language'>
+                                                    {this.showLanguage(prevRequire.language)}
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                            <Descriptions>
+                                                <Descriptions.Item label='Soft Skill'>
+                                                    {this.showSoftSkill(prevRequire.softSkillIDs)}
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                        </Modal>
+                                    </> :
+                                    ''
                         }
                     </>
                 }

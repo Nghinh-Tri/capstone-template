@@ -49,48 +49,12 @@ export const fetchSelectedList = () => {
 }
 
 export const fetchSuggestList = () => {
-    // var projectID = localStorage.getItem('projectId')
-    var projectID = 149
-    // var projectType = localStorage.getItem('projectType')
-    var projectType = 1
-    // var projectField = localStorage.getItem('projectField')
-    var projectField = 1
+    var projectID = localStorage.getItem('projectId')
+    var projectType = localStorage.getItem('projectType')
+    var projectField = localStorage.getItem('projectField')
     var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
-    // var positionItem = JSON.parse(localStorage.getItem('positionRequire'))
-    var positionItem = [
-        {
-            posID: 4,
-            candidateNeeded: 5,
-            language: [
-                { langID: 1, priority: 10 }
-            ],
-            softSkillIDs: [
-                20, 22, 24, 26, 27, 29, 36, 40, 43, 47
-            ],
-            hardSkills: [
-                { hardSkillID: 1, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                { hardSkillID: 2, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                { hardSkillID: 7, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                { hardSkillID: 13, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                { hardSkillID: 62, certificationLevel: 0, priority: 10, skillLevel: 1 },
-            ]
-        },
-        {
-            posID: 13,
-            candidateNeeded: 5,
-            language: [
-                { langID: 1, priority: 10 }
-            ],
-            softSkillIDs: [
-                20, 22, 24, 26, 27, 29, 36, 40, 43, 47
-            ],
-            hardSkills: [
-                { hardSkillID: 3, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                { hardSkillID: 5, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                { hardSkillID: 6, certificationLevel: 0, priority: 10, skillLevel: 1 },
-            ]
-        }
-    ]
+    var positionItem = JSON.parse(localStorage.getItem('positionRequire'))
+    console.log('positionItem', positionItem)
     var position = { requiredPositions: positionItem, projectTypeID: parseInt(projectType), projectFieldID: parseInt(projectField) }
     return (dispatch) => {
         axios.post(
@@ -124,8 +88,9 @@ export const confirmSuggestList = (suggestList) => {
     var projectID = localStorage.getItem('projectId')
     var url = `${API_URL}/Project/addCandidate/${projectID}`
     var message = { title: `Project Manager ${getUserName()} send a request`, body: '' }
-
+    console.log('suggestList', suggestList)
     return (dispatch) => {
+        console.log('suggestList',suggestList)
         if (suggestList.candidates.length === 0) {
             confirm({
                 title: `We will send this request to Human Resource to recruit candidates`,

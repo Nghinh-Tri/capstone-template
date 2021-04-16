@@ -56,41 +56,7 @@ class SuggestCandidates extends Component {
 
     getCandidateNeeds = (posId) => {
         var candidateNeeds = 0
-        // var require = JSON.parse(localStorage.getItem('positionRequire'))
-        var require = [
-            {
-                posID: 4,
-                candidateNeeded: 6,
-                language: [
-                    { langID: 1, priority: 10 }
-                ],
-                softSkillIDs: [
-                    20, 22, 24, 26, 27, 29, 36, 40, 43, 47
-                ],
-                hardSkills: [
-                    { hardSkillID: 1, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                    { hardSkillID: 2, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                    { hardSkillID: 7, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                    { hardSkillID: 13, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                    { hardSkillID: 62, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                ]
-            },
-            {
-                posID: 13,
-                candidateNeeded: 5,
-                language: [
-                    { langID: 1, priority: 10 }
-                ],
-                softSkillIDs: [
-                    20, 22, 24, 26, 27, 29, 36, 40, 43, 47
-                ],
-                hardSkills: [
-                    { hardSkillID: 3, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                    { hardSkillID: 5, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                    { hardSkillID: 6, certificationLevel: 0, priority: 10, skillLevel: 1 },
-                ]
-            }
-        ]
+        var require = JSON.parse(localStorage.getItem('positionRequire'))
         require.forEach(element => {
             if (element.posID === posId)
                 candidateNeeds = element.candidateNeeded
@@ -101,7 +67,7 @@ class SuggestCandidates extends Component {
     render() {
         var { item, selectedItem, candidateSelectedList } = this.props
         var candidateNeeds = this.getCandidateNeeds(item.posId)
-        // console.log('aa', candidateSelectedList)
+        console.log('aa', item)
         return (
             <React.Fragment>
                 <div class="table-responsive">

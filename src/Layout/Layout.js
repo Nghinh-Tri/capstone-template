@@ -7,6 +7,7 @@ import firebase from "../service/firebase/firebase";
 import { store } from 'react-notifications-component';
 import { recieveNotificate, sendNotificate } from '../service/action/FirebaseAction';
 import { connect } from 'react-redux';
+import { notification } from 'antd';
 
 class Layout extends Component {
 
@@ -25,19 +26,12 @@ class Layout extends Component {
     }
 
     showNotificate = (messaging) => {
-        store.addNotification({
-            title: messaging.title,
-            message: messaging.body,
-            type: "info",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animate__animated", "animate__fadeIn"],
-            animationOut: ["animate__animated", "animate__fadeOut"],
-            dismiss: {
-                duration: 10000,
-                onScreen: true
-            }
-        })
+        notification.open({
+            message: messaging.title,
+            description: messaging.body,
+            duration: 0,
+            placement:'bottomRight'
+        });
     }
 
     showContent = (RouteList) => {
@@ -50,7 +44,7 @@ class Layout extends Component {
             });
         }
         return <Switch> {result} </Switch>
-    }   
+    }
 
     render() {
         return (
