@@ -176,10 +176,19 @@ class SuggestCandidate extends Component {
                 </div>
                 {this.state.isLoading ? '' :
                     <>
-                        <div className="col">
-                            <button type="submit" onClick={this.onHandle} className="btn btn-primary pull-right pt"
-                                style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Next</button>
-                        </div>
+                        {typeof this.props.location.state.type !== 'undefined' ?
+                            typeof suggestCandidateList.find(e => e.matchDetail.length === 0) !== 'undefined' ?
+                                '' :
+                                <div className="col">
+                                    <button type="submit" onClick={this.onHandle} className="btn btn-primary pull-right pt"
+                                        style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Next</button>
+                                </div>
+                            :
+                            <div className="col">
+                                <button type="submit" onClick={this.onHandle} className="btn btn-primary pull-right pt"
+                                    style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Next</button>
+                            </div>
+                        }
                         {typeof this.props.location.state.type !== 'undefined' ?
                             this.props.location.state.type === 'SuggestAgain' ?
                                 <div className="col">

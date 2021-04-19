@@ -67,7 +67,6 @@ class SuggestCandidates extends Component {
     render() {
         var { item, selectedItem, candidateSelectedList } = this.props
         var candidateNeeds = this.getCandidateNeeds(item.posId)
-        console.log('aa', item)
         return (
             <React.Fragment>
                 <div class="table-responsive">
