@@ -90,7 +90,7 @@ export const confirmSuggestList = (suggestList) => {
     var message = { title: `Project Manager ${getUserName()} send a request`, body: '' }
     console.log('suggestList', suggestList)
     return (dispatch) => {
-        console.log('suggestList',suggestList)
+        console.log('suggestList', suggestList)
         if (suggestList.candidates.length === 0) {
             confirm({
                 title: `We will send this request to Human Resource to recruit candidates`,
@@ -152,23 +152,24 @@ export const confirmSuggestList = (suggestList) => {
                         localStorage.removeItem('projectId')
                         localStorage.removeItem('isNewPosition')
                         localStorage.removeItem('projectName')
+                        localStorage.removeItem('projectType')
+                        localStorage.removeItem('projectField')
                         history.push("/project")
                     }
                 }
             }).catch(err => {
                 dispatch(confirmSuggestListFail())
-                store.addNotification({
-                    message: err.response.data.message,
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
+                confirm({
+                    title: `${err.response.data.message}. Cancel this request`,
+                    okText: 'Yes',
+                    cancelText: 'No',
+                    onOk() {
+                        history.push(`/project/detail/${projectID}`)
+                    },
+                    onCancel() {
+                        console.log('Cancel');
+                    },
+                });
             })
         }
     }

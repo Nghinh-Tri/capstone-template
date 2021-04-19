@@ -5,6 +5,7 @@ import { fetchProject } from "./project/ProjectAction";
 
 export const sendNotificate = (message) => {
     var sendUrl = `${API_URL}/Notification?topic=news`
+    console.log(message)
     var token = JSON.parse(localStorage.getItem('FirebaseToken'))
     return (dispatch) => {
         if (localStorage.getItem('token') !== null && token !== null) {
@@ -18,7 +19,12 @@ export const sendNotificate = (message) => {
                     message,
                     { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
                 ).then(res => {
-                    dispatch(sendNotificateSuccess())
+                    axios.post(
+                        unsubcriptUrl,
+                        { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+                    ).then(
+                        dispatch(sendNotificateSuccess())
+                    )
                 })
             )
         } else {
@@ -30,6 +36,7 @@ export const sendNotificate = (message) => {
 export const recieveNotificate = (token) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Notification/subscription?token=${token}&topic=pm${empID}`
+    console.log(url)
     return (dispatch) => {
         if (localStorage.getItem('token') !== null) {
             axios.post(

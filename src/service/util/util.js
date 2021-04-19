@@ -52,9 +52,7 @@ export const showRequestStatus = status => {
         case 1:
             return "Waiting"
         case 2:
-            return "Suggest Again"
-        case 3:
-            return "Finish"
+            return "Finished"
         default:
             break;
     }
@@ -190,7 +188,6 @@ export const convertSuggestList = list => {
             });
         });
     }
-    console.log('result', result)
     return result
 }
 

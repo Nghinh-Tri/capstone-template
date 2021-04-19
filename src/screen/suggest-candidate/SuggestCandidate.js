@@ -59,7 +59,6 @@ class SuggestCandidate extends Component {
 
     componentDidUpdate = (prevProps, prevState) => {
         if (prevProps.suggestCandidateList !== this.props.suggestCandidateList) {
-            console.log('select', this.props.candidateSelectedList)
             if (this.props.suggestCandidateList.length > 0) {
                 var temp = [], count = this.state.count, select = this.state.positionSelect
                 this.props.suggestCandidateList.forEach(element => {
@@ -128,6 +127,15 @@ class SuggestCandidate extends Component {
         return result
     }
 
+    onCancelSuggestAgain = () => {
+        localStorage.removeItem('projectId')
+        localStorage.removeItem('projectType')
+        localStorage.removeItem('projectField')
+        localStorage.removeItem('projectName')
+        localStorage.removeItem('positionRequire')
+        history.goBack()
+    }
+
     showPositionTabs = () => {
         var { suggestCandidateList } = this.props;
         var result = suggestCandidateList.map((item, index) => {
@@ -167,10 +175,19 @@ class SuggestCandidate extends Component {
                     }
                 </div>
                 {this.state.isLoading ? '' :
-                    <div className="col">
-                        <button type="submit" onClick={this.onHandle} className="btn btn-primary pull-right pt" style={{ marginBottom: 20, marginRight: 20, marginTop: 0 }}>Next</button>
-                    </div>
-                }
+                    <>
+                        <div className="col">
+                            <button type="submit" onClick={this.onHandle} className="btn btn-primary pull-right pt"
+                                style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Next</button>
+                        </div>
+                        {typeof this.props.location.state.type !== 'undefined' ?
+                            this.props.location.state.type === 'SuggestAgain' ?
+                                <div className="col">
+                                    <button type="submit" onClick={this.onCancelSuggestAgain} className="btn btn-primary pull-right pt"
+                                        style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Cancel</button>
+                                </div> : '' : ''
+                        }
+                    </>}
             </React.Fragment >
         );
     }
