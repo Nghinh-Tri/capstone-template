@@ -41,7 +41,6 @@ export const generateProjectFail = () => {
 export const createProject = (project) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Project/${empID}`
-    console.log(url)
     return (dispatch) => {
         if (project.projectName.length === 0) {
             dispatch(createProjectFailed('projectName : Please input project name'))
@@ -72,11 +71,6 @@ export const createProject = (project) => {
                         dispatch(createProjectFailed(res.data.message))
                     }
                 }
-            }).catch(err => {
-                console.log('a', err.response)
-                // if (err.response.status === 401) {
-                //     history.push('/login')
-                // }
             })
         }
 

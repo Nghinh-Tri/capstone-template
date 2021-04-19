@@ -72,7 +72,6 @@ class CreateProject extends Component {
     }
 
     componentWillReceiveProps = () => {
-        console.log('error1', this.props.error)
         var { error } = this.props
         if (error.message.includes(':')) {
             var list = error.message.split(':')
@@ -113,7 +112,6 @@ class CreateProject extends Component {
         var { projectType, projectField } = this.props
         var projectTypeConverted = convertProjectTypeList(projectType)
         var projectFieldConverted = convertProjectTypeList(projectField)
-        console.log('error', fieldError, messageError)
         return (
             <div>
                 {this.props.location.state !== null ? <ProgressBar current='0' /> : ''}

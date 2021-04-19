@@ -67,9 +67,10 @@ class SelectBar extends Component {
         list.forEach(element => {
             if (element.value === level)
                 element.name.forEach(e => {
-                    result = result + '- ' + e + ' \n'
+                    result = result + '| ' + e + ' '
                 });
         });
+        result = result.substring(1).trim()
         return result
     }
 

@@ -27,7 +27,13 @@ class ListEmployee extends Component {
 
     componentDidUpdate = (prevProp) => {
         if (prevProp.listEmployee !== this.props.listEmployee) {
-            this.setState({ isLoading: false })
+            var { listEmployee } = this.props
+            var temp = []
+            listEmployee.forEach(element => {
+                var pos = { value: element.posID }
+                temp.push(pos)
+            });
+            this.setState({ isLoading: false, positionList: temp })
         }
     }
 
@@ -56,6 +62,7 @@ class ListEmployee extends Component {
         localStorage.setItem('projectId', this.props.projectID)
         localStorage.setItem('projectType', this.props.projectType)
         localStorage.setItem('projectField', this.props.projectField)
+        console.log(this.state.positionList)
         this.props.addMorePosition(this.state.positionList)
     }
 
@@ -69,7 +76,6 @@ class ListEmployee extends Component {
 
     render() {
         var { listEmployee } = this.props
-        console.log('listEmployee',listEmployee)
         return (
             <React.Fragment>
                 <div class="card mb-4">

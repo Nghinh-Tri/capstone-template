@@ -35,32 +35,9 @@ export const updatePositionID = (positionID, positionFormIndex) => {
                 { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
             ).then(res1 => {
                 hardSkill = res1.data.resultObj === null ? [] : res1.data.resultObj
-                console.log('hardSkill', hardSkill)
-
                 dispatch(updatePositionIDSuccess(positionID, positionFormIndex, hardSkill, softSkill))
             })
         })
-    }
-}
-
-export const fetchCertiList = (positionID, positionFormIndex, hardSkill, softSkill) => {
-    var certiList = []
-    return (dispatch) => {
-        console.log('hardSkill', hardSkill)
-        hardSkill.forEach(element => {
-            element.certiList = []
-            var certiUrl = `${API_URL}/Certification/getCertifications/${element.skillID}`
-            axios.get(
-                certiUrl,
-                { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
-            ).then(res2 => {
-                certiList = res2.data.resultObj === null ? [] : res2.data.resultObj
-                element.certiList = certiList
-            })
-        });
-        var replace = hardSkill.slice(0)
-        console.log('replace', replace)
-        dispatch(updatePositionIDSuccess(positionID, positionFormIndex, replace, softSkill))
     }
 }
 
@@ -184,7 +161,6 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex, i
 export const createPosition = (positionItem, isUpdate) => {
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
-    console.log('position', position)
     var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID}`
     var urlCheckValidate = `${API_URL}/Project/checkStatus`
     return (dispatch) => {
@@ -382,7 +358,6 @@ export const createPositionFailed = () => {
 }
 
 export const addMoreCandidate = (posID) => {
-    console.log('posID', posID)
     var projectType = localStorage.getItem('projectType')
     var projectField = localStorage.getItem('projectField')
     var fetchHardSkill = `${API_URL}/Skill/type/${projectType}&&${posID}`
@@ -392,14 +367,11 @@ export const addMoreCandidate = (posID) => {
             fetchHardSkill,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log('hs', res.data.resultObj)
             var hardSkill = res.data.resultObj === null ? [] : res.data.resultObj
             return axios.get(
                 fetchSoftSkill,
                 { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
             ).then(res => {
-                console.log('ss', res.data.resultObj)
-
                 var softSkill = res.data.resultObj === null ? [] : res.data.resultObj
                 dispatch(addMoreCandidateSuccess(posID, hardSkill, softSkill))
             })
@@ -419,13 +391,11 @@ export const addMorePosition = (position) => {
 
 export const getPrevRequire = (projectId, posID) => {
     var url = `${API_URL}/Project/getRequiredPosByID/${projectId}&&${posID}`
-    console.log(url)
     return (dispatch) => {
         return axios.get(
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log('res', res)
             if (res.data.isSuccessed)
                 dispatch(getPrevRequireSuccess(res.data.resultObj))
             else
@@ -443,6 +413,6 @@ export const getPrevRequireFailed = () => {
 }
 
 export const suggestAgain = () => {
-    history.push('/project/suggest-candidate', {type:'SuggestAgain'})
+    history.push('/project/suggest-candidate', { type: 'SuggestAgain' })
     return { type: Type.SUGGEST_AGAIN }
 }

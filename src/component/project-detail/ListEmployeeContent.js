@@ -1,11 +1,9 @@
 import { Descriptions, Modal, notification, Spin } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
-import { store } from 'react-notifications-component';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { addMoreCandidate, getPrevRequire, suggestAgain } from '../../service/action/PositionAction';
-import { history } from '../../service/helper/History';
 
 class ListEmployeeContent extends Component {
 
@@ -18,14 +16,12 @@ class ListEmployeeContent extends Component {
     }
 
     componentDidMount = () => {
-        console.log('componentDidMount', this.props.projectID, this.props.positionSelect)
         this.props.getPrevRequire(this.props.projectID, this.props.item.posID)
     }
 
     componentDidUpdate = (prevProp) => {
         if (prevProp.item !== this.props.item) {
-            console.log('items', this.props.item)
-            // if (typeof this.props.prevRequire !== 'undefined')
+            this.props.getPrevRequire(this.props.projectID, this.props.item.posID)
             this.setState({ isLoading: false })
         }
     }
@@ -95,7 +91,6 @@ class ListEmployeeContent extends Component {
             localStorage.setItem('positionRequire', JSON.stringify(array))
             this.props.suggestAgain()
         } else if (prevRequire.status === 1) {
-            console.log('aaa')
             notification.open({
                 message: 'Require is being confirm',
             });
@@ -109,7 +104,7 @@ class ListEmployeeContent extends Component {
     showHardSkill = (skills) => {
         var result = null
         result = skills.map((value, index) => {
-            return (<ul>
+            return (<ul key={index}>
                 <li>{value.hardSkillName}</li>
                 <li>Skill Level: {value.skillLevel}</li>
                 <li>
@@ -152,7 +147,7 @@ class ListEmployeeContent extends Component {
                     </div> :
                     <>
                         <div className='row pull-right' style={{ width: 'auto' }} >
-                            <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Candidate Needs </h5>
+                            <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Employees </h5>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
