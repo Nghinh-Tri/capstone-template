@@ -443,6 +443,6 @@ export const getPrevRequireFailed = () => {
 }
 
 export const suggestAgain = () => {
-    history.push('/project/suggest-candidate')
+    history.push('/project/suggest-candidate', {type:'SuggestAgain'})
     return { type: Type.SUGGEST_AGAIN }
 }

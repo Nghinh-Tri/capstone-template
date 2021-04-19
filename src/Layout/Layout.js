@@ -20,9 +20,6 @@ class Layout extends Component {
                     this.props.recievedNoti(token)
                 }
             })
-        messaging.onMessage((payload) => {
-            this.showNotificate(payload.notification)
-        });
     }
 
     showNotificate = (messaging) => {
@@ -30,7 +27,15 @@ class Layout extends Component {
             message: messaging.title,
             description: messaging.body,
             duration: 0,
-            placement:'bottomRight'
+            placement: 'bottomRight'
+        });
+    }
+
+    componentDidUpdate = (prev) => {
+        const messaging = firebase.messaging()
+        messaging.onMessage((payload) => {
+            console.log('mes')
+            this.showNotificate(payload.notification)
         });
     }
 
@@ -45,7 +50,9 @@ class Layout extends Component {
         }
         return <Switch> {result} </Switch>
     }
-
+    send = () => {
+        this.props.sendNotificate()
+    }
     render() {
         return (
             <div>
@@ -55,6 +62,8 @@ class Layout extends Component {
                         <NavBar />
                     </div>
                     <div id="layoutSidenav_content">
+                        <button onClick={this.send}>Send</button>
+
                         <main>
                             <div class="container-fluid">
                                 {this.showContent(RouteList)}
@@ -71,6 +80,9 @@ const map = (dispatch) => {
     return {
         recievedNoti: (token) => {
             dispatch(recieveNotificate(token))
+        },
+        sendNotificate: () => {
+            dispatch(sendNotificate({ title: 'hello', body: 'aaa' }))
         }
     }
 }
