@@ -56,7 +56,7 @@ class ListEmployeeContent extends Component {
         localStorage.setItem('projectType', this.props.projectType)
         localStorage.setItem('projectField', this.props.projectField)
         localStorage.setItem('projectName', this.props.projectName)
-        localStorage.setItem('positionRequire', this.props.prevRequire)
+        // localStorage.setItem('positionRequire', this.props.prevRequire)
         this.props.addMoreCandidate(this.props.item.posID)
     }
 
@@ -75,8 +75,8 @@ class ListEmployeeContent extends Component {
                 var language = { langID: element.langID, priority: element.priority }
                 obj.language.push(language)
             });
-            prevRequire.softSkillIDs.forEach(element => {
-                var hardSkill = { hardSkillID: element.langID, skillLevel: element.skillLevel, certificationLevel: element.certificationLevel, priority: element.priority }
+            prevRequire.hardSkills.forEach(element => {
+                var hardSkill = { hardSkillID: element.hardSkillID, skillLevel: element.skillLevel, certificationLevel: element.certificationLevel, priority: element.priority }
                 obj.hardSkills.push(hardSkill)
             });
             prevRequire.softSkillIDs.forEach(element => {
@@ -84,6 +84,7 @@ class ListEmployeeContent extends Component {
             });
             var array = []
             array.push(obj)
+
             localStorage.setItem('projectId', this.props.projectID)
             localStorage.setItem('projectType', this.props.projectType)
             localStorage.setItem('projectField', this.props.projectField)
@@ -93,6 +94,8 @@ class ListEmployeeContent extends Component {
         } else if (prevRequire.status === 1) {
             notification.open({
                 message: 'Require is being confirm',
+                placement: 'bottomRight',
+                duration: 0
             });
         }
     }

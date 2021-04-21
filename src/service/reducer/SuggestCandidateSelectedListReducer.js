@@ -166,6 +166,10 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
         case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
             state.splice(0, state.length)
             return [...state]
+
+        case SUGGEST_CANDIDATE.CONFIRM_SUGGEST_FAIL:
+            state.splice(0, state.length)
+            return [...state]
         default:
             return [...state];
     }

@@ -26,16 +26,8 @@ class SoftSkillForm extends Component {
         var { softSkillList, softSkill } = this.props
         var listNotSelect = [...softSkillList]
         var minium = [...softSkill.minium]
-        var removeIndex = []
-        for (let i = 0; i < listNotSelect.length; i++) {
-            for (let k = 0; k < minium.length; k++) {
-                var id = listNotSelect[i].skillID
-                if (id === minium[k])
-                    removeIndex.push(i)
-            }
-        }
-        removeIndex.forEach(element => {
-            listNotSelect.splice(element, 1)
+        minium.forEach(element => {
+            listNotSelect = listNotSelect.filter(e => e.skillID !== element)
         });
         return listNotSelect
     }

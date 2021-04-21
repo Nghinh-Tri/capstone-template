@@ -146,7 +146,7 @@ class SuggestCandidate extends Component {
 
     render() {
         var { candidateSelectedList, suggestCandidateList, selectedIndex } = this.props
-        // console.log('a', suggestCandidateList[selectedIndex])
+        // console.log('a', suggestCandidateList)
         return (
             <React.Fragment>
                 <ProgressBar current="2" />

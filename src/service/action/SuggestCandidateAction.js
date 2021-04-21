@@ -54,7 +54,6 @@ export const fetchSuggestList = () => {
     var projectField = localStorage.getItem('projectField')
     var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
     var positionItem = JSON.parse(localStorage.getItem('positionRequire'))
-    console.log('positionItem', positionItem)
     var position = { requiredPositions: positionItem, projectTypeID: parseInt(projectType), projectFieldID: parseInt(projectField) }
     return (dispatch) => {
         axios.post(
@@ -63,7 +62,6 @@ export const fetchSuggestList = () => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
             if (res.status === 200) {
-                // console.log(res.data)
                 dispatch(fetchSuggestListSuccess(res.data))
             }
         })
@@ -158,13 +156,13 @@ export const confirmSuggestList = (suggestList) => {
                     }
                 }
             }).catch(err => {
-                dispatch(confirmSuggestListFail())
                 confirm({
                     title: `${err.response.data.message}. Cancel this request`,
                     okText: 'Yes',
                     cancelText: 'No',
                     onOk() {
                         history.push(`/project/detail/${projectID}`)
+                        dispatch(confirmSuggestListFail())
                     },
                     onCancel() {
                         console.log('Cancel');
