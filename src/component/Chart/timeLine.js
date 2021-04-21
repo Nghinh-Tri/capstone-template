@@ -17,13 +17,12 @@ class timeLine extends Component {
       title: item.name,
       cardTitle: txt1.concat(moment(item.dateCreated).format('DD-MM-YYYY')),
       cardSubtitle: txt2.concat(moment(item.dateEnd).format('DD-MM-YYYY')),
-      cardDetailedText: "Description",
     }));
 
 
     return (
       <div className="timeLine">
-        <div style={{ width: "100%", height: "1000px" }}>
+        <div style={{ width: "100%", height: "600px" }}>
           <Chrono items={data} mode="VERTICAL" >
             
           </Chrono>
