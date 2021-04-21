@@ -15,14 +15,12 @@ class CreateProject extends Component {
         this.state = {
             id: 0,
             projectName: "",
-            dateBegin: "",
-            dateEstimatedEnd: "",
+            dateBegin: moment(moment().day(10)).format('YYYY-MM-DD'),
+            dateEstimatedEnd: moment(moment().day(11)).format('YYYY-MM-DD'),
             description: "",
             stakeholder: "",
             projectTypeID: 1,
             projectFieldID: 1,
-            fieldError: '',
-            messageError: ''
         }
     }
 
@@ -71,16 +69,6 @@ class CreateProject extends Component {
         }
     }
 
-    componentWillReceiveProps = () => {
-        var { error } = this.props
-        if (error.message.includes(':')) {
-            var list = error.message.split(':')
-            this.setState({ messageError: list[1], fieldError: list[0], })
-        } else {
-            this.setState({ messageError: '', fieldError: '', })
-        }
-    }
-
     onSave = (event) => {
         event.preventDefault()
         var { id, projectName: projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID } = this.state
@@ -108,10 +96,11 @@ class CreateProject extends Component {
     }
 
     render() {
-        var { projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID, fieldError, messageError } = this.state
-        var { projectType, projectField } = this.props
+        var { projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID } = this.state
+        var { projectType, projectField, error } = this.props
         var projectTypeConverted = convertProjectTypeList(projectType)
         var projectFieldConverted = convertProjectTypeList(projectField)
+        console.log('er', error)
         return (
             <div>
                 {this.props.location.state !== null ? <ProgressBar current='0' /> : ''}
@@ -131,8 +120,10 @@ class CreateProject extends Component {
                                             className="form-control"
                                             value={projectName} name="projectName" onChange={this.onHandle}
                                             readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
-                                        {fieldError.trim().includes('projectName') ?
-                                            <div className="error text-danger font-weight-bold">{messageError}</div>
+                                        {typeof error.ProjectName !== 'undefined' ?
+                                            error.ProjectName.map((element, index) => {
+                                                return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                            })
                                             : ''}
                                     </div>
                                 </div>
@@ -170,9 +161,7 @@ class CreateProject extends Component {
                                         <label className="bmd-label">Start Date</label>
                                         <input type='date' name="dateBegin" className="form-control" min={moment(moment().day(10)).format('YYYY-MM-DD')}
                                             defaultValue={dateBegin} onChange={this.onHandle} readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
-                                        {fieldError.trim().includes('dateBegin') ?
-                                            <div className="error text-danger font-weight-bold">{messageError}</div>
-                                            : ''}
+
                                     </div>
                                 </div>
                                 {/* Date end estimate */}
@@ -181,9 +170,7 @@ class CreateProject extends Component {
                                         <label className="bmd-label">Estimate End Date</label>
                                         <input type="date" name="dateEstimatedEnd" min={moment(moment().day(11)).format('YYYY-MM-DD')}
                                             defaultValue={dateEstimatedEnd} className="form-control" onChange={this.onHandle} />
-                                        {fieldError.trim().includes('dateEstimatedEnd') ?
-                                            <div className="error text-danger font-weight-bold">{messageError}</div>
-                                            : ''}
+
                                     </div>
                                 </div>
                             </div>
@@ -194,6 +181,11 @@ class CreateProject extends Component {
                                     <div className="form-group">
                                         <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Description</label>
                                         <textarea className="form-control" name="description" rows="5" defaultValue={description} onChange={this.onHandle} />
+                                        {typeof error.Description !== 'undefined' ?
+                                            error.Description.map((element, index) => {
+                                                return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                            })
+                                            : ''}
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +208,7 @@ const mapStateToProps = (state) => {
         projectDetail: state.ProjectDetailFetchReducer,
         projectType: state.ProjectTypeReducer,
         projectField: state.ProjectFieldReducer,
-        error: state.CreateProjectErrorReducer
+        error: state.ErrorReducer
     }
 }
 

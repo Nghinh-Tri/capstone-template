@@ -21,14 +21,12 @@ class Login extends Component {
         e.preventDefault();
         this.setState({ submitted: true });
         const { email, password } = this.state;
-        if (email && password) {
-            this.props.login(email, password);
-        }
+        this.props.login(email, password);
     }
 
     render() {
         const { email, password, submitted } = this.state;
-
+        var { error } = this.props
         return (
             <div id="layoutAuthentication">
                 <div id="layoutAuthentication_content">
@@ -46,9 +44,11 @@ class Login extends Component {
                                                         id="email" name="email"
                                                         className="form-control"
                                                         onChange={this.handleChange} />
-                                                    {submitted && !email &&
-                                                        <div className="help-block">Email is required</div>
-                                                    }
+                                                    {typeof error.Email !== 'undefined' ?
+                                                        error.Email.map((element, index) => {
+                                                            return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                                        })
+                                                        : ''}
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="small mb-1" for="inputPassword">Password</label>
@@ -56,10 +56,11 @@ class Login extends Component {
                                                         id="password" name="password"
                                                         className="form-control"
                                                         onChange={this.handleChange} />
-                                                    {/* block password validate have errorr */}
-                                                    {submitted && !password &&
-                                                        <div className="">Password is required</div>
-                                                    }
+                                                    {typeof error.Password !== 'undefined' ?
+                                                        error.Password.map((element, index) => {
+                                                            return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                                        })
+                                                        : ''}
                                                 </div>
                                                 <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                     <button type='submit' class="btn btn-primary">Login</button>
@@ -78,7 +79,10 @@ class Login extends Component {
 }
 
 const mapState = (state) => {
-    return { loggingIn: state.authentication };
+    return {
+        loggingIn: state.authentication,
+        error: state.ErrorReducer
+    };
 }
 
 const mapDispatchToProp = dispatch => {

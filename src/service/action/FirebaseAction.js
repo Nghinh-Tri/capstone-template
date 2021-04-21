@@ -1,7 +1,6 @@
 import axios from "axios"
 import { alertConstants, FIREBASE } from "../constant"
 import { API_URL } from "../util/util"
-import { fetchProject } from "./project/ProjectAction";
 
 export const sendNotificate = (message) => {
     var sendUrl = `${API_URL}/Notification?topic=news`
@@ -11,22 +10,22 @@ export const sendNotificate = (message) => {
         if (localStorage.getItem('token') !== null && token !== null) {
             var unsubcriptUrl = `${API_URL}/Notification/unsubscription?token=${token}&topic=news`
             axios.post(
-                unsubcriptUrl,
+                sendUrl,
+                message,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-            ).then(
-                axios.post(
-                    sendUrl,
-                    message,
-                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-                ).then(res => {
+            ).then(res => {
+                if (res.status === 204)
                     axios.post(
                         unsubcriptUrl,
                         { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-                    ).then(
-                        dispatch(sendNotificateSuccess())
-                    )
-                })
-            )
+                    ).then(res => {
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            }).catch(err => {
+                console.log(err)
+            })
+
         } else {
             dispatch(recieveNotificateFail())
         }
@@ -43,7 +42,7 @@ export const recieveNotificate = (token) => {
                 url,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
             ).then(res => {
-                dispatch(fetchProject(1, ''))
+                console.log('recieveNotificate ok')
             })
         } else {
             dispatch(recieveNotificateFail())

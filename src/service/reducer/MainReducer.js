@@ -5,7 +5,7 @@ import ProjectFormReducer from "./project/ProjectFormReducer";
 import ProjectTypeReducer from "./project/ProjectTypeReducer";
 import ProjectFieldReducer from "./project/ProjectFieldReducer";
 import ProjectDetailFetchReducer from "./project/ProjectDetailFetchReducer";
-import CreateProjectErrorReducer from "./project/CreateProjectErrorReducer";
+import ErrorReducer from "./ErrorReducer";
 
 import PositionFormReducer from "./PositionFormReducer";
 import CertificationSelectBarReducer from "./CertificationSelectBarReducer";
@@ -45,7 +45,7 @@ const MainReducer = combineReducers({
     PositionRequireReducer,
     ProjectDetailFetchReducer,
     PreviosRequrieReducer,
-    CreateProjectErrorReducer
+    ErrorReducer
 })
 
 export default MainReducer
