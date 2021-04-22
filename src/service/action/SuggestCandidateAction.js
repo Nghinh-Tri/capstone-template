@@ -61,9 +61,12 @@ export const fetchSuggestList = () => {
             position,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
+            console.log(res)
             if (res.status === 200) {
-                dispatch(fetchSuggestListSuccess(res.data))
+                dispatch(fetchSuggestListSuccess(res.data.resultObj))
             }
+        }).catch(err => {
+            console.log(err)
         })
     }
 }

@@ -21,6 +21,8 @@ class CreateProject extends Component {
             stakeholder: "",
             projectTypeID: 1,
             projectFieldID: 1,
+            fieldError: '',
+            messageError: ''
         }
     }
 
@@ -69,6 +71,16 @@ class CreateProject extends Component {
         }
     }
 
+    componentWillReceiveProps = () => {
+        var { constraintsError } = this.props
+        if (constraintsError.message.includes(':')) {
+            var list = constraintsError.message.split(':')
+            this.setState({ messageError: list[1], fieldError: list[0], })
+        } else {
+            this.setState({ messageError: '', fieldError: '', })
+        }
+    }
+
     onSave = (event) => {
         event.preventDefault()
         var { id, projectName: projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID } = this.state
@@ -96,11 +108,10 @@ class CreateProject extends Component {
     }
 
     render() {
-        var { projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID } = this.state
+        var { projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID, fieldError, messageError } = this.state
         var { projectType, projectField, error } = this.props
         var projectTypeConverted = convertProjectTypeList(projectType)
         var projectFieldConverted = convertProjectTypeList(projectField)
-        console.log('er', error)
         return (
             <div>
                 {this.props.location.state !== null ? <ProgressBar current='0' /> : ''}
@@ -124,6 +135,9 @@ class CreateProject extends Component {
                                             error.ProjectName.map((element, index) => {
                                                 return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
                                             })
+                                            : ''}
+                                        {fieldError.trim().includes('projectName') ?
+                                            <div className="error text-danger font-weight-bold">{messageError}</div>
                                             : ''}
                                     </div>
                                 </div>
@@ -161,7 +175,9 @@ class CreateProject extends Component {
                                         <label className="bmd-label">Start Date</label>
                                         <input type='date' name="dateBegin" className="form-control" min={moment(moment().day(10)).format('YYYY-MM-DD')}
                                             defaultValue={dateBegin} onChange={this.onHandle} readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
-
+                                        {fieldError.trim().includes('dateBegin') ?
+                                            <div className="error text-danger font-weight-bold">{messageError}</div>
+                                            : ''}
                                     </div>
                                 </div>
                                 {/* Date end estimate */}
@@ -170,7 +186,9 @@ class CreateProject extends Component {
                                         <label className="bmd-label">Estimate End Date</label>
                                         <input type="date" name="dateEstimatedEnd" min={moment(moment().day(11)).format('YYYY-MM-DD')}
                                             defaultValue={dateEstimatedEnd} className="form-control" onChange={this.onHandle} />
-
+                                        {fieldError.trim().includes('dateEstimatedEnd') ?
+                                            <div className="error text-danger font-weight-bold">{messageError}</div>
+                                            : ''}
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +226,8 @@ const mapStateToProps = (state) => {
         projectDetail: state.ProjectDetailFetchReducer,
         projectType: state.ProjectTypeReducer,
         projectField: state.ProjectFieldReducer,
-        error: state.ErrorReducer
+        error: state.ErrorReducer,
+        constraintsError: state.CreateProjectErrorReducer
     }
 }
 

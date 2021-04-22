@@ -10,22 +10,22 @@ export const sendNotificate = (message) => {
         if (localStorage.getItem('token') !== null && token !== null) {
             var unsubcriptUrl = `${API_URL}/Notification/unsubscription?token=${token}&topic=news`
             axios.post(
-                sendUrl,
-                message,
+                unsubcriptUrl,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
             ).then(res => {
-                if (res.status === 204)
-                    axios.post(
-                        unsubcriptUrl,
-                        { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-                    ).then(res => {
-                    }).catch(err => {
-                        console.log(err)
-                    })
+                axios.post(
+                    sendUrl,
+                    message,
+                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+                ).then(res => {
+                    console.log(res)
+
+                }).catch(err => {
+                    console.log(err)
+                })
             }).catch(err => {
                 console.log(err)
             })
-
         } else {
             dispatch(recieveNotificateFail())
         }

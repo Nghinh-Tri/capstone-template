@@ -50,7 +50,9 @@ export const createProject = (project) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             if (res.status === 200) {
+                dispatch(createProjectConstraintsFailed(''))
                 if (res.data.isSuccessed) {
+                    console.log(res.data)
                     project.projectId = res.data.resultObj
                     localStorage.setItem('projectId', res.data.resultObj)
                     localStorage.setItem('projectType', project.projectTypeID)
@@ -60,7 +62,7 @@ export const createProject = (project) => {
                     dispatch(sendNotificate(message))
                     dispatch(createProjectSuccess(project))
                 } else {
-                    dispatch(createProjectFailed({}))
+                    dispatch(createProjectConstraintsFailed(res.data.message))
                 }
             }
         }).catch(err => {
@@ -81,6 +83,10 @@ export const createProjectSuccess = project => {
 
 export const createProjectFailed = error => {
     return { type: ERROR.PROJECT_ERROR, error }
+}
+
+export const createProjectConstraintsFailed = error => {
+    return { type: ERROR.PROJECT_CONSTRAINTS_ERROR, error }
 }
 
 export const createProjectFail = () => {
