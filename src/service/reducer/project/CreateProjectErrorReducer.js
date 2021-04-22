@@ -1,11 +1,11 @@
-import { Type } from "../../constant";
+import { ERROR } from "../../constant";
 
 var initState = { message: '' }
 
 const CreateProjectErrorReducer = (state = initState, action) => {
     switch (action.type) {
-        case Type.PROJECT_ERROR:
-            state.message = action.message
+        case ERROR.PROJECT_CONSTRAINTS_ERROR:
+            state.message = action.error
             return state
         default:
             return state;

@@ -15,8 +15,8 @@ class CreateProject extends Component {
         this.state = {
             id: 0,
             projectName: "",
-            dateBegin: "",
-            dateEstimatedEnd: "",
+            dateBegin: moment(moment().day(10)).format('YYYY-MM-DD'),
+            dateEstimatedEnd: moment(moment().day(11)).format('YYYY-MM-DD'),
             description: "",
             stakeholder: "",
             projectTypeID: 1,
@@ -72,9 +72,9 @@ class CreateProject extends Component {
     }
 
     componentWillReceiveProps = () => {
-        var { error } = this.props
-        if (error.message.includes(':')) {
-            var list = error.message.split(':')
+        var { constraintsError } = this.props
+        if (constraintsError.message.includes(':')) {
+            var list = constraintsError.message.split(':')
             this.setState({ messageError: list[1], fieldError: list[0], })
         } else {
             this.setState({ messageError: '', fieldError: '', })
@@ -109,7 +109,7 @@ class CreateProject extends Component {
 
     render() {
         var { projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID, fieldError, messageError } = this.state
-        var { projectType, projectField } = this.props
+        var { projectType, projectField, error } = this.props
         var projectTypeConverted = convertProjectTypeList(projectType)
         var projectFieldConverted = convertProjectTypeList(projectField)
         return (
@@ -131,6 +131,11 @@ class CreateProject extends Component {
                                             className="form-control"
                                             value={projectName} name="projectName" onChange={this.onHandle}
                                             readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
+                                        {typeof error.ProjectName !== 'undefined' ?
+                                            error.ProjectName.map((element, index) => {
+                                                return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                            })
+                                            : ''}
                                         {fieldError.trim().includes('projectName') ?
                                             <div className="error text-danger font-weight-bold">{messageError}</div>
                                             : ''}
@@ -194,6 +199,11 @@ class CreateProject extends Component {
                                     <div className="form-group">
                                         <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Description</label>
                                         <textarea className="form-control" name="description" rows="5" defaultValue={description} onChange={this.onHandle} />
+                                        {typeof error.Description !== 'undefined' ?
+                                            error.Description.map((element, index) => {
+                                                return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                            })
+                                            : ''}
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +226,8 @@ const mapStateToProps = (state) => {
         projectDetail: state.ProjectDetailFetchReducer,
         projectType: state.ProjectTypeReducer,
         projectField: state.ProjectFieldReducer,
-        error: state.CreateProjectErrorReducer
+        error: state.ErrorReducer,
+        constraintsError: state.CreateProjectErrorReducer
     }
 }
 

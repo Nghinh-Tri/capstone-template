@@ -8,10 +8,11 @@ import { store } from 'react-notifications-component';
 import { recieveNotificate, sendNotificate } from '../service/action/FirebaseAction';
 import { connect } from 'react-redux';
 import { notification } from 'antd';
+import { fetchProject } from '../service/action/project/ProjectAction';
 
 class Layout extends Component {
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         const messaging = firebase.messaging()
         messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
             .then(token => {
@@ -20,6 +21,19 @@ class Layout extends Component {
                     this.props.recievedNoti(token)
                 }
             })
+        messaging.onMessage((payload) => {
+            console.log('componentDidMount');
+            this.props.fetchProject();
+            this.showNotificate(payload.notification);
+        });
+        // setInterval(() => {           
+        //     messaging.onMessage((payload) => {
+        //         console.log('setInterval')
+        //         this.props.fetchProject()
+        //         this.showNotificate(payload.notification)
+        //     });
+        // }, 1000);
+
     }
 
     showNotificate = (messaging) => {
@@ -31,13 +45,20 @@ class Layout extends Component {
         });
     }
 
-    componentDidUpdate = (prev) => {
-        const messaging = firebase.messaging()
-        messaging.onMessage((payload) => {
-            console.log('mes')
-            this.showNotificate(payload.notification)
-        });
-    }
+    // componentDidUpdate = (prev) => {
+    //     const messaging = firebase.messaging()
+    //     messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
+    //         .then(token => {
+    //             if (token) {
+    //                 localStorage.setItem('FirebaseToken', JSON.stringify(token))
+    //                 this.props.recievedNoti(token)
+    //             }
+    //         })
+    //     messaging.onMessage((payload) => {
+    //         console.log('componentDidUpdate')
+    //         this.showNotificate(payload.notification)
+    //     });
+    // }
 
     showContent = (RouteList) => {
         var result = null;
@@ -62,6 +83,7 @@ class Layout extends Component {
                         <NavBar />
                     </div>
                     <div id="layoutSidenav_content">
+                        {/* <button onClick={this.send}>Send</button> */}
                         <main>
                             <div class="container-fluid">
                                 {this.showContent(RouteList)}
@@ -81,6 +103,9 @@ const map = (dispatch) => {
         },
         sendNotificate: () => {
             dispatch(sendNotificate({ title: 'hello', body: 'aaa' }))
+        },
+        fetchProject: () => {
+            dispatch(fetchProject(1, ''))
         }
     }
 }

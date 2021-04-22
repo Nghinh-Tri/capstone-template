@@ -61,9 +61,12 @@ export const fetchSuggestList = () => {
             position,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
+            console.log(res)
             if (res.status === 200) {
-                dispatch(fetchSuggestListSuccess(res.data))
+                dispatch(fetchSuggestListSuccess(res.data.resultObj))
             }
+        }).catch(err => {
+            console.log(err)
         })
     }
 }
@@ -86,9 +89,7 @@ export const confirmSuggestList = (suggestList) => {
     var projectID = localStorage.getItem('projectId')
     var url = `${API_URL}/Project/addCandidate/${projectID}`
     var message = { title: `Project Manager ${getUserName()} send a request`, body: '' }
-    console.log('suggestList', suggestList)
     return (dispatch) => {
-        console.log('suggestList', suggestList)
         if (suggestList.candidates.length === 0) {
             confirm({
                 title: `We will send this request to Human Resource to recruit candidates`,

@@ -1,8 +1,9 @@
 import axios from "axios";
-import { alertConstants, Type } from "../../constant";
-import { API_URL, getRole } from "../../util/util";
+import { alertConstants, Type, ERROR } from "../../constant";
+import { API_URL, getRole, getUserName } from "../../util/util";
 import { history } from "../../helper/History";
 import { store } from "react-notifications-component";
+import { sendNotificate } from "../FirebaseAction";
 
 export const generateProject = (project, isCreateNew) => {
     return (dispatch) => {
@@ -42,37 +43,32 @@ export const createProject = (project) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Project/${empID}`
     return (dispatch) => {
-        if (project.projectName.length === 0) {
-            dispatch(createProjectFailed('projectName : Please input project name'))
-        } else if (project.dateBegin.length === 0) {
-            dispatch(createProjectFailed('dateBegin : Please input start date'))
-        } else if (project.dateEstimatedEnd.length === 0) {
-            dispatch(createProjectFailed('dateEstimatedEnd : Please input esitmate end date'))
-        } else if (project.description.length === 0) {
-            dispatch(createProjectFailed('description : Please input description'))
-        }
-        else {
-            dispatch(createProjectFailed(''))
-            axios.post(
-                url,
-                project,
-                { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
-            ).then(res => {
-                console.log(res)
-                if (res.status === 200) {
-                    if (res.data.isSuccessed) {
-                        project.projectId = res.data.resultObj
-                        localStorage.setItem('projectId', res.data.resultObj)
-                        localStorage.setItem('projectType', project.projectTypeID)
-                        localStorage.setItem('projectField', project.projectFieldID)
-                        localStorage.setItem('projectName', project.projectName)
-                        dispatch(createProjectSuccess(project))
-                    } else {
-                        dispatch(createProjectFailed(res.data.message))
-                    }
+        dispatch(createProjectFailed({}))
+        axios.post(
+            url,
+            project,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            if (res.status === 200) {
+                dispatch(createProjectConstraintsFailed(''))
+                if (res.data.isSuccessed) {
+                    console.log(res.data)
+                    project.projectId = res.data.resultObj
+                    localStorage.setItem('projectId', res.data.resultObj)
+                    localStorage.setItem('projectType', project.projectTypeID)
+                    localStorage.setItem('projectField', project.projectFieldID)
+                    localStorage.setItem('projectName', project.projectName)
+                    var message = { title: `Project Manager ${getUserName()} send a notification`, body: `Project '${project.projectName}' has been created` }
+                    dispatch(sendNotificate(message))
+                    dispatch(createProjectSuccess(project))
+                } else {
+                    dispatch(createProjectConstraintsFailed(res.data.message))
                 }
-            })
-        }
+            }
+        }).catch(err => {
+            console.log(err.response.data.errors)
+            dispatch(createProjectFailed(err.response.data.errors))
+        })
 
     }
 }
@@ -85,12 +81,12 @@ export const createProjectSuccess = project => {
     }
 }
 
-export const createProjectFailed = message => {
-    console.log('message', message)
-    return {
-        type: Type.PROJECT_ERROR,
-        message
-    }
+export const createProjectFailed = error => {
+    return { type: ERROR.PROJECT_ERROR, error }
+}
+
+export const createProjectConstraintsFailed = error => {
+    return { type: ERROR.PROJECT_CONSTRAINTS_ERROR, error }
 }
 
 export const createProjectFail = () => {

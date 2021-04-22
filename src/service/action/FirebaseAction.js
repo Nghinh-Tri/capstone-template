@@ -1,7 +1,6 @@
 import axios from "axios"
 import { alertConstants, FIREBASE } from "../constant"
 import { API_URL } from "../util/util"
-import { fetchProject } from "./project/ProjectAction";
 
 export const sendNotificate = (message) => {
     var sendUrl = `${API_URL}/Notification?topic=news`
@@ -13,20 +12,20 @@ export const sendNotificate = (message) => {
             axios.post(
                 unsubcriptUrl,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-            ).then(
+            ).then(res => {
                 axios.post(
                     sendUrl,
                     message,
                     { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
                 ).then(res => {
-                    axios.post(
-                        unsubcriptUrl,
-                        { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-                    ).then(
-                        dispatch(sendNotificateSuccess())
-                    )
+                    console.log(res)
+
+                }).catch(err => {
+                    console.log(err)
                 })
-            )
+            }).catch(err => {
+                console.log(err)
+            })
         } else {
             dispatch(recieveNotificateFail())
         }
@@ -43,7 +42,7 @@ export const recieveNotificate = (token) => {
                 url,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
             ).then(res => {
-                dispatch(fetchProject(1, ''))
+                console.log('recieveNotificate ok')
             })
         } else {
             dispatch(recieveNotificateFail())

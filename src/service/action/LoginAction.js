@@ -1,6 +1,6 @@
 import axios from "axios"
 import { store } from "react-notifications-component"
-import { Type } from "../constant/index"
+import { ERROR, Type } from "../constant/index"
 import { history } from "../helper/History"
 import { API_URL, getRole } from "../util/util"
 
@@ -19,7 +19,7 @@ export const login = (username, password) => {
                         history.push('/');
                     } else {
                         localStorage.clear()
-                        dispatch(failure())
+                        dispatch(loginFailure())
                         store.addNotification({
                             message: "User role is not match",
                             type: "danger",
@@ -35,7 +35,6 @@ export const login = (username, password) => {
                     }
                 }
             }).catch(err => {
-                dispatch(failure(err.toString()))
                 if (err.response.status === 500) {
                     store.addNotification({
                         message: "Duplicate email or username",
@@ -50,42 +49,38 @@ export const login = (username, password) => {
                         }
                     })
                 } else {
-                    store.addNotification({
-                        message: err.response.data.message,
-                        type: "danger",
-                        insert: "top",
-                        container: "top-center",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                            duration: 2000,
-                            onScreen: false
-                        }
-                    })
+                    var error = err.response.data
+                    if (typeof error.errors !== 'undefined') {
+                        dispatch(loginFailure(error.errors))
+                    } else {
+                        dispatch(loginFailure({}))
+                        store.addNotification({
+                            message: error.message,
+                            type: "danger",
+                            insert: "top",
+                            container: "top-center",
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                                duration: 2000,
+                                onScreen: false
+                            }
+                        })
+                    }
                 }
-            }
-            )
+            })
     }
 }
 
 export const request = (user) => {
-    return {
-        type: Type.LOGIN_REQUEST,
-        user
-    }
+    return { type: Type.LOGIN_REQUEST, user }
 }
 
 export const success = (user) => {
-    return {
-        type: Type.LOGIN_SUCCESS,
-        user
-    }
+    return { type: Type.LOGIN_SUCCESS, user }
 }
 
-export const failure = (user) => {
-    return {
-        type: Type.LOGIN_FAILURE,
-        user
-    }
+export const loginFailure = (error) => {
+    return { type: ERROR.LOGIN_ERROR, error }
 }
 
