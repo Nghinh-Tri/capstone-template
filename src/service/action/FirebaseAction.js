@@ -19,7 +19,6 @@ export const sendNotificate = (message) => {
                     { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
                 ).then(res => {
                     console.log(res)
-
                 }).catch(err => {
                     console.log(err)
                 })
