@@ -145,7 +145,7 @@ class CreateProject extends Component {
                             <div className="row">
                                 <div className="col">
                                     <div className="form-group">
-                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Types</label>
+                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Type</label>
                                         <SelectBar name='projectType'
                                             type='common'
                                             placeholder="Select project type"
@@ -156,7 +156,7 @@ class CreateProject extends Component {
                                 </div>
                                 <div className="col">
                                     <div className="form-group">
-                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Fields</label>
+                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Field</label>
                                         <SelectBar name='projectField'
                                             type='common'
                                             placeholder="Select project fields"
@@ -183,7 +183,7 @@ class CreateProject extends Component {
                                 {/* Date end estimate */}
                                 <div className="col">
                                     <div className="form-group">
-                                        <label className="bmd-label">Estimate End Date</label>
+                                        <label className="bmd-label">Estimated End Date</label>
                                         <input type="date" name="dateEstimatedEnd" min={moment(moment().day(11)).format('YYYY-MM-DD')}
                                             defaultValue={dateEstimatedEnd} className="form-control" onChange={this.onHandle} />
                                         {fieldError.trim().includes('dateEstimatedEnd') ?
