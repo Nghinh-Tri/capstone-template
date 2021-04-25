@@ -113,109 +113,222 @@ class CreateProject extends Component {
         var projectTypeConverted = convertProjectTypeList(projectType)
         var projectFieldConverted = convertProjectTypeList(projectField)
         return (
-            <div>
-                {this.props.location.state !== null ? <ProgressBar current='0' /> : ''}
+          <div>
+            {this.props.location.state !== null ? (
+              <ProgressBar current="0" />
+            ) : (
+              ""
+            )}
 
-                <div className="card">
-                    <div className="card-header">
-                        {typeof this.props.match.params.id === 'undefined' ? "Create Project" : "Edit Project"}
+            <div
+              className="card"
+              style={{
+                marginTop:
+                  typeof this.props.match.params.id === "undefined"
+                    ? "0px"
+                    : "50px",
+              }}
+            >
+              <div className="card-header">
+                {typeof this.props.match.params.id === "undefined"
+                  ? "Create Project"
+                  : "Edit Project"}
+              </div>
+              <div className="card-body">
+                <form onSubmit={this.onSave}>
+                  {/* Name */}
+                  <div className="row">
+                    <div className="col">
+                      <div className="form-group">
+                        <label
+                          className={`bmd-label-${
+                            typeof this.props.match.params !== "undefined"
+                              ? "static"
+                              : "floating"
+                          }`}
+                        >
+                          Project Name
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={projectName}
+                          name="projectName"
+                          onChange={this.onHandle}
+                          readOnly={
+                            typeof this.props.match.params.id === "undefined"
+                              ? false
+                              : true
+                          }
+                        />
+                        {typeof error.ProjectName !== "undefined"
+                          ? error.ProjectName.map((element, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  className="error text-danger font-weight-bold"
+                                >
+                                  {element}
+                                </div>
+                              );
+                            })
+                          : ""}
+                        {fieldError.trim().includes("projectName") ? (
+                          <div className="error text-danger font-weight-bold">
+                            {messageError}
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
-                    <div className="card-body">
-                        <form onSubmit={this.onSave}>
-                            {/* Name */}
-                            <div className="row">
-                                <div className="col">
-                                    <div className="form-group">
-                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Name</label>
-                                        <input type="text"
-                                            className="form-control"
-                                            value={projectName} name="projectName" onChange={this.onHandle}
-                                            readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
-                                        {typeof error.ProjectName !== 'undefined' ?
-                                            error.ProjectName.map((element, index) => {
-                                                return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
-                                            })
-                                            : ''}
-                                        {fieldError.trim().includes('projectName') ?
-                                            <div className="error text-danger font-weight-bold">{messageError}</div>
-                                            : ''}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col">
-                                    <div className="form-group">
-                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Type</label>
-                                        <SelectBar name='projectType'
-                                            type='common'
-                                            placeholder="Select project type"
-                                            list={projectTypeConverted}
-                                            value={projectTypeID}
-                                            onSelectProjectType={this.onSelectProjectType} />
-                                    </div>
-                                </div>
-                                <div className="col">
-                                    <div className="form-group">
-                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Project Field</label>
-                                        <SelectBar name='projectField'
-                                            type='common'
-                                            placeholder="Select project fields"
-                                            list={projectFieldConverted}
-                                            value={projectFieldID}
-                                            onSelectProjectType={this.onSelectProjectField} />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Date */}
-                            <div className="row">
-                                {/* Date begin */}
-                                <div className="col">
-                                    <div className="form-group">
-                                        <label className="bmd-label">Start Date</label>
-                                        <input type='date' name="dateBegin" className="form-control" min={moment(moment().day(10)).format('YYYY-MM-DD')}
-                                            defaultValue={dateBegin} onChange={this.onHandle} readOnly={typeof this.props.match.params.id === 'undefined' ? false : true} />
-                                        {fieldError.trim().includes('dateBegin') ?
-                                            <div className="error text-danger font-weight-bold">{messageError}</div>
-                                            : ''}
-                                    </div>
-                                </div>
-                                {/* Date end estimate */}
-                                <div className="col">
-                                    <div className="form-group">
-                                        <label className="bmd-label">Estimated End Date</label>
-                                        <input type="date" name="dateEstimatedEnd" min={moment(moment().day(11)).format('YYYY-MM-DD')}
-                                            defaultValue={dateEstimatedEnd} className="form-control" onChange={this.onHandle} />
-                                        {fieldError.trim().includes('dateEstimatedEnd') ?
-                                            <div className="error text-danger font-weight-bold">{messageError}</div>
-                                            : ''}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Description */}
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="form-group">
-                                        <label className={`bmd-label-${typeof this.props.match.params !== 'undefined' ? 'static' : 'floating'}`}>Description</label>
-                                        <textarea className="form-control" name="description" rows="5" defaultValue={description} onChange={this.onHandle} />
-                                        {typeof error.Description !== 'undefined' ?
-                                            error.Description.map((element, index) => {
-                                                return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
-                                            })
-                                            : ''}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Button */}
-                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }} >
-                                {typeof this.props.match.params.id === 'undefined' ? "Create" : "Edit"}
-                            </button>
-                        </form>
+                  </div>
+                  <div className="row">
+                    <div className="col">
+                      <div className="form-group">
+                        <label
+                          className={`bmd-label-${
+                            typeof this.props.match.params !== "undefined"
+                              ? "static"
+                              : "floating"
+                          }`}
+                        >
+                          Project Type
+                        </label>
+                        <SelectBar
+                          name="projectType"
+                          type="common"
+                          placeholder="Select project type"
+                          list={projectTypeConverted}
+                          value={projectTypeID}
+                          onSelectProjectType={this.onSelectProjectType}
+                        />
+                      </div>
                     </div>
-                </div>
+                    <div className="col">
+                      <div className="form-group">
+                        <label
+                          className={`bmd-label-${
+                            typeof this.props.match.params !== "undefined"
+                              ? "static"
+                              : "floating"
+                          }`}
+                        >
+                          Project Field
+                        </label>
+                        <SelectBar
+                          name="projectField"
+                          type="common"
+                          placeholder="Select project fields"
+                          list={projectFieldConverted}
+                          value={projectFieldID}
+                          onSelectProjectType={this.onSelectProjectField}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Date */}
+                  <div className="row">
+                    {/* Date begin */}
+                    <div className="col">
+                      <div className="form-group">
+                        <label className="bmd-label">Start Date</label>
+                        <input
+                          type="date"
+                          name="dateBegin"
+                          className="form-control"
+                          min={moment(moment().day(10)).format("YYYY-MM-DD")}
+                          defaultValue={dateBegin}
+                          onChange={this.onHandle}
+                          readOnly={
+                            typeof this.props.match.params.id === "undefined"
+                              ? false
+                              : true
+                          }
+                        />
+                        {fieldError.trim().includes("dateBegin") ? (
+                          <div className="error text-danger font-weight-bold">
+                            {messageError}
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </div>
+                    {/* Date end estimate */}
+                    <div className="col">
+                      <div className="form-group">
+                        <label className="bmd-label">Estimated End Date</label>
+                        <input
+                          type="date"
+                          name="dateEstimatedEnd"
+                          min={moment(moment().day(11)).format("YYYY-MM-DD")}
+                          defaultValue={dateEstimatedEnd}
+                          className="form-control"
+                          onChange={this.onHandle}
+                        />
+                        {fieldError.trim().includes("dateEstimatedEnd") ? (
+                          <div className="error text-danger font-weight-bold">
+                            {messageError}
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label
+                          className={`bmd-label-${
+                            typeof this.props.match.params !== "undefined"
+                              ? "static"
+                              : "floating"
+                          }`}
+                        >
+                          Description
+                        </label>
+                        <textarea
+                          className="form-control"
+                          name="description"
+                          rows="5"
+                          defaultValue={description}
+                          onChange={this.onHandle}
+                        />
+                        {typeof error.Description !== "undefined"
+                          ? error.Description.map((element, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  className="error text-danger font-weight-bold"
+                                >
+                                  {element}
+                                </div>
+                              );
+                            })
+                          : ""}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Button */}
+                  <button
+                    type="submit"
+                    className="btn btn-primary pull-right"
+                    style={{ fontWeight: 700 }}
+                  >
+                    {typeof this.props.match.params.id === "undefined"
+                      ? "Create"
+                      : "Edit"}
+                  </button>
+                </form>
+              </div>
             </div>
+          </div>
         );
     }
 }
