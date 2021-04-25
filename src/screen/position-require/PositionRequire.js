@@ -131,6 +131,7 @@ class PositionRequire extends Component {
         var result = null
         result = items.map((positionItem, index) => {
             return (<CreatePositionForm length={items.length} key={index}
+                projectName={localStorage.getItem('projectName')}
                 positionItem={positionItem}
                 positionIndex={index}
                 positionList={positionList}
@@ -174,6 +175,13 @@ class PositionRequire extends Component {
         return (
             <React.Fragment>
                 <ProgressBar current='1' />
+                <div class="row breadcrumb mb-4 mt-3">
+                    <div class="col-auto mr-auto">
+                        <li class="breadcrumb-item active">
+                            {localStorage.getItem('projectName')}
+                        </li>
+                    </div>                  
+                </div>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>

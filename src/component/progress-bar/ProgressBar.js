@@ -35,7 +35,7 @@ class ProgressBar extends Component {
         return (
             <Steps current={parseInt(this.props.current)} style={{ marginTop: 20, marginBottom: 20 }} >
                 <Step title="Create Project" />
-                <Step title="Require Poisition" />
+                <Step title="Assign Poisition" />
                 <Step title="Select Candidates" />
                 <Step title="Confirm Select" />
             </Steps>

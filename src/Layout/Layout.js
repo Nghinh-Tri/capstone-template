@@ -12,7 +12,7 @@ import { fetchProject } from '../service/action/project/ProjectAction';
 
 class Layout extends Component {
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
         const messaging = firebase.messaging()
         messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
             .then(token => {

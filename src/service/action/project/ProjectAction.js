@@ -52,14 +52,14 @@ export const createProject = (project) => {
             if (res.status === 200) {
                 dispatch(createProjectConstraintsFailed(''))
                 if (res.data.isSuccessed) {
+                    var message = { title: `Project Manager ${getUserName()} send a notification`, body: `Project '${project.projectName}' has been created` }
+                    dispatch(sendNotificate(message))
                     console.log(res.data)
                     project.projectId = res.data.resultObj
                     localStorage.setItem('projectId', res.data.resultObj)
                     localStorage.setItem('projectType', project.projectTypeID)
                     localStorage.setItem('projectField', project.projectFieldID)
                     localStorage.setItem('projectName', project.projectName)
-                    var message = { title: `Project Manager ${getUserName()} send a notification`, body: `Project '${project.projectName}' has been created` }
-                    dispatch(sendNotificate(message))
                     dispatch(createProjectSuccess(project))
                 } else {
                     dispatch(createProjectConstraintsFailed(res.data.message))

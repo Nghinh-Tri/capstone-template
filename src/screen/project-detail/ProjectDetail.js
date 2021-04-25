@@ -6,6 +6,8 @@ import { Tabs } from 'antd';
 import ProjectProfile from '../../component/project-detail/ProjectProfile';
 import ListEmployee from '../../component/project-detail/ListEmployee';
 import PositionRequire from '../../component/project-detail/PositionRequire';
+import moment from 'moment';
+import { showSpan, showStatus } from '../../service/util/util';
 const TabPane = Tabs.TabPane;
 
 class ProjectDetail extends Component {
@@ -20,6 +22,12 @@ class ProjectDetail extends Component {
             status: -1,
             name: ''
         }
+    }
+
+    componentDidMount = () => {
+        this.props.checkSession()
+        var { match } = this.props
+        this.props.fetchProjectDetail(match.params.id)
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -55,16 +63,31 @@ class ProjectDetail extends Component {
 
     render() {
         var { select } = this.state
+        var {project} = this.props
         return (
             <React.Fragment>
-                <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Projects Detail</li>
-                </ol>
+                <div class="row breadcrumb mb-4 mt-3">
+                    <div class="col-auto mr-auto">
+                        <li class="breadcrumb-item active">
+                            {project.projectName}
+                        </li>
+                    </div>
+                    <div class="col-auto">
+                        <p style={{ wordSpacing: 'normal' }} class="breadcrumb-item active">
+                            {moment(project.dateBegin).format('DD-MM-YYYY')} - {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
+                        </p>
+                    </div>
+                    <div class="col-auto">
+                        <span className={`badge badge-pill ${showSpan(project.status)} span`}>
+                            {showStatus(project.status)}
+                        </span>
+                    </div>
+                </div>
                 <div className='card mb-4'>
                     <div class="card-header">
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
                             <TabPane tab="Project Details" key={1}></TabPane>
-                            <TabPane tab="Employee List" key={2}></TabPane>
+                            <TabPane tab="List Employee" key={2}></TabPane>
                             <TabPane tab="Position Requirements" key={3}></TabPane>
                         </Tabs>
                     </div>
@@ -76,13 +99,20 @@ class ProjectDetail extends Component {
         );
     }
 }
-
+const mapStateToProp = state => {
+    return {
+        project: state.ProjectDetailFetchReducer
+    }
+}
 const mapDispatchToProp = dispatch => {
     return {
+        fetchProjectDetail: (projectID) => {
+            dispatch(Action.fetchProjectDetail(projectID))
+        },
         checkSession: () => {
             dispatch(checkSession())
         }
     }
 }
 
-export default connect(null, mapDispatchToProp)(ProjectDetail);
+export default connect(mapStateToProp, mapDispatchToProp)(ProjectDetail);

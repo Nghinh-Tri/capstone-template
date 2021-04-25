@@ -35,7 +35,7 @@ class ProjectProfile extends Component {
     onChangeStatusToFinish = () => {
         var { match, changeStatusToFinish } = this.props
         confirm({
-            title: 'Are you sure finish this project?',
+            title: 'Are you sure you want to finish this project?',
             okText: 'Yes',
             cancelText: 'No',
             onOk() {

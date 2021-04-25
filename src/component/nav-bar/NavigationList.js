@@ -6,7 +6,7 @@ const navigation = [
     exact: true,
   },
   {
-    name: "Project",
+    name: "Projects",
     icon: "content_paste",
     path: "/project",
     exact: false,
