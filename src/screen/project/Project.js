@@ -123,75 +123,112 @@ class Project extends Component {
             items = projects.items
         }
         return (
-            <React.Fragment>
-                <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Projects</li>
-                </ol>
-                <div className="container-fluid">
-                    {getRole() === 'PM' ?
-                        <button type="button" className="btn btn-primary"
-                            style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, marginBottom: 15 }}
-                            onClick={() => this.onGenerateProject(projects.isCreateNew)} >
-                            <div className='row' style={{ paddingLeft: 7, paddingRight: 7 }}>
-                                <i className="material-icons">add_box</i>Create New Project
-                            </div>
-                        </button>
-                        : ''
-                    }
-                </div>
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-table mr-1"></i>
-                    Projects
-                </div>
-                    <Search search="project"
-                        placeholder="Search project name ..."
-                        searchProject={this.searchProject} />
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    {getRole() === "PM" ?
-                                        <tr>
-                                            <th className="font-weight-bold">No</th>
-                                            <th className="font-weight-bold">Project Name</th>
-                                            <th className="font-weight-bold">Project Type</th>
-                                            <th className="font-weight-bold ">Started Date</th>
-                                            <th className="font-weight-bold text-center" style={{ width: 80 }}>Status</th>
-                                            <th className="font-weight-bold"></th>
-                                        </tr>
-                                        :
-                                        <tr>
-                                            <th className="font-weight-bold">No</th>
-                                            <th className="font-weight-bold">Project Name</th>
-                                            <th className="font-weight-bold">Position</th>
-                                            <th className="font-weight-bold">Joined Date</th>
-                                            <th className="font-weight-bold"></th>
-                                        </tr>
-                                    }
-                                </thead>
-                                {this.state.isLoading ? '' :
-                                    <tbody>
-                                        {this.onShowListProject(items)}
-                                    </tbody>
-                                }
-                            </table>
-                        </div>
+          <React.Fragment>
+            <ol class="breadcrumb mb-4 mt-3">
+              <li class="breadcrumb-item active">Projects</li>
+            </ol>
+            <div className="container-fluid"></div>
+            <div class="card mb-4">
+              <div class="card-header">
+                <i class="fas fa-table mr-1"></i>
+                Projects
+              </div>
+              <div className="row mb-3">
+                {getRole() === "PM" ? (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    style={{
+                      fontWeight: 700,
+                      borderRadius: 5,
+                      marginLeft: 20,
+                      marginTop: 10,
+                    }}
+                    onClick={() => this.onGenerateProject(projects.isCreateNew)}
+                  >
+                    <div
+                      className="row"
+                      style={{ paddingLeft: 7, paddingRight: 7 }}
+                    >
+                      <i className="material-icons">add_box</i>Create New
+                      Project
                     </div>
-                    {this.state.isLoading ?
-                        <div className='row justify-content-center'>
-                            <Spin className='text-center' size="large" />
-                        </div>
-                        : ''}
-                    {this.state.isLoading ? '' :
-                        projects.data.pageCount === 1 ? '' :
-                            <div className='row justify-content-center' style={{ marginBottom: 20 }} >
-                                <Pagination current={projects.data.pageIndex} total={projects.data.totalRecords} onChange={this.onSelectPage} />
-                            </div>
-                    }
+                  </button>
+                ) : (
+                  ""
+                )}
+                <Search
+                  search="project"
+                  placeholder="Search project name ..."
+                  searchProject={this.searchProject}
+                />
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead>
+                      {getRole() === "PM" ? (
+                        <tr>
+                          <th className="font-weight-bold">No</th>
+                          <th className="font-weight-bold">Project Name</th>
+                          <th className="font-weight-bold">Project Type</th>
+                          <th className="font-weight-bold ">Started Date</th>
+                          <th
+                            className="font-weight-bold text-center"
+                            style={{ width: 80 }}
+                          >
+                            Status
+                          </th>
+                          <th className="font-weight-bold"></th>
+                        </tr>
+                      ) : (
+                        <tr>
+                          <th className="font-weight-bold">No</th>
+                          <th className="font-weight-bold">Project Name</th>
+                          <th className="font-weight-bold">Position</th>
+                          <th className="font-weight-bold">Joined Date</th>
+                          <th className="font-weight-bold"></th>
+                        </tr>
+                      )}
+                    </thead>
+                    {this.state.isLoading ? (
+                      ""
+                    ) : (
+                      <tbody>{this.onShowListProject(items)}</tbody>
+                    )}
+                  </table>
                 </div>
-
-            </React.Fragment >
+              </div>
+              {this.state.isLoading ? (
+                <div className="row justify-content-center">
+                  <Spin className="text-center" size="large" />
+                </div>
+              ) : (
+                ""
+              )}
+              {this.state.isLoading ? (
+                ""
+              ) : projects.data.pageCount === 1 ? (
+                ""
+              ) : (
+                <div
+                  className="row justify-content-center"
+                  style={{ marginBottom: 20 }}
+                >
+                  <Pagination
+                    current={projects.data.pageIndex}
+                    total={projects.data.totalRecords}
+                    onChange={this.onSelectPage}
+                  />
+                </div>
+              )}
+            </div>
+          </React.Fragment>
         );
     }
 }
