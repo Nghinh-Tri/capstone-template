@@ -216,7 +216,7 @@ class PositionRequire extends Component {
                     </div>
                 </div>
                 <div className='col' >
-                    <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }} onClick={this.onCreatePosition} >Require Position</button>
+                    <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }} onClick={this.onCreatePosition} >Assign</button>
                 </div>
             </React.Fragment>
         );
