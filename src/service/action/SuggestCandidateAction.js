@@ -92,7 +92,7 @@ export const confirmSuggestList = (suggestList) => {
     return (dispatch) => {
         if (suggestList.candidates.length === 0) {
             confirm({
-                title: `We will send this request to Human Resource to recruit candidates`,
+                title: `We will send this request to Human Resources to recruit candidates`,
                 okText: 'Yes',
                 okType: 'danger',
                 cancelText: 'No',
@@ -105,7 +105,7 @@ export const confirmSuggestList = (suggestList) => {
                         if (res.status === 200) {
                             if (res.data.isSuccessed) {
                                 var projectName = localStorage.getItem('projectName')
-                                message.body = `Project '${projectName}' not have enough candidates to select`
+                                message.body = `Project '${projectName}' not have enough suitable candidates`
                                 dispatch(sendNotificate(message))
                                 dispatch(confirmSuggestListSuccess())
                                 localStorage.removeItem('positionRequire')
