@@ -9,6 +9,7 @@ import { recieveNotificate, sendNotificate } from '../service/action/FirebaseAct
 import { connect } from 'react-redux';
 import { notification } from 'antd';
 import { fetchProject } from '../service/action/project/ProjectAction';
+import { history } from '../service/helper/History';
 
 class Layout extends Component {
 
@@ -22,8 +23,13 @@ class Layout extends Component {
                 }
             })
         messaging.onMessage((payload) => {
-            console.log('componentDidMount');
-            this.props.fetchProject();
+            // console.log('componentDidMount');
+            let noti = payload.notification
+            // console.log(noti.body.includes('declined'))
+            if (noti.body.includes('declined'))
+                history.push('/project')
+            else
+                this.props.fetchProject();
             this.showNotificate(payload.notification);
         });
         // setInterval(() => {           

@@ -18,7 +18,7 @@ export const sendNotificate = (message) => {
                     message,
                     { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
                 ).then(res => {
-                    console.log(res)
+                    console.log('sendNotificate',res)
                 }).catch(err => {
                     console.log(err)
                 })
@@ -34,9 +34,9 @@ export const sendNotificate = (message) => {
 export const recieveNotificate = (token) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Notification/subscription?token=${token}&topic=pm${empID}`
-    console.log(url)
+    // console.log(url)
     return (dispatch) => {
-        if (localStorage.getItem('token') !== null) {
+        if (localStorage.getItem('token') !== null && token !== null) {
             axios.post(
                 url,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
