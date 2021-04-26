@@ -106,7 +106,9 @@ export const confirmSuggestList = (suggestList) => {
                             if (res.data.isSuccessed) {
                                 var projectName = localStorage.getItem('projectName')
                                 message.body = `Project '${projectName}' not have enough suitable candidates`
-                                dispatch(sendNotificate(message))
+                                setTimeout(() => {
+                                    dispatch(sendNotificate(message))
+                                }, 5000);
                                 dispatch(confirmSuggestListSuccess())
                                 localStorage.removeItem('positionRequire')
                                 localStorage.removeItem('projectId')
@@ -145,7 +147,9 @@ export const confirmSuggestList = (suggestList) => {
                     if (res.data.isSuccessed) {
                         var projectName = localStorage.getItem('projectName')
                         message.body = `Project '${projectName}' need to confirm candidates`
-                        dispatch(sendNotificate(message))
+                        setTimeout(() => {
+                            dispatch(sendNotificate(message))
+                        }, 5000);
                         dispatch(confirmSuggestListSuccess())
                         localStorage.removeItem('positionRequire')
                         localStorage.removeItem('projectId')

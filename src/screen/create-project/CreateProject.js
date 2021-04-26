@@ -222,7 +222,7 @@ class CreateProject extends Component {
                           placeholder="Select project fields"
                           list={projectFieldConverted}
                           value={projectFieldID}
-                          onSelectProjectType={this.onSelectProjectField}
+                          onSelectProjectField={this.onSelectProjectField}
                         />
                       </div>
                     </div>
