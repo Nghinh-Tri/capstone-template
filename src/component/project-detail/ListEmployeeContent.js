@@ -56,6 +56,8 @@ class ListEmployeeContent extends Component {
         localStorage.setItem('projectType', this.props.projectType)
         localStorage.setItem('projectField', this.props.projectField)
         localStorage.setItem('projectName', this.props.projectName)
+        localStorage.setItem('dateCreate', this.props.project.dateBegin)
+        localStorage.setItem('dateEnd', this.props.project.dateEstimatedEnd)
         // localStorage.setItem('positionRequire', this.props.prevRequire)
         this.props.addMoreCandidate(this.props.item.posID)
     }
@@ -66,7 +68,7 @@ class ListEmployeeContent extends Component {
             var obj = {
                 requiredPosID: prevRequire.requiredPosID,
                 posID: prevRequire.posID,
-                candidateNeeded: prevRequire.missingEmployee,
+                candidateNeeded: prevRequire.candidateNeeded,
                 language: [],
                 softSkillIDs: [],
                 hardSkills: []
@@ -142,6 +144,7 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item, prevRequire } = this.props
+        console.log('item',item)
         return (
             <React.Fragment>
                 {this.state.isLoading ?
@@ -183,13 +186,14 @@ class ListEmployeeContent extends Component {
                                         <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
                                             Select Candidates Again
                                         </button>
+                                        {console.log(prevRequire)}
                                         <Modal title="Requirement" width={1000}
                                             visible={this.state.visible}
                                             onOk={this.handleOk}
                                             onCancel={this.handleCancel} >
                                             <Descriptions>
                                                 <Descriptions.Item>{prevRequire.posName} </Descriptions.Item>
-                                                <Descriptions.Item label='Candidate Needs'>{prevRequire.missingEmployee} </Descriptions.Item>
+                                                <Descriptions.Item label='Candidate Needs'>{prevRequire.candidateNeeded} </Descriptions.Item>
                                             </Descriptions>
                                             <Descriptions>
                                                 <Descriptions.Item label='Hard Skill'>

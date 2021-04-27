@@ -8,6 +8,8 @@ import { compose } from "redux";
 import SuggestCandidates from "../../component/suggest-candidate/SuggestCandidatesTable";
 import { history } from "../../service/helper/History";
 import { Spin, Tabs } from "antd";
+import moment from "moment";
+import BriefDetail from "../../component/brief-detail/BriefDetail";
 const TabPane = Tabs.TabPane;
 
 class SuggestCandidate extends Component {
@@ -150,6 +152,7 @@ class SuggestCandidate extends Component {
         return (
             <React.Fragment>
                 <ProgressBar current="2" />
+                <BriefDetail />
                 <div class="card mb-4">
                     <div class="card-header">
                         <Tabs defaultActiveKey='0' onChange={this.onSelected}>
