@@ -23,48 +23,24 @@ class Layout extends Component {
                 }
             })
         messaging.onMessage((payload) => {
-            // console.log('componentDidMount');
             let noti = payload.notification
-            // console.log(noti.body.includes('declined'))
             if (noti.body.includes('declined'))
                 history.push('/project')
             else
                 this.props.fetchProject();
             this.showNotificate(payload.notification);
         });
-        // setInterval(() => {           
-        //     messaging.onMessage((payload) => {
-        //         console.log('setInterval')
-        //         this.props.fetchProject()
-        //         this.showNotificate(payload.notification)
-        //     });
-        // }, 1000);
-
     }
 
     showNotificate = (messaging) => {
-        notification.open({
+        notification.info({
             message: messaging.title,
             description: messaging.body,
             duration: 0,
-            placement: 'bottomRight'
+            placement: 'bottomRight',
+            style:{backgroundColor:'#F5FEFD'}
         });
     }
-
-    // componentDidUpdate = (prev) => {
-    //     const messaging = firebase.messaging()
-    //     messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
-    //         .then(token => {
-    //             if (token) {
-    //                 localStorage.setItem('FirebaseToken', JSON.stringify(token))
-    //                 this.props.recievedNoti(token)
-    //             }
-    //         })
-    //     messaging.onMessage((payload) => {
-    //         console.log('componentDidUpdate')
-    //         this.showNotificate(payload.notification)
-    //     });
-    // }
 
     showContent = (RouteList) => {
         var result = null;

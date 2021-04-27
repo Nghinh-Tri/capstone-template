@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as Action from "../../service/action/project/ProjectAction";
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { getRole, showSpan, showStatus } from '../../service/util/util';
-import { Pagination, Spin } from 'antd';
+import { Badge, Pagination, Spin } from 'antd';
 import Search from '../../component/search/Search';
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
@@ -59,7 +59,11 @@ class Project extends Component {
                     { getRole() === 'PM' ?
                         <tr>
                             <th style={{ width: 50 }}>{index + 1}</th>
-                            <th style={{ width: 250 }}>{project.projectName}</th>
+                            <th style={{ width: 250 }}>
+                                {/* <Badge dot={true} offset={[10,0]} > */}
+                                    {project.projectName}
+                                {/* </Badge> */}
+                            </th>
                             <th style={{ width: 250 }}>{project.typeName}</th>
                             <th style={{ width: 80 }}>{moment(project.dateBegin).format('DD-MM-YYYY')}</th>
                             <th style={{ width: 80 }} className="text-center" >
@@ -123,112 +127,89 @@ class Project extends Component {
             items = projects.items
         }
         return (
-          <React.Fragment>
-            <ol class="breadcrumb mb-4 mt-3">
-              <li class="breadcrumb-item active">Projects</li>
-            </ol>
-            <div className="container-fluid"></div>
-            <div class="card mb-4">
-              <div class="card-header">
-                <i class="fas fa-table mr-1"></i>
-                Projects
-              </div>
-              <div className="row mb-3">
-                {getRole() === "PM" ? (
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    style={{
-                      fontWeight: 700,
-                      borderRadius: 5,
-                      marginLeft: 20,
-                      marginTop: 10,
-                    }}
-                    onClick={() => this.onGenerateProject(projects.isCreateNew)}
-                  >
-                    <div
-                      className="row"
-                      style={{ paddingLeft: 7, paddingRight: 7 }}
-                    >
-                      <i className="material-icons">add_box</i>Create New
-                      Project
+            <React.Fragment>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Projects</li>
+                </ol>
+                <div className="container-fluid"></div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>Projects
                     </div>
-                  </button>
-                ) : (
-                  ""
-                )}
-                <Search
-                  search="project"
-                  placeholder="Search project name ..."
-                  searchProject={this.searchProject}
-                />
-              </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table
-                    class="table table-bordered"
-                    id="dataTable"
-                    width="100%"
-                    cellspacing="0"
-                  >
-                    <thead>
-                      {getRole() === "PM" ? (
-                        <tr>
-                          <th className="font-weight-bold">No</th>
-                          <th className="font-weight-bold">Project Name</th>
-                          <th className="font-weight-bold">Project Type</th>
-                          <th className="font-weight-bold ">Started Date</th>
-                          <th
-                            className="font-weight-bold text-center"
-                            style={{ width: 80 }}
-                          >
-                            Status
-                          </th>
-                          <th className="font-weight-bold"></th>
-                        </tr>
-                      ) : (
-                        <tr>
-                          <th className="font-weight-bold">No</th>
-                          <th className="font-weight-bold">Project Name</th>
-                          <th className="font-weight-bold">Position</th>
-                          <th className="font-weight-bold">Joined Date</th>
-                          <th className="font-weight-bold"></th>
-                        </tr>
-                      )}
-                    </thead>
+                    <div className="row mb-3">
+                        {getRole() === "PM" ? (
+                            <button type="button" className="btn btn-primary"
+                                style={{ fontWeight: 700, borderRadius: 5, marginLeft: 20, marginTop: 10, }}
+                                onClick={() => this.onGenerateProject(projects.isCreateNew)}>
+                                <div className="row" style={{ paddingLeft: 7, paddingRight: 7 }}>
+                                    <i className="material-icons">add_box</i>Create New Project
+                                </div>
+                            </button>
+                        ) : ("")}
+                        <Search
+                            search="project"
+                            placeholder="Search project name ..."
+                            searchProject={this.searchProject}
+                        />
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                class="table table-bordered"
+                                id="dataTable"
+                                width="100%"
+                                cellspacing="0"
+                            >
+                                <thead>
+                                    {getRole() === "PM" ? (
+                                        <tr>
+                                            <th className="font-weight-bold">No</th>
+                                            <th className="font-weight-bold">Project Name</th>
+                                            <th className="font-weight-bold">Project Type</th>
+                                            <th className="font-weight-bold ">Started Date</th>
+                                            <th className="font-weight-bold text-center" style={{ width: 80 }}>
+                                                Status
+                                            </th>
+                                            <th className="font-weight-bold"></th>
+                                        </tr>
+                                    ) : (
+                                        <tr>
+                                            <th className="font-weight-bold">No</th>
+                                            <th className="font-weight-bold">Project Name</th>
+                                            <th className="font-weight-bold">Position</th>
+                                            <th className="font-weight-bold">Joined Date</th>
+                                            <th className="font-weight-bold"></th>
+                                        </tr>
+                                    )}
+                                </thead>
+                                {this.state.isLoading ? (
+                                    ""
+                                ) : (
+                                    <tbody>{this.onShowListProject(items)}</tbody>
+                                )}
+                            </table>
+                        </div>
+                    </div>
                     {this.state.isLoading ? (
-                      ""
+                        <div className="row justify-content-center">
+                            <Spin className="text-center" size="large" />
+                        </div>
                     ) : (
-                      <tbody>{this.onShowListProject(items)}</tbody>
+                        ""
                     )}
-                  </table>
+                    {this.state.isLoading ? ("")
+                        : projects.data.pageCount === 1 ? ("")
+                            : (
+                                <div className="row justify-content-center" style={{ marginBottom: 20 }}>
+                                    <Pagination
+                                        current={projects.data.pageIndex}
+                                        total={projects.data.totalRecords}
+                                        onChange={this.onSelectPage}
+                                    />
+                                </div>
+                            )}
                 </div>
-              </div>
-              {this.state.isLoading ? (
-                <div className="row justify-content-center">
-                  <Spin className="text-center" size="large" />
-                </div>
-              ) : (
-                ""
-              )}
-              {this.state.isLoading ? (
-                ""
-              ) : projects.data.pageCount === 1 ? (
-                ""
-              ) : (
-                <div
-                  className="row justify-content-center"
-                  style={{ marginBottom: 20 }}
-                >
-                  <Pagination
-                    current={projects.data.pageIndex}
-                    total={projects.data.totalRecords}
-                    onChange={this.onSelectPage}
-                  />
-                </div>
-              )}
-            </div>
-          </React.Fragment>
+            </React.Fragment>
         );
     }
 }
