@@ -20,7 +20,7 @@ class Dashboard extends Component {
     }
 
 
-    componentWillReceiveProps(prevProps) {
+    componentDidUpdate = (prevProps) => {
         if (prevProps.dataStatistics !== this.props.dataStatistics) {
             if (this.props.dataStatistics.length > 0)
                 this.setState({ isLoad: false })
@@ -43,7 +43,7 @@ class Dashboard extends Component {
         var { dataStatistics } = this.props
         if (dataStatistics.length > 0)
             result = dataStatistics
-            console.log(result)
+        console.log(result)
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
@@ -51,15 +51,15 @@ class Dashboard extends Component {
                 </ol>
                 <div className="container-fluid">
                     {this.state.isLoad ?
-                    <div className='row justify-content-center'>
-                        <Spin className='text-center' size="large" />
-                    </div>
-                    :
-                    this.onShowTimeLineList(result)
-                        
-                }
-                    
-              
+                        <div className='row justify-content-center'>
+                            <Spin className='text-center' size="large" />
+                        </div>
+                        :
+                        this.onShowTimeLineList(result)
+
+                    }
+
+
 
                 </div>
             </React.Fragment>

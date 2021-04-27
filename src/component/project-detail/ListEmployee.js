@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as Action from '../../service/action/ListEmployeeAction'
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMorePosition } from '../../service/action/PositionAction';
-import { Spin, Tabs } from 'antd';
+import { Badge, Spin, Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
 
 
@@ -70,7 +70,13 @@ class ListEmployee extends Component {
     showPositionTabs = () => {
         var { listEmployee } = this.props;
         var result = listEmployee.map((item, index) => {
-            return (<TabPane tab={item.posName} key={index}></TabPane>)
+            console.log('item', item)
+            return (
+                <React.Fragment>
+                    <TabPane tab={item.posName} key={index} >
+                    </TabPane>
+                </React.Fragment>
+            )
         });
         return result;
     };

@@ -110,7 +110,8 @@ class CreatePositionForm extends Component {
                     <td className='text-center'>{positionItem.softSkillIDs.option.length + positionItem.softSkillIDs.minium.length}</td>
                     <td width={100} className='text-center'>
                         <a style={{ color: 'blue' }} onClick={this.onShowRequireDetail} >Detail</a>
-                        <Modal width={1070} title={this.props.projectName + ' - ' + getPositionName(positionList, positionItem.posID)} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
+                        <Modal width={1070} title={this.props.projectName + ' - ' + getPositionName(positionList, positionItem.posID)}
+                            visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
                             <HardSkillForm
                                 hardSkill={positionItem.hardSkills}
                                 positionFormIndex={positionFormIndex}
