@@ -4,6 +4,8 @@ import * as Action from '../../service/action/ListEmployeeAction'
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMorePosition } from '../../service/action/PositionAction';
 import { Badge, Spin, Tabs } from 'antd';
+import { WarningTwoTone } from "@ant-design/icons";
+
 const TabPane = Tabs.TabPane;
 
 
@@ -72,11 +74,25 @@ class ListEmployee extends Component {
         var result = listEmployee.map((item, index) => {
             console.log('item', item)
             return (
-                <React.Fragment>
-                    <TabPane tab={item.posName} key={index} >
-                    </TabPane>
-                </React.Fragment>
-            )
+              <React.Fragment>
+                <TabPane
+                  tab={
+                    <>
+                      <span>{(item || {}).posName} </span>
+                      {item.candidateNeeded - item.noe > 0 ? (
+                        <WarningTwoTone
+                          twoToneColor="#FF0000"
+                          style={{ fontSize: "16px" }}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  }
+                  key={index}
+                ></TabPane>
+              </React.Fragment>
+            );
         });
         return result;
     };
