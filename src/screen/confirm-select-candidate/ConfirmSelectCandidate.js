@@ -9,6 +9,7 @@ import { convertSuggestList } from '../../service/util/util';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { history } from '../../service/helper/History';
 import { compose } from 'redux';
+import BriefDetail from '../../component/brief-detail/BriefDetail';
 
 class ConfirmSelectCandidate extends Component {
 
@@ -54,6 +55,7 @@ class ConfirmSelectCandidate extends Component {
         return (
             <div>
                 <ProgressBar current={3} />
+                <BriefDetail />
                 {candidateList.length === 0 ?
                     <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >No data</h4>
                     :

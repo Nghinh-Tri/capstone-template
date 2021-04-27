@@ -55,13 +55,15 @@ export const createProject = (project) => {
                     var message = { title: `Project Manager ${getUserName()} send a notification`, body: `Project '${project.projectName}' has been created` }
                     setTimeout(() => {
                         dispatch(sendNotificate(message))
-                    }, 5000);
+                    }, 4000);
 
                     // console.log(res.data)
                     project.projectId = res.data.resultObj
                     localStorage.setItem('projectId', res.data.resultObj)
                     localStorage.setItem('projectType', project.projectTypeID)
                     localStorage.setItem('projectField', project.projectFieldID)
+                    localStorage.setItem('dateCreate', project.dateBegin)
+                    localStorage.setItem('dateEnd', project.dateEstimatedEnd)
                     localStorage.setItem('projectName', project.projectName)
                     dispatch(createProjectSuccess(project))
                 } else {
