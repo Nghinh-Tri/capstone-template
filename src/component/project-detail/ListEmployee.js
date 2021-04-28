@@ -48,6 +48,8 @@ class ListEmployee extends Component {
                 projectField={this.props.projectField}
                 projectStatus={this.props.status}
                 projectName={this.props.projectName}
+                dateBegin={this.props.dateBegin}
+                dateEstimatedEnd={this.props.dateEstimatedEnd}
             />)
         } else {
             return (<div className='row justify-content-center'>
@@ -72,7 +74,6 @@ class ListEmployee extends Component {
     showPositionTabs = () => {
         var { listEmployee } = this.props;
         var result = listEmployee.map((item, index) => {
-            console.log('item', item)
             return (
                 <React.Fragment>
                     <TabPane

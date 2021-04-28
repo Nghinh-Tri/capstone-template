@@ -190,7 +190,7 @@ class PositionRequire extends Component {
                                     <tr>
                                         <th className="text-center">No</th>
                                         <th width={100} className="text-center" >Position</th>
-                                        <th width={145}>Candidates Needs</th>
+                                        <th width={160}>Candidates Needed</th>
                                         <th width={200} className='text-center'>Hard Skill Requirements</th>
                                         <th width={200} className='text-center'>Language Requirements</th>
                                         <th width={190} className='text-center'>Soft Skill Requirements</th>
