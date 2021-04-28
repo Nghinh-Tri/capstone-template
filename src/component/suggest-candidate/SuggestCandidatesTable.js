@@ -110,7 +110,7 @@ class SuggestCandidates extends Component {
                 {typeof item.matchDetail !== 'undefined' ?
                     item.matchDetail.length === 0 ?
                         <div className='row justify-content-center' style={{ width: 'auto' }} >
-                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no suitable candidates for this position</h4>
                         </div>
                         : ''
                     : ''}
