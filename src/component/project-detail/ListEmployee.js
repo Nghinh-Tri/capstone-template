@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import * as Action from '../../service/action/ListEmployeeAction'
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMorePosition } from '../../service/action/PositionAction';
-import { Badge, Spin, Tabs } from 'antd';
+import { Badge, Spin, Tabs, Tooltip } from 'antd';
+import { InfoCircleTwoTone } from "@ant-design/icons";
+
 const TabPane = Tabs.TabPane;
 
 
@@ -73,8 +75,22 @@ class ListEmployee extends Component {
             console.log('item', item)
             return (
                 <React.Fragment>
-                    <TabPane tab={item.posName} key={index} >
-                    </TabPane>
+                    <TabPane
+                        tab={
+                            <>
+                                <Tooltip title={item.candidateNeeded - item.noe > 0 ? 'This position is missing employees' : ''} >
+                                    <span>{(item || {}).posName} </span>
+                                    {item.candidateNeeded - item.noe > 0 ? (
+                                        <InfoCircleTwoTone twoToneColor="#FF0000"
+                                            style={{ fontSize: "16px" }} />
+                                    ) : ("")}
+                                </Tooltip>
+                            </>
+                        }
+                        key={index}
+                    ></TabPane>
+                    {/* <TabPane tab={item.posName} key={index} >
+                    </TabPane> */}
                 </React.Fragment>
             )
         });

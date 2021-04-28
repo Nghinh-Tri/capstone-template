@@ -68,12 +68,12 @@ class ProjectDetail extends Component {
             <React.Fragment>
                 <div class="row breadcrumb mb-4 mt-3">
                     <div class="col-auto mr-auto">
-                        <li class="breadcrumb-item active">
+                        <li class="breadcrumb-item active" style={{fontWeight:600}}>
                             {project.projectName}
                         </li>
                     </div>
                     <div class="col-auto">
-                        <p style={{ wordSpacing: 'normal' }} class="breadcrumb-item active">
+                        <p style={{ wordSpacing: 'normal' }} class="breadcrumb-item active" style={{fontWeight:600}}>
                             {moment(project.dateBegin).format('DD-MM-YYYY')} - {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
                         </p>
                     </div>
