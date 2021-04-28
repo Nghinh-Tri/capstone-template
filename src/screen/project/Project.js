@@ -61,7 +61,7 @@ class Project extends Component {
                             <th style={{ width: 50 }}>{index + 1}</th>
                             <th style={{ width: 250 }}>
                                 {/* <Badge dot={true} offset={[10,0]} > */}
-                                    {project.projectName}
+                                {project.projectName}
                                 {/* </Badge> */}
                             </th>
                             <th style={{ width: 250 }}>{project.typeName}</th>
@@ -136,22 +136,25 @@ class Project extends Component {
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>Projects
                     </div>
-                    <div className="row mb-3">
-                        {getRole() === "PM" ? (
-                            <button type="button" className="btn btn-primary"
-                                style={{ fontWeight: 700, borderRadius: 5, marginLeft: 20, marginTop: 10, }}
-                                onClick={() => this.onGenerateProject(projects.isCreateNew)}>
-                                <div className="row" style={{ paddingLeft: 7, paddingRight: 7 }}>
-                                    <i className="material-icons">add_box</i>Create New Project
+
+                    {this.state.isLoading ? '' :
+                        <div className="row mb-3">
+                            {getRole() === "PM" ? (
+                                <button type="button" className="btn btn-primary"
+                                    style={{ fontWeight: 700, borderRadius: 5, marginLeft: 20, marginTop: 10, }}
+                                    onClick={() => this.onGenerateProject(projects.isCreateNew)}>
+                                    <div className="row" style={{ paddingLeft: 7, paddingRight: 7 }}>
+                                        <i className="material-icons">add_box</i>Create New Project
                                 </div>
-                            </button>
-                        ) : ("")}
-                        <Search
-                            search="project"
-                            placeholder="Search project name ..."
-                            searchProject={this.searchProject}
-                        />
-                    </div>
+                                </button>
+                            ) : ("")}
+                            <Search
+                                search="project"
+                                placeholder="Search project name ..."
+                                searchProject={this.searchProject}
+                            />
+                        </div>
+                    }
                     <div class="card-body">
                         <div class="table-responsive">
                             <table
