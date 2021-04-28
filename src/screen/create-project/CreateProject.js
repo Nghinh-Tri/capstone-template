@@ -15,8 +15,8 @@ class CreateProject extends Component {
         this.state = {
             id: 0,
             projectName: "",
-            dateBegin: moment(moment().day(10)).format('YYYY-MM-DD'),
-            dateEstimatedEnd: moment(moment().day(11)).format('YYYY-MM-DD'),
+            dateBegin: moment(moment().day(30)).format('YYYY-MM-DD'),
+            dateEstimatedEnd: moment(moment().day(41)).format('YYYY-MM-DD'),
             description: "",
             stakeholder: "",
             projectTypeID: 1,
