@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as Action from "../../service/action/project/ProjectAction";
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { getRole, showSpan, showStatus } from '../../service/util/util';
-import { Badge, Pagination, Spin } from 'antd';
+import { Badge, Pagination, Spin, Tooltip } from 'antd';
 import Search from '../../component/search/Search';
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
@@ -60,12 +60,17 @@ class Project extends Component {
                         <tr>
                             <th style={{ width: 50 }}>{index + 1}</th>
                             <th style={{ width: 250 }}>
-                                {/* <Badge dot={true} offset={[10,0]} > */}
-                                {project.projectName}
-                                {/* </Badge> */}
+                                <Tooltip title={project.isMissEmp ? 'This project is currently missing employees' : ''} placement='right' >
+                                    <Badge dot={project.isMissEmp}>
+                                        {project.projectName}
+                                    </Badge>
+                                </Tooltip>
                             </th>
                             <th style={{ width: 250 }}>{project.typeName}</th>
                             <th style={{ width: 80 }}>{moment(project.dateBegin).format('DD-MM-YYYY')}</th>
+                            <th style={{ width: 80 }}>
+                                {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
+                            </th>
                             <th style={{ width: 80 }} className="text-center" >
                                 <span className={`badge badge-pill ${showSpan(project.status)} span`}>
                                     {showStatus(project.status)}
@@ -167,10 +172,11 @@ class Project extends Component {
                                     {getRole() === "PM" ? (
                                         <tr>
                                             <th className="font-weight-bold">No</th>
-                                            <th className="font-weight-bold">Project Name</th>
-                                            <th className="font-weight-bold">Project Type</th>
-                                            <th className="font-weight-bold ">Started Date</th>
-                                            <th className="font-weight-bold text-center" style={{ width: 80 }}>
+                                            <th width={400} className="font-weight-bold">Project Name</th>
+                                            <th width={100} className="font-weight-bold">Project Type</th>
+                                            <th width={100} className="font-weight-bold ">Started Date</th>
+                                            <th width={100} className="font-weight-bold ">Ended Date</th>
+                                            <th width={100} className="font-weight-bold text-center" style={{ width: 80 }}>
                                                 Status
                                             </th>
                                             <th className="font-weight-bold"></th>
