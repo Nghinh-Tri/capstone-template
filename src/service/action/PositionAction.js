@@ -239,7 +239,23 @@ export const createPosition = (positionItem, isUpdate) => {
                     onScreen: false
                 }
             })
-        }// not select hard skill
+        }
+        else if (typeof positionItem.find(opt => opt.hardSkills.length === 0) !== 'undefined') {
+            dispatch(createPositionFailed())
+            store.addNotification({
+                message: "Please select hard skill",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }
+        // not select hard skill
         else if (typeof positionItem.find(opt => opt.hardSkills.find(skill => skill.hardSkillID === 0)) !== 'undefined') {
             dispatch(createPositionFailed())
             store.addNotification({
