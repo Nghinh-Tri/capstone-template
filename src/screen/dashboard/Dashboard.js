@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchDataStatistics } from "../../service/action/StatisticAction";
 import TimeLine from '../../component/Chart/timeLine';
 import { Spin } from 'antd';
+import { history } from '../../service/helper/History';
 class Dashboard extends Component {
 
     constructor(props) {
@@ -16,7 +17,8 @@ class Dashboard extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchDataStatistics()
+        history.push('/project')
+        // this.props.fetchDataStatistics()
     }
 
 
