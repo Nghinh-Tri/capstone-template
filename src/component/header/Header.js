@@ -20,8 +20,8 @@ class Header extends Component {
                 <ul class="navbar-nav ml-auto " >
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div style={{ marginLeft: 10 }}>
-                                <p style={{ float: 'right', fontSize: 16, marginLeft: 15, marginTop: 20 }}>
+                            <div style={{ marginLeft: 20 }}>
+                                <p style={{ float: 'right', fontSize: 16, marginLeft: 15, marginTop: 10 }}>
                                     {getUserName()}
                                 </p><br />
                                 <p style={{ float: 'right', fontSize: 16, marginLeft: 15, marginTop: -25 }}>
