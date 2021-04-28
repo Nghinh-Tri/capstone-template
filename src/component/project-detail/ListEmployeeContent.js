@@ -56,8 +56,8 @@ class ListEmployeeContent extends Component {
         localStorage.setItem('projectType', this.props.projectType)
         localStorage.setItem('projectField', this.props.projectField)
         localStorage.setItem('projectName', this.props.projectName)
-        localStorage.setItem('dateCreate', this.props.project.dateBegin)
-        localStorage.setItem('dateEnd', this.props.project.dateEstimatedEnd)
+        localStorage.setItem('dateCreate', this.props.dateBegin)
+        localStorage.setItem('dateEnd', this.props.dateEstimatedEnd)
         // localStorage.setItem('positionRequire', this.props.prevRequire)
         this.props.addMoreCandidate(this.props.item.posID)
     }
@@ -91,6 +91,8 @@ class ListEmployeeContent extends Component {
             localStorage.setItem('projectType', this.props.projectType)
             localStorage.setItem('projectField', this.props.projectField)
             localStorage.setItem('projectName', this.props.projectName)
+            localStorage.setItem('dateCreate', this.props.dateBegin)
+            localStorage.setItem('dateEnd', this.props.dateEstimatedEnd)
             localStorage.setItem('positionRequire', JSON.stringify(array))
             this.props.suggestAgain()
         } else if (prevRequire.status === 1) {
@@ -144,7 +146,7 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item, prevRequire } = this.props
-        console.log('item',item)
+        console.log('item', item)
         return (
             <React.Fragment>
                 {this.state.isLoading ?

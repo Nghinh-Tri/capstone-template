@@ -16,7 +16,7 @@ export const login = (username, password) => {
                     var role = getRole()
                     if (role === 'PM' || role === 'Employee') {
                         dispatch(success(JSON.stringify(res.data.resultObj)))
-                        history.push('/');
+                        history.push('/project');
                     } else {
                         localStorage.clear()
                         dispatch(loginFailure())

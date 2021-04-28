@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import * as Action from '../../service/action/ListEmployeeAction'
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMorePosition } from '../../service/action/PositionAction';
-import { Badge, Spin, Tabs } from 'antd';
-import { WarningTwoTone } from "@ant-design/icons";
+import { Badge, Spin, Tabs, Tooltip } from 'antd';
+import { InfoCircleTwoTone } from "@ant-design/icons";
 
 const TabPane = Tabs.TabPane;
 
@@ -48,6 +48,8 @@ class ListEmployee extends Component {
                 projectField={this.props.projectField}
                 projectStatus={this.props.status}
                 projectName={this.props.projectName}
+                dateBegin={this.props.dateBegin}
+                dateEstimatedEnd={this.props.dateEstimatedEnd}
             />)
         } else {
             return (<div className='row justify-content-center'>
@@ -72,27 +74,26 @@ class ListEmployee extends Component {
     showPositionTabs = () => {
         var { listEmployee } = this.props;
         var result = listEmployee.map((item, index) => {
-            console.log('item', item)
             return (
-              <React.Fragment>
-                <TabPane
-                  tab={
-                    <>
-                      <span>{(item || {}).posName} </span>
-                      {item.candidateNeeded - item.noe > 0 ? (
-                        <WarningTwoTone
-                          twoToneColor="#FF0000"
-                          style={{ fontSize: "16px" }}
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </>
-                  }
-                  key={index}
-                ></TabPane>
-              </React.Fragment>
-            );
+                <React.Fragment>
+                    <TabPane
+                        tab={
+                            <>
+                                <Tooltip title={item.candidateNeeded - item.noe > 0 ? 'This position is missing employees' : ''} >
+                                    <span>{(item || {}).posName} </span>
+                                    {item.candidateNeeded - item.noe > 0 ? (
+                                        <InfoCircleTwoTone twoToneColor="#FF0000"
+                                            style={{ fontSize: "16px" }} />
+                                    ) : ("")}
+                                </Tooltip>
+                            </>
+                        }
+                        key={index}
+                    ></TabPane>
+                    {/* <TabPane tab={item.posName} key={index} >
+                    </TabPane> */}
+                </React.Fragment>
+            )
         });
         return result;
     };

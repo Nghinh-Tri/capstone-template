@@ -95,19 +95,20 @@ class HardSkillForm extends Component {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th width={200}>Hard Skill</th>
-                                        <th width={200}>Skill Level</th>
-                                        <th width={200}>Certification Level</th>
-                                        <th width={200}>Priority</th>
+                                        <th width={220}>Hard Skill</th>
+                                        <th width={220}>Skill Level</th>
+                                        <th width={220}>Certification Level</th>
+                                        <th width={220}>Priority</th>
+                                        <th ></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr >
-                                        <td colspan={4}>Minimum Skills</td>
+                                        <td colspan={5}>Minimum Skills</td>
                                     </tr>
                                     {this.showMinimumSkills(hardSkill.minium, positionFormIndex)}
                                     <tr >
-                                        <td colspan={4}>Option Skills</td>
+                                        <td colspan={5}>Option Skills</td>
                                     </tr>
                                     {this.showMinimumSkills(hardSkill.option, positionFormIndex)}
                                 </tbody>

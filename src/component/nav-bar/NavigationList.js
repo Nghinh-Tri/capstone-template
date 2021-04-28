@@ -1,10 +1,10 @@
 const navigation = [
-  {
-    name: "Dashboard",
-    icon: "dashboard",
-    path: "/",
-    exact: true,
-  },
+  // {
+  //   name: "Dashboard",
+  //   icon: "dashboard",
+  //   path: "/",
+  //   exact: true,
+  // },
   {
     name: "Projects",
     icon: "content_paste",

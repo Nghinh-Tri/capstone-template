@@ -94,12 +94,14 @@ class HardSkillFormContent extends Component {
                         onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
                     />
                 </td>
-                {hardSkillDetail.isDelete ?
-                    <span className="material-icons"
-                        style={{ marginTop: 13, paddingLeft: 10, cursor: 'pointer' }}
-                        onClick={() => this.onDeleteHardSkill(hardSkillIndex, positionFormIndex)}>clear</span>
-                    : <div style={{ paddingLeft: 35 }} ></div>
-                }
+                <td>
+                    {hardSkillDetail.isDelete ?
+                        <span className="material-icons"
+                            style={{  cursor: 'pointer' }}
+                            onClick={() => this.onDeleteHardSkill(hardSkillIndex, positionFormIndex)}>clear</span>
+                        : <div style={{ paddingLeft: 35 }} ></div>
+                    }
+                </td>
             </tr>
         );
     }

@@ -26,8 +26,7 @@ class Layout extends Component {
             let noti = payload.notification
             if (noti.body.includes('declined'))
                 history.push('/project')
-            else
-                this.props.fetchProject();
+            this.props.fetchProject();
             this.showNotificate(payload.notification);
         });
     }
@@ -38,7 +37,7 @@ class Layout extends Component {
             description: messaging.body,
             duration: 0,
             placement: 'bottomRight',
-            style:{backgroundColor:'#F5FEFD'}
+            style: { backgroundColor: '#F5FEFD' },
         });
     }
 

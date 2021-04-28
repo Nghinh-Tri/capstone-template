@@ -19,6 +19,8 @@ class ProjectDetail extends Component {
             project: {},
             projectField: 0,
             projectType: 0,
+            dateBegin: '',
+            dateEstimatedEnd: '',
             status: -1,
             name: ''
         }
@@ -48,32 +50,40 @@ class ProjectDetail extends Component {
         this.setState({ select: parseInt(value) })
     }
 
-    projectTypeField = (type, field, status, name) => {
-        this.setState({ projectType: type, projectField: field, status: status, name: name })
+    projectTypeField = (type, field, status, name, dateBegin, dateEstimatedEnd) => {
+        this.setState({
+            projectType: type, projectField: field, status: status, name: name,
+            dateBegin: dateBegin, dateEstimatedEnd: dateEstimatedEnd
+        })
     }
 
     showDetail = (select) => {
         if (select === 1)
             return <ProjectProfile projectID={this.props.match.params.id} projectTypeField={this.projectTypeField} />
         if (select === 2)
-            return <ListEmployee projectID={this.props.match.params.id} projectType={this.state.projectType} projectField={this.state.projectField} status={this.state.status} projectName={this.state.name} />
+            return <ListEmployee projectID={this.props.match.params.id} projectType={this.state.projectType}
+                projectField={this.state.projectField} status={this.state.status}
+                projectName={this.state.name}
+                dateBegin={this.state.dateBegin}
+                dateEstimatedEnd={this.state.dateEstimatedEnd}
+            />
         if (select === 3)
             return <PositionRequire projectID={this.props.match.params.id} />
     }
 
     render() {
         var { select } = this.state
-        var {project} = this.props
+        var { project } = this.props
         return (
             <React.Fragment>
                 <div class="row breadcrumb mb-4 mt-3">
                     <div class="col-auto mr-auto">
-                        <li class="breadcrumb-item active">
+                        <li class="breadcrumb-item active" style={{ fontWeight: 600 }}>
                             {project.projectName}
                         </li>
                     </div>
                     <div class="col-auto">
-                        <p style={{ wordSpacing: 'normal' }} class="breadcrumb-item active">
+                        <p style={{ wordSpacing: 'normal' }} class="breadcrumb-item active" style={{ fontWeight: 600 }}>
                             {moment(project.dateBegin).format('DD-MM-YYYY')} - {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
                         </p>
                     </div>
@@ -87,7 +97,7 @@ class ProjectDetail extends Component {
                     <div class="card-header">
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
                             <TabPane tab="Project Details" key={1}></TabPane>
-                            <TabPane tab="List Employee" key={2}></TabPane>
+                            <TabPane tab="Employee List" key={2}></TabPane>
                             <TabPane tab="Position Requirements" key={3}></TabPane>
                         </Tabs>
                     </div>
