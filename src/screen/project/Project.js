@@ -13,13 +13,6 @@ class Project extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            project: {
-                name: '',
-                dateBegin: '',
-                dateEndEst: '',
-                description: '',
-                stakeholder: ''
-            },
             page: 1,
             search: '',
             isLoading: true
@@ -40,9 +33,8 @@ class Project extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.projects !== this.props.projects) {
-            if (typeof this.props.projects.data !== 'undefined') {
-                this.setState({ isLoading: false })
-            }
+            console.log(this.props.projects)
+            this.setState({ isLoading: false })
         }
     }
 
@@ -101,18 +93,6 @@ class Project extends Component {
         return result
     }
 
-    onNext = () => {
-        var { projects } = this.props
-        if (projects.pageIndex < projects.pageCount)
-            this.props.fetchProject(projects.pageIndex + 1, this.state.search)
-    }
-
-    onPrevios = () => {
-        var { projects } = this.props
-        if (projects.pageIndex > 1)
-            this.props.fetchProject(projects.pageIndex - 1, this.state.search)
-    }
-
     searchProject = (value) => {
         this.setState({ search: value })
         this.props.fetchProject(1, value)
@@ -141,8 +121,6 @@ class Project extends Component {
                         <div class="card-header">
                             <i class="fas fa-table mr-1"></i>Projects
                     </div>
-
-
                         <div class="card-body">
                             {this.state.isLoading ? '' :
                                 <div className="row mb-3">
@@ -208,16 +186,27 @@ class Project extends Component {
                             ""
                         )}
                         {this.state.isLoading ? ("")
-                            : projects.data.pageCount === 1 ? ("")
-                                : (
-                                    <div className="row justify-content-center" style={{ marginBottom: 20 }}>
+                            :
+                            getRole() === 'PM' ?
+                                projects.data.pageCount === 1 ? ("")
+                                    : (
+                                        <div className="row justify-content-center" style={{ marginBottom: 20 }}>
+                                            <Pagination
+                                                current={projects.data.pageIndex}
+                                                total={projects.data.totalRecords}
+                                                onChange={this.onSelectPage}
+                                            />
+                                        </div>)
+                                :
+                                projects.pageCount === 1 ? ('') :
+                                    (<div className="row justify-content-center" style={{ marginBottom: 20 }}>
                                         <Pagination
-                                            current={projects.data.pageIndex}
-                                            total={projects.data.totalRecords}
+                                            current={projects.pageIndex}
+                                            total={projects.totalRecords}
                                             onChange={this.onSelectPage}
                                         />
-                                    </div>
-                                )}
+                                    </div>)
+                        }
                     </div>
                 </div>
             </React.Fragment>

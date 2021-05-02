@@ -1,4 +1,4 @@
-import { Tabs } from 'antd';
+import { Spin, Tabs } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import moment from 'moment';
 import React, { Component } from 'react';
@@ -15,12 +15,19 @@ class PositionRequire extends Component {
         super(props);
         this.state = {
             visible: false,
-            positionRequire: []
+            positionRequire: [],
+            isLoading: true,
         }
     }
 
     componentDidMount = () => {
         this.props.fetchPositionRequire(this.props.projectID)
+    }
+
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.positionRequire !== this.props.positionRequire) {
+            this.setState({ isLoading: false })
+        }
     }
 
     onShowRequireDetail = () => {
@@ -49,7 +56,7 @@ class PositionRequire extends Component {
                                     <PositionRequireDetail hardSkills={value.hardSkills} language={value.language} softSkills={value.softSkillIDs} />
                                 </TabPane>
                                 <TabPane key={2} tab="Result">
-                                    
+
                                 </TabPane>
                             </Tabs>
                         </Modal>
@@ -65,6 +72,7 @@ class PositionRequire extends Component {
             visible: false,
         });
     }
+
     handleCancel = (e) => {
         this.setState({
             visible: false,
@@ -75,42 +83,47 @@ class PositionRequire extends Component {
         var { positionRequire } = this.props
         return (
             <React.Fragment>
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-table mr-1"></i>
+                {this.state.isLoading ?
+                    <div className='row justify-content-center'>
+                        <Spin className='text-center' size="large" />
+                    </div> :
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table mr-1"></i>
                     Position
-                </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th width={50} className='text-center'>No</th>
-                                        <th>Position</th>
-                                        <th width={180}>Candidates Needs</th>
-                                        <th width={145}>Employee Miss</th>
-                                        <th width={190} className='text-center'>Hard Skill Requirements</th>
-                                        <th width={190} className='text-center'>Language Requirements</th>
-                                        <th width={190} className='text-center'>Soft Skill Requirements</th>
-                                        <th width={120} className='text-center'>Date Create</th>
-                                        <th width={100} className='text-center'>Status</th>
-                                        <th width={100}></th>
-                                    </tr>
-                                </thead>
-                                {positionRequire.length > 0 ?
-                                    <tbody>
-                                        {this.showPosition(positionRequire)}
-                                    </tbody>
-                                    : ''}
-                            </table>
-                        </div>
-                        {positionRequire.length > 0 ? '' :
-                            <div className='row justify-content-center' style={{ width: 'auto' }} >
-                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-                            </div>
-                        }
                     </div>
-                </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th width={50} className='text-center'>No</th>
+                                            <th>Position</th>
+                                            <th width={180}>Candidates Needs</th>
+                                            <th width={145}>Employee Miss</th>
+                                            <th width={190} className='text-center'>Hard Skill Requirements</th>
+                                            <th width={190} className='text-center'>Language Requirements</th>
+                                            <th width={190} className='text-center'>Soft Skill Requirements</th>
+                                            <th width={120} className='text-center'>Date Create</th>
+                                            <th width={100} className='text-center'>Status</th>
+                                            <th width={100}></th>
+                                        </tr>
+                                    </thead>
+                                    {positionRequire.length > 0 ?
+                                        <tbody>
+                                            {this.showPosition(positionRequire)}
+                                        </tbody>
+                                        : ''}
+                                </table>
+                            </div>
+                            {positionRequire.length > 0 ? '' :
+                                <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                    <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
             </React.Fragment>
         );
     }
