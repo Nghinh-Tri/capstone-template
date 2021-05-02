@@ -108,7 +108,7 @@ class HardSkillForm extends Component {
                                     </tr>
                                     {this.showMinimumSkills(hardSkill.minium, positionFormIndex)}
                                     <tr >
-                                        <td colspan={5}>Option Skills</td>
+                                        <td colspan={5}>Optional Skills</td>
                                     </tr>
                                     {this.showMinimumSkills(hardSkill.option, positionFormIndex)}
                                 </tbody>

@@ -38,7 +38,12 @@ class Layout extends Component {
             duration: 0,
             placement: 'bottomRight',
             style: { backgroundColor: '#F5FEFD' },
+            onClick: this.onClickNoti
         });
+    }
+
+    onClickNoti = () => {
+        history.push('/project')
     }
 
     showContent = (RouteList) => {

@@ -66,7 +66,7 @@ class SoftSkillForm extends Component {
                         <div className="row">
                             <div className="col">
                                 <div className="form-group">
-                                    <label className="bmd-label-static">Option Skills</label>
+                                    <label className="bmd-label-static">Optional Skills</label>
                                     <SelectBar name="softSkillID"
                                         type='multi'
                                         minium={false}
