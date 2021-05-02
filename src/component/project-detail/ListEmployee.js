@@ -5,6 +5,7 @@ import ListEmployeeContent from './ListEmployeeContent';
 import { addMorePosition } from '../../service/action/PositionAction';
 import { Badge, Spin, Tabs, Tooltip } from 'antd';
 import { InfoCircleTwoTone } from "@ant-design/icons";
+import { getRole } from '../../service/util/util';
 
 const TabPane = Tabs.TabPane;
 
@@ -90,8 +91,6 @@ class ListEmployee extends Component {
                         }
                         key={index}
                     ></TabPane>
-                    {/* <TabPane tab={item.posName} key={index} >
-                    </TabPane> */}
                 </React.Fragment>
             )
         });
@@ -102,29 +101,32 @@ class ListEmployee extends Component {
         var { listEmployee } = this.props
         return (
             <React.Fragment>
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <Tabs defaultActiveKey='0' onChange={this.onSelected}>
-                            {this.showPositionTabs()}
-                        </Tabs>
-                    </div>
-                    {this.state.isLoading ?
-                        <div className='row justify-content-center'>
-                            <Spin className='text-center' size="large" />
-                        </div> :
-                        <>
+                {this.state.isLoading ?
+                    <div className='row justify-content-center'>
+                        <Spin className='text-center' size="large" />
+                    </div> :
+                    <>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <Tabs defaultActiveKey='0' onChange={this.onSelected}>
+                                    {this.showPositionTabs()}
+                                </Tabs>
+                            </div>
                             <div class="card-body">
                                 {listEmployee.length > 0 ? this.showEmployee(listEmployee)
                                     : <div className='row justify-content-center' style={{ width: 'auto' }} >
                                         <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
                                     </div>}
                             </div>
-                        </>}
-                </div>
-                {this.state.isLoading || this.props.status === 4 ? '' :
-                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMorePosition} >
-                        Add More Position
-                    </button>
+                        </div>
+                        {getRole() === 'PM' ?
+                            this.state.isLoading || this.props.status === 4 ? '' :
+                                <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMorePosition} >
+                                    Add More Position
+                                </button>
+                            : ''
+                        }
+                    </>
                 }
             </React.Fragment>
         );
