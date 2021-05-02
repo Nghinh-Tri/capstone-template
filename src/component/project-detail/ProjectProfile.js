@@ -7,7 +7,7 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from '../../service/action/project/ProjectAction'
-import { showStatus, showBadge } from '../../service/util/util';
+import { showStatus, showBadge, getRole } from '../../service/util/util';
 
 class ProjectProfile extends Component {
 
@@ -58,10 +58,13 @@ class ProjectProfile extends Component {
                     :
                     <Descriptions title="Project Info" layout='horizontal' bordered
                         extra={<React.Fragment>
-                            {project.status !== 4 ?
-                                <NavLink to={`/project/detail/${project.projectID}/edit`} style={{ marginRight: 10 }} type="default" >Update</NavLink>
-                                : ''}
-                            {project.status === 3 ? <Button type="primary" onClick={this.onChangeStatusToFinish}>Finish</Button> : ''}
+                            {getRole() === 'PM' ?
+                                project.status !== 4 ?
+                                    <NavLink to={`/project/detail/${project.projectID}/edit`} style={{ marginRight: 10 }} type="default" >Update</NavLink>
+                                    :
+                                    project.status === 3 ? <Button type="primary" onClick={this.onChangeStatusToFinish}>Finish</Button> : ''
+                                : ''
+                            }
                         </React.Fragment>}>
                         <Descriptions.Item span={3} label="Project Name">{project.projectName} </Descriptions.Item>
                         <Descriptions.Item span={3} label="Project Type">{project.typeName}</Descriptions.Item>
