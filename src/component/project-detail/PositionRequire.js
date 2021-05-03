@@ -1,13 +1,9 @@
-import { Spin, Tabs } from 'antd';
-import Modal from 'antd/lib/modal/Modal';
-import moment from 'moment';
+import { Spin } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchPositionRequire } from '../../service/action/project/ProjectAction';
-import { showRequestStatus } from '../../service/util/util';
-import PositionRequireDetail from './PositionRequireDetail';
-const TabPane = Tabs.TabPane;
+import RequireModal from './RequireModal';
 
 class PositionRequire extends Component {
 
@@ -38,30 +34,7 @@ class PositionRequire extends Component {
         var result = null
         result = list.map((value, index) => {
             return (
-                <tr key={index}>
-                    <td className='text-center'>{index + 1} </td>
-                    <td>{value.posName}</td>
-                    <td className='text-center'>{value.candidateNeeded}</td>
-                    <td className='text-center'>{value.missingEmployee}</td>
-                    <td className='text-center'>{value.hardSkills.length}</td>
-                    <td className='text-center'>{value.language.length}</td>
-                    <td className='text-center'>{value.softSkillIDs.length}</td>
-                    <td className='text-center'>{moment(value.dateCreated).format('DD-MM-YYYY')}</td>
-                    <td className='text-center'>{showRequestStatus(value.status)}</td>
-                    <td className='text-center'>
-                        <a style={{ color: 'blue' }} onClick={this.onShowRequireDetail} >Detail</a>
-                        <Modal width={1050} title={value.posName} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
-                            <Tabs defaultActiveKey={1} title='Details'>
-                                <TabPane key={1} tab="Details">
-                                    <PositionRequireDetail hardSkills={value.hardSkills} language={value.language} softSkills={value.softSkillIDs} />
-                                </TabPane>
-                                <TabPane key={2} tab="Result">
-
-                                </TabPane>
-                            </Tabs>
-                        </Modal>
-                    </td>
-                </tr>
+                <RequireModal key={index} value={value} index={index} />
             )
         })
         return result

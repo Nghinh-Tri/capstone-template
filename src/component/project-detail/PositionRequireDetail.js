@@ -1,3 +1,4 @@
+import { Descriptions } from 'antd';
 import React, { Component } from 'react';
 
 class PositionRequireDetail extends Component {
@@ -30,7 +31,7 @@ class PositionRequireDetail extends Component {
                     <td>{index + 1}</td>
                     <td>{value.hardSkillName}</td>
                     <td>{value.skillLevel}</td>
-                    <td>{value.certificationLevel === 0 ? 'All': 'Level ' + value.certificationLevel}</td>
+                    <td>{value.certificationLevel === 0 ? 'All' : 'Level ' + value.certificationLevel}</td>
                     <td>{value.priority}</td>
                 </tr>
             )
@@ -56,7 +57,7 @@ class PositionRequireDetail extends Component {
         var result = null
         result = list.map((value, index) => {
             return (
-                <li>{value.softSkillName}</li>
+                <Descriptions.Item key={index} span={1}>+ {value.softSkillName} </Descriptions.Item>
             )
         })
         return result
@@ -135,7 +136,9 @@ class PositionRequireDetail extends Component {
                     {!this.state.softSkillMinimize ?
                         <div class="card-body">
                             <ul>
-                                {this.showSoftSkills(softSkills)}
+                                <Descriptions>
+                                    {this.showSoftSkills(softSkills)}
+                                </Descriptions>
                             </ul>
                         </div>
                         : ''}

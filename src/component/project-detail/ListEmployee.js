@@ -115,7 +115,7 @@ class ListEmployee extends Component {
                             <div class="card-body">
                                 {listEmployee.length > 0 ? this.showEmployee(listEmployee)
                                     : <div className='row justify-content-center' style={{ width: 'auto' }} >
-                                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No Employee</h4>
                                     </div>}
                             </div>
                         </div>
