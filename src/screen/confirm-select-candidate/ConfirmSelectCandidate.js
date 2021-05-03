@@ -57,7 +57,7 @@ class ConfirmSelectCandidate extends Component {
                 <ProgressBar current={3} />
                 <BriefDetail />
                 {candidateList.length === 0 ?
-                    <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >No data</h4>
+                    <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >You are not select any candidate</h4>
                     :
                     this.showList(candidateList)
                 }
