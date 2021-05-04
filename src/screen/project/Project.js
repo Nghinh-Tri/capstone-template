@@ -13,6 +13,13 @@ class Project extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            project: {
+                name: '',
+                dateBegin: '',
+                dateEndEst: '',
+                description: '',
+                stakeholder: ''
+            },
             page: 1,
             search: '',
             isLoading: true

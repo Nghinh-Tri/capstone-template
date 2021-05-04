@@ -88,7 +88,7 @@ export const sortSuggestList = value => {
 export const confirmSuggestList = (suggestList) => {
     var projectID = localStorage.getItem('projectId')
     var url = `${API_URL}/Project/addCandidate/${projectID}`
-    var message = { title: `Project Manager ${getUserName()} send a request`, body: '' }
+    var message = { title: `Project Manager ${getUserName()} sent a request`, body: '' }
     return (dispatch) => {
         if (suggestList.candidates.length === 0) {
             confirm({
