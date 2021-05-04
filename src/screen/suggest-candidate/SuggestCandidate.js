@@ -10,6 +10,7 @@ import { history } from "../../service/helper/History";
 import { Spin, Tabs } from "antd";
 import moment from "moment";
 import BriefDetail from "../../component/brief-detail/BriefDetail";
+import confirm from "antd/lib/modal/confirm";
 const TabPane = Tabs.TabPane;
 
 class SuggestCandidate extends Component {
@@ -101,9 +102,31 @@ class SuggestCandidate extends Component {
     };
 
     onHandle = () => {
-        history.push("/project/confirm-select-candidates", {
-            isUpdate: this.state.isUpdate,
-        });
+        var { location, candidateSelectedList } = this.props
+        console.log('a', location)
+        if (typeof location.state !== undefined) {
+            if (location.state.type === "SuggestAgain") {
+                if (candidateSelectedList.length === 0) {
+                    confirm({
+                        title: `Please select candidates for this project .`,
+                        okType: 'danger',
+                    });
+                } else {
+                    history.push("/project/confirm-select-candidates", {
+                        isUpdate: this.state.isUpdate,
+                    });
+                }
+            } else {
+                history.push("/project/confirm-select-candidates", {
+                    isUpdate: this.state.isUpdate,
+                });
+            }
+        } else {
+            history.push("/project/confirm-select-candidates", {
+                isUpdate: this.state.isUpdate,
+            });
+        }
+
     };
 
     onCancel = () => {
@@ -130,12 +153,7 @@ class SuggestCandidate extends Component {
     }
 
     onCancelSuggestAgain = () => {
-        localStorage.removeItem('projectId')
-        localStorage.removeItem('projectType')
-        localStorage.removeItem('projectField')
-        localStorage.removeItem('projectName')
-        localStorage.removeItem('positionRequire')
-        history.goBack()
+        this.props.cancelSuggest()
     }
 
     showPositionTabs = () => {
@@ -151,34 +169,33 @@ class SuggestCandidate extends Component {
         // console.log('a', suggestCandidateList)
         return (
             <React.Fragment>
-                <ProgressBar current="2" />
-                <BriefDetail />
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <Tabs defaultActiveKey='0' onChange={this.onSelected}>
-                            {this.showPositionTabs()}
-                        </Tabs>
-                    </div>
-                    {this.state.isLoading ?
-                        <div className='row justify-content-center'>
-                            <Spin className='text-center' size="large" />
-                        </div> :
-                        <div class="card-body">
-                            <SuggestCandidates
-                                onSort={this.onSort}
-                                item={suggestCandidateList[selectedIndex]}
-                                onSelectCandidate={this.selectCandidate}
-                                selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
-                                candidateSelectedList={candidateSelectedList}
-                                onUnselectCandidate={this.unselectCandidate}
-                                onSelectAll={this.onSelectAll}
-                                onUnSelectAll={this.onUnSelectAll}
-                            />
-                        </div>
-                    }
-                </div>
-                {this.state.isLoading ? '' :
+                {this.state.isLoading ?
+                    <div className='row justify-content-center'>
+                        <Spin className='text-center' size="large" />
+                    </div> :
                     <>
+                        <ProgressBar current="2" />
+                        <BriefDetail />
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <Tabs defaultActiveKey='0' onChange={this.onSelected}>
+                                    {this.showPositionTabs()}
+                                </Tabs>
+                            </div>
+
+                            <div class="card-body">
+                                <SuggestCandidates
+                                    onSort={this.onSort}
+                                    item={suggestCandidateList[selectedIndex]}
+                                    onSelectCandidate={this.selectCandidate}
+                                    selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
+                                    candidateSelectedList={candidateSelectedList}
+                                    onUnselectCandidate={this.unselectCandidate}
+                                    onSelectAll={this.onSelectAll}
+                                    onUnSelectAll={this.onUnSelectAll}
+                                />
+                            </div>
+                        </div>
                         {typeof this.props.location.state.type !== 'undefined' ?
                             typeof suggestCandidateList.find(e => e.matchDetail.length === 0) !== 'undefined' ?
                                 '' :
@@ -199,7 +216,8 @@ class SuggestCandidate extends Component {
                                         style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Cancel</button>
                                 </div> : '' : ''
                         }
-                    </>}
+                    </>
+                }
             </React.Fragment >
         );
     }
@@ -239,6 +257,9 @@ const mapDispatchToProps = (dispatch) => {
         unSelectAll: (position) => {
             dispatch(Action.unselectAllCandiates(position));
         },
+        cancelSuggest: () => {
+            dispatch(Action.cancelSuggest())
+        }
     };
 };
 

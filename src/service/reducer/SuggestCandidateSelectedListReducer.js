@@ -1,5 +1,6 @@
 import { store } from "react-notifications-component";
 import { SUGGEST_CANDIDATE } from "../constant";
+import { history } from "../helper/History";
 import { sortSuggestListByOverallMatch } from "../util/util";
 
 const initState = []
@@ -170,6 +171,17 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
         case SUGGEST_CANDIDATE.CONFIRM_SUGGEST_FAIL:
             state.splice(0, state.length)
             return [...state]
+
+        case SUGGEST_CANDIDATE.CANCEL_SUGGEST:
+            state.splice(0, state.length)
+            localStorage.removeItem('projectId')
+            localStorage.removeItem('projectType')
+            localStorage.removeItem('projectField')
+            localStorage.removeItem('projectName')
+            localStorage.removeItem('positionRequire')
+            history.push(`/project/detail/${action.projectID}`)
+            return [...state]
+
         default:
             return [...state];
     }

@@ -42,6 +42,11 @@ export const unselectAllCandiates = (position) => {
     }
 }
 
+export const cancelSuggest = () => {
+    var projectID = localStorage.getItem('projectId')
+    return { type: SUGGEST_CANDIDATE.CANCEL_SUGGEST, projectID }
+}
+
 export const fetchSelectedList = () => {
     return {
         type: SUGGEST_CANDIDATE.FETCH_SELECTED_LIST
@@ -105,7 +110,7 @@ export const confirmSuggestList = (suggestList) => {
                         if (res.status === 200) {
                             if (res.data.isSuccessed) {
                                 var projectName = localStorage.getItem('projectName')
-                                message.body = `Project '${projectName}' not have enough suitable candidates`
+                                message.body = `Project '${projectName}' does not have enough suitable candidates`
                                 setTimeout(() => {
                                     dispatch(sendNotificate(message))
                                 }, 5000);

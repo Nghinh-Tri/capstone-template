@@ -47,7 +47,8 @@ class ConfirmSelectCandidate extends Component {
     }
 
     onBack = () => {
-        history.push('/project/suggest-candidate', { isUpdate: this.state.isUpdate })
+        // history.push('/project/suggest-candidate', { isUpdate: this.state.isUpdate })
+        history.goBack()
     }
 
     render() {

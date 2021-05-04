@@ -51,6 +51,8 @@ class SuggestCandidateItems extends Component {
                 <th className="">
                     <NavLink className='text-primary' to={`/project/suggest-candidate/emp/${candidate.empID}`}> {candidate.empName}</NavLink>
                 </th>
+                <th className="text-center">{candidate.projectTypeMatch.toFixed(2)} / 10</th>
+                <th className="text-center">{candidate.projectFieldMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.languageMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.softSkillMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
