@@ -72,12 +72,12 @@ class PositionRequire extends Component {
                                         <tr>
                                             <th width={50} className='text-center'>No</th>
                                             <th>Position</th>
-                                            <th width={180}>Candidates Needs</th>
-                                            <th width={145}>Employee Miss</th>
+                                            <th width={200}>Candidates Needed</th>
+                                            <th width={160}>Employee Miss</th>
                                             <th width={190} className='text-center'>Hard Skill Requirements</th>
                                             <th width={190} className='text-center'>Language Requirements</th>
                                             <th width={190} className='text-center'>Soft Skill Requirements</th>
-                                            <th width={120} className='text-center'>Date Create</th>
+                                            <th width={120} className='text-center'>Created Date </th>
                                             <th width={100} className='text-center'>Status</th>
                                             <th width={100}></th>
                                         </tr>

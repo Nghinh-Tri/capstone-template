@@ -19,8 +19,8 @@ class CreatePositionForm extends Component {
         }
     }
 
-    onDeletePositionForm = (positionFormIndex) => {
-        this.props.onDeletePositionForm(positionFormIndex)
+    onDeletePositionForm = () => {
+        this.props.onDeletePositionForm(this.props.positionFormIndex)
     }
 
     onShowRequireDetail = () => {

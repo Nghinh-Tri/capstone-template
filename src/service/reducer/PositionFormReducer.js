@@ -46,7 +46,6 @@ const positionReducer = (state = initState, action) => {
                 obj.softSkillIDs.minium = array
             }
             state.push(obj)
-            console.log(state)
             return [...state]
 
         case Type.ADD_MORE_POSITION:

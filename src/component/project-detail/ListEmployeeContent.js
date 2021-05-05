@@ -195,7 +195,7 @@ class ListEmployeeContent extends Component {
                                                 onCancel={this.handleCancel} >
                                                 <Descriptions>
                                                     <Descriptions.Item>{prevRequire.posName} </Descriptions.Item>
-                                                    <Descriptions.Item label='Candidate Needs'>{prevRequire.missingEmployee} </Descriptions.Item>
+                                                    <Descriptions.Item label='Candidate Needed'>{prevRequire.missingEmployee} </Descriptions.Item>
                                                 </Descriptions>
                                                 <Descriptions>
                                                     <Descriptions.Item label='Hard Skill'>

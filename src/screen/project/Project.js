@@ -160,8 +160,8 @@ class Project extends Component {
                                                 <th className="font-weight-bold">No</th>
                                                 <th width={400} className="font-weight-bold">Project Name</th>
                                                 <th width={100} className="font-weight-bold">Project Type</th>
-                                                <th width={120} className="font-weight-bold ">Started Date</th>
-                                                <th width={100} className="font-weight-bold ">Ended Date</th>
+                                                <th width={120} className="font-weight-bold ">Start Date</th>
+                                                <th width={100} className="font-weight-bold ">End Date</th>
                                                 <th width={100} className="font-weight-bold text-center" style={{ width: 80 }}>
                                                     Status
                                             </th>

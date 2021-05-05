@@ -173,7 +173,6 @@ class PositionRequire extends Component {
 
     render() {
         var { items } = this.props
-        // console.log('items', items)
         return (
             <React.Fragment>
                 <ProgressBar current='1' />
