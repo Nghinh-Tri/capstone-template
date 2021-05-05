@@ -40,6 +40,17 @@ const SuggestCandidateList = (state = initState, action) => {
                 element.matchDetail = clone
             });
             return [...state]
+        case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
+            state = []
+            return [...state]
+
+        case SUGGEST_CANDIDATE.CONFIRM_SUGGEST_FAIL:
+            state = []
+            return [...state]
+
+        case SUGGEST_CANDIDATE.CANCEL_SUGGEST:
+            state = []
+            return [...state]
         default:
             return [...state]
     }
