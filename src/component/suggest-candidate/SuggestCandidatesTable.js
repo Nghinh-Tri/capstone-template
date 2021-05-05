@@ -73,7 +73,9 @@ class SuggestCandidates extends Component {
 
     render() {
         var { item, selectedItem } = this.props
-        var candidateNeeds = this.getCandidateNeeds(item.posId)
+        var candidateNeeds = 0
+        if (typeof item.posId !== 'undefined')
+            candidateNeeds = this.getCandidateNeeds(item.posId)
         return (
             <React.Fragment>
                 {typeof item.matchDetail !== 'undefined' ?
@@ -99,19 +101,19 @@ class SuggestCandidates extends Component {
                                                 Project Field Match
                                     <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortField}>swap_vert</i>
                                             </th>
-                                            <th className="font-weight-bold text-center">
+                                            <th className="font-weight-bold text-center" width={160}>
                                                 Language Match
                                     <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortLanguage}>swap_vert</i>
                                             </th>
-                                            <th className="font-weight-bold text-center">
+                                            <th className="font-weight-bold text-center" width={160}>
                                                 Soft Skill Match
                                     <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortSoftSkill}>swap_vert</i>
                                             </th>
-                                            <th className="font-weight-bold text-center">
+                                            <th className="font-weight-bold text-center" width={160}>
                                                 Hard Skill Match
                                     <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortHardSkill}>swap_vert</i>
                                             </th>
-                                            <th className="font-weight-bold text-center">
+                                            <th className="font-weight-bold text-center" width={150}>
                                                 Overall Match
                                     <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortOverall}>swap_vert</i>
                                             </th>

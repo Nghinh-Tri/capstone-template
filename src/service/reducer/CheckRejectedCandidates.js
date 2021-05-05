@@ -7,6 +7,7 @@ const CheckRejectedCandidates = (state = initState, action) => {
         case SUGGEST_CANDIDATE.REJECTED_CANDIDATE:
             state.message = action.message
             state.list = [...action.list]
+            return state
         default:
             return state
 

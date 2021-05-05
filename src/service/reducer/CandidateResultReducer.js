@@ -5,6 +5,7 @@ const initState = []
 const CandidateResultReducer = (state = initState, action) => {
     switch (action.type) {
         case Type.FETCH_CANDIDATES_RESULT:
+            state = []
             state = action.result
             return [...state]
         default:
