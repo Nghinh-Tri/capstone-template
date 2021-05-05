@@ -128,7 +128,8 @@ export const fetchProject = (pageIndex, search) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            dispatch(fetchProjectSuccess(res.data.resultObj))
+            if (res.data.isSuccessed)
+                dispatch(fetchProjectSuccess(res.data.resultObj))
         }).catch(err => {
 
         })
@@ -161,9 +162,27 @@ export const fetchPositionRequire = (projectID) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            dispatch(fetchPositionRequireSuccess(res.data.resultObj !== null ? res.data.resultObj : []))
+            if (res.data.isSuccessed)
+                dispatch(fetchPositionRequireSuccess(res.data.resultObj !== null ? res.data.resultObj : []))
         })
     }
+}
+
+export const fetchCandidatesResult = requireID => {
+    var url = `${API_URL}/Project/getEmpByRequiredID/${requireID}`
+    return (dispatch) => {
+        return axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            if (res.data.isSuccessed)
+                dispatch(fetchCandidatesResultSuccess(res.data.resultObj !== null ? res.data.resultObj : []))
+        })
+    }
+}
+
+export const fetchCandidatesResultSuccess = (result) => {
+    return { type: Type.FETCH_CANDIDATES_RESULT, result }
 }
 
 export const fetchPositionRequireSuccess = (resultObj) => {

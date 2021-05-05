@@ -14,13 +14,11 @@ class Dashboard extends Component {
         }
     }
 
-
     componentDidMount = () => {
         this.props.checkSession()
         history.push('/project')
         // this.props.fetchDataStatistics()
     }
-
 
     componentDidUpdate = (prevProps) => {
         if (prevProps.dataStatistics !== this.props.dataStatistics) {
@@ -28,7 +26,6 @@ class Dashboard extends Component {
                 this.setState({ isLoad: false })
         }
     }
-
 
     onShowTimeLineList = (dataStatisticList) => {
         var result = null
@@ -45,10 +42,9 @@ class Dashboard extends Component {
         var { dataStatistics } = this.props
         if (dataStatistics.length > 0)
             result = dataStatistics
-        console.log(result)
         return (
             <React.Fragment>
-                <ol class="breadcrumb mb-4 mt-3">
+                {/* <ol class="breadcrumb mb-4 mt-3">
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
                 <div className="container-fluid">
@@ -58,14 +54,9 @@ class Dashboard extends Component {
                         </div>
                         :
                         this.onShowTimeLineList(result)
-
                     }
-
-
-
-                </div>
+                </div> */}
             </React.Fragment>
-
         );
     }
 }

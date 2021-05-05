@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { addMoreCandidate, getPrevRequire, suggestAgain } from '../../service/action/PositionAction';
+import { getRole } from '../../service/util/util';
 
 class ListEmployeeContent extends Component {
 
@@ -146,7 +147,6 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item, prevRequire } = this.props
-        console.log('item', item)
         return (
             <React.Fragment>
                 {this.state.isLoading ?
@@ -177,45 +177,45 @@ class ListEmployeeContent extends Component {
                             </div>
                             : ''
                         }
-                        {this.props.projectStatus === 4 ? "" :
-                            item.noe === item.candidateNeeded ?
-                                <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMoreCandidates}  >
-                                    Add More Candidates
+                        {getRole() === 'PM' ?
+                            this.props.projectStatus === 4 ? "" :
+                                item.noe === item.candidateNeeded ?
+                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMoreCandidates}  >
+                                        Add More Candidates
                                 </button>
-                                :
-                                typeof prevRequire.posName !== 'undefined' ?
-                                    <>
-                                        <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
-                                            Select Candidates Again
+                                    :
+                                    typeof prevRequire.posName !== 'undefined' ?
+                                        <>
+                                            <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
+                                                Select Candidates Again
                                         </button>
-                                        {console.log(prevRequire)}
-                                        <Modal title="Requirement" width={1000}
-                                            visible={this.state.visible}
-                                            onOk={this.handleOk}
-                                            onCancel={this.handleCancel} >
-                                            <Descriptions>
-                                                <Descriptions.Item>{prevRequire.posName} </Descriptions.Item>
-                                                <Descriptions.Item label='Candidate Needs'>{prevRequire.missingEmployee} </Descriptions.Item>
-                                            </Descriptions>
-                                            <Descriptions>
-                                                <Descriptions.Item label='Hard Skill'>
-                                                    {this.showHardSkill(prevRequire.hardSkills)}
-                                                </Descriptions.Item>
-                                            </Descriptions>
-                                            <Descriptions>
-                                                <Descriptions.Item label='Language'>
-                                                    {this.showLanguage(prevRequire.language)}
-                                                </Descriptions.Item>
-                                            </Descriptions>
-                                            <Descriptions>
-                                                <Descriptions.Item label='Soft Skill'>
-                                                    {this.showSoftSkill(prevRequire.softSkillIDs)}
-                                                </Descriptions.Item>
-                                            </Descriptions>
-                                        </Modal>
-                                    </> :
-                                    ''
-                        }
+                                            <Modal title="Requirement" width={1000}
+                                                visible={this.state.visible}
+                                                onOk={this.handleOk}
+                                                onCancel={this.handleCancel} >
+                                                <Descriptions>
+                                                    <Descriptions.Item>{prevRequire.posName} </Descriptions.Item>
+                                                    <Descriptions.Item label='Candidate Needs'>{prevRequire.missingEmployee} </Descriptions.Item>
+                                                </Descriptions>
+                                                <Descriptions>
+                                                    <Descriptions.Item label='Hard Skill'>
+                                                        {this.showHardSkill(prevRequire.hardSkills)}
+                                                    </Descriptions.Item>
+                                                </Descriptions>
+                                                <Descriptions>
+                                                    <Descriptions.Item label='Language'>
+                                                        {this.showLanguage(prevRequire.language)}
+                                                    </Descriptions.Item>
+                                                </Descriptions>
+                                                <Descriptions>
+                                                    <Descriptions.Item label='Soft Skill'>
+                                                        {this.showSoftSkill(prevRequire.softSkillIDs)}
+                                                    </Descriptions.Item>
+                                                </Descriptions>
+                                            </Modal>
+                                        </> :
+                                        ''
+                            : ''}
                     </>
                 }
             </React.Fragment>

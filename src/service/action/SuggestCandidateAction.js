@@ -42,6 +42,11 @@ export const unselectAllCandiates = (position) => {
     }
 }
 
+export const cancelSuggest = () => {
+    var projectID = localStorage.getItem('projectId')
+    return { type: SUGGEST_CANDIDATE.CANCEL_SUGGEST, projectID }
+}
+
 export const fetchSelectedList = () => {
     return {
         type: SUGGEST_CANDIDATE.FETCH_SELECTED_LIST
@@ -85,10 +90,33 @@ export const sortSuggestList = value => {
     }
 }
 
+export const checkRejectCandidatesInSuggestList = (suggestList) => {
+    var projectID = localStorage.getItem('projectId')
+    var checkUrl = `${API_URL}/Project/checkCandidate/${projectID}`
+    return (dispatch) => {
+        if (suggestList.candidates.length > 0) {
+            axios.post(
+                checkUrl,
+                suggestList,
+                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+            ).then(res => {
+                if (res.data.isSuccessed) {
+                    dispatch(rejectedCandidate('', []))
+                } else {
+                    dispatch(rejectedCandidate(res.data.message, res.data.resultObj))
+                }
+            })
+        } else {
+            dispatch(rejectedCandidate('', []))
+        }
+    }
+}
+
 export const confirmSuggestList = (suggestList) => {
+    console.log(suggestList)
     var projectID = localStorage.getItem('projectId')
     var url = `${API_URL}/Project/addCandidate/${projectID}`
-    var message = { title: `Project Manager ${getUserName()} send a request`, body: '' }
+    var message = { title: `Project Manager ${getUserName()} sent a request`, body: '' }
     return (dispatch) => {
         if (suggestList.candidates.length === 0) {
             confirm({
@@ -105,7 +133,7 @@ export const confirmSuggestList = (suggestList) => {
                         if (res.status === 200) {
                             if (res.data.isSuccessed) {
                                 var projectName = localStorage.getItem('projectName')
-                                message.body = `Project '${projectName}' not have enough suitable candidates`
+                                message.body = `Project '${projectName}' does not have enough suitable candidates`
                                 setTimeout(() => {
                                     dispatch(sendNotificate(message))
                                 }, 5000);
@@ -146,7 +174,7 @@ export const confirmSuggestList = (suggestList) => {
                 if (res.status === 200) {
                     if (res.data.isSuccessed) {
                         var projectName = localStorage.getItem('projectName')
-                        message.body = `Project '${projectName}' need to confirm candidates`
+                        message.body = `Project '${projectName}' has candidates that need to be confirmed`
                         setTimeout(() => {
                             dispatch(sendNotificate(message))
                         }, 5000);
@@ -176,6 +204,10 @@ export const confirmSuggestList = (suggestList) => {
             })
         }
     }
+}
+
+export const rejectedCandidate = (message, list) => {
+    return { type: SUGGEST_CANDIDATE.REJECTED_CANDIDATE, message, list }
 }
 
 export const confirmSuggestListSuccess = () => {

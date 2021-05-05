@@ -1,20 +1,30 @@
-import { Badge, Button, Descriptions } from "antd";
+import { Descriptions, Spin } from "antd";
 import moment from "moment";
 import React, { Component } from 'react';
-import {
-    showHardSkillLevel,
-    showPositionLevel,
-    getRole,
-} from "../../service/util/util";
+import { showHardSkillLevel } from "../../service/util/util";
 import { checkSession } from "../../service/action/AuthenticateAction";
 import { fetchPositionProfileDetail } from "../../service/action/ProfileAction";
 import { connect } from "react-redux";
 
 class SkillProfile extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoad: true
+        }
+    }
+
     componentDidMount = () => {
         this.props.checkSession();
         this.props.fetchPositionProfileDetai(this.props.empID);
     };
+
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.positionDetail !== this.props.positionDetail) {
+            this.setState({ isLoad: false })
+        }
+    }
 
     onShowHardSkill = (hardSkills) => {
         var result = null;
@@ -81,20 +91,27 @@ class SkillProfile extends Component {
 
     render() {
         var { positionDetail } = this.props;
-        console.log(positionDetail);
         return (
             <React.Fragment>
-                <Descriptions title="Hard Skill Info" layout="horizontal" bordered>
-                    {this.onShowHardSkill((positionDetail || {}).hardSkills)}
-                </Descriptions>
+                {this.state.isLoad ?
+                    <div className='row justify-content-center'>
+                        <Spin className='text-center' size="large" />
+                    </div>
+                    :
+                    <>
+                        <Descriptions title="Hard Skill Info" layout="horizontal" bordered>
+                            {this.onShowHardSkill((positionDetail || {}).hardSkills)}
+                        </Descriptions>
 
-                <Descriptions title="Language Info" layout="horizontal" bordered>
-                    {this.onShowLanguage((positionDetail || {}).languages)}
-                </Descriptions>
+                        <Descriptions title="Language Info" layout="horizontal" bordered>
+                            {this.onShowLanguage((positionDetail || {}).languages)}
+                        </Descriptions>
 
-                <Descriptions title="Soft Skill Info" layout="horizontal" bordered>
-                    {this.onShowSoftSkill((positionDetail || {}).softSkills)}
-                </Descriptions>
+                        <Descriptions title="Soft Skill Info" layout="horizontal" bordered>
+                            {this.onShowSoftSkill((positionDetail || {}).softSkills)}
+                        </Descriptions>
+                    </>
+                }
             </React.Fragment>
         );
     }

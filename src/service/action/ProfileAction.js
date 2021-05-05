@@ -42,34 +42,7 @@ export const fetchPositionProfileDetailSuccess = (resultObj) => {
     }
 }
 
-
 export const pushToProfilePage = () => {
     history.push('/profile')
     return { type: Type.PROFILE_PAGE }
 }
-
-//Get list employees
-export const fetchProfile = (pageIndex, pageSize ,search) => {
-  var url = "";
-  if (search.length > 0) {
-    url = `${API_URL}/User/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=${pageSize}`;
-  } else url = `${API_URL}/User/paging?PageIndex=${pageIndex}&PageSize=${pageSize}`;
-  return (dispatch) => {
-    axios
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        },
-      })
-      .then((res) => {
-        dispatch(fetchProfileSuccess(res.data.resultObj));
-      });
-  };
-};
-
-export const fetchProfileSuccess = (resultObj) => {
-  return {
-    type: Type.FETCH_PROFILE,
-    resultObj,
-  };
-};

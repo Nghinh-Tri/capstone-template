@@ -7,7 +7,7 @@ import ProjectProfile from '../../component/project-detail/ProjectProfile';
 import ListEmployee from '../../component/project-detail/ListEmployee';
 import PositionRequire from '../../component/project-detail/PositionRequire';
 import moment from 'moment';
-import { showSpan, showStatus } from '../../service/util/util';
+import { getRole, showSpan, showStatus } from '../../service/util/util';
 const TabPane = Tabs.TabPane;
 
 class ProjectDetail extends Component {
@@ -22,7 +22,7 @@ class ProjectDetail extends Component {
             dateBegin: '',
             dateEstimatedEnd: '',
             status: -1,
-            name: ''
+            name: '',
         }
     }
 
@@ -32,14 +32,7 @@ class ProjectDetail extends Component {
         this.props.fetchProjectDetail(match.params.id)
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.project !== prevState.project) {
-            return { someState: nextProps.project };
-        }
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.project !== this.props.project) {
             if (typeof this.props.project.isCreateNew === 'undefined')
                 this.setState({ project: this.props.project })
@@ -67,8 +60,9 @@ class ProjectDetail extends Component {
                 dateBegin={this.state.dateBegin}
                 dateEstimatedEnd={this.state.dateEstimatedEnd}
             />
-        if (select === 3)
-            return <PositionRequire projectID={this.props.match.params.id} />
+        if (getRole() === 'PM')
+            if (select === 3)
+                return <PositionRequire projectID={this.props.match.params.id} />
     }
 
     render() {
@@ -98,7 +92,9 @@ class ProjectDetail extends Component {
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
                             <TabPane tab="Project Details" key={1}></TabPane>
                             <TabPane tab="Employee List" key={2}></TabPane>
-                            <TabPane tab="Position Requirements" key={3}></TabPane>
+                            {getRole() === 'PM' ?
+                                <TabPane tab="Position Requirements" key={3}></TabPane>
+                                : ''}
                         </Tabs>
                     </div>
                     <div class="card-body">
