@@ -24,7 +24,7 @@ import PositionRequireReducer from "./PositionRequireReducer";
 import PreviosRequrieReducer from "./PreviosRequrieReducer";
 import CreateProjectErrorReducer from "./project/CreateProjectErrorReducer";
 import CandidateResultReducer from "./CandidateResultReducer";
-
+import CheckRejectedCandidates from "./CheckRejectedCandidates";
 const MainReducer = combineReducers({
     authentication,
     ProjectFetchReducer,
@@ -49,7 +49,8 @@ const MainReducer = combineReducers({
     PreviosRequrieReducer,
     ErrorReducer,
     CreateProjectErrorReducer,
-    CandidateResultReducer
+    CandidateResultReducer,
+    CheckRejectedCandidates
 })
 
 export default MainReducer

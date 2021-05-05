@@ -10,6 +10,8 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import { history } from '../../service/helper/History';
 import { compose } from 'redux';
 import BriefDetail from '../../component/brief-detail/BriefDetail';
+import confirm from 'antd/lib/modal/confirm';
+import TextArea from 'antd/lib/input/TextArea';
 
 class ConfirmSelectCandidate extends Component {
 
@@ -40,10 +42,27 @@ class ConfirmSelectCandidate extends Component {
     }
 
     onSuggest = () => {
-        var { candidateList } = this.props
+        var { candidateList, confirmSuggestList } = this.props
         var list = convertSuggestList(candidateList)
         var obj = { candidates: list }
-        this.props.confirmSuggestList(obj)
+        this.props.checkRejectedCandidate(obj)
+        if (this.props.rejectedCandidate.message !== '') {
+            var content = ""
+            this.props.rejectedCandidate.list.forEach(element => {
+                content = content + element + '\n'
+            });
+            confirm({
+                title: this.props.rejectedCandidate.message + ". Are you sure you want to suggest those candidates.",
+                content: (<>
+                    <TextArea defaultValue={content} disabled={true} autoSize={true}
+                        style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
+                </>),
+                okType: 'danger',
+                onOk() { confirmSuggestList(obj) }
+            });
+        } else {
+            confirmSuggestList(obj)
+        }
     }
 
     onBack = () => {
@@ -77,7 +96,8 @@ class ConfirmSelectCandidate extends Component {
 
 const mapStateToProps = state => {
     return {
-        candidateList: state.SuggestCandidateSelectedListReducer
+        candidateList: state.SuggestCandidateSelectedListReducer,
+        rejectedCandidate: state.CheckRejectedCandidates
     }
 }
 
@@ -94,6 +114,9 @@ const mapDispatchToProps = dispatch => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        checkRejectedCandidate: (suggestList) => {
+            dispatch(Action.checkRejectCandidatesInSuggestList(suggestList))
         }
     }
 }
