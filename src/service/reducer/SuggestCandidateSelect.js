@@ -1,4 +1,4 @@
-import { SUGGEST_CANDIDATE } from "../constant";
+import { SUGGEST_CANDIDATE, Type } from "../constant";
 
 const initState = 0
 
@@ -10,15 +10,23 @@ const SuggestCandidateSelect = (state = initState, action) => {
 
         case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
             state = 0
-            return [...state]
+            return state
 
         case SUGGEST_CANDIDATE.CONFIRM_SUGGEST_FAIL:
             state = 0
-            return [...state]
+            return state
 
         case SUGGEST_CANDIDATE.CANCEL_SUGGEST:
             state = 0
-            return [...state]
+            return state
+
+        case Type.FETCH_PROJECT:
+            state = 0
+            return state
+
+        case Type.GENERATE_PROJECT:
+            state = 0
+            return state
         default:
             return state;
     }

@@ -1,5 +1,5 @@
 import { store } from "react-notifications-component";
-import { SUGGEST_CANDIDATE } from "../constant";
+import { SUGGEST_CANDIDATE, Type } from "../constant";
 import { history } from "../helper/History";
 import { sortSuggestListByOverallMatch } from "../util/util";
 
@@ -181,6 +181,14 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
             localStorage.removeItem('projectName')
             localStorage.removeItem('positionRequire')
             history.push(`/project/detail/${action.projectID}`)
+            return [...state]
+
+        case Type.FETCH_PROJECT:
+            state = []
+            return [...state]
+
+        case Type.GENERATE_PROJECT:
+            state = []
             return [...state]
 
         default:

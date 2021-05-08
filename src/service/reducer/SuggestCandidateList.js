@@ -1,4 +1,4 @@
-import { SUGGEST_CANDIDATE } from "../constant/index";
+import { SUGGEST_CANDIDATE, Type } from "../constant/index";
 import { sortSuggestListByFieldMatch, sortSuggestListByHardSkillMatch, sortSuggestListByLanguageMatch, sortSuggestListByOverallMatch, sortSuggestListBySoftSkillMatch, sortSuggestListByTypeMatch } from "../util/util";
 const initState = []
 
@@ -49,6 +49,14 @@ const SuggestCandidateList = (state = initState, action) => {
             return [...state]
 
         case SUGGEST_CANDIDATE.CANCEL_SUGGEST:
+            state = []
+            return [...state]
+
+        case Type.FETCH_PROJECT:
+            state = []
+            return [...state]
+
+        case Type.GENERATE_PROJECT:
             state = []
             return [...state]
         default:

@@ -61,7 +61,9 @@ class Project extends Component {
                             <th style={{ width: 250 }}>
                                 <Tooltip title={project.isMissEmp ? 'This project is currently missing employees' : ''} placement='right' >
                                     <Badge dot={project.isMissEmp}>
-                                        {project.projectName}
+                                        <NavLink className='text-primary' to={`/project/detail/${project.projectID}`}>
+                                            <p style={{ marginBottom: 0 }} >{project.projectName}</p>
+                                        </NavLink>
                                     </Badge>
                                 </Tooltip>
                             </th>
@@ -75,23 +77,17 @@ class Project extends Component {
                                     {showStatus(project.status)}
                                 </span>
                             </th>
-                            <th style={{ width: 100 }}>
-                                <NavLink className='text-primary' to={`/project/detail/${project.projectID}`}>
-                                    Detail
-                                </NavLink>
-                            </th>
                         </tr>
                         :
                         <tr>
                             <th style={{ width: 50 }}>{index + 1}</th>
-                            <th style={{ width: 250 }}>{project.projectName}</th>
-                            <th style={{ width: 250 }}>{project.posName}</th>
-                            <th style={{ width: 80 }}>{moment(project.dateIn).format('DD-MM-YYYY')}</th>
-                            <th style={{ width: 100 }} >
+                            <th style={{ width: 250 }}>
                                 <NavLink to={`/project/detail/${project.projectID}`}>
-                                    Detail
+                                    <p>{project.projectName}</p>
                                 </NavLink>
                             </th>
+                            <th style={{ width: 250 }}>{project.posName}</th>
+                            <th style={{ width: 80 }}>{moment(project.dateIn).format('DD-MM-YYYY')}</th>
                         </tr>
                     }
                 </React.Fragment>);
@@ -164,8 +160,7 @@ class Project extends Component {
                                                 <th width={100} className="font-weight-bold ">End Date</th>
                                                 <th width={100} className="font-weight-bold text-center" style={{ width: 80 }}>
                                                     Status
-                                            </th>
-                                                <th className="font-weight-bold"></th>
+                                                </th>
                                             </tr>
                                         ) : (
                                             <tr>
@@ -173,7 +168,6 @@ class Project extends Component {
                                                 <th className="font-weight-bold">Project Name</th>
                                                 <th className="font-weight-bold">Position</th>
                                                 <th className="font-weight-bold">Joined Date</th>
-                                                <th className="font-weight-bold"></th>
                                             </tr>
                                         )}
                                     </thead>
