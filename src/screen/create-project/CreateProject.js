@@ -143,8 +143,8 @@ class CreateProject extends Component {
                                             onChange={this.onHandle}
                                             readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
                                         />
-                                        {typeof error.ProjectName !== "undefined"
-                                            ? error.ProjectName.map((element, index) => {
+                                        {typeof error.projectName !== "undefined"
+                                            ? error.projectName.map((element, index) => {
                                                 return (
                                                     <div key={index} className="error text-danger font-weight-bold">
                                                         {element}
@@ -209,16 +209,25 @@ class CreateProject extends Component {
                                             type="date"
                                             name="dateBegin"
                                             className="form-control"
-                                            min={moment(moment().day(10)).format("YYYY-MM-DD")}
+                                            // min={moment(moment().day(10)).format("YYYY-MM-DD")}
                                             defaultValue={dateBegin}
                                             onChange={this.onHandle}
                                             readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
                                         />
-                                        {fieldError.trim().includes("dateBegin") ? (
+                                        {/* {fieldError.trim().includes("dateBegin") ? (
                                             <div className="error text-danger font-weight-bold">
                                                 {messageError}
                                             </div>
-                                        ) : ""}
+                                        ) : ""} */}
+                                        {typeof error.dateBegin !== "undefined"
+                                            ? error.dateBegin.map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
                                     </div>
                                 </div>
                                 {/* Date end estimate */}
@@ -230,7 +239,7 @@ class CreateProject extends Component {
                                         <input
                                             type="date"
                                             name="dateEstimatedEnd"
-                                            min={moment(moment().day(11)).format("YYYY-MM-DD")}
+                                            // min={moment(moment().day(11)).format("YYYY-MM-DD")}
                                             defaultValue={dateEstimatedEnd}
                                             className="form-control"
                                             onChange={this.onHandle}
@@ -240,6 +249,15 @@ class CreateProject extends Component {
                                                 {messageError}
                                             </div>
                                         ) : ""}
+                                        {typeof error.dateEstimatedEnd !== "undefined"
+                                            ? error.dateEstimatedEnd.map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
                                     </div>
                                 </div>
                             </div>

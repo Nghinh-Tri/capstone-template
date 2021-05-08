@@ -43,6 +43,7 @@ export const generateProjectFail = () => {
 export const createProject = (project) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Project/${empID}`
+    console.log(project)
     return (dispatch) => {
         dispatch(createProjectFailed({}))
         dispatch(createProjectConstraintsFailed(''))
@@ -69,13 +70,13 @@ export const createProject = (project) => {
                         dateCreate: moment.now()
                     }
                     dispatch(sendNotificate(message))
-                } else {
+                } else {                    
                     dispatch(createProjectConstraintsFailed(res.data.message))
                 }
             }
         }).catch(err => {
-            console.log(err.response)
-            // dispatch(createProjectFailed(err.response.data.errors))
+            console.log(err.response.data.errors)
+            dispatch(createProjectFailed(err.response.data.errors))
         })
 
     }
