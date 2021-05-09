@@ -4,6 +4,7 @@ import { API_URL, getRole, getUserName } from "../../util/util";
 import { history } from "../../helper/History";
 import { store } from "react-notifications-component";
 import { sendNotificate } from "../FirebaseAction";
+import moment from "moment";
 
 export const generateProject = (project, isCreateNew) => {
     return (dispatch) => {
@@ -42,22 +43,17 @@ export const generateProjectFail = () => {
 export const createProject = (project) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Project/${empID}`
+    console.log(project)
     return (dispatch) => {
         dispatch(createProjectFailed({}))
+        dispatch(createProjectConstraintsFailed(''))
         axios.post(
             url,
             project,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             if (res.status === 200) {
-                dispatch(createProjectConstraintsFailed(''))
                 if (res.data.isSuccessed) {
-                    var message = { title: `Project Manager ${getUserName()} send a notification`, body: `Project '${project.projectName}' has been created` }
-                    setTimeout(() => {
-                        dispatch(sendNotificate(message))
-                    }, 4000);
-
-                    // console.log(res.data)
                     project.projectId = res.data.resultObj
                     localStorage.setItem('projectId', res.data.resultObj)
                     localStorage.setItem('projectType', project.projectTypeID)
@@ -66,7 +62,15 @@ export const createProject = (project) => {
                     localStorage.setItem('dateEnd', project.dateEstimatedEnd)
                     localStorage.setItem('projectName', project.projectName)
                     dispatch(createProjectSuccess(project))
-                } else {
+                    var message = {
+                        title: `Project Manager ${getUserName()} sent a notification`,
+                        body: `Project '${project.projectName}' has been created`,
+                        status: true,
+                        topic: 'news',
+                        dateCreate: moment.now()
+                    }
+                    dispatch(sendNotificate(message))
+                } else {                    
                     dispatch(createProjectConstraintsFailed(res.data.message))
                 }
             }
@@ -75,6 +79,13 @@ export const createProject = (project) => {
             dispatch(createProjectFailed(err.response.data.errors))
         })
 
+    }
+}
+
+export const refreshPage = () => {
+    return (dispatch) => {
+        dispatch(createProjectFailed({}))
+        dispatch(createProjectConstraintsFailed(''))
     }
 }
 

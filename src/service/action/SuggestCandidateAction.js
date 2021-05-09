@@ -6,6 +6,7 @@ import { sendNotificate } from "./FirebaseAction"
 import { getUserName } from "../util/util";
 import { store } from "react-notifications-component"
 import confirm from "antd/lib/modal/confirm"
+import moment from "moment"
 
 export const setPositionSelect = index => {
     return {
@@ -113,10 +114,15 @@ export const checkRejectCandidatesInSuggestList = (suggestList) => {
 }
 
 export const confirmSuggestList = (suggestList) => {
-    console.log(suggestList)
     var projectID = localStorage.getItem('projectId')
     var url = `${API_URL}/Project/addCandidate/${projectID}`
-    var message = { title: `Project Manager ${getUserName()} sent a request`, body: '' }
+    var message = {
+        title: `Project Manager ${getUserName()} sent a request`,
+        body: '',
+        topic: 'news',
+        status: true,
+        dateCreate: moment.now()
+    }
     return (dispatch) => {
         if (suggestList.candidates.length === 0) {
             confirm({
@@ -173,34 +179,29 @@ export const confirmSuggestList = (suggestList) => {
             ).then(res => {
                 if (res.status === 200) {
                     if (res.data.isSuccessed) {
+                        console.log('ook', res.data)
                         var projectName = localStorage.getItem('projectName')
                         message.body = `Project '${projectName}' has candidates that need to be confirmed`
-                        setTimeout(() => {
-                            dispatch(sendNotificate(message))
-                        }, 5000);
                         dispatch(confirmSuggestListSuccess())
-                        localStorage.removeItem('positionRequire')
-                        localStorage.removeItem('projectId')
-                        localStorage.removeItem('isNewPosition')
-                        localStorage.removeItem('projectName')
-                        localStorage.removeItem('projectType')
-                        localStorage.removeItem('projectField')
-                        history.push("/project")
+                        dispatch(sendNotificate(message))
                     }
                 }
             }).catch(err => {
-                confirm({
-                    title: `${err.response.data.message}. Cancel this request`,
-                    okText: 'Yes',
-                    cancelText: 'No',
-                    onOk() {
-                        history.push(`/project/detail/${projectID}`)
-                        dispatch(confirmSuggestListFail())
-                    },
-                    onCancel() {
-                        console.log('Cancel');
-                    },
-                });
+                console.log('err', err.response)
+                if (typeof err.response !== 'undefined') {
+                    confirm({
+                        title: `${err.response.data.message}. Cancel this request`,
+                        okText: 'Yes',
+                        cancelText: 'No',
+                        onOk() {
+                            history.push(`/project/detail/${projectID}`)
+                            dispatch(confirmSuggestListFail())
+                        },
+                        onCancel() {
+                            console.log('Cancel');
+                        },
+                    });
+                }
             })
         }
     }
@@ -211,6 +212,19 @@ export const rejectedCandidate = (message, list) => {
 }
 
 export const confirmSuggestListSuccess = () => {
+    return (dispatch) => {
+        dispatch(sendNotiSuccess())
+    }
+}
+
+export const sendNotiSuccess = () => {
+    history.push("/project")
+    localStorage.removeItem('positionRequire')
+    localStorage.removeItem('projectId')
+    localStorage.removeItem('isNewPosition')
+    localStorage.removeItem('projectName')
+    localStorage.removeItem('projectType')
+    localStorage.removeItem('projectField')
     return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST }
 }
 
