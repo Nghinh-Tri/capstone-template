@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getRole, getUserName, showRole } from '../../service/util/util';
-import { logout } from "../../service/action/AuthenticateAction"
-import { pushToProfilePage } from '../../service/action/ProfileAction';
+import { logout } from "../../service/action/user/AuthenticateAction"
+import { pushToProfilePage } from '../../service/action/user/ProfileAction';
 import { CaretDownOutlined } from "@ant-design/icons";
 import { Badge, notification } from 'antd';
-import firebase from "../../service/firebase/firebase";
 import { history } from '../../service/helper/History';
 
 class Header extends Component {

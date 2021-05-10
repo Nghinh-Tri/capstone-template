@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from "../../service/action/project/ProjectAction";
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { getRole, showSpan, showStatus } from '../../service/util/util';
 import { Badge, Pagination, Spin, Tooltip } from 'antd';
 import Search from '../../component/search/Search';

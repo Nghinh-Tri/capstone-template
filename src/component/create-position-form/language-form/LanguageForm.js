@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LanguageFormContent from './LanguageFormContent';
-import { fetchLanguage } from "../../../service/action/LanguageSelectBarAction";
+import { fetchLanguage } from "../../../service/action/language/LanguageSelectBarAction";
 
 class LanguageForm extends Component {
 

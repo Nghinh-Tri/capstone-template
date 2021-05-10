@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from "../../service/action/project/ProjectAction";
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { Tabs } from 'antd';
 import ProjectProfile from '../../component/project-detail/ProjectProfile';
 import ListEmployee from '../../component/project-detail/ListEmployee';

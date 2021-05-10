@@ -3,7 +3,7 @@ import { alertConstants, Type, ERROR } from "../../constant";
 import { API_URL, getRole, getUserName } from "../../util/util";
 import { history } from "../../helper/History";
 import { store } from "react-notifications-component";
-import { sendNotificate } from "../FirebaseAction";
+import { sendNotificate } from "../firebase/FirebaseAction";
 import moment from "moment";
 
 export const generateProject = (project, isCreateNew) => {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from '../../service/action/ListEmployeeAction'
+import * as Action from '../../service/action/project/ListEmployeeAction'
 import ListEmployeeContent from './ListEmployeeContent';
-import { addMorePosition } from '../../service/action/PositionAction';
+import { addMorePosition } from '../../service/action/position/PositionAction';
 import { Badge, Spin, Tabs, Tooltip } from 'antd';
 import { InfoCircleTwoTone } from "@ant-design/icons";
 import { getRole } from '../../service/util/util';

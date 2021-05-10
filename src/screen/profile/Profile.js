@@ -2,7 +2,7 @@ import { Tabs } from 'antd';
 import React, { Component } from 'react';
 import PersonalProfile from '../../component/profile/PersonalProfile';
 import SkillProfile from '../../component/profile/SkillProfile';
-import { checkSession } from "../../service/action/AuthenticateAction";
+import { checkSession } from "../../service/action/user/AuthenticateAction";
 import { connect } from "react-redux";
 const TabPane = Tabs.TabPane;
 

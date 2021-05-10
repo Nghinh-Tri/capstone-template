@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import CandidateTable from '../../component/candidate-table/CandidateTable';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import './ConfirmPage.css'
-import * as Action from "../../service/action/SuggestCandidateAction";
+import * as Action from "../../service/action/suggest/SuggestCandidateAction";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { convertSuggestList } from '../../service/util/util';
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { history } from '../../service/helper/History';
 import { compose } from 'redux';
 import BriefDetail from '../../component/brief-detail/BriefDetail';
