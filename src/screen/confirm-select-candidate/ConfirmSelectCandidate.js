@@ -19,18 +19,10 @@ class ConfirmSelectCandidate extends Component {
         super(props);
         this.state = {
             isUpdate: false,
-            isRejected: false,
-            title: '',
-            content: ''
+            confirmObj: {},
+            click: false
         }
     }
-
-    // componentDidUpdate = (prevProp) => {
-    //     if (prevProp.rejectedCandidate !== this.props.rejectedCandidate) {
-    //         console.log('componentDidUpdate', this.props.rejectedCandidate.message)
-
-    //     }
-    // }
 
     onDeleteCandiate = (empID, postion) => {
         this.props.removeCandidate(empID, postion)
@@ -52,47 +44,39 @@ class ConfirmSelectCandidate extends Component {
     }
 
     componentWillReceiveProps = () => {
-        if (this.props.rejectedCandidate.message !== "") {
-            var content = ""
-            this.props.rejectedCandidate.list.forEach(element => {
-                content = content + element + '\n'
-            });
-            console.log('componentWillReceiveProps', content, this.props.rejectedCandidate.message)
-
-            this.setState({
-                isRejected: true,
-                title: this.props.rejectedCandidate.message + ". Are you sure you want to suggest those candidates.",
-                content: content
-            })
+        var { rejectedCandidate, confirmSuggestList } = this.props
+        var { confirmObj, click } = this.state
+        if (click) {
+            if (rejectedCandidate.message !== "" && rejectedCandidate.list.length > 0) {
+                var content = ""
+                this.props.rejectedCandidate.list.forEach(element => {
+                    content = content + element + '\n'
+                });
+                confirm({
+                    title: rejectedCandidate.message,
+                    content: (<>
+                        <TextArea defaultValue={content} disabled={true} autoSize={true}
+                            style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
+                    </>),
+                    okType: 'danger',
+                    onOk() { confirmSuggestList(confirmObj) },
+                    onCancel: () => { this.setState({ click: !this.state.click }) }
+                });
+            } else {
+                confirmSuggestList(confirmObj)
+            }
         }
-
     }
 
     onSuggest = () => {
-        var { candidateList, confirmSuggestList } = this.props
+        var { candidateList } = this.props
         var list = convertSuggestList(candidateList)
         var obj = { candidates: list }
-        // this.props.checkRejectedCandidate(obj)
-        // if (this.state.isRejected) {
-        //     var { title, content } = this.state
-        //     console.log('onSuggest', title, content)
-        //     confirm({
-        //         title: this.state.title,
-        //         content: (<>
-        //             <TextArea defaultValue={this.state.content} disabled={true} autoSize={true}
-        //                 style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
-        //         </>),
-        //         okType: 'danger',
-        //         onOk() { confirmSuggestList(obj) }
-        //     });
-        // } else 
-
-        confirmSuggestList(obj)
-
+        this.setState({ confirmObj: obj, click: !this.state.click })
+        this.props.checkRejectedCandidate(obj)
     }
 
     onBack = () => {
-        // history.push('/project/suggest-candidate', { isUpdate: this.state.isUpdate })
         history.goBack()
     }
 
