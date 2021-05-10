@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectBar from '../../select-search/SelectBar';
-import { fetchSoftSkill } from "../../../service/action/SoftSkillSelectBarAction";
+import { fetchSoftSkill } from "../../../service/action/skill/SoftSkillSelectBarAction";
 import { convertSkillList } from '../../../service/util/util';
 
 class SoftSkillForm extends Component {

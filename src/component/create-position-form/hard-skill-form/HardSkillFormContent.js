@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { convertCertificationList, convertSkillList } from '../../../service/util/util';
 import SelectBar from '../../select-search/SelectBar';
-import { fetchCertification } from "../../../service/action/CertificationSelectBarAction";
+import { fetchCertification } from "../../../service/action/certificate/CertificationSelectBarAction";
 
 class HardSkillFormContent extends Component {
 

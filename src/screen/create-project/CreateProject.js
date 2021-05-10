@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import * as Action from "../../service/action/project/ProjectAction";
 import { convertProjectTypeList } from '../../service/util/util';
 import SelectBar from "../../component/select-search/SelectBar";

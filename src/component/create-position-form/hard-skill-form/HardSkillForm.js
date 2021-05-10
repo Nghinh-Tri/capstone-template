@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import HardSkillFormContent from './HardSkillFormContent';
-import { fetchHardSkill } from "../../../service/action/HardSkillSelectBarAction";
+import { fetchHardSkill } from "../../../service/action/skill/HardSkillSelectBarAction";
 
 class HardSkillForm extends Component {
 

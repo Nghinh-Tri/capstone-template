@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { connect } from 'react-redux';
-import { fetchDataStatistics } from "../../service/action/StatisticAction";
+import { fetchDataStatistics } from "../../service/action/statistic/StatisticAction";
 import TimeLine from '../../component/Chart/timeLine';
-import { Spin } from 'antd';
 import { history } from '../../service/helper/History';
 class Dashboard extends Component {
 

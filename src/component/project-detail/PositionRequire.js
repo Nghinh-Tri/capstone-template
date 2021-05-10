@@ -1,7 +1,7 @@
 import { Spin } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { fetchPositionRequire } from '../../service/action/project/ProjectAction';
 import RequireModal from './RequireModal';
 

@@ -1,7 +1,7 @@
-import { Button, Descriptions, Spin } from 'antd';
+import { Descriptions, Spin } from 'antd';
 import React, { Component } from "react";
-import { checkSession } from "../../service/action/AuthenticateAction";
-import { fetchProfileDetail } from "../../service/action/ProfileAction";
+import { checkSession } from "../../service/action/user/AuthenticateAction";
+import { fetchProfileDetail } from "../../service/action/user/ProfileAction";
 import { connect } from "react-redux";
 import { showRole } from "../../service/util/util";
 import { compose } from 'redux';

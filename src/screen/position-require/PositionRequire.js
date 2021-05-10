@@ -1,16 +1,14 @@
-import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import BriefDetail from '../../component/brief-detail/BriefDetail';
 import CreatePositionForm from '../../component/create-position-form/CreatePositionForm';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
-import SelectBar from '../../component/select-search/SelectBar';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import * as Action from "../../service/action/PositionAction";
-import { fetchPostionList } from '../../service/action/PositionSelectBarAction';
-import { convertPositionList, convertPositionRequire } from '../../service/util/util';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import * as Action from "../../service/action/position/PositionAction";
+import { fetchPostionList } from '../../service/action/position/PositionSelectBarAction';
+import { convertPositionRequire } from '../../service/util/util';
 
 class PositionRequire extends Component {
 
