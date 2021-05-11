@@ -1,4 +1,4 @@
-import { ERROR } from "../../constant";
+import { ERROR, Type } from "../../constant";
 
 var initState = {}
 
@@ -9,6 +9,12 @@ const ErrorReducer = (state = initState, action) => {
             return state
         case ERROR.LOGIN_ERROR:
             state = action.error
+            return state
+        case Type.CHANGE_PASSWORD_FAIL:
+            state = action.error
+            return state
+        case Type.REFRESH_REGISTER_PAGE:
+            state = {}
             return state
         default:
             return state;

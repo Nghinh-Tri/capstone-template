@@ -70,15 +70,16 @@ export const createProject = (project) => {
                         dateCreate: moment.now()
                     }
                     dispatch(sendNotificate(message))
-                } else {                    
+                } else {
                     dispatch(createProjectConstraintsFailed(res.data.message))
                 }
             }
         }).catch(err => {
-            console.log(err.response.data.errors)
-            dispatch(createProjectFailed(err.response.data.errors))
+            if (typeof err.response !== 'undefined') {
+                console.log(err.response.data.errors)
+                dispatch(createProjectFailed(err.response.data.errors))
+            }
         })
-
     }
 }
 
