@@ -1,31 +1,24 @@
 import React, { Component } from 'react';
 import SuggestCandidateItems from './suggest-candidate-items/SuggestCandidateItems';
 import { ArrowUpOutlined } from "@ant-design/icons";
+import { connect } from 'react-redux';
+import { pagingSuggestList, sortSuggestList } from '../../service/action/suggest/SuggestCandidateAction';
+import { Pagination } from 'antd';
 
 class SuggestCandidates extends Component {
 
-    onSortType = () => {
-        this.props.onSort('type')
+    componentDidMount() {
+        this.props.pagingSuggestList(this.props.item.matchDetail, 1)
     }
 
-    onSortField = () => {
-        this.props.onSort('field')
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.item !== this.props.item) {
+            this.props.pagingSuggestList(this.props.item.matchDetail, 1)
+        }
     }
 
-    onSortLanguage = () => {
-        this.props.onSort('language')
-    }
-
-    onSortSoftSkill = () => {
-        this.props.onSort('softSkill')
-    }
-
-    onSortHardSkill = () => {
-        this.props.onSort('hardSkill')
-    }
-
-    onSortOverall = () => {
-        this.props.onSort('overall')
+    onSort = (e) => {
+        this.props.onSortSuggestList(e)
     }
 
     onSelect = (value, candidate) => {
@@ -72,8 +65,12 @@ class SuggestCandidates extends Component {
         return candidateNeeds
     }
 
+    onSelectPage = (e) => {
+        this.props.pagingSuggestList(this.props.item.matchDetail, e)
+    }
+
     render() {
-        var { item, selectedItem } = this.props
+        var { item, selectedItem, paging } = this.props
         var candidateNeeds = 0
         if (typeof item.posId !== 'undefined')
             candidateNeeds = this.getCandidateNeeds(item.posId)
@@ -97,37 +94,37 @@ class SuggestCandidates extends Component {
                                             <th className="font-weight-bold " width={180}  >
                                                 <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                     <div>Project Type Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortType} />
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('type')} />
                                                 </div>
                                             </th>
                                             <th className="font-weight-bold text-center" width={180} >
                                                 <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                     <div> Project Field Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortField} />
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('field')} />
                                                 </div>
                                             </th>
                                             <th className="font-weight-bold text-center" width={160}>
                                                 <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                     <div>Language Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortLanguage} />
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('language')} />
                                                 </div>
                                             </th>
                                             <th className="font-weight-bold text-center" width={160}>
                                                 <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                     <div>Soft Skill Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortSoftSkill} />
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('softSkill')} />
                                                 </div>
                                             </th>
                                             <th className="font-weight-bold text-center" width={160}>
                                                 <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                     <div>Hard Skill Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortHardSkill} />
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('hardSkill')} />
                                                 </div>
                                             </th>
                                             <th className="font-weight-bold text-center" width={150}>
                                                 <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                     <div>Overall Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortOverall} />
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('overall')} />
                                                 </div>
                                             </th>
                                             <th className="font-weight-bold text-center">
@@ -137,13 +134,16 @@ class SuggestCandidates extends Component {
                                             </th>
                                         </tr>
                                     </thead>
-                                    {typeof item.matchDetail !== 'undefined' ? (
-                                        <tbody>
-                                            {this.showCandidate(typeof item.matchDetail !== 'undefined' ? item.matchDetail : [], selectedItem, candidateNeeds)}
-                                        </tbody>
-                                    ) : ('')}
-                                </table>                                
+                                    <tbody>
+                                        {this.showCandidate(typeof paging.items !== 'undefined' ? paging.items : [], selectedItem, candidateNeeds)}
+                                    </tbody>
+                                </table>
                             </div>
+                            {paging.pageCount <= 1 ? '' :
+                                <div className="row justify-content-center" style={{ marginBottom: 20 }}>
+                                    <Pagination current={paging.pageIndex} total={paging.totalRecords} onChange={this.onSelectPage} />
+                                </div>
+                            }
                         </>
                     : ''}
             </React.Fragment>
@@ -151,4 +151,21 @@ class SuggestCandidates extends Component {
     }
 }
 
-export default SuggestCandidates;
+const mapStateToProps = (state) => {
+    return {
+        paging: state.PagingSuggestListReducer
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        pagingSuggestList: (list, pageIndex) => {
+            dispatch(pagingSuggestList(list, pageIndex))
+        },
+        onSortSuggestList: (value) => {
+            dispatch(sortSuggestList(value));
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SuggestCandidates);

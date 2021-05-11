@@ -102,7 +102,6 @@ class SuggestCandidate extends Component {
 
     onHandle = () => {
         var { location, candidateSelectedList } = this.props
-        console.log('a', location)
         if (typeof location.state !== undefined) {
             if (location.state.type === "SuggestAgain") {
                 if (candidateSelectedList.length === 0) {
@@ -165,7 +164,6 @@ class SuggestCandidate extends Component {
 
     render() {
         var { candidateSelectedList, suggestCandidateList, selectedIndex } = this.props
-        // console.log('a', suggestCandidateList)
         return (
             <React.Fragment>
                 {this.state.isLoading ?
@@ -177,7 +175,7 @@ class SuggestCandidate extends Component {
                         <BriefDetail />
                         <div class="card mb-4">
                             <div class="card-header">
-                                <Tabs defaultActiveKey='0' onChange={this.onSelected}>
+                                <Tabs defaultActiveKey={selectedIndex} onChange={this.onSelected}>
                                     {this.showPositionTabs()}
                                 </Tabs>
                             </div>

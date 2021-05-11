@@ -67,8 +67,7 @@ export const fetchSuggestList = () => {
             position,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
-            console.log(res)
-            if (res.status === 200) {
+            if (res.data.isSuccessed) {
                 dispatch(fetchSuggestListSuccess(res.data.resultObj))
             }
         }).catch(err => {
@@ -77,18 +76,30 @@ export const fetchSuggestList = () => {
     }
 }
 
-export const fetchSuggestListSuccess = (list) => {
-    return {
-        type: SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST,
-        list
+export const pagingSuggestList = (list, pageIndex) => {
+    var url = `${API_URL}/User/candidate/paging?PageIndex=${pageIndex}&PageSize=10`
+    return (dispatch) => {
+        axios.put(
+            url,
+            list,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+        ).then(res => {
+            if (res.data.isSuccessed)
+                dispatch(pagingSuggestListSuccess(res.data.resultObj))
+        })
     }
 }
 
+export const pagingSuggestListSuccess = (result) => {
+    return { type: SUGGEST_CANDIDATE.PAGING_SUGGEST_LIST, result }
+}
+
+export const fetchSuggestListSuccess = (list) => {
+    return { type: SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST, list }
+}
+
 export const sortSuggestList = value => {
-    return {
-        type: SUGGEST_CANDIDATE.SORT_LIST,
-        value
-    }
+    return { type: SUGGEST_CANDIDATE.SORT_LIST, value }
 }
 
 export const checkRejectCandidatesInSuggestList = (suggestList) => {
