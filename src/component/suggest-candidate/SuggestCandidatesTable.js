@@ -3,17 +3,25 @@ import SuggestCandidateItems from './suggest-candidate-items/SuggestCandidateIte
 import { ArrowUpOutlined } from "@ant-design/icons";
 import { connect } from 'react-redux';
 import { pagingSuggestList, sortSuggestList } from '../../service/action/suggest/SuggestCandidateAction';
-import { Pagination } from 'antd';
+import { Pagination, Spin } from 'antd';
 
 class SuggestCandidates extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoad: true
+        }
+    }
+
 
     componentDidMount() {
         this.props.pagingSuggestList(this.props.item.matchDetail, 1)
     }
 
     componentDidUpdate = (prevProp) => {
-        if (prevProp.item !== this.props.item) {
-            this.props.pagingSuggestList(this.props.item.matchDetail, 1)
+        if (prevProp.paging !== this.props.paging) {
+            this.setState({ isLoad: false })
         }
     }
 
@@ -76,76 +84,83 @@ class SuggestCandidates extends Component {
             candidateNeeds = this.getCandidateNeeds(item.posId)
         return (
             <React.Fragment>
-                {typeof item.matchDetail !== 'undefined' ?
-                    item.matchDetail.length === 0 ?
-                        <div className='row justify-content-center' style={{ width: 'auto' }} >
-                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no suitable candidates for this position</h4>
-                        </div>
-                        :
-                        <>
-                            <div class="table-responsive">
-                                <h5 className="pull-right" style={{ marginTop: 0 }}>Select {selectedItem === null ? 0 : selectedItem.candidateSelect.length} / {candidateNeeds} </h5>
-
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th className="font-weight-bold text-center">No</th>
-                                            <th className="font-weight-bold">Name</th>
-                                            <th className="font-weight-bold " width={180}  >
-                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
-                                                    <div>Project Type Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('type')} />
-                                                </div>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={180} >
-                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
-                                                    <div> Project Field Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('field')} />
-                                                </div>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={160}>
-                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
-                                                    <div>Language Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('language')} />
-                                                </div>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={160}>
-                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
-                                                    <div>Soft Skill Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('softSkill')} />
-                                                </div>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={160}>
-                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
-                                                    <div>Hard Skill Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('hardSkill')} />
-                                                </div>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={150}>
-                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
-                                                    <div>Overall Match</div>
-                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('overall')} />
-                                                </div>
-                                            </th>
-                                            <th className="font-weight-bold text-center">
-                                                {candidateNeeds >= item.matchDetail.length ?
-                                                    <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
-                                                    : ''}
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.showCandidate(typeof paging.items !== 'undefined' ? paging.items : [], selectedItem, candidateNeeds)}
-                                    </tbody>
-                                </table>
-                            </div>
-                            {paging.pageCount <= 1 ? '' :
-                                <div className="row justify-content-center" style={{ marginBottom: 20 }}>
-                                    <Pagination current={paging.pageIndex} total={paging.totalRecords} onChange={this.onSelectPage} />
+                {this.state.isLoad ?
+                    <div className="row justify-content-center">
+                        <Spin className="text-center" size="large" />
+                    </div>
+                    : <>
+                        {typeof item.matchDetail !== 'undefined' ?
+                            item.matchDetail.length === 0 ?
+                                <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                    <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no suitable candidates for this position</h4>
                                 </div>
-                            }
-                        </>
-                    : ''}
+                                :
+                                <>
+                                    <div class="table-responsive">
+                                        <h5 className="pull-right" style={{ marginTop: 0 }}>Select {selectedItem === null ? 0 : selectedItem.candidateSelect.length} / {candidateNeeds} </h5>
+
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th className="font-weight-bold text-center">No</th>
+                                                    <th className="font-weight-bold">Name</th>
+                                                    <th className="font-weight-bold " width={180}  >
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div>Project Type Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('type')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center" width={180} >
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div> Project Field Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('field')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center" width={160}>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div>Language Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('language')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center" width={160}>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div>Soft Skill Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('softSkill')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center" width={160}>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div>Hard Skill Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('hardSkill')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center" width={150}>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div>Overall Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('overall')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center">
+                                                        {candidateNeeds >= item.matchDetail.length ?
+                                                            <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
+                                                            : ''}
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.showCandidate(typeof paging.items !== 'undefined' ? paging.items : [], selectedItem, candidateNeeds)}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {paging.pageCount <= 1 ? '' :
+                                        <div className="row justify-content-center" style={{ marginBottom: 20 }}>
+                                            <Pagination current={paging.pageIndex} total={paging.totalRecords} onChange={this.onSelectPage} />
+                                        </div>
+                                    }
+                                </>
+                            : ''}
+                    </>
+                }
             </React.Fragment>
         );
     }

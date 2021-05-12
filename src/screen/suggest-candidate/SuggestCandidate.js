@@ -96,10 +96,6 @@ class SuggestCandidate extends Component {
         return null;
     };
 
-    onSort = (value) => {
-        this.props.onSortSuggestList(value);
-    };
-
     onHandle = () => {
         var { location, candidateSelectedList } = this.props
         if (typeof location.state !== undefined) {
@@ -111,7 +107,7 @@ class SuggestCandidate extends Component {
                     });
                 } else {
                     history.push("/project/confirm-select-candidates", {
-                        isUpdate: this.state.isUpdate,
+                        isUpdate: "SuggestAgain",
                     });
                 }
             } else {
@@ -164,6 +160,7 @@ class SuggestCandidate extends Component {
 
     render() {
         var { candidateSelectedList, suggestCandidateList, selectedIndex } = this.props
+        console.log('state',this.props.location)
         return (
             <React.Fragment>
                 {this.state.isLoading ?
@@ -182,7 +179,6 @@ class SuggestCandidate extends Component {
 
                             <div class="card-body">
                                 <SuggestCandidates
-                                    onSort={this.onSort}
                                     item={suggestCandidateList[selectedIndex]}
                                     onSelectCandidate={this.selectCandidate}
                                     selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
@@ -241,9 +237,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchSuggestCandidateList: () => {
             dispatch(Action.fetchSuggestList());
-        },
-        onSortSuggestList: (value) => {
-            dispatch(Action.sortSuggestList(value));
         },
         checkSession: () => {
             dispatch(checkSession());
