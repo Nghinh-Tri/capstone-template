@@ -170,16 +170,29 @@ class PositionRequire extends Component {
     }
 
     render() {
-        var { items } = this.props
+        var { items, error } = this.props
         return (
             <React.Fragment>
                 <ProgressBar current='1' />
                 <BriefDetail />
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-table mr-1"></i>
-                    Position
-                </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            <div>
+                                <i class="fas fa-table mr-1" />
+                            </div>
+                            <div>Position</div>
+                            {typeof error.RequiredPositions !== "undefined" ?
+                                error.RequiredPositions.map((element, index) => {
+                                    return (
+                                        <div key={index} className="error text-danger font-weight-bold" style={{ marginLeft: 20 }} >
+                                            {element}
+                                        </div>
+                                    );
+                                })
+                                : ""}
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -219,7 +232,8 @@ class PositionRequire extends Component {
 const mapStateToProp = (state) => {
     return {
         items: state.PositionFormReducer,
-        positionList: state.PositionSelectBarReducer
+        positionList: state.PositionSelectBarReducer,
+        error: state.ErrorReducer,
     }
 }
 

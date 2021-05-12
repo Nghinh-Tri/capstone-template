@@ -54,6 +54,7 @@ class PositionRequire extends Component {
 
     render() {
         var { positionRequire } = this.props
+        console.log(positionRequire)
         return (
             <React.Fragment>
                 {this.state.isLoading ?

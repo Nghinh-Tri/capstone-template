@@ -33,7 +33,8 @@ class PersonalProfile extends Component {
     }
 
     render() {
-        var { profile } = this.props;
+        var { profile, match } = this.props;
+        console.log(match)
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -42,7 +43,11 @@ class PersonalProfile extends Component {
                     </div>
                     :
                     <Descriptions title="Project Info" layout="horizontal" bordered
-                        extra={<Button onClick={this.onMoveToChangePassword} type="primary">Change Password</Button>} >
+                        extra={
+                            typeof match.params.id === 'undefined' ?
+                                <Button onClick={this.onMoveToChangePassword} type="primary">Change Password</Button>
+                                : ''
+                        } >
                         <Descriptions.Item span={3} label="Name">
                             {(profile || {}).name}
                         </Descriptions.Item>

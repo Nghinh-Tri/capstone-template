@@ -93,7 +93,7 @@ class CreateProject extends Component {
             var project = {
                 projectId: id,
                 projectName: projectName.trim(),
-                description: description,
+                description: description.trim(),
                 dateBegin: dateBegin,
                 dateEstimatedEnd: dateEstimatedEnd,
                 projectTypeID: projectTypeID,
@@ -103,7 +103,7 @@ class CreateProject extends Component {
         }
         else {
             var project = {
-                description: description,
+                description: description.trim(),
                 dateEstimatedEnd: dateEstimatedEnd,
                 typeID: projectTypeID,
                 fieldID: projectFieldID

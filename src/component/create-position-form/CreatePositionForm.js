@@ -7,6 +7,8 @@ import LanguageForm from './language-form/LanguageForm';
 import HardSkillForm from './hard-skill-form/HardSkillForm';
 import SoftSkillForm from './soft-skill-form/SoftSkillForm';
 import { store } from 'react-notifications-component';
+import { createPositionFailed } from '../../service/action/position/PositionAction';
+import { connect } from 'react-redux';
 
 class CreatePositionForm extends Component {
 
@@ -24,21 +26,12 @@ class CreatePositionForm extends Component {
     }
 
     onShowRequireDetail = () => {
-        if (this.props.positionItem.posID !== 0)
+        if (this.props.positionItem.posID !== 0) {
             this.setState({ visible: true })
+            this.props.addError({ RequiredPositions: [] })
+        }
         else
-            store.addNotification({
-                message: "Please select position",
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 6000,
-                    onScreen: false
-                }
-            })
+            this.props.addError({ RequiredPositions: ['Please select position'] })
     }
 
     handleOk = (e) => {
@@ -66,21 +59,21 @@ class CreatePositionForm extends Component {
 
     onHandle = (e) => {
         var { value } = e.target
-        if (value <= 0) {
-            store.addNotification({
-                message: "Candidate must bigger than 0",
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 6000,
-                    onScreen: false
-                }
-            })
-        } else
-            this.props.onUpdateCandidatesNeeds(value, this.props.positionFormIndex)
+        // if (value <= 0) {
+        //     store.addNotification({
+        //         message: "Candidate must bigger than 0",
+        //         type: "danger",
+        //         insert: "top",
+        //         container: "top-center",
+        //         animationIn: ["animated", "fadeIn"],
+        //         animationOut: ["animated", "fadeOut"],
+        //         dismiss: {
+        //             duration: 6000,
+        //             onScreen: false
+        //         }
+        //     })
+        // } else
+        this.props.onUpdateCandidatesNeeds(value, this.props.positionFormIndex)
     }
 
     render() {
@@ -103,7 +96,7 @@ class CreatePositionForm extends Component {
                         />
                     </td>
                     <td width={145}>
-                        <input className="text-center" type="number" min={1} value={positionItem.candidateNeeded} className="form-control" style={{ height: 30, width: 120 }} name="candidateNeed" onChange={this.onHandle} />
+                        <input className="text-center" type="number" value={positionItem.candidateNeeded} className="form-control" style={{ height: 30, width: 120 }} name="candidateNeed" onChange={this.onHandle} />
                     </td>
                     <td className='text-center'>{typeof positionItem.hardSkills.option.find(e => e.hardSkillID === 0) === 'object' ? positionItem.hardSkills.minium.length + positionItem.hardSkills.option.length - 1 : positionItem.hardSkills.minium.length + positionItem.hardSkills.option.length} </td>
                     <td className='text-center'>{typeof positionItem.language.find(e => e.langID === 0) === 'object' ? positionItem.language.length - 1 : positionItem.language.length}</td>
@@ -149,4 +142,12 @@ class CreatePositionForm extends Component {
     }
 }
 
-export default CreatePositionForm;
+const mapDispatchToProp = (dispatch) => {
+    return {
+        addError: (error) => {
+            dispatch(createPositionFailed(error))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProp)(CreatePositionForm);

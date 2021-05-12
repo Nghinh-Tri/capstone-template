@@ -160,7 +160,6 @@ class SuggestCandidate extends Component {
 
     render() {
         var { candidateSelectedList, suggestCandidateList, selectedIndex } = this.props
-        console.log('state',this.props.location)
         return (
             <React.Fragment>
                 {this.state.isLoading ?

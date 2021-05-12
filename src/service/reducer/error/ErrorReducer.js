@@ -16,6 +16,9 @@ const ErrorReducer = (state = initState, action) => {
         case Type.REFRESH_REGISTER_PAGE:
             state = {}
             return state
+        case Type.CREATE_POSITION_FAIL:
+            state = action.error
+            return state
         default:
             return state;
     }
