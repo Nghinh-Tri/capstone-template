@@ -92,8 +92,8 @@ class CreateProject extends Component {
         if (this.props.location.pathname.toString().includes('create-project')) {
             var project = {
                 projectId: id,
-                projectName: projectName,
-                description: description,
+                projectName: projectName.trim(),
+                description: description.trim(),
                 dateBegin: dateBegin,
                 dateEstimatedEnd: dateEstimatedEnd,
                 projectTypeID: projectTypeID,
@@ -103,7 +103,7 @@ class CreateProject extends Component {
         }
         else {
             var project = {
-                description: description,
+                description: description.trim(),
                 dateEstimatedEnd: dateEstimatedEnd,
                 typeID: projectTypeID,
                 fieldID: projectFieldID
@@ -143,8 +143,8 @@ class CreateProject extends Component {
                                             onChange={this.onHandle}
                                             readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
                                         />
-                                        {typeof error.projectName !== "undefined"
-                                            ? error.projectName.map((element, index) => {
+                                        {typeof error.ProjectName !== "undefined"
+                                            ? error.ProjectName.map((element, index) => {
                                                 return (
                                                     <div key={index} className="error text-danger font-weight-bold">
                                                         {element}
@@ -272,7 +272,7 @@ class CreateProject extends Component {
                                         <TextArea elastic className="form-control"
                                             name="description"
                                             autoSize={{ minRows: 5, maxRows: 20 }}
-                                            defaultValue={description}
+                                            value={description}
                                             onChange={this.onHandle}
                                         />
                                         {typeof error.Description !== "undefined"

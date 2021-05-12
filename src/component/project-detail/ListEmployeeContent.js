@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { addMoreCandidate, getPrevRequire, suggestAgain } from '../../service/action/position/PositionAction';
-import { getRole } from '../../service/util/util';
+import { getRole, showHardSkillLevel } from '../../service/util/util';
 
 class ListEmployeeContent extends Component {
 
@@ -42,7 +42,6 @@ class ListEmployeeContent extends Component {
                         {employee.dateIn === null ? "-" : moment(employee.dateIn).format('DD-MM-YYYY')}
                     </th>
                 </tr>
-
             )
         })
         return result
@@ -59,7 +58,6 @@ class ListEmployeeContent extends Component {
         localStorage.setItem('projectName', this.props.projectName)
         localStorage.setItem('dateCreate', this.props.dateBegin)
         localStorage.setItem('dateEnd', this.props.dateEstimatedEnd)
-        // localStorage.setItem('positionRequire', this.props.prevRequire)
         this.props.addMoreCandidate(this.props.item.posID)
     }
 
@@ -112,16 +110,18 @@ class ListEmployeeContent extends Component {
     showHardSkill = (skills) => {
         var result = null
         result = skills.map((value, index) => {
-            return (<ul key={index}>
-                <li>{value.hardSkillName}</li>
-                <li>Skill Level: {value.skillLevel}</li>
-                <li>
-                    Certification Level: {value.certificationLevel === 0 ? 'All' : 'Level ' + value.certificationLevel}  <br />
-                </li>
-                <li>
-                    Priority: {value.priority}
-                </li>
-            </ul>)
+            return (
+                <ul key={index} style={{ width: 300 }}>
+                    <li>{value.hardSkillName}</li>
+                    <li>Skill Level: {showHardSkillLevel(value.skillLevel)}</li>
+                    <li>
+                        Certificate Level: {value.certificationLevel === 0 ? 'All' : 'Level ' + value.certificationLevel}  <br />
+                    </li>
+                    <li>
+                        Priority: {value.priority}
+                    </li>
+                </ul>
+            )
         })
         return result
     }
@@ -130,7 +130,10 @@ class ListEmployeeContent extends Component {
         var result = null
         result = language.map((value, index) => {
             return (
-                <>{value.langName} - Priority: {value.priority}</>
+                <ul key={index} style={{ width: 200 }}>
+                    <li>{value.langName}</li>
+                    <li>Priority: {value.priority}</li>
+                </ul>
             )
         })
         return result
@@ -139,7 +142,10 @@ class ListEmployeeContent extends Component {
     showSoftSkill = (softSkill) => {
         var result = null
         result = softSkill.map((value, index) => {
-            return (<>{value.softSkillName} < br /></>
+            return (
+                <ul key={index} style={{ width: 200 }} >
+                    <li>{value.softSkillName}</li>
+                </ul>
             )
         })
         return result
@@ -189,29 +195,36 @@ class ListEmployeeContent extends Component {
                                             <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
                                                 Select Candidates Again
                                         </button>
-                                            <Modal title="Requirement" width={1000}
+                                            <Modal title={<span style={{ color: 'red', fontWeight: 600 }} >System will suggest suitable employee followed those requirements </span>}
+                                                width={1000}
                                                 visible={this.state.visible}
                                                 onOk={this.handleOk}
                                                 onCancel={this.handleCancel} >
-                                                <Descriptions>
-                                                    <Descriptions.Item>{prevRequire.posName} </Descriptions.Item>
-                                                    <Descriptions.Item label='Candidate Needed'>{prevRequire.missingEmployee} </Descriptions.Item>
-                                                </Descriptions>
-                                                <Descriptions>
-                                                    <Descriptions.Item label='Hard Skill'>
-                                                        {this.showHardSkill(prevRequire.hardSkills)}
-                                                    </Descriptions.Item>
-                                                </Descriptions>
-                                                <Descriptions>
-                                                    <Descriptions.Item label='Language'>
-                                                        {this.showLanguage(prevRequire.language)}
-                                                    </Descriptions.Item>
-                                                </Descriptions>
-                                                <Descriptions>
-                                                    <Descriptions.Item label='Soft Skill'>
-                                                        {this.showSoftSkill(prevRequire.softSkillIDs)}
-                                                    </Descriptions.Item>
-                                                </Descriptions>
+                                                <div>
+                                                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }} >
+                                                        <span style={{ fontWeight: 600 }} >{prevRequire.posName}</span>
+                                                        <span style={{ marginLeft: 300, fontWeight: 600 }} >Candidate Needed:</span>
+                                                        <span style={{ marginLeft: 20 }}>{prevRequire.missingEmployee}</span>
+                                                    </div>
+                                                    <div style={{ marginTop: 10, marginBottom: 10 }} >
+                                                        <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Hard Skill</div>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                                                            {this.showHardSkill(prevRequire.hardSkills)}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Language</div>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                                                            {this.showLanguage(prevRequire.language)}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Soft Skill</div>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                                                            {this.showSoftSkill(prevRequire.softSkillIDs)}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </Modal>
                                         </> :
                                         ''

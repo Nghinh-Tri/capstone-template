@@ -2,7 +2,7 @@ import axios from "axios"
 import { store } from "react-notifications-component"
 import { ERROR, Type } from "../../constant/index"
 import { history } from "../../helper/History"
-import { API_URL, getRole } from "../../util/util"
+import { API_URL, getEmail, getRole } from "../../util/util"
 
 export const login = (username, password) => {
     var user = { email: username, password: password, rememberMe: true }
@@ -72,6 +72,30 @@ export const login = (username, password) => {
     }
 }
 
+export const changePassword = (password) => {
+    var id = JSON.parse(localStorage.getItem('EMP'))
+    var email = getEmail()
+    var url = `${API_URL}/User/ChangePassword/${id}`
+    return dispatch => {
+        axios.put(
+            url,
+            password,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
+            .then(res => {
+                if (res.status === 200) {
+                    dispatch(login(email, password.newPassword))
+                }
+            })
+            .catch(err => {
+                if (err.response.status === 400) {
+                    dispatch(changePasswordFail(err.response.data.errors))
+                } else {
+                    dispatch(changePasswordFail(err.response.data.errors))
+                }
+            })
+    }
+}
+
 export const request = (user) => {
     return { type: Type.LOGIN_REQUEST, user }
 }
@@ -84,3 +108,10 @@ export const loginFailure = (error) => {
     return { type: ERROR.LOGIN_ERROR, error }
 }
 
+export const changePasswordFail = (error) => {
+    return { type: Type.CHANGE_PASSWORD_FAIL, error }
+}
+
+export const refreshPage = () => {
+    return { type: Type.REFRESH_REGISTER_PAGE }
+}

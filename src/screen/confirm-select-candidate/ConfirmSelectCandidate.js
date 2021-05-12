@@ -46,6 +46,7 @@ class ConfirmSelectCandidate extends Component {
     componentWillReceiveProps = () => {
         var { rejectedCandidate, confirmSuggestList } = this.props
         var { confirmObj, click } = this.state
+        console.log(click)
         if (click) {
             if (rejectedCandidate.message !== "" && rejectedCandidate.list.length > 0) {
                 var content = ""
@@ -60,9 +61,10 @@ class ConfirmSelectCandidate extends Component {
                     </>),
                     okType: 'danger',
                     onOk() { confirmSuggestList(confirmObj) },
-                    onCancel: () => { this.setState({ click: !this.state.click }) }
+                    onCancel: () => { this.setState({ click: false }) }
                 });
             } else {
+                console.log('aaa')
                 confirmSuggestList(confirmObj)
             }
         }
@@ -72,8 +74,12 @@ class ConfirmSelectCandidate extends Component {
         var { candidateList } = this.props
         var list = convertSuggestList(candidateList)
         var obj = { candidates: list }
-        this.setState({ confirmObj: obj, click: !this.state.click })
-        this.props.checkRejectedCandidate(obj)
+        this.setState({ confirmObj: obj, click: true })
+        if (list.length > 0)
+            this.props.checkRejectedCandidate(obj)
+        else {
+            this.props.confirmSuggestList(obj)
+        }
     }
 
     onBack = () => {
@@ -81,15 +87,22 @@ class ConfirmSelectCandidate extends Component {
     }
 
     render() {
-        var { candidateList } = this.props
+        var { candidateList, location } = this.props
+        console.log('aa', this.props.location)
         return (
             <div>
                 <ProgressBar current={3} />
                 <BriefDetail />
                 {candidateList.length === 0 ?
-                    <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >You did not select any candidate</h4>
+                    typeof location.state.isUpdate !== 'undefined' ?
+                        location.state.isUpdate === "SuggestAgain" ?
+                            history.push('/project/suggest-candidate', { type: 'SuggestAgain' })
+                            :
+                            <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >You did not select any candidate</h4>
+                        :
+                        <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >You did not select any candidate</h4>
                     :
-                    this.showList(candidateList)
+                    this.showList(candidateList)                
                 }
                 <div className="row pull-right" style={{ marginBottom: 10, marginTop: -10 }}>
                     <div className="col" >

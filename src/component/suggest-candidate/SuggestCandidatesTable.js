@@ -1,30 +1,32 @@
 import React, { Component } from 'react';
 import SuggestCandidateItems from './suggest-candidate-items/SuggestCandidateItems';
+import { ArrowUpOutlined } from "@ant-design/icons";
+import { connect } from 'react-redux';
+import { pagingSuggestList, sortSuggestList } from '../../service/action/suggest/SuggestCandidateAction';
+import { Pagination, Spin } from 'antd';
 
 class SuggestCandidates extends Component {
 
-    onSortType = () => {
-        this.props.onSort('type')
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoad: true
+        }
     }
 
-    onSortField = () => {
-        this.props.onSort('field')
+
+    componentDidMount() {
+        this.props.pagingSuggestList(this.props.item.matchDetail, 1)
     }
 
-    onSortLanguage = () => {
-        this.props.onSort('language')
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.paging !== this.props.paging) {
+            this.setState({ isLoad: false })
+        }
     }
 
-    onSortSoftSkill = () => {
-        this.props.onSort('softSkill')
-    }
-
-    onSortHardSkill = () => {
-        this.props.onSort('hardSkill')
-    }
-
-    onSortOverall = () => {
-        this.props.onSort('overall')
+    onSort = (e) => {
+        this.props.onSortSuggestList(e)
     }
 
     onSelect = (value, candidate) => {
@@ -71,71 +73,114 @@ class SuggestCandidates extends Component {
         return candidateNeeds
     }
 
+    onSelectPage = (e) => {
+        this.props.pagingSuggestList(this.props.item.matchDetail, e)
+    }
+
     render() {
-        var { item, selectedItem } = this.props
+        var { item, selectedItem, paging } = this.props
         var candidateNeeds = 0
         if (typeof item.posId !== 'undefined')
             candidateNeeds = this.getCandidateNeeds(item.posId)
         return (
             <React.Fragment>
-                {typeof item.matchDetail !== 'undefined' ?
-                    item.matchDetail.length === 0 ?
-                        <div className='row justify-content-center' style={{ width: 'auto' }} >
-                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no suitable candidates for this position</h4>
-                        </div>
-                        :
-                        <>
-                            <div class="table-responsive">
-                                <h5 className="pull-right" style={{ marginTop: 0 }}>Select {selectedItem === null ? 0 : selectedItem.candidateSelect.length} / {candidateNeeds} </h5>
+                {this.state.isLoad ?
+                    <div className="row justify-content-center">
+                        <Spin className="text-center" size="large" />
+                    </div>
+                    : <>
+                        {typeof item.matchDetail !== 'undefined' ?
+                            item.matchDetail.length === 0 ?
+                                <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                    <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no suitable candidates for this position</h4>
+                                </div>
+                                :
+                                <>
+                                    <div class="table-responsive">
+                                        <h5 className="pull-right" style={{ marginTop: 0 }}>Select {selectedItem === null ? 0 : selectedItem.candidateSelect.length} / {candidateNeeds} </h5>
 
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th className="font-weight-bold text-center">No</th>
-                                            <th className="font-weight-bold">Name</th>
-                                            <th className="font-weight-bold text-center" width={180}>
-                                                Project Type Match
-                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortType}>swap_vert</i>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={180}>
-                                                Project Field Match
-                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortField}>swap_vert</i>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={160}>
-                                                Language Match
-                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortLanguage}>swap_vert</i>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={160}>
-                                                Soft Skill Match
-                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortSoftSkill}>swap_vert</i>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={160}>
-                                                Hard Skill Match
-                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortHardSkill}>swap_vert</i>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={150}>
-                                                Overall Match
-                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortOverall}>swap_vert</i>
-                                            </th>
-                                            <th className="font-weight-bold text-center">
-                                                {candidateNeeds >= item.matchDetail.length ?
-                                                    <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
-                                                    : ''}
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    {typeof item.matchDetail !== 'undefined' ? (
-                                        <tbody>
-                                            {this.showCandidate(typeof item.matchDetail !== 'undefined' ? item.matchDetail : [], selectedItem, candidateNeeds)}
-                                        </tbody>
-                                    ) : ('')}
-                                </table>
-                            </div>
-                        </>
-                    : ''}
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th className="font-weight-bold text-center">No</th>
+                                                    <th className="font-weight-bold">Name</th>
+                                                    <th className="font-weight-bold " width={180}  >
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div>Project Type Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('type')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center" width={180} >
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div> Project Field Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('field')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center" width={160}>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div>Language Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('language')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center" width={160}>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div>Soft Skill Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('softSkill')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center" width={160}>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div>Hard Skill Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('hardSkill')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center" width={150}>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                            <div>Overall Match</div>
+                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('overall')} />
+                                                        </div>
+                                                    </th>
+                                                    <th className="font-weight-bold text-center">
+                                                        {candidateNeeds >= item.matchDetail.length ?
+                                                            <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
+                                                            : ''}
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.showCandidate(typeof paging.items !== 'undefined' ? paging.items : [], selectedItem, candidateNeeds)}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {paging.pageCount <= 1 ? '' :
+                                        <div className="row justify-content-center" style={{ marginBottom: 20 }}>
+                                            <Pagination current={paging.pageIndex} total={paging.totalRecords} onChange={this.onSelectPage} />
+                                        </div>
+                                    }
+                                </>
+                            : ''}
+                    </>
+                }
             </React.Fragment>
         );
     }
 }
 
-export default SuggestCandidates;
+const mapStateToProps = (state) => {
+    return {
+        paging: state.PagingSuggestListReducer
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        pagingSuggestList: (list, pageIndex) => {
+            dispatch(pagingSuggestList(list, pageIndex))
+        },
+        onSortSuggestList: (value) => {
+            dispatch(sortSuggestList(value));
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SuggestCandidates);

@@ -1,4 +1,4 @@
-import { Descriptions, Spin } from 'antd';
+import { Button, Descriptions, Spin } from 'antd';
 import React, { Component } from "react";
 import { checkSession } from "../../service/action/user/AuthenticateAction";
 import { fetchProfileDetail } from "../../service/action/user/ProfileAction";
@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { showRole } from "../../service/util/util";
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
+import { history } from '../../service/helper/History';
 
 class PersonalProfile extends Component {
 
@@ -27,8 +28,13 @@ class PersonalProfile extends Component {
         }
     }
 
+    onMoveToChangePassword = () => {
+        history.push('/change-password')
+    }
+
     render() {
-        var { profile } = this.props;
+        var { profile, match } = this.props;
+        console.log(match)
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -36,7 +42,12 @@ class PersonalProfile extends Component {
                         <Spin className='text-center' size="large" />
                     </div>
                     :
-                    <Descriptions title="Project Info" layout="horizontal" bordered >
+                    <Descriptions title="Project Info" layout="horizontal" bordered
+                        extra={
+                            typeof match.params.id === 'undefined' ?
+                                <Button onClick={this.onMoveToChangePassword} type="primary">Change Password</Button>
+                                : ''
+                        } >
                         <Descriptions.Item span={3} label="Name">
                             {(profile || {}).name}
                         </Descriptions.Item>

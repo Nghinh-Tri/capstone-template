@@ -93,7 +93,7 @@ class ProjectDetail extends Component {
                             <TabPane tab="Project Details" key={1}></TabPane>
                             <TabPane tab="Employee List" key={2}></TabPane>
                             {getRole() === 'PM' ?
-                                <TabPane tab="Position Requirements" key={3}></TabPane>
+                                <TabPane tab="Requirements History" key={3}></TabPane>
                                 : ''}
                         </Tabs>
                     </div>

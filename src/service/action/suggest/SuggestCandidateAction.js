@@ -67,8 +67,7 @@ export const fetchSuggestList = () => {
             position,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
-            console.log(res)
-            if (res.status === 200) {
+            if (res.data.isSuccessed) {
                 dispatch(fetchSuggestListSuccess(res.data.resultObj))
             }
         }).catch(err => {
@@ -77,18 +76,30 @@ export const fetchSuggestList = () => {
     }
 }
 
-export const fetchSuggestListSuccess = (list) => {
-    return {
-        type: SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST,
-        list
+export const pagingSuggestList = (list, pageIndex) => {
+    var url = `${API_URL}/User/candidate/paging?PageIndex=${pageIndex}&PageSize=10`
+    return (dispatch) => {
+        axios.put(
+            url,
+            list,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+        ).then(res => {
+            if (res.data.isSuccessed)
+                dispatch(pagingSuggestListSuccess(res.data.resultObj))
+        })
     }
 }
 
+export const pagingSuggestListSuccess = (result) => {
+    return { type: SUGGEST_CANDIDATE.PAGING_SUGGEST_LIST, result }
+}
+
+export const fetchSuggestListSuccess = (list) => {
+    return { type: SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST, list }
+}
+
 export const sortSuggestList = value => {
-    return {
-        type: SUGGEST_CANDIDATE.SORT_LIST,
-        value
-    }
+    return { type: SUGGEST_CANDIDATE.SORT_LIST, value }
 }
 
 export const checkRejectCandidatesInSuggestList = (suggestList) => {
@@ -140,31 +151,31 @@ export const confirmSuggestList = (suggestList) => {
                             if (res.data.isSuccessed) {
                                 var projectName = localStorage.getItem('projectName')
                                 message.body = `Project '${projectName}' does not have enough suitable candidates`
-                                setTimeout(() => {
-                                    dispatch(sendNotificate(message))
-                                }, 5000);
                                 dispatch(confirmSuggestListSuccess())
                                 localStorage.removeItem('positionRequire')
                                 localStorage.removeItem('projectId')
                                 localStorage.removeItem('isNewPosition')
                                 localStorage.removeItem('projectName')
+                                dispatch(sendNotificate(message))
                                 history.push("/project")
                             }
                         }
                     }).catch(err => {
-                        dispatch(confirmSuggestListFail())
-                        store.addNotification({
-                            message: err.response.data.message,
-                            type: "danger",
-                            insert: "top",
-                            container: "top-center",
-                            animationIn: ["animated", "fadeIn"],
-                            animationOut: ["animated", "fadeOut"],
-                            dismiss: {
-                                duration: 2000,
-                                onScreen: false
-                            }
-                        })
+                        if (typeof err.response !== 'undefined') {
+                            dispatch(confirmSuggestListFail())
+                            store.addNotification({
+                                message: err.response.data.message,
+                                type: "danger",
+                                insert: "top",
+                                container: "top-center",
+                                animationIn: ["animated", "fadeIn"],
+                                animationOut: ["animated", "fadeOut"],
+                                dismiss: {
+                                    duration: 2000,
+                                    onScreen: false
+                                }
+                            })
+                        }
                     })
                 },
                 onCancel() {
@@ -179,7 +190,6 @@ export const confirmSuggestList = (suggestList) => {
             ).then(res => {
                 if (res.status === 200) {
                     if (res.data.isSuccessed) {
-                        console.log('ook', res.data)
                         var projectName = localStorage.getItem('projectName')
                         message.body = `Project '${projectName}' has candidates that need to be confirmed`
                         dispatch(confirmSuggestListSuccess())
@@ -187,7 +197,6 @@ export const confirmSuggestList = (suggestList) => {
                     }
                 }
             }).catch(err => {
-                console.log('err', err.response)
                 if (typeof err.response !== 'undefined') {
                     confirm({
                         title: `${err.response.data.message}. Cancel this request`,
