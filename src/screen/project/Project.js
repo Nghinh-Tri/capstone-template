@@ -140,7 +140,10 @@ class Project extends Component {
                                             </div>
                                             </button>
                                             : ("")}
-                                        <Search search="project" placeholder="Search project name ..." searchProject={this.searchProject} />
+                                        <Search search="project"
+                                            refresh={projects.isRefresh}
+                                            placeholder="Search project name ..."
+                                            searchProject={this.searchProject} />
                                     </div>
                                     {items.length > 0 ?
 

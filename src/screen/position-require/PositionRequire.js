@@ -43,6 +43,10 @@ class PositionRequire extends Component {
         }
     }
 
+    componentWillUnmount = () => {
+        this.props.refreshPage()
+    }
+
     onDeletePositionForm = (positionFormIndex) => {
         this.props.onDeletePosition(positionFormIndex)
     }
@@ -292,6 +296,9 @@ const mapDispatchToProp = (dispatch, props) => {
         },
         fetchPostionList: () => {
             dispatch(fetchPostionList())
+        },
+        refreshPage: () => {
+            dispatch(Action.refreshPage())
         }
     }
 }

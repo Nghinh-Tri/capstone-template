@@ -119,7 +119,7 @@ export const updateProjectDetail = (name, value) => {
     }
 }
 
-export const fetchProject = (pageIndex, search) => {
+export const fetchProject = (pageIndex, search, refresh) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = ''
     var role = getRole()
@@ -141,17 +141,17 @@ export const fetchProject = (pageIndex, search) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             if (res.data.isSuccessed)
-                dispatch(fetchProjectSuccess(res.data.resultObj))
+                dispatch(fetchProjectSuccess(res.data.resultObj, typeof refresh === 'undefined' ? false : refresh))
         }).catch(err => {
 
         })
     }
 }
 
-export const fetchProjectSuccess = (resultObj) => {
+export const fetchProjectSuccess = (resultObj, refresh) => {
     return {
         type: Type.FETCH_PROJECT,
-        resultObj
+        resultObj, refresh
     }
 }
 
