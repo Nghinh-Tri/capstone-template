@@ -195,7 +195,9 @@ class ListEmployeeContent extends Component {
                                             <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
                                                 Select Candidates Again
                                         </button>
-                                            <Modal title={<span style={{ color: 'red', fontWeight: 600 }} >System will suggest suitable employee followed those requirements </span>}
+                                            <Modal title={<span style={{ color: 'red', fontWeight: 600 }} >
+                                                System will suggest suitable employees based on these requirements
+                                                </span>}
                                                 width={1000}
                                                 visible={this.state.visible}
                                                 onOk={this.handleOk}
