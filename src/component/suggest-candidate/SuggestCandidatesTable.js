@@ -18,11 +18,15 @@ class SuggestCandidates extends Component {
 
 
     componentDidMount() {
+        console.log(this.props.item)
         this.props.pagingSuggestList(this.props.item.matchDetail, 1, '')
     }
 
     componentDidUpdate = (prevProp) => {
-        if (prevProp.paging !== this.props.paging) {
+        if (prevProp.item !== this.props.item) {
+            this.props.pagingSuggestList(this.props.item.matchDetail, 1, '')
+        }
+        else if (prevProp.paging !== this.props.paging) {
             this.setState({ isLoad: false })
         }
     }
@@ -124,7 +128,7 @@ class SuggestCandidates extends Component {
                                                     <th className="font-weight-bold " width={180}  >
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Project Type Match</div>
-                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('type')} />                                                    
+                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('type')} />
                                                         </div>
                                                     </th>
                                                     <th className="font-weight-bold text-center" width={180} >
