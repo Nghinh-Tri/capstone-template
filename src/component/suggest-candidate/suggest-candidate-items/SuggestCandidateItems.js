@@ -44,10 +44,10 @@ class SuggestCandidateItems extends Component {
     }
 
     render() {
-        var { index, candidate, candidateNeeds } = this.props
+        var { index, candidate, pageIndex } = this.props
         return (
             <tr style={this.state.disable ? { backgroundColor: '#ff9999' } : candidate.isHighest ? { backgroundColor: '#F0F0F0' } : { backgroundColor: 'white' }}>
-                <th className="text-center">{index + 1}</th>
+                <th className="text-center">{(pageIndex - 1) * 10 + index + 1}</th>
                 <th className="">
                     <NavLink className='text-primary' to={`/project/suggest-candidate/emp/${candidate.empID}`}> {candidate.empName}</NavLink>
                 </th>
