@@ -6,6 +6,7 @@ import CreateProject from "./screen/create-project/CreateProject"
 import PositionRequire from "./screen/position-require/PositionRequire"
 import SuggestCandidate from "./screen/suggest-candidate/SuggestCandidate"
 import ConfirmSelectCandidate from "./screen/confirm-select-candidate/ConfirmSelectCandidate"
+import ChangePassword from './screen/change-password/ChangePassword';
 
 const route = [
   {
@@ -62,6 +63,11 @@ const route = [
     path: "/profile",
     exact: true,
     main: () => <Profile empID={JSON.parse(localStorage.getItem('EMP'))} />
+  },
+  {
+    path: "/profile/change-password",
+    exact: true,
+    main: () => <ChangePassword />
   }
 ]
 
