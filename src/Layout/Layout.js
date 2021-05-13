@@ -103,7 +103,7 @@ class Layout extends Component {
 const map = (dispatch) => {
     return {
         fetchProject: () => {
-            dispatch(fetchProject(1, ''))
+            dispatch(fetchProject(1, '', true))
         }
     }
 }
