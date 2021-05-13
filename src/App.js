@@ -8,7 +8,6 @@ import RouteList from './RouterMap'
 import { history } from './service/helper/History';
 import { PrivateRoute } from './service/PrivateRouter';
 import ReactNotification from 'react-notifications-component'
-import ChangePassword from './screen/change-password/ChangePassword';
 
 class App extends Component {
 
@@ -32,7 +31,6 @@ class App extends Component {
                     <div>
                         {this.showPrivateRoute(RouteList)}
                         <Route path="/login" component={LoginPage} />
-                        <Route path="/change-password" component={ChangePassword} />
                     </div>
                 </Router>
             </React.Fragment>
