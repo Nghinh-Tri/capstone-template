@@ -40,7 +40,7 @@ class SoftSkillForm extends Component {
         return (
             <div class="card mb-4">
                 <div class="card-header">
-                    <i class="fas fa-table mr-1"></i>Soft Skill
+                    <i class="fas fa-table mr-1"></i>Soft Skill <span style={{ color: 'red', fontWeight: 500 }} >*</span>
                 <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setMinimize} >
                         {!this.state.isMinimize ? 'minimize' : 'crop_free'}
                     </span>

@@ -59,20 +59,6 @@ class CreatePositionForm extends Component {
 
     onHandle = (e) => {
         var { value } = e.target
-        // if (value <= 0) {
-        //     store.addNotification({
-        //         message: "Candidate must bigger than 0",
-        //         type: "danger",
-        //         insert: "top",
-        //         container: "top-center",
-        //         animationIn: ["animated", "fadeIn"],
-        //         animationOut: ["animated", "fadeOut"],
-        //         dismiss: {
-        //             duration: 6000,
-        //             onScreen: false
-        //         }
-        //     })
-        // } else
         this.props.onUpdateCandidatesNeeds(value, this.props.positionFormIndex)
     }
 
