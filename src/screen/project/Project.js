@@ -56,38 +56,42 @@ class Project extends Component {
             result = projectList.map((project, index) => {
                 return (<React.Fragment>
                     { getRole() === 'PM' ?
-                        <tr>
-                            <th style={{ width: 50 }}>{(this.props.projects.data.pageIndex - 1) * 10 + index + 1}</th>
-                            <th style={{ width: 250 }}>
+                        <tr key={index} >
+                            <th className='text-center'>{(this.props.projects.data.pageIndex - 1) * 10 + index + 1}</th>
+                            <th>
                                 <Tooltip title={project.isMissEmp ? 'This project is currently missing employees' : ''} placement='right' >
                                     <Badge dot={project.isMissEmp}>
                                         <NavLink className='text-primary' to={`/project/detail/${project.projectID}`}>
-                                            <p style={{ marginBottom: 0 }} >{project.projectName}</p>
+                                            {project.projectName}
                                         </NavLink>
                                     </Badge>
                                 </Tooltip>
                             </th>
-                            <th style={{ width: 250 }}>{project.typeName}</th>
-                            <th style={{ width: 80 }}>{moment(project.dateBegin).format('DD-MM-YYYY')}</th>
-                            <th style={{ width: 80 }}>
+                            <th>{project.typeName}</th>
+                            <th className="text-center">{moment(project.dateBegin).format('DD-MM-YYYY')}</th>
+                            <th className="text-center">
                                 {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
                             </th>
-                            <th style={{ width: 80 }} className="text-center" >
+                            <th className="text-center" >
                                 <span className={`badge badge-pill ${showSpan(project.status)} span`}>
                                     {showStatus(project.status)}
                                 </span>
                             </th>
                         </tr>
                         :
-                        <tr>
-                            <th style={{ width: 50 }}>{(this.props.projects.pageIndex - 1) * 10 + index + 1}</th>
-                            <th style={{ width: 250 }}>
-                                <NavLink to={`/project/detail/${project.projectID}`}>
-                                    <p>{project.projectName}</p>
+                        <tr key={index}>
+                            <th className='text-center'>{(this.props.projects.pageIndex - 1) * 10 + index + 1}</th>
+                            <th>
+                                <NavLink to={`/project/detail/${project.projectID}`} >
+                                    {project.projectName}
                                 </NavLink>
                             </th>
-                            <th style={{ width: 250 }}>{project.posName}</th>
-                            <th style={{ width: 80 }}>{moment(project.dateIn).format('DD-MM-YYYY')}</th>
+                            <th className='text-center' >{project.posName}</th>
+                            <th className='text-center' >{moment(project.dateIn).format('DD-MM-YYYY')}</th>
+                            <th className='text-center' >{moment(project.dateBegin).format('DD-MM-YYYY')}</th>
+                            <th className='text-center' >
+                                {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
+                            </th>
                         </tr>
                     }
                 </React.Fragment>);
@@ -146,27 +150,26 @@ class Project extends Component {
                                             searchProject={this.searchProject} />
                                     </div>
                                     {items.length > 0 ?
-
                                         <div class="table-responsive">
                                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                <thead>
+                                                <thead className="font-weight-bold text-center text-primary">
                                                     {getRole() === "PM" ? (
                                                         <tr>
-                                                            <th className="font-weight-bold">No</th>
-                                                            <th width={400} className="font-weight-bold">Project Name</th>
-                                                            <th width={100} className="font-weight-bold">Project Type</th>
-                                                            <th width={120} className="font-weight-bold ">Start Date</th>
-                                                            <th width={100} className="font-weight-bold ">End Date</th>
-                                                            <th width={100} className="font-weight-bold text-center" style={{ width: 80 }}>
-                                                                Status
-                                                </th>
+                                                            <th width={40}>No</th>
+                                                            <th width={400}>Project Name</th>
+                                                            <th width={150}>Project Type</th>
+                                                            <th width={120}>Start Date</th>
+                                                            <th width={100}>End Date</th>
+                                                            <th width={100}>Status</th>
                                                         </tr>
                                                     ) : (
                                                         <tr>
-                                                            <th className="font-weight-bold">No</th>
-                                                            <th className="font-weight-bold">Project Name</th>
-                                                            <th className="font-weight-bold">Position</th>
-                                                            <th className="font-weight-bold">Joined Date</th>
+                                                            <th width={40}>No</th>
+                                                            <th width={400}>Project Name</th>
+                                                            <th width={150}>Position</th>
+                                                            <th width={110}>Confirmed Date</th>
+                                                            <th width={100}>Start Date</th>
+                                                            <th width={100}>End Date</th>
                                                         </tr>
                                                     )}
                                                 </thead>

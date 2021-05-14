@@ -7,37 +7,21 @@ import { API_URL, getEmail, getRole } from "../../util/util"
 export const login = (username, password) => {
     var user = { email: username, password: password, rememberMe: true }
     return dispatch => {
-        dispatch(request(user))
-        axios.post(`${API_URL}/User/authenticate`, user).
-            then(res => {
-                if (res.status === 200) {
-                    localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
-                    localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
-                    var role = getRole()
-                    if (role === 'PM' || role === 'Employee') {
-                        dispatch(success(JSON.stringify(res.data.resultObj)))
-                        history.push('/project');
-                    } else {
-                        localStorage.clear()
-                        dispatch(loginFailure())
-                        store.addNotification({
-                            message: "User role is not match",
-                            type: "danger",
-                            insert: "top",
-                            container: "top-center",
-                            animationIn: ["animated", "fadeIn"],
-                            animationOut: ["animated", "fadeOut"],
-                            dismiss: {
-                                duration: 2000,
-                                onScreen: false
-                            }
-                        })
-                    }
-                }
-            }).catch(err => {
-                if (err.response.status === 500) {
+        axios.post(
+            `${API_URL}/User/authenticate`,
+            user
+        ).then(res => {
+            if (res.data.isSuccessed) {
+                localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
+                localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
+                var role = getRole()
+                if (role === 'PM' || role === 'Employee') {
+                    dispatch(success(JSON.stringify(res.data.resultObj)))
+                    history.push('/project');
+                } else {
+                    localStorage.clear()
                     store.addNotification({
-                        message: "Duplicate email or username",
+                        message: "User role is not match",
                         type: "danger",
                         insert: "top",
                         container: "top-center",
@@ -48,27 +32,30 @@ export const login = (username, password) => {
                             onScreen: false
                         }
                     })
-                } else {
-                    var error = err.response.data
-                    if (error.errors !== null) {
-                        dispatch(loginFailure(error.errors))
-                    } else {
-                        dispatch(loginFailure({}))
-                        store.addNotification({
-                            message: error.message,
-                            type: "danger",
-                            insert: "top",
-                            container: "top-center",
-                            animationIn: ["animated", "fadeIn"],
-                            animationOut: ["animated", "fadeOut"],
-                            dismiss: {
-                                duration: 2000,
-                                onScreen: false
-                            }
-                        })
-                    }
                 }
-            })
+            }
+        }).catch(err => {
+            if (typeof err.response !== 'undefined') {
+                var error = err.response.data
+                if (error.errors !== null) {
+                    dispatch(loginFailure(error.errors))
+                } else {
+                    dispatch(loginFailure({}))
+                    store.addNotification({
+                        message: error.message,
+                        type: "danger",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 2000,
+                            onScreen: false
+                        }
+                    })
+                }
+            }
+        })
     }
 }
 

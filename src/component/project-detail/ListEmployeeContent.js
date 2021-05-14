@@ -35,9 +35,9 @@ class ListEmployeeContent extends Component {
                     <th >
                         <NavLink className="text-primary" to={`/project/detail/emp/${employee.empID}`}>{employee.name}</NavLink>
                     </th>
-                    <th className="">{posName}</th>
-                    <th className="">{employee.email}</th>
-                    <th className="">{employee.phoneNumber}</th>
+                    <th className="text-center">{posName}</th>
+                    <th>{employee.email}</th>
+                    <th className="text-center">{employee.phoneNumber}</th>
                     <th className="text-center">
                         {employee.dateIn === null ? "-" : moment(employee.dateIn).format('DD-MM-YYYY')}
                     </th>
@@ -163,14 +163,14 @@ class ListEmployeeContent extends Component {
                         <div className='row pull-right' style={{ width: 'auto' }} >
                             <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Employees </h5>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <th className="font-weight-bold">Name</th>
-                                    <th className="font-weight-bold">Position</th>
-                                    <th className="font-weight-bold">Email</th>
-                                    <th className="font-weight-bold">Phone</th>
-                                    <th width={120} className="font-weight-bold text-center">Date In</th>
+                        <div className="table-responsive">
+                            <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead className="font-weight-bold text-center text-primary">
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th width={120}>Confirmed Date</th>
                                 </thead>
                                 <tbody>
                                     {this.showCandidate(item.employees, item.posName)}
