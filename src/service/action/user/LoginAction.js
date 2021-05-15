@@ -7,16 +7,17 @@ import { API_URL, getEmail, getRole } from "../../util/util"
 export const login = (username, password) => {
     var user = { email: username, password: password, rememberMe: true }
     return dispatch => {
+        dispatch(request())
         axios.post(
             `${API_URL}/User/authenticate`,
             user
         ).then(res => {
             if (res.data.isSuccessed) {
+                dispatch(success())
                 localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
                 localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
                 var role = getRole()
                 if (role === 'PM' || role === 'Employee') {
-                    dispatch(success(JSON.stringify(res.data.resultObj)))
                     history.push('/project');
                 } else {
                     localStorage.clear()
@@ -83,12 +84,12 @@ export const changePassword = (password) => {
     }
 }
 
-export const request = (user) => {
-    return { type: Type.LOGIN_REQUEST, user }
+export const request = () => {
+    return { type: Type.LOGIN_REQUEST }
 }
 
-export const success = (user) => {
-    return { type: Type.LOGIN_SUCCESS, user }
+export const success = () => {
+    return { type: Type.LOGIN_SUCCESS }
 }
 
 export const loginFailure = (error) => {
