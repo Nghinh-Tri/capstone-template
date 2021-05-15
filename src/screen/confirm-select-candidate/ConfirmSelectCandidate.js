@@ -46,7 +46,6 @@ class ConfirmSelectCandidate extends Component {
     componentWillReceiveProps = () => {
         var { rejectedCandidate, confirmSuggestList } = this.props
         var { confirmObj, click } = this.state
-        console.log(click)
         if (click) {
             if (rejectedCandidate.message !== "" && rejectedCandidate.list.length > 0) {
                 var content = ""
@@ -64,7 +63,6 @@ class ConfirmSelectCandidate extends Component {
                     onCancel: () => { this.setState({ click: false }) }
                 });
             } else {
-                console.log('aaa')
                 confirmSuggestList(confirmObj)
             }
         }
@@ -88,7 +86,6 @@ class ConfirmSelectCandidate extends Component {
 
     render() {
         var { candidateList, location } = this.props
-        console.log('aa', this.props.location)
         return (
             <div>
                 <ProgressBar current={3} />

@@ -24,14 +24,12 @@ class ProgressBar extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.location !== this.props.location) {
-            console.log(this.props.location)
             if (typeof this.props.location.state !== 'undefined')
                 this.setState({ isUpdate: this.props.location.state.isUpdate })
         }
     }
 
     render() {
-        var { isUpdate } = this.state
         return (
             <Steps current={parseInt(this.props.current)} style={{ marginTop: 20, marginBottom: 20 }} >
                 <Step title="Create Project" />

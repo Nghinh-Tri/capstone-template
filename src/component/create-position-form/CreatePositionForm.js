@@ -65,7 +65,6 @@ class CreatePositionForm extends Component {
     render() {
         var { positionItem, positionList, positionFormIndex, length } = this.props
         var listConverted = convertPositionList(positionList)
-        // console.log('positionItem', positionItem)
         return (
             <React.Fragment>
                 <tr>

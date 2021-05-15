@@ -163,26 +163,27 @@ class ListEmployeeContent extends Component {
                         <div className='row pull-right' style={{ width: 'auto' }} >
                             <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Employees </h5>
                         </div>
-                        <div className="table-responsive">
-                            <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead className="font-weight-bold text-center text-primary">
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th width={120}>Confirmed Date</th>
-                                </thead>
-                                <tbody>
-                                    {this.showCandidate(item.employees, item.posName)}
-                                </tbody>
-                            </table>
-                        </div>
-                        {item.employees.length === 0 ?
-                            <div className='row justify-content-center' style={{ width: 'auto' }} >
-                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-                            </div>
-                            : ''
-                        }
+                        {
+                            item.employees.length === 0 ?
+                                <div className='row justify-content-center'>
+                                    <h4 style={{ fontStyle: 'italic', color: 'gray' }}>No employee available for this position</h4>
+                                </div>
+                                :
+                                <div className="table-responsive">
+                                    <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead className="font-weight-bold text-center text-primary">
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th width={150}>Confirmed Date</th>
+                                        </thead>
+                                        <tbody>
+                                            {this.showCandidate(item.employees, item.posName)}
+                                        </tbody>
+                                    </table>
+                                </div>
+                        }                       
                         {getRole() === 'PM' ?
                             this.props.projectStatus === 4 ? "" :
                                 item.noe === item.candidateNeeded ?

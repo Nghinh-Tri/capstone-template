@@ -8,6 +8,7 @@ import { compose } from 'redux';
 import { checkSession } from '../../service/action/user/AuthenticateAction';
 import * as Action from '../../service/action/project/ProjectAction'
 import { showStatus, showBadge, getRole } from '../../service/util/util';
+import TextArea from 'antd/lib/input/TextArea';
 
 class ProjectProfile extends Component {
 
@@ -59,10 +60,14 @@ class ProjectProfile extends Component {
                     <Descriptions title="Project Info" layout='horizontal' bordered
                         extra={<React.Fragment>
                             {getRole() === 'PM' ?
-                                project.status !== 4 ?
-                                    <NavLink to={`/project/detail/${project.projectID}/edit`} style={{ marginRight: 10 }} type="default" >Update</NavLink>
-                                    :
-                                    project.status === 3 ? <Button type="primary" onClick={this.onChangeStatusToFinish}>Finish</Button> : ''
+                                project.status < 4 ?
+                                    <>
+                                        <NavLink to={`/project/detail/${project.projectID}/edit`} style={{ marginRight: 10 }} type="default" >Update</NavLink>
+                                        {project.status === 3 ?
+                                            <Button type="primary" onClick={this.onChangeStatusToFinish}>Finish</Button>
+                                            : ''}
+                                    </>
+                                    : ''
                                 : ''
                             }
                         </React.Fragment>}>
@@ -76,7 +81,10 @@ class ProjectProfile extends Component {
                         <Descriptions.Item label="Status" span={3}>
                             <Badge status={showBadge(project.status)} text={showStatus(project.status)} />
                         </Descriptions.Item>
-                        <Descriptions.Item label="Description">{project.description}</Descriptions.Item>
+                        <Descriptions.Item label="Description">
+                            <TextArea value={project.description} readOnly autoSize={true}
+                                style={{ backgroundColor: 'white', border: 'none' }} />
+                        </Descriptions.Item>
                     </Descriptions>
                 }
             </React.Fragment>
