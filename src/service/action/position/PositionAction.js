@@ -112,7 +112,6 @@ export const createPosition = (positionItem, isUpdate) => {
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
     var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID}`
-    var urlCheckValidate = `${API_URL}/Project/checkStatus`
     return (dispatch) => {
         axios.post(
             urlToAddRequire,
@@ -120,9 +119,8 @@ export const createPosition = (positionItem, isUpdate) => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
             if (res.data.isSuccessed) {
-                dispatch(createPositionSuccess())
+                dispatch(createPositionSuccess(res.data.isSuccessed))
                 localStorage.setItem('positionRequire', JSON.stringify(res.data.resultObj))
-                history.push("/project/suggest-candidate", { isUpdate: isUpdate })
             }
         }).catch(err => {
             dispatch(createPositionFailed(err.response.data.errors))
@@ -130,8 +128,8 @@ export const createPosition = (positionItem, isUpdate) => {
     }
 }
 
-export const createPositionSuccess = () => {
-    return { type: Type.CREATE_POSITION }
+export const createPositionSuccess = (isSuccessed) => {
+    return { type: Type.CREATE_POSITION, isSuccessed }
 }
 
 export const createPositionFailed = (error) => {

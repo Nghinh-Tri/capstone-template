@@ -9,6 +9,8 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import moment from 'moment';
 import TextArea from 'antd/lib/input/TextArea';
+import { Modal } from 'antd';
+import { history } from '../../service/helper/History';
 class CreateProject extends Component {
 
     constructor(props) {
@@ -69,6 +71,24 @@ class CreateProject extends Component {
                     projectFieldID: projectDetail.fieldID
                 })
             }
+        } else if (prevProps.status !== this.props.status) {
+            let { location } = this.props
+            let { id } = this.state
+            if (this.props.status)
+                Modal.success({
+                    title: location.pathname.toString().includes('create-project') ?
+                        'Create Project Successfully' : 'Update Project Successfully',
+                    onOk() {
+                        if (location.pathname.toString().includes('create-project'))
+                            history.push('/project/create-position')
+                        else
+                            history.push(`/project/detail/${id}`)
+                    }
+                })
+            else
+                Modal.error({
+                    title: typeof this.props.match === 'undefined' ? 'Create Project Failed' : 'Update Project Failed'
+                })
         }
     }
 
@@ -306,7 +326,8 @@ const mapStateToProps = (state) => {
         projectType: state.ProjectTypeReducer,
         projectField: state.ProjectFieldReducer,
         error: state.ErrorReducer,
-        constraintsError: state.CreateProjectErrorReducer
+        constraintsError: state.CreateProjectErrorReducer,
+        status: state.StatusReducer
     }
 }
 

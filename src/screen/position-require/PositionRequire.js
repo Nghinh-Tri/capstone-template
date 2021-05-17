@@ -9,6 +9,8 @@ import { checkSession } from '../../service/action/user/AuthenticateAction';
 import * as Action from "../../service/action/position/PositionAction";
 import { fetchPostionList } from '../../service/action/position/PositionSelectBarAction';
 import { convertPositionRequire } from '../../service/util/util';
+import { Modal } from 'antd';
+import { history } from '../../service/helper/History';
 
 class PositionRequire extends Component {
 
@@ -27,7 +29,8 @@ class PositionRequire extends Component {
             },
             isUpdate: false,
             updateType: '',
-            positionNotSelect: []
+            positionNotSelect: [],
+            isSubmit: false
         }
     }
 
@@ -39,6 +42,25 @@ class PositionRequire extends Component {
             this.setState({ updateType: location.state.type })
             if (location.state.type === 'addMorePosition') {
                 this.setState({ positionNotSelect: location.state.position })
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.status !== this.props.status) {
+            if (this.state.isSubmit) {
+                let { isUpdate } = this.state
+                if (this.props.status)
+                    Modal.success({
+                        title: 'Assign Position Successfully',
+                        onOk() {
+                            history.push("/project/suggest-candidate", { isUpdate: isUpdate })
+                        }
+                    })
+                else
+                    Modal.error({
+                        title: 'Assign Position Failed'
+                    })
             }
         }
     }
@@ -170,6 +192,7 @@ class PositionRequire extends Component {
     onCreatePosition = (event) => {
         event.preventDefault()
         var items = convertPositionRequire(this.props.items)
+        this.setState({ isSubmit: true })
         this.props.onCreatePosition(items, this.state.isUpdate)
     }
 
@@ -238,6 +261,7 @@ const mapStateToProp = (state) => {
         items: state.PositionFormReducer,
         positionList: state.PositionSelectBarReducer,
         error: state.ErrorReducer,
+        status: state.StatusReducer
     }
 }
 

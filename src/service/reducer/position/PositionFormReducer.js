@@ -297,6 +297,10 @@ const positionReducer = (state = initState, action) => {
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
+        case Type.REFRESH_REGISTER_PAGE:
+            state = []
+            return state
+
         default:
             if (state.length === 0)
                 state.push({

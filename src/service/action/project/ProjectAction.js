@@ -43,7 +43,6 @@ export const generateProjectFail = () => {
 export const createProject = (project) => {
     var empID = JSON.parse(localStorage.getItem('EMP'))
     var url = `${API_URL}/Project/${empID}`
-    console.log(project)
     return (dispatch) => {
         dispatch(createProjectFailed({}))
         dispatch(createProjectConstraintsFailed(''))
@@ -52,31 +51,28 @@ export const createProject = (project) => {
             project,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            if (res.status === 200) {
-                if (res.data.isSuccessed) {
-                    project.projectId = res.data.resultObj
-                    localStorage.setItem('projectId', res.data.resultObj)
-                    localStorage.setItem('projectType', project.projectTypeID)
-                    localStorage.setItem('projectField', project.projectFieldID)
-                    localStorage.setItem('dateCreate', project.dateBegin)
-                    localStorage.setItem('dateEnd', project.dateEstimatedEnd)
-                    localStorage.setItem('projectName', project.projectName)
-                    dispatch(createProjectSuccess(project))
-                    var message = {
-                        title: `Project Manager ${getUserName()} sent a notification`,
-                        body: `Project '${project.projectName}' has been created`,
-                        status: true,
-                        topic: 'news',
-                        dateCreate: moment.now()
-                    }
-                    dispatch(sendNotificate(message))
-                } else {
-                    dispatch(createProjectConstraintsFailed(res.data.message))
+            if (res.data.isSuccessed) {
+                project.projectId = res.data.resultObj
+                localStorage.setItem('projectId', res.data.resultObj)
+                localStorage.setItem('projectType', project.projectTypeID)
+                localStorage.setItem('projectField', project.projectFieldID)
+                localStorage.setItem('dateCreate', project.dateBegin)
+                localStorage.setItem('dateEnd', project.dateEstimatedEnd)
+                localStorage.setItem('projectName', project.projectName)
+                dispatch(createProjectSuccess(res.data.isSuccessed))
+                var message = {
+                    title: `Project Manager ${getUserName()} sent a notification`,
+                    body: `Project '${project.projectName}' has been created`,
+                    status: true,
+                    topic: 'news',
+                    dateCreate: moment.now()
                 }
+                dispatch(sendNotificate(message))
+            } else {
+                dispatch(createProjectConstraintsFailed(res.data.message))
             }
         }).catch(err => {
             if (typeof err.response !== 'undefined') {
-                console.log(err.response.data.errors)
                 dispatch(createProjectFailed(err.response.data.errors))
             }
         })
@@ -90,12 +86,9 @@ export const refreshPage = () => {
     }
 }
 
-export const createProjectSuccess = project => {
-    history.push('/project/create-position')
-    return {
-        type: Type.CREATE_PROJECT,
-        project
-    }
+export const createProjectSuccess = (isSuccessed) => {
+    // history.push('/project/create-position')
+    return { type: Type.CREATE_PROJECT, isSuccessed }
 }
 
 export const createProjectFailed = error => {
@@ -219,16 +212,17 @@ export const updateProject = (project, id) => {
             project,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            dispatch(updateProjectSuccess(id))
+            dispatch(updateProjectSuccess(res.data.isSuccessed))
+        }).catch(err => {
+            if (typeof err.response !== 'undefined') {
+                dispatch(createProjectFailed(err.response.data.errors))
+            }
         })
     }
 }
 
-export const updateProjectSuccess = (id) => {
-    history.push(`/project/detail/${id}`)
-    return {
-        type: Type.UPDATE_PROJECT
-    }
+export const updateProjectSuccess = (isSuccessed) => {
+    return { type: Type.UPDATE_PROJECT, isSuccessed }
 }
 
 export const changeStatusToFinish = projectID => {
