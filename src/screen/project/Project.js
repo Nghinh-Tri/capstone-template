@@ -7,6 +7,7 @@ import { Badge, Pagination, Spin, Tooltip } from 'antd';
 import Search from '../../component/search/Search';
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
+import { history } from '../../service/helper/History';
 
 class Project extends Component {
 
@@ -45,8 +46,9 @@ class Project extends Component {
     }
 
     onGenerateProject = (isCreateNew) => {
-        this.props.generateProject(this.state.project, isCreateNew)
-        localStorage.setItem("projectId", 0)
+        // this.props.generateProject(this.state.project, isCreateNew)
+        // localStorage.setItem("projectId", 0)
+        history.push('/project/create-project', { isUpdate: false })
     }
 
     onShowListProject = (projectList) => {
@@ -210,9 +212,6 @@ const mapStateToProp = state => {
 
 const mapDispatchToProp = (dispatch) => {
     return {
-        generateProject: (project, isCreateNew) => {
-            dispatch(Action.generateProject(project, isCreateNew))
-        },
         fetchProject: (pageIndex, search) => {
             dispatch(Action.fetchProject(pageIndex, search))
         },

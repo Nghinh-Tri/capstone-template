@@ -6,7 +6,6 @@ import ProjectTypeReducer from "./project/ProjectTypeReducer";
 import ProjectFieldReducer from "./project/ProjectFieldReducer";
 import ProjectDetailFetchReducer from "./project/ProjectDetailFetchReducer";
 import ErrorReducer from "./error/ErrorReducer";
-
 import PositionFormReducer from "./position/PositionFormReducer";
 import CertificationSelectBarReducer from "./certificate/CertificationSelectBarReducer";
 import HardSkillSelectBarReducer from "./skill/HardSkillSelectBarReducer";
