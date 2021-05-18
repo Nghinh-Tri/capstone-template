@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from '../../service/action/user/LoginAction'
@@ -8,9 +9,17 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            submitted: false
+            submitted: false,
+            isLoad: false
         };
     }
+
+    componentDidMount() {
+        const user = localStorage.getItem('token') // your saved token in localstorage
+        if (user && user !== 'undefined') {            // check for not undefined
+            this.props.history.push('/')               // now you can redirect your desired route
+        }
+    }  
 
     handleChange = (e) => {
         var { name, value } = e.target;
@@ -19,28 +28,27 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({ submitted: true });
+        this.setState({ submitted: true});
         const { email, password } = this.state;
         this.props.login(email, password);
     }
 
     render() {
-        const { email, password, submitted } = this.state;
         var { error } = this.props
         return (
             <div id="layoutAuthentication">
                 <div id="layoutAuthentication_content">
                     <main>
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-5">
-                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                        <div class="card-header"><h3 class="text-center font-weight-light my-4">Login to Web Service</h3></div>
-                                        <div class="card-body">
-                                            <form onSubmit={this.handleSubmit}>
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                                    <input class="form-control py-4" type="text"
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-5">
+                                    <div className="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div className="card-header"><h3 class="text-center font-weight-light my-4">Login to Web Service</h3></div>
+                                        <div className="card-body">
+                                            <form>
+                                                <div className="form-group">
+                                                    <label className="small mb-1" for="inputEmailAddress">Email</label>
+                                                    <input className="form-control py-4" type="text"
                                                         id="email" name="email"
                                                         className="form-control"
                                                         onChange={this.handleChange} />
@@ -50,9 +58,9 @@ class Login extends Component {
                                                         })
                                                         : ''}
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputPassword">Password</label>
-                                                    <input class="form-control py-4" type="password"
+                                                <div className="form-group">
+                                                    <label className="small mb-1" for="inputPassword">Password</label>
+                                                    <input className="form-control py-4" type="password"
                                                         id="password" name="password"
                                                         className="form-control"
                                                         onChange={this.handleChange} />
@@ -62,8 +70,8 @@ class Login extends Component {
                                                         })
                                                         : ''}
                                                 </div>
-                                                <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                    <button type='submit' class="btn btn-primary">Login</button>
+                                                <div className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                    <Button type='primary' loading={this.props.loading} onClick={this.handleSubmit}>Login</Button>
                                                 </div>
                                             </form>
                                         </div>
@@ -80,7 +88,7 @@ class Login extends Component {
 
 const mapState = (state) => {
     return {
-        loggingIn: state.authentication,
+        loading: state.authentication,
         error: state.ErrorReducer
     };
 }

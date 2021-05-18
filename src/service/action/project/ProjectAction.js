@@ -167,8 +167,7 @@ export const fetchPositionRequire = (projectID) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            if (res.data.isSuccessed)
-                dispatch(fetchPositionRequireSuccess(res.data.resultObj !== null ? res.data.resultObj : []))
+            dispatch(fetchPositionRequireSuccess(res.data.resultObj !== null ? res.data.resultObj : []))
         })
     }
 }

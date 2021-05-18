@@ -106,28 +106,30 @@ class ListEmployee extends Component {
                     <div className='row justify-content-center'>
                         <Spin className='text-center' size="large" />
                     </div> :
-                    <>
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <Tabs defaultActiveKey='0' onChange={this.onSelected}>
-                                    {this.showPositionTabs()}
-                                </Tabs>
-                            </div>
-                            <div class="card-body">
-                                {listEmployee.length > 0 ? this.showEmployee(listEmployee)
-                                    : <div className='row justify-content-center' style={{ width: 'auto' }} >
-                                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No Employee</h4>
-                                    </div>}
-                            </div>
+                    listEmployee.length === 0 ?
+                        <div className='row justify-content-center' style={{ width: 'auto' }} >
+                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No position available for this project</h4>
                         </div>
-                        {getRole() === 'PM' ?
-                            this.state.isLoading || this.props.status === 4 ? '' :
-                                <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMorePosition} >
-                                    Add More Position
+                        :
+                        <>
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <Tabs defaultActiveKey='0' onChange={this.onSelected}>
+                                        {this.showPositionTabs()}
+                                    </Tabs>
+                                </div>
+                                <div class="card-body">
+                                    {this.showEmployee(listEmployee)}
+                                </div>
+                            </div>
+                            {getRole() === 'PM' ?
+                                this.state.isLoading || this.props.status === 4 ? '' :
+                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMorePosition} >
+                                        Add More Position
                                 </button>
-                            : ''
-                        }
-                    </>
+                                : ''
+                            }
+                        </>
                 }
             </React.Fragment>
         );
