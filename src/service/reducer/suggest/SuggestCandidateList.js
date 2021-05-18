@@ -16,9 +16,9 @@ const SuggestCandidateList = (state = initState, action) => {
                 }
             }
             return [...state]        
-        case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
-            state = []
-            return [...state]
+        // case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
+        //     state = []
+        //     return [...state]
 
         case SUGGEST_CANDIDATE.CONFIRM_SUGGEST_FAIL:
             state = []

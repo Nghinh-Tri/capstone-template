@@ -11,23 +11,8 @@ class ProgressBar extends Component {
             step2: "",
             step3: "",
             step4: "",
-            isUpdate: false
         }
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.location !== prevState.location) {
-            return { someState: nextProps.location };
-        }
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.location !== this.props.location) {
-            if (typeof this.props.location.state !== 'undefined')
-                this.setState({ isUpdate: this.props.location.state.isUpdate })
-        }
-    }
+    }   
 
     render() {
         return (

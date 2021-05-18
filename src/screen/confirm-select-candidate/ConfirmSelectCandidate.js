@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import BriefDetail from '../../component/brief-detail/BriefDetail';
 import confirm from 'antd/lib/modal/confirm';
 import TextArea from 'antd/lib/input/TextArea';
+import { Modal } from 'antd';
 
 class ConfirmSelectCandidate extends Component {
 
@@ -43,6 +44,28 @@ class ConfirmSelectCandidate extends Component {
             this.setState({ isUpdate: this.props.location.state.isUpdate })
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.status !== this.props.status) {
+            if (this.props.status)
+                Modal.success({
+                    title: 'Confirm Select Candidates Successfully',
+                    onOk() {
+                        localStorage.removeItem('positionRequire')
+                        localStorage.removeItem('projectId')
+                        localStorage.removeItem('isNewPosition')
+                        localStorage.removeItem('projectName')
+                        localStorage.removeItem('projectType')
+                        localStorage.removeItem('projectField') 
+                        history.push("/project")
+                    }
+                })
+            else
+                Modal.error({
+                    title: 'Confirm Select Candidates Failed'
+                })
+        }
+    }
+
     componentWillReceiveProps = () => {
         var { rejectedCandidate, confirmSuggestList } = this.props
         var { confirmObj, click } = this.state
@@ -59,11 +82,17 @@ class ConfirmSelectCandidate extends Component {
                             style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
                     </>),
                     okType: 'danger',
-                    onOk() { confirmSuggestList(confirmObj) },
-                    onCancel: () => { this.setState({ click: false }) }
+                    onOk: () => {
+                        confirmSuggestList(confirmObj)
+                        this.setState({ click: !this.state.click })
+                    },
+                    onCancel: () => { this.setState({ click: !this.state.click }) }
                 });
             } else {
-                confirmSuggestList(confirmObj)
+                if (confirmObj.candidates.length > 0) {
+                    this.setState({ click: !this.state.click })
+                    confirmSuggestList(confirmObj)
+                }
             }
         }
     }
@@ -72,9 +101,10 @@ class ConfirmSelectCandidate extends Component {
         var { candidateList } = this.props
         var list = convertSuggestList(candidateList)
         var obj = { candidates: list }
-        this.setState({ confirmObj: obj, click: true })
-        if (list.length > 0)
+        this.setState({ confirmObj: obj, click: !this.state.click })
+        if (list.length > 0) {
             this.props.checkRejectedCandidate(obj)
+        }
         else {
             this.props.confirmSuggestList(obj)
         }
@@ -99,7 +129,7 @@ class ConfirmSelectCandidate extends Component {
                         :
                         <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >You did not select any candidate</h4>
                     :
-                    this.showList(candidateList)                
+                    this.showList(candidateList)
                 }
                 <div className="row pull-right" style={{ marginBottom: 10, marginTop: -10 }}>
                     <div className="col" >
@@ -117,7 +147,8 @@ class ConfirmSelectCandidate extends Component {
 const mapStateToProps = state => {
     return {
         candidateList: state.SuggestCandidateSelectedListReducer,
-        rejectedCandidate: state.CheckRejectedCandidates
+        rejectedCandidate: state.CheckRejectedCandidates,
+        status: state.StatusReducer
     }
 }
 

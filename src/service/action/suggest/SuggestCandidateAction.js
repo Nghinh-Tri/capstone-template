@@ -71,7 +71,7 @@ export const fetchSuggestList = () => {
                 dispatch(fetchSuggestListSuccess(res.data.resultObj))
             }
         }).catch(err => {
-            console.log(err)
+            console.log(err.response)
         })
     }
 }
@@ -151,18 +151,16 @@ export const confirmSuggestList = (suggestList) => {
                         suggestList,
                         { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
                     ).then(res => {
-                        if (res.status === 200) {
-                            if (res.data.isSuccessed) {
-                                var projectName = localStorage.getItem('projectName')
-                                message.body = `Project '${projectName}' does not have enough suitable candidates`
-                                dispatch(confirmSuggestListSuccess())
-                                localStorage.removeItem('positionRequire')
-                                localStorage.removeItem('projectId')
-                                localStorage.removeItem('isNewPosition')
-                                localStorage.removeItem('projectName')
-                                dispatch(sendNotificate(message))
-                                history.push("/project")
-                            }
+                        if (res.data.isSuccessed) {
+                            var projectName = localStorage.getItem('projectName')
+                            message.body = `Project '${projectName}' does not have enough suitable candidates`
+                            dispatch(confirmSuggestListSuccess(res.data.isSuccessed))
+                            localStorage.removeItem('positionRequire')
+                            localStorage.removeItem('projectId')
+                            localStorage.removeItem('isNewPosition')
+                            localStorage.removeItem('projectName')
+                            dispatch(sendNotificate(message))
+                            history.push("/project")
                         }
                     }).catch(err => {
                         if (typeof err.response !== 'undefined') {
@@ -192,13 +190,11 @@ export const confirmSuggestList = (suggestList) => {
                 suggestList,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
             ).then(res => {
-                if (res.status === 200) {
-                    if (res.data.isSuccessed) {
-                        var projectName = localStorage.getItem('projectName')
-                        message.body = `Project '${projectName}' has candidates that need to be confirmed`
-                        dispatch(confirmSuggestListSuccess())
-                        dispatch(sendNotificate(message))
-                    }
+                if (res.data.isSuccessed) {
+                    var projectName = localStorage.getItem('projectName')
+                    message.body = `Project '${projectName}' has candidates that need to be confirmed`
+                    dispatch(confirmSuggestListSuccess(res.data.isSuccessed))
+                    dispatch(sendNotificate(message))
                 }
             }).catch(err => {
                 if (typeof err.response !== 'undefined') {
@@ -224,21 +220,12 @@ export const rejectedCandidate = (message, list) => {
     return { type: SUGGEST_CANDIDATE.REJECTED_CANDIDATE, message, list }
 }
 
-export const confirmSuggestListSuccess = () => {
-    return (dispatch) => {
-        dispatch(sendNotiSuccess())
-    }
+export const confirmSuggestListSuccess = (isSuccessed) => {
+    return (dispatch) => { dispatch(sendNotiSuccess(isSuccessed)) }
 }
 
-export const sendNotiSuccess = () => {
-    history.push("/project")
-    localStorage.removeItem('positionRequire')
-    localStorage.removeItem('projectId')
-    localStorage.removeItem('isNewPosition')
-    localStorage.removeItem('projectName')
-    localStorage.removeItem('projectType')
-    localStorage.removeItem('projectField')
-    return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST }
+export const sendNotiSuccess = (isSuccessed) => {
+    return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST, isSuccessed }
 }
 
 export const confirmSuggestListFail = () => {

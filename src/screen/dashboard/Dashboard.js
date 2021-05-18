@@ -16,7 +16,6 @@ class Dashboard extends Component {
     componentDidMount = () => {
         this.props.checkSession()
         history.push('/project')
-        // this.props.fetchDataStatistics()
     }
 
     componentDidUpdate = (prevProps) => {

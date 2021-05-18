@@ -16,7 +16,6 @@ class SuggestCandidates extends Component {
         }
     }
 
-
     componentDidMount() {
         this.props.pagingSuggestList(this.props.item.matchDetail, 1, '')
     }

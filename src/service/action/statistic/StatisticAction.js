@@ -15,9 +15,7 @@ export const fetchDataStatistics = () => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log(res)
             dispatch(fetchDataStatisticsSuccess(res.data.resultObj))
-            console.log(res.data.resultObj)
         })
     }
 }
