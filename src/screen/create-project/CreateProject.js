@@ -196,6 +196,15 @@ class CreateProject extends Component {
                                             value={projectTypeID}
                                             onSelectProjectType={this.onSelectProjectType}
                                         />
+                                        {typeof error.TypeID  !== "undefined"
+                                            ? error.TypeID .map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
                                     </div>
                                 </div>
 
@@ -213,6 +222,15 @@ class CreateProject extends Component {
                                             value={projectFieldID}
                                             onSelectProjectField={this.onSelectProjectField}
                                         />
+                                        {typeof error.FieldID !== "undefined"
+                                            ? error.FieldID.map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
                                     </div>
                                 </div>
                             </div>
@@ -239,8 +257,8 @@ class CreateProject extends Component {
                                                 {messageError}
                                             </div>
                                         ) : ""} */}
-                                        {typeof error.dateBegin !== "undefined"
-                                            ? error.dateBegin.map((element, index) => {
+                                        {typeof error.DateBegin !== "undefined"
+                                            ? error.DateBegin.map((element, index) => {
                                                 return (
                                                     <div key={index} className="error text-danger font-weight-bold">
                                                         {element}
@@ -269,8 +287,8 @@ class CreateProject extends Component {
                                                 {messageError}
                                             </div>
                                         ) : ""}
-                                        {typeof error.dateEstimatedEnd !== "undefined"
-                                            ? error.dateEstimatedEnd.map((element, index) => {
+                                        {typeof error.DateEstimatedEnd !== "undefined"
+                                            ? error.DateEstimatedEnd.map((element, index) => {
                                                 return (
                                                     <div key={index} className="error text-danger font-weight-bold">
                                                         {element}
