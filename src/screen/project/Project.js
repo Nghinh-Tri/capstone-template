@@ -40,7 +40,6 @@ class Project extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.projects !== this.props.projects) {
-            console.log(this.props.projects)
             this.setState({ isLoading: false })
         }
     }

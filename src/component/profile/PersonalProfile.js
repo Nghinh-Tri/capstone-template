@@ -34,7 +34,6 @@ class PersonalProfile extends Component {
 
     render() {
         var { profile, match } = this.props;
-        console.log(match)
         return (
             <React.Fragment>
                 {this.state.isLoad ?

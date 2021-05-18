@@ -185,34 +185,33 @@ export const confirmSuggestList = (suggestList) => {
                 },
             });
         } else {
-            dispatch(confirmSuggestListSuccess(true))
-            // axios.post(
-            //     url,
-            //     suggestList,
-            //     { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-            // ).then(res => {
-            //     if (res.data.isSuccessed) {
-            //         var projectName = localStorage.getItem('projectName')
-            //         message.body = `Project '${projectName}' has candidates that need to be confirmed`
-            //         dispatch(confirmSuggestListSuccess(res.data.isSuccessed))
-            //         dispatch(sendNotificate(message))
-            //     }
-            // }).catch(err => {
-            //     if (typeof err.response !== 'undefined') {
-            //         confirm({
-            //             title: `${err.response.data.message}. Cancel this request`,
-            //             okText: 'Yes',
-            //             cancelText: 'No',
-            //             onOk() {
-            //                 history.push(`/project/detail/${projectID}`)
-            //                 dispatch(confirmSuggestListFail())
-            //             },
-            //             onCancel() {
-            //                 console.log('Cancel');
-            //             },
-            //         });
-            //     }
-            // })
+            axios.post(
+                url,
+                suggestList,
+                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+            ).then(res => {
+                if (res.data.isSuccessed) {
+                    var projectName = localStorage.getItem('projectName')
+                    message.body = `Project '${projectName}' has candidates that need to be confirmed`
+                    dispatch(confirmSuggestListSuccess(res.data.isSuccessed))
+                    dispatch(sendNotificate(message))
+                }
+            }).catch(err => {
+                if (typeof err.response !== 'undefined') {
+                    confirm({
+                        title: `${err.response.data.message}. Cancel this request`,
+                        okText: 'Yes',
+                        cancelText: 'No',
+                        onOk() {
+                            history.push(`/project/detail/${projectID}`)
+                            dispatch(confirmSuggestListFail())
+                        },
+                        onCancel() {
+                            console.log('Cancel');
+                        },
+                    });
+                }
+            })
         }
     }
 }

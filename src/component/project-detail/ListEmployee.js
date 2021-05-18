@@ -70,7 +70,6 @@ class ListEmployee extends Component {
         localStorage.setItem('projectName', this.props.projectName)
         localStorage.setItem('dateCreate', this.props.dateBegin)
         localStorage.setItem('dateEnd', this.props.dateEstimatedEnd)
-        // console.log(this.state.positionList)
         this.props.addMorePosition(this.state.positionList)
     }
 

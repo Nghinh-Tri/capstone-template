@@ -55,7 +55,7 @@ class ConfirmSelectCandidate extends Component {
                         localStorage.removeItem('isNewPosition')
                         localStorage.removeItem('projectName')
                         localStorage.removeItem('projectType')
-                        localStorage.removeItem('projectField')
+                        localStorage.removeItem('projectField') 
                         history.push("/project")
                     }
                 })
@@ -69,7 +69,6 @@ class ConfirmSelectCandidate extends Component {
     componentWillReceiveProps = () => {
         var { rejectedCandidate, confirmSuggestList } = this.props
         var { confirmObj, click } = this.state
-        console.log(click)
         if (click) {
             if (rejectedCandidate.message !== "" && rejectedCandidate.list.length > 0) {
                 var content = ""
@@ -85,13 +84,15 @@ class ConfirmSelectCandidate extends Component {
                     okType: 'danger',
                     onOk: () => {
                         confirmSuggestList(confirmObj)
-                        this.setState({ click: false })
+                        this.setState({ click: !this.state.click })
                     },
-                    onCancel: () => { this.setState({ click: false }) }
+                    onCancel: () => { this.setState({ click: !this.state.click }) }
                 });
             } else {
-                console.log('aaa')
-                confirmSuggestList(confirmObj)
+                if (confirmObj.candidates.length > 0) {
+                    this.setState({ click: !this.state.click })
+                    confirmSuggestList(confirmObj)
+                }
             }
         }
     }
@@ -100,9 +101,10 @@ class ConfirmSelectCandidate extends Component {
         var { candidateList } = this.props
         var list = convertSuggestList(candidateList)
         var obj = { candidates: list }
-        this.setState({ confirmObj: obj, click: true })
-        if (list.length > 0)
+        this.setState({ confirmObj: obj, click: !this.state.click })
+        if (list.length > 0) {
             this.props.checkRejectedCandidate(obj)
+        }
         else {
             this.props.confirmSuggestList(obj)
         }
@@ -114,7 +116,6 @@ class ConfirmSelectCandidate extends Component {
 
     render() {
         var { candidateList, location } = this.props
-        console.log('aa', this.props.location)
         return (
             <div>
                 <ProgressBar current={3} />
