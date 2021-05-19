@@ -107,6 +107,13 @@ class HardSkillForm extends Component {
                                         <td colspan={5}>Minimum Skills</td>
                                     </tr>
                                     {this.showMinimumSkills(hardSkill.minium, positionFormIndex)}
+                                    {hardSkill.minium.length === 0 ?
+                                        <tr >
+                                            <td colspan={5}>
+                                                <span style={{ color: 'red', fontWeight: 500 }} > None</span>
+                                            </td>
+                                        </tr>
+                                        : ''}
                                     <tr >
                                         <td colspan={5}>Optional Skills</td>
                                     </tr>

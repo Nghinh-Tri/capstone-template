@@ -9,6 +9,7 @@ import { notification } from 'antd';
 import { fetchProject } from '../service/action/project/ProjectAction';
 import { history } from '../service/helper/History';
 import moment from 'moment';
+import { getEmpID } from '../service/util/util';
 
 class Layout extends Component {
 
@@ -29,7 +30,7 @@ class Layout extends Component {
 
     fetchNotificate = () => {
         const fb = firebase.database().ref('fir-4d2be-default-rtdb')
-        var empID = JSON.parse(localStorage.getItem('EMP'))
+        var empID = getEmpID()
         fb.on('value', snapshot => {
             var notiObj = snapshot.val()
             var temp = []

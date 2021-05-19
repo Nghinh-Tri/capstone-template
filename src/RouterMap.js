@@ -7,6 +7,7 @@ import PositionRequire from "./screen/position-require/PositionRequire"
 import SuggestCandidate from "./screen/suggest-candidate/SuggestCandidate"
 import ConfirmSelectCandidate from "./screen/confirm-select-candidate/ConfirmSelectCandidate"
 import ChangePassword from './screen/change-password/ChangePassword';
+import { getEmpID } from "./service/util/util"
 
 const route = [
   {
@@ -62,7 +63,7 @@ const route = [
   {
     path: "/profile",
     exact: true,
-    main: () => <Profile empID={JSON.parse(localStorage.getItem('EMP'))} />
+    main: () => <Profile empID={getEmpID()} />
   },
   {
     path: "/profile/change-password",

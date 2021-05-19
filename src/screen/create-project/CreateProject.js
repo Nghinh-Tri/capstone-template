@@ -18,8 +18,8 @@ class CreateProject extends Component {
         this.state = {
             id: 0,
             projectName: "",
-            dateBegin: moment(moment().day(35)).format('YYYY-MM-DD'),
-            dateEstimatedEnd: moment(moment().day(35 + 60)).format('YYYY-MM-DD'),
+            dateBegin: moment(moment().day(5 + 30)).format('YYYY-MM-DD'),
+            dateEstimatedEnd: moment(moment().day(5 + 30 + 60)).format('YYYY-MM-DD'),
             description: "",
             stakeholder: "",
             projectTypeID: 1,
@@ -217,6 +217,7 @@ class CreateProject extends Component {
                                 </div>
                             </div>
 
+<<<<<<< Updated upstream
                             {/* Date */}
                             <div className="row">
                                 {/* Date begin */}
@@ -278,6 +279,65 @@ class CreateProject extends Component {
                                                 );
                                             })
                                             : ""}
+=======
+                                {/* Date */}
+                                <div className="row">
+                                    {/* Date begin */}
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label className="bmd-label">
+                                                Start Date <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                            </label>
+                                            <input
+                                                type="date"
+                                                name="dateBegin"
+                                                className="form-control"
+                                                min={moment(moment().day(5 + 30)).format("YYYY-MM-DD")}
+                                                defaultValue={dateBegin}
+                                                onChange={this.onHandle}
+                                                readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
+                                            />
+                                            {typeof error.DateBegin !== "undefined"
+                                                ? error.DateBegin.map((element, index) => {
+                                                    return (
+                                                        <div key={index} className="error text-danger font-weight-bold">
+                                                            {element}
+                                                        </div>
+                                                    );
+                                                })
+                                                : ""}
+                                        </div>
+                                    </div>
+                                    {/* Date end estimate */}
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label className="bmd-label">
+                                                Estimated End Date <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                            </label>
+                                            <input
+                                                type="date"
+                                                name="dateEstimatedEnd"
+                                                min={moment(moment().day(5 + 1 + 30)).format("YYYY-MM-DD")}
+                                                defaultValue={dateEstimatedEnd}
+                                                className="form-control"
+                                                onChange={this.onHandle}
+                                            />
+                                            {fieldError.trim().includes("dateEstimatedEnd") ? (
+                                                <div className="error text-danger font-weight-bold">
+                                                    {messageError}
+                                                </div>
+                                            ) : ""}
+                                            {typeof error.DateEstimatedEnd !== "undefined"
+                                                ? error.DateEstimatedEnd.map((element, index) => {
+                                                    return (
+                                                        <div key={index} className="error text-danger font-weight-bold">
+                                                            {element}
+                                                        </div>
+                                                    );
+                                                })
+                                                : ""}
+                                        </div>
+>>>>>>> Stashed changes
                                     </div>
                                 </div>
                             </div>

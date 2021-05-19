@@ -55,7 +55,7 @@ class ConfirmSelectCandidate extends Component {
                         localStorage.removeItem('isNewPosition')
                         localStorage.removeItem('projectName')
                         localStorage.removeItem('projectType')
-                        localStorage.removeItem('projectField') 
+                        localStorage.removeItem('projectField')
                         history.push("/project")
                     }
                 })
@@ -136,7 +136,9 @@ class ConfirmSelectCandidate extends Component {
                         <button onClick={this.onBack} type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
                     </div>
                     <div className="col">
-                        <button type="button" className="btn btn-primary pull-right" onClick={this.onSuggest} style={{ width: 110, fontWeight: 600 }}>Suggest</button>
+                        <button type="button" className="btn btn-primary pull-right" onClick={this.onSuggest} style={{ width: 110, fontWeight: 600 }}>
+                            {candidateList.length === 0 ? 'Confirm' : 'Suggest'}
+                        </button>
                     </div>
                 </div>
             </div>
