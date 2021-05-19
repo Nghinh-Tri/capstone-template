@@ -13,8 +13,6 @@ export const login = (username, password) => {
             user
         ).then(res => {
             if (res.data.isSuccessed) {
-                console.log(res.data)
-                // localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
                 localStorage.setItem('token', JSON.stringify(res.data.resultObj));
                 var role = getRole()
                 if (role === 'PM' || role === 'Employee') {
