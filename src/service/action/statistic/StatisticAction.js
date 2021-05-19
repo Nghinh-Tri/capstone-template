@@ -1,10 +1,10 @@
 import axios from "axios";
 import { Type } from "../../constant";
-import { API_URL, getRole } from "../../util/util";
+import { API_URL, getEmpID, getRole } from "../../util/util";
 
 
 export const fetchDataStatistics = () => {
-    var empID = JSON.parse(localStorage.getItem('EMP'))
+    var empID = getEmpID()
     var url = ''
     var role = getRole()
     if (role === 'PM') {

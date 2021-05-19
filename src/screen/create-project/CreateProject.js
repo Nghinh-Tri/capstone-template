@@ -9,7 +9,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import moment from 'moment';
 import TextArea from 'antd/lib/input/TextArea';
-import { Modal, Spin } from 'antd';
+import { Modal } from 'antd';
 import { history } from '../../service/helper/History';
 class CreateProject extends Component {
 
@@ -18,15 +18,14 @@ class CreateProject extends Component {
         this.state = {
             id: 0,
             projectName: "",
-            dateBegin: moment(moment().day(35)).format('YYYY-MM-DD'),
-            dateEstimatedEnd: moment(moment().day(35 + 60)).format('YYYY-MM-DD'),
+            dateBegin: moment(moment().day(5 + 30)).format('YYYY-MM-DD'),
+            dateEstimatedEnd: moment(moment().day(5 + 30 + 60)).format('YYYY-MM-DD'),
             description: "",
             stakeholder: "",
             projectTypeID: 1,
             projectFieldID: 1,
             fieldError: '',
-            messageError: '',
-            isLoad: true
+            messageError: ''
         }
     }
 
@@ -54,22 +53,11 @@ class CreateProject extends Component {
         var { location, match } = this.props
         if (!location.pathname.toString().includes('create-project')) {
             this.props.fetchProjectDetail(match.params.id)
-        } else {
-            this.props.generateProject({
-                name: '',
-                dateBegin: '',
-                dateEndEst: '',
-                description: '',
-                stakeholder: ''
-            }, true)
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.project !== this.props.project) {
-            if (this.props.location.pathname.toString().includes('create-project'))
-                this.setState({ isLoad: false })
-        } else if (prevProps.projectDetail !== this.props.projectDetail) {
+        if (prevProps.projectDetail !== this.props.projectDetail) {
             var { projectDetail } = this.props
             if (typeof projectDetail.isCreateNew === 'undefined') {
                 this.setState({
@@ -80,8 +68,7 @@ class CreateProject extends Component {
                     description: projectDetail.description,
                     stakeholder: projectDetail.skateholder,
                     projectTypeID: projectDetail.typeID,
-                    projectFieldID: projectDetail.fieldID,
-                    isLoad: false
+                    projectFieldID: projectDetail.fieldID
                 })
             }
         } else if (prevProps.status !== this.props.status) {
@@ -146,8 +133,7 @@ class CreateProject extends Component {
     }
 
     render() {
-        var { projectName, dateBegin, dateEstimatedEnd,
-            description, projectTypeID, projectFieldID, fieldError, messageError, isLoad } = this.state
+        var { projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID, fieldError, messageError } = this.state
         var { projectType, projectField, error } = this.props
         var projectTypeConverted = convertProjectTypeList(projectType)
         var projectFieldConverted = convertProjectTypeList(projectField)
@@ -164,189 +150,182 @@ class CreateProject extends Component {
                             ? "Create Project"
                             : "Edit Project"}
                     </div>
-                    {isLoad ?
-                        <div className="row justify-content-center">
-                            <Spin className="text-center" size="large" />
-                        </div> :
+                    <div className="card-body">
+                        <form onSubmit={this.onSave}>
+                            {/* Name */}
+                            <div className="row">
+                                <div className="col">
+                                    <div className="form-group">
+                                        <label className='bmd-label-static'>
+                                            Project Name <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </label>
+                                        <input type="text" className="form-control" value={projectName} name="projectName"
+                                            onChange={this.onHandle}
+                                            readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
+                                        />
+                                        {typeof error.ProjectName !== "undefined"
+                                            ? error.ProjectName.map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
+                                        {fieldError.trim().includes("projectName") ? (
+                                            <div className="error text-danger font-weight-bold">
+                                                {messageError}
+                                            </div>
+                                        ) : ""}
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div className="card-body">
-                            <form onSubmit={this.onSave}>
-                                {/* Name */}
-                                <div className="row">
-                                    <div className="col">
-                                        <div className="form-group">
-                                            <label className='bmd-label-static'>
-                                                Project Name <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                                            </label>
-                                            <input type="text" className="form-control" value={projectName} name="projectName"
-                                                onChange={this.onHandle}
-                                                readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
-                                            />
-                                            {typeof error.ProjectName !== "undefined"
-                                                ? error.ProjectName.map((element, index) => {
-                                                    return (
-                                                        <div key={index} className="error text-danger font-weight-bold">
-                                                            {element}
-                                                        </div>
-                                                    );
-                                                })
-                                                : ""}
-                                            {fieldError.trim().includes("projectName") ? (
-                                                <div className="error text-danger font-weight-bold">
-                                                    {messageError}
-                                                </div>
-                                            ) : ""}
-                                        </div>
+                            {/* Project Type - Field*/}
+                            <div className="row">
+                                {/* Project Type */}
+                                <div className="col">
+                                    <div className="form-group">
+                                        <label classNam='bmd-label-static'>
+                                            Project Type <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </label>
+                                        <SelectBar name="projectType"
+                                            type="common"
+                                            placeholder="Select project type"
+                                            list={projectTypeConverted}
+                                            value={projectTypeID}
+                                            onSelectProjectType={this.onSelectProjectType}
+                                        />
+                                        {typeof error.TypeID  !== "undefined"
+                                            ? error.TypeID .map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
                                     </div>
                                 </div>
 
-                                {/* Project Type - Field*/}
-                                <div className="row">
-                                    {/* Project Type */}
-                                    <div className="col">
-                                        <div className="form-group">
-                                            <label classNam='bmd-label-static'>
-                                                Project Type <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                                            </label>
-                                            <SelectBar name="projectType"
-                                                type="common"
-                                                placeholder="Select project type"
-                                                list={projectTypeConverted}
-                                                value={projectTypeID}
-                                                onSelectProjectType={this.onSelectProjectType}
-                                            />
-                                            {typeof error.TypeID !== "undefined"
-                                                ? error.TypeID.map((element, index) => {
-                                                    return (
-                                                        <div key={index} className="error text-danger font-weight-bold">
-                                                            {element}
-                                                        </div>
-                                                    );
-                                                })
-                                                : ""}
-                                        </div>
-                                    </div>
-
-                                    {/* Project Field */}
-                                    <div className="col">
-                                        <div className="form-group">
-                                            <label className='bmd-label-static'>
-                                                Project Field <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                                            </label>
-                                            <SelectBar
-                                                name="projectField"
-                                                type="common"
-                                                placeholder="Select project fields"
-                                                list={projectFieldConverted}
-                                                value={projectFieldID}
-                                                onSelectProjectField={this.onSelectProjectField}
-                                            />
-                                            {typeof error.FieldID !== "undefined"
-                                                ? error.FieldID.map((element, index) => {
-                                                    return (
-                                                        <div key={index} className="error text-danger font-weight-bold">
-                                                            {element}
-                                                        </div>
-                                                    );
-                                                })
-                                                : ""}
-                                        </div>
+                                {/* Project Field */}
+                                <div className="col">
+                                    <div className="form-group">
+                                        <label className='bmd-label-static'>
+                                            Project Field <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </label>
+                                        <SelectBar
+                                            name="projectField"
+                                            type="common"
+                                            placeholder="Select project fields"
+                                            list={projectFieldConverted}
+                                            value={projectFieldID}
+                                            onSelectProjectField={this.onSelectProjectField}
+                                        />
+                                        {typeof error.FieldID  !== "undefined"
+                                            ? error.FieldID .map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
                                     </div>
                                 </div>
+                            </div>
 
-                                {/* Date */}
-                                <div className="row">
-                                    {/* Date begin */}
-                                    <div className="col">
-                                        <div className="form-group">
-                                            <label className="bmd-label">
-                                                Start Date <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                                            </label>
-                                            <input
-                                                type="date"
-                                                name="dateBegin"
-                                                className="form-control"
-                                                // min={moment(moment().day(10)).format("YYYY-MM-DD")}
-                                                defaultValue={dateBegin}
-                                                onChange={this.onHandle}
-                                                readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
-                                            />
-                                            {typeof error.DateBegin !== "undefined"
-                                                ? error.DateBegin.map((element, index) => {
-                                                    return (
-                                                        <div key={index} className="error text-danger font-weight-bold">
-                                                            {element}
-                                                        </div>
-                                                    );
-                                                })
-                                                : ""}
-                                        </div>
-                                    </div>
-                                    {/* Date end estimate */}
-                                    <div className="col">
-                                        <div className="form-group">
-                                            {console.log(dateEstimatedEnd)}
-                                            <label className="bmd-label">
-                                                Estimated End Date <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                                            </label>
-                                            <input
-                                                type="date"
-                                                name="dateEstimatedEnd"
-                                                // min={moment(moment().day(11)).format("YYYY-MM-DD")}
-                                                defaultValue={dateEstimatedEnd}
-                                                className="form-control"
-                                                onChange={this.onHandle}
-                                            />
-                                            {fieldError.trim().includes("dateEstimatedEnd") ? (
-                                                <div className="error text-danger font-weight-bold">
-                                                    {messageError}
-                                                </div>
-                                            ) : ""}
-                                            {typeof error.DateEstimatedEnd !== "undefined"
-                                                ? error.DateEstimatedEnd.map((element, index) => {
-                                                    return (
-                                                        <div key={index} className="error text-danger font-weight-bold">
-                                                            {element}
-                                                        </div>
-                                                    );
-                                                })
-                                                : ""}
-                                        </div>
+                            {/* Date */}
+                            <div className="row">
+                                {/* Date begin */}
+                                <div className="col">
+                                    <div className="form-group">
+                                        <label className="bmd-label">
+                                            Start Date <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </label>
+                                        <input
+                                            type="date"
+                                            name="dateBegin"
+                                            className="form-control"
+                                            min={moment(moment().day(5 + 30)).format("YYYY-MM-DD")}
+                                            defaultValue={dateBegin}
+                                            onChange={this.onHandle}
+                                            readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
+                                        />
+                                        {typeof error.DateBegin !== "undefined"
+                                            ? error.DateBegin.map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
                                     </div>
                                 </div>
-
-                                {/* Description */}
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <div className="form-group">
-                                            <label className='bmd-label-static'>
-                                                Description <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                                            </label>
-                                            <TextArea elastic className="form-control"
-                                                name="description"
-                                                autoSize={{ minRows: 5, maxRows: 20 }}
-                                                value={description}
-                                                onChange={this.onHandle}
-                                            />
-                                            {typeof error.Description !== "undefined"
-                                                ? error.Description.map((element, index) => {
-                                                    return (
-                                                        <div key={index} className="error text-danger font-weight-bold">
-                                                            {element}
-                                                        </div>
-                                                    );
-                                                }) : ""}
-                                        </div>
+                                {/* Date end estimate */}
+                                <div className="col">
+                                    <div className="form-group">
+                                        <label className="bmd-label">
+                                            Estimated End Date <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </label>
+                                        <input
+                                            type="date"
+                                            name="dateEstimatedEnd"
+                                            min={moment(moment().day(5 + 1 + 30)).format("YYYY-MM-DD")}
+                                            defaultValue={dateEstimatedEnd}
+                                            className="form-control"
+                                            onChange={this.onHandle}
+                                        />
+                                        {fieldError.trim().includes("dateEstimatedEnd") ? (
+                                            <div className="error text-danger font-weight-bold">
+                                                {messageError}
+                                            </div>
+                                        ) : ""}
+                                        {typeof error.DateEstimatedEnd !== "undefined"
+                                            ? error.DateEstimatedEnd.map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
                                     </div>
                                 </div>
+                            </div>
 
-                                {/* Button */}
-                                <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }}>
-                                    {typeof this.props.match.params.id === "undefined" ? "Create" : "Edit"}
-                                </button>
-                            </form>
-                        </div>
-                    }
+                            {/* Description */}
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="form-group">
+                                        <label className='bmd-label-static'>
+                                            Description <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </label>
+                                        <TextArea elastic className="form-control"
+                                            name="description"
+                                            autoSize={{ minRows: 5, maxRows: 20 }}
+                                            value={description}
+                                            onChange={this.onHandle}
+                                        />
+                                        {typeof error.Description !== "undefined"
+                                            ? error.Description.map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            }) : ""}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Button */}
+                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }}>
+                                {typeof this.props.match.params.id === "undefined" ? "Create" : "Edit"}
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         );
@@ -387,10 +366,7 @@ const mapDispatchToProp = (dispatch) => {
         },
         refreshPage: () => {
             dispatch(Action.refreshPage())
-        },
-        generateProject: (project, isCreateNew) => {
-            dispatch(Action.generateProject(project, isCreateNew))
-        },
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { alertConstants, Type, ERROR } from "../../constant";
-import { API_URL, getRole, getUserName } from "../../util/util";
+import { API_URL, getEmpID, getRole, getUserName } from "../../util/util";
 import { history } from "../../helper/History";
 import { store } from "react-notifications-component";
 import { sendNotificate } from "../firebase/FirebaseAction";
@@ -38,7 +38,7 @@ export const generateProjectFail = () => {
 }
 
 export const createProject = (project) => {
-    var empID = JSON.parse(localStorage.getItem('EMP'))
+    var empID = getEmpID()
     var url = `${API_URL}/Project/${empID}`
     return (dispatch) => {
         dispatch(createProjectFailed({}))
@@ -110,7 +110,7 @@ export const updateProjectDetail = (name, value) => {
 }
 
 export const fetchProject = (pageIndex, search, refresh) => {
-    var empID = JSON.parse(localStorage.getItem('EMP'))
+    var empID = getEmpID()
     var url = ''
     var role = getRole()
     if (role === 'PM') {
