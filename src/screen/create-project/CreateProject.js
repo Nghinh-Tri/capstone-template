@@ -196,6 +196,15 @@ class CreateProject extends Component {
                                             value={projectTypeID}
                                             onSelectProjectType={this.onSelectProjectType}
                                         />
+                                        {typeof error.TypeID  !== "undefined"
+                                            ? error.TypeID .map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
                                     </div>
                                 </div>
 
@@ -213,11 +222,19 @@ class CreateProject extends Component {
                                             value={projectFieldID}
                                             onSelectProjectField={this.onSelectProjectField}
                                         />
+                                        {typeof error.FieldID  !== "undefined"
+                                            ? error.FieldID .map((element, index) => {
+                                                return (
+                                                    <div key={index} className="error text-danger font-weight-bold">
+                                                        {element}
+                                                    </div>
+                                                );
+                                            })
+                                            : ""}
                                     </div>
                                 </div>
                             </div>
 
-<<<<<<< Updated upstream
                             {/* Date */}
                             <div className="row">
                                 {/* Date begin */}
@@ -230,18 +247,13 @@ class CreateProject extends Component {
                                             type="date"
                                             name="dateBegin"
                                             className="form-control"
-                                            // min={moment(moment().day(10)).format("YYYY-MM-DD")}
+                                            min={moment(moment().day(5 + 30)).format("YYYY-MM-DD")}
                                             defaultValue={dateBegin}
                                             onChange={this.onHandle}
                                             readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
                                         />
-                                        {/* {fieldError.trim().includes("dateBegin") ? (
-                                            <div className="error text-danger font-weight-bold">
-                                                {messageError}
-                                            </div>
-                                        ) : ""} */}
-                                        {typeof error.dateBegin !== "undefined"
-                                            ? error.dateBegin.map((element, index) => {
+                                        {typeof error.DateBegin !== "undefined"
+                                            ? error.DateBegin.map((element, index) => {
                                                 return (
                                                     <div key={index} className="error text-danger font-weight-bold">
                                                         {element}
@@ -260,7 +272,7 @@ class CreateProject extends Component {
                                         <input
                                             type="date"
                                             name="dateEstimatedEnd"
-                                            // min={moment(moment().day(11)).format("YYYY-MM-DD")}
+                                            min={moment(moment().day(5 + 1 + 30)).format("YYYY-MM-DD")}
                                             defaultValue={dateEstimatedEnd}
                                             className="form-control"
                                             onChange={this.onHandle}
@@ -270,8 +282,8 @@ class CreateProject extends Component {
                                                 {messageError}
                                             </div>
                                         ) : ""}
-                                        {typeof error.dateEstimatedEnd !== "undefined"
-                                            ? error.dateEstimatedEnd.map((element, index) => {
+                                        {typeof error.DateEstimatedEnd !== "undefined"
+                                            ? error.DateEstimatedEnd.map((element, index) => {
                                                 return (
                                                     <div key={index} className="error text-danger font-weight-bold">
                                                         {element}
@@ -279,65 +291,6 @@ class CreateProject extends Component {
                                                 );
                                             })
                                             : ""}
-=======
-                                {/* Date */}
-                                <div className="row">
-                                    {/* Date begin */}
-                                    <div className="col">
-                                        <div className="form-group">
-                                            <label className="bmd-label">
-                                                Start Date <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                                            </label>
-                                            <input
-                                                type="date"
-                                                name="dateBegin"
-                                                className="form-control"
-                                                min={moment(moment().day(5 + 30)).format("YYYY-MM-DD")}
-                                                defaultValue={dateBegin}
-                                                onChange={this.onHandle}
-                                                readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
-                                            />
-                                            {typeof error.DateBegin !== "undefined"
-                                                ? error.DateBegin.map((element, index) => {
-                                                    return (
-                                                        <div key={index} className="error text-danger font-weight-bold">
-                                                            {element}
-                                                        </div>
-                                                    );
-                                                })
-                                                : ""}
-                                        </div>
-                                    </div>
-                                    {/* Date end estimate */}
-                                    <div className="col">
-                                        <div className="form-group">
-                                            <label className="bmd-label">
-                                                Estimated End Date <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                                            </label>
-                                            <input
-                                                type="date"
-                                                name="dateEstimatedEnd"
-                                                min={moment(moment().day(5 + 1 + 30)).format("YYYY-MM-DD")}
-                                                defaultValue={dateEstimatedEnd}
-                                                className="form-control"
-                                                onChange={this.onHandle}
-                                            />
-                                            {fieldError.trim().includes("dateEstimatedEnd") ? (
-                                                <div className="error text-danger font-weight-bold">
-                                                    {messageError}
-                                                </div>
-                                            ) : ""}
-                                            {typeof error.DateEstimatedEnd !== "undefined"
-                                                ? error.DateEstimatedEnd.map((element, index) => {
-                                                    return (
-                                                        <div key={index} className="error text-danger font-weight-bold">
-                                                            {element}
-                                                        </div>
-                                                    );
-                                                })
-                                                : ""}
-                                        </div>
->>>>>>> Stashed changes
                                     </div>
                                 </div>
                             </div>
