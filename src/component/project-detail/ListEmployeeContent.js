@@ -3,7 +3,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { addMoreCandidate, getPrevRequire, suggestAgain } from '../../service/action/position/PositionAction';
+import { addMoreCandidate, getPrevRequire, getPrevRequireSuccess, suggestAgain } from '../../service/action/position/PositionAction';
 import { getRole, showHardSkillLevel } from '../../service/util/util';
 
 class ListEmployeeContent extends Component {
@@ -17,13 +17,22 @@ class ListEmployeeContent extends Component {
     }
 
     componentDidMount = () => {
-        this.props.getPrevRequire(this.props.projectID, this.props.item.posID)
+        if (this.props.item.missingEmployee > 0) {
+            this.props.getPrevRequire(this.props.item.requiredPosID)
+        } else {
+            this.props.refreshPrevRequire()
+        }
     }
 
     componentDidUpdate = (prevProp) => {
         if (prevProp.item !== this.props.item) {
-            this.props.getPrevRequire(this.props.projectID, this.props.item.posID)
-            this.setState({ isLoading: false })
+            if (typeof this.props.item !== 'undefined') {
+                if (this.props.item.missingEmployee > 0) {
+                    this.props.getPrevRequire(this.props.item.requiredPosID)
+                } else {
+                    this.props.refreshPrevRequire()
+                }
+            }
         }
     }
 
@@ -152,7 +161,7 @@ class ListEmployeeContent extends Component {
     }
 
     render() {
-        var { item, prevRequire } = this.props
+        var { item, prevRequire,project } = this.props
         return (
             <React.Fragment>
                 {this.state.isLoading ?
@@ -161,7 +170,7 @@ class ListEmployeeContent extends Component {
                     </div> :
                     <>
                         <div className='row pull-right' style={{ width: 'auto' }} >
-                            <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Employees </h5>
+                            <h5 style={{ marginRight: 14 }} >{item.candidateNeeded - item.missingEmployee} / {item.candidateNeeded} Employees </h5>
                         </div>
                         {
                             item.employees.length === 0 ?
@@ -183,14 +192,14 @@ class ListEmployeeContent extends Component {
                                         </tbody>
                                     </table>
                                 </div>
-                        }                       
+                        }
                         {getRole() === 'PM' ?
                             this.props.projectStatus === 4 ? "" :
-                                item.noe === item.candidateNeeded ?
-                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMoreCandidates}  >
-                                        Add More Candidates
-                                </button>
-                                    :
+                                // item.noe === item.candidateNeeded ?
+                                //     <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMoreCandidates}  >
+                                //         Add More Candidates
+                                // </button>
+                                //     :
                                     typeof prevRequire.posName !== 'undefined' ?
                                         <>
                                             <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
@@ -250,11 +259,14 @@ const mapDispatchToProp = dispatch => {
         addMoreCandidate: (posID) => {
             dispatch(addMoreCandidate(posID))
         },
-        getPrevRequire: (projectID, posID) => {
-            dispatch(getPrevRequire(projectID, posID))
+        getPrevRequire: (requireID) => {
+            dispatch(getPrevRequire(requireID))
         },
         suggestAgain: () => {
             dispatch(suggestAgain())
+        },
+        refreshPrevRequire: () => {
+            dispatch(getPrevRequireSuccess({}))
         }
     }
 }

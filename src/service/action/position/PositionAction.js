@@ -172,8 +172,8 @@ export const addMorePosition = (position) => {
     return { type: Type.ADD_MORE_POSITION }
 }
 
-export const getPrevRequire = (projectId, posID) => {
-    var url = `${API_URL}/Project/getRequiredPosByID/${projectId}&&${posID}`
+export const getPrevRequire = (requireID) => {
+    var url = `${API_URL}/Project/getRequirementByID/${requireID}`
     return (dispatch) => {
         return axios.get(
             url,

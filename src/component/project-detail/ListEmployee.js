@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from '../../service/action/project/ListEmployeeAction'
 import ListEmployeeContent from './ListEmployeeContent';
-import { addMorePosition } from '../../service/action/position/PositionAction';
+import { addMoreCandidate, addMorePosition } from '../../service/action/position/PositionAction';
 import { Badge, Spin, Tabs, Tooltip } from 'antd';
 import { InfoCircleTwoTone } from "@ant-design/icons";
 import { getRole } from '../../service/util/util';
+import ListRequirement from './ListRequirement';
 
 const TabPane = Tabs.TabPane;
 
@@ -40,24 +41,24 @@ class ListEmployee extends Component {
         }
     }
 
-    showEmployee = (list) => {
-        if (list.length > 0) {
-            return (<ListEmployeeContent item={list[this.state.posIndex]}
-                positionSelect={this.state.positionSelect}
-                projectID={this.props.projectID}
-                projectType={this.props.projectType}
-                projectField={this.props.projectField}
-                projectStatus={this.props.status}
-                projectName={this.props.projectName}
-                dateBegin={this.props.dateBegin}
-                dateEstimatedEnd={this.props.dateEstimatedEnd}
-            />)
-        } else {
-            return (<div className='row justify-content-center'>
-                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-            </div>)
-        }
-    }
+    // showEmployee = (list) => {
+    //     if (list.length > 0) {
+    //         return (<ListEmployeeContent item={list[this.state.posIndex]}
+    //             positionSelect={this.state.positionSelect}
+    //             projectID={this.props.projectID}
+    //             projectType={this.props.projectType}
+    //             projectField={this.props.projectField}
+    //             projectStatus={this.props.status}
+    //             projectName={this.props.projectName}
+    //             dateBegin={this.props.dateBegin}
+    //             dateEstimatedEnd={this.props.dateEstimatedEnd}
+    //         />)
+    //     } else {
+    //         return (<div className='row justify-content-center'>
+    //             <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+    //         </div>)
+    //     }
+    // }
 
     onSelected = (value) => {
         this.setState({ posIndex: value })
@@ -81,9 +82,9 @@ class ListEmployee extends Component {
                     <TabPane
                         tab={
                             <>
-                                <Tooltip title={item.candidateNeeded - item.noe > 0 ? 'This position is missing employees' : ''} >
+                                <Tooltip title={item.isMissEmp ? 'This position is missing employees' : ''} >
                                     <span>{(item || {}).posName} </span>
-                                    {item.candidateNeeded - item.noe > 0 ? (
+                                    {item.isMissEmp ? (
                                         <InfoCircleTwoTone twoToneColor="#FF0000"
                                             style={{ fontSize: "16px" }} />
                                     ) : ("")}
@@ -97,6 +98,16 @@ class ListEmployee extends Component {
         });
         return result;
     };
+
+    onAddMoreCandidates = () => {
+        localStorage.setItem('projectId', this.props.projectID)
+        localStorage.setItem('projectType', this.props.projectType)
+        localStorage.setItem('projectField', this.props.projectField)
+        localStorage.setItem('projectName', this.props.projectName)
+        localStorage.setItem('dateCreate', this.props.dateBegin)
+        localStorage.setItem('dateEnd', this.props.dateEstimatedEnd)
+        this.props.addMoreCandidate(this.props.listEmployee[this.state.posIndex].posID)
+    }
 
     render() {
         var { listEmployee } = this.props
@@ -119,7 +130,19 @@ class ListEmployee extends Component {
                                     </Tabs>
                                 </div>
                                 <div class="card-body">
-                                    {this.showEmployee(listEmployee)}
+                                    <ListRequirement item={listEmployee[this.state.posIndex]}
+                                        projectID={this.props.projectID}
+                                        projectType={this.props.projectType}
+                                        projectField={this.props.projectField}
+                                        projectStatus={this.props.status}
+                                        projectName={this.props.projectName}
+                                        dateBegin={this.props.dateBegin}
+                                        dateEstimatedEnd={this.props.dateEstimatedEnd}
+                                    />
+                                    {/* {this.showEmployee(listEmployee)} */}
+                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMoreCandidates} >
+                                        Add More Requirement
+                                    </button>
                                 </div>
                             </div>
                             {getRole() === 'PM' ?
@@ -149,7 +172,10 @@ const mapDispatchToProp = dispatch => {
         },
         addMorePosition: (position) => {
             dispatch(addMorePosition(position))
-        }
+        },
+        addMoreCandidate: (posID) => {
+            dispatch(addMoreCandidate(posID))
+        },
         // suggestAgain: (projectID) => {
         //     dispatch(sendNotificate('aaa', projectID))
         // }
