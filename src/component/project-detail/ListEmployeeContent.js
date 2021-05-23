@@ -161,45 +161,41 @@ class ListEmployeeContent extends Component {
     }
 
     render() {
-        var { item, prevRequire,project } = this.props
+        var { item, prevRequire } = this.props
         return (
             <React.Fragment>
                 {this.state.isLoading ?
                     <div className='row justify-content-center'>
                         <Spin className='text-center' size="large" />
                     </div> :
-                    <>
-                        <div className='row pull-right' style={{ width: 'auto' }} >
-                            <h5 style={{ marginRight: 14 }} >{item.candidateNeeded - item.missingEmployee} / {item.candidateNeeded} Employees </h5>
-                        </div>
-                        {
-                            item.employees.length === 0 ?
-                                <div className='row justify-content-center'>
-                                    <h4 style={{ fontStyle: 'italic', color: 'gray' }}>No employee available for this position</h4>
-                                </div>
-                                :
-                                <div className="table-responsive">
-                                    <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead className="font-weight-bold text-center text-primary">
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th width={150}>Confirmed Date</th>
-                                        </thead>
-                                        <tbody>
-                                            {this.showCandidate(item.employees, item.posName)}
-                                        </tbody>
-                                    </table>
-                                </div>
-                        }
-                        {getRole() === 'PM' ?
-                            this.props.projectStatus === 4 ? "" :
-                                // item.noe === item.candidateNeeded ?
-                                //     <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMoreCandidates}  >
-                                //         Add More Candidates
-                                // </button>
-                                //     :
+                    typeof item !== 'undefined' ?
+                        <>
+                            <div className='row pull-right' style={{ width: 'auto' }} >
+                                <h5 style={{ marginRight: 14 }} >{item.candidateNeeded - item.missingEmployee} / {item.candidateNeeded} Employees </h5>
+                            </div>
+                            {
+                                item.employees.length === 0 ?
+                                    <div className='row justify-content-center'>
+                                        <h4 style={{ fontStyle: 'italic', color: 'gray' }}>No employee available for this position</h4>
+                                    </div>
+                                    :
+                                    <div className="table-responsive">
+                                        <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead className="font-weight-bold text-center text-primary">
+                                                <th>Name</th>
+                                                <th>Position</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th width={150}>Confirmed Date</th>
+                                            </thead>
+                                            <tbody>
+                                                {this.showCandidate(item.employees, item.posName)}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            }
+                            {getRole() === 'PM' ?
+                                this.props.projectStatus === 4 ? "" :
                                     typeof prevRequire.posName !== 'undefined' ?
                                         <>
                                             <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
@@ -240,8 +236,9 @@ class ListEmployeeContent extends Component {
                                             </Modal>
                                         </> :
                                         ''
-                            : ''}
-                    </>
+                                : ''}
+                        </>
+                        : ''
                 }
             </React.Fragment>
         );
