@@ -25,7 +25,8 @@ class CreateProject extends Component {
             projectTypeID: 1,
             projectFieldID: 1,
             fieldError: '',
-            messageError: ''
+            messageError: '',
+            maxEndDate: ''
         }
     }
 
@@ -59,7 +60,7 @@ class CreateProject extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.projectDetail !== this.props.projectDetail) {
             var { projectDetail } = this.props
-            if (typeof projectDetail.isCreateNew === 'undefined') {
+            if (typeof this.props.match.params.id !== "undefined") {
                 this.setState({
                     id: projectDetail.projectID,
                     projectName: projectDetail.projectName,
@@ -68,7 +69,8 @@ class CreateProject extends Component {
                     description: projectDetail.description,
                     stakeholder: projectDetail.skateholder,
                     projectTypeID: projectDetail.typeID,
-                    projectFieldID: projectDetail.fieldID
+                    projectFieldID: projectDetail.fieldID,
+                    maxEndDate: moment(projectDetail.dateEstimatedEnd).format('YYYY-MM-DD')
                 })
             }
         } else if (prevProps.status !== this.props.status) {
@@ -133,7 +135,8 @@ class CreateProject extends Component {
     }
 
     render() {
-        var { projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID, fieldError, messageError } = this.state
+        var { projectName, dateBegin, dateEstimatedEnd, description, projectTypeID, projectFieldID,
+            fieldError, messageError, maxEndDate } = this.state
         var { projectType, projectField, error } = this.props
         var projectTypeConverted = convertProjectTypeList(projectType)
         var projectFieldConverted = convertProjectTypeList(projectField)
@@ -191,13 +194,14 @@ class CreateProject extends Component {
                                         </label>
                                         <SelectBar name="projectType"
                                             type="common"
+                                            disable={typeof this.props.match.params.id !== "undefined"}
                                             placeholder="Select project type"
                                             list={projectTypeConverted}
                                             value={projectTypeID}
                                             onSelectProjectType={this.onSelectProjectType}
                                         />
-                                        {typeof error.TypeID  !== "undefined"
-                                            ? error.TypeID .map((element, index) => {
+                                        {typeof error.TypeID !== "undefined"
+                                            ? error.TypeID.map((element, index) => {
                                                 return (
                                                     <div key={index} className="error text-danger font-weight-bold">
                                                         {element}
@@ -217,13 +221,14 @@ class CreateProject extends Component {
                                         <SelectBar
                                             name="projectField"
                                             type="common"
+                                            disable={typeof this.props.match.params.id !== "undefined"}
                                             placeholder="Select project fields"
                                             list={projectFieldConverted}
                                             value={projectFieldID}
                                             onSelectProjectField={this.onSelectProjectField}
                                         />
-                                        {typeof error.FieldID  !== "undefined"
-                                            ? error.FieldID .map((element, index) => {
+                                        {typeof error.FieldID !== "undefined"
+                                            ? error.FieldID.map((element, index) => {
                                                 return (
                                                     <div key={index} className="error text-danger font-weight-bold">
                                                         {element}
@@ -273,7 +278,8 @@ class CreateProject extends Component {
                                             type="date"
                                             name="dateEstimatedEnd"
                                             min={moment(moment().day(5 + 1 + 30)).format("YYYY-MM-DD")}
-                                            defaultValue={dateEstimatedEnd}
+                                            max={maxEndDate}
+                                            value={dateEstimatedEnd}
                                             className="form-control"
                                             onChange={this.onHandle}
                                         />

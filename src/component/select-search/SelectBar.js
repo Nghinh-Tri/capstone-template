@@ -148,6 +148,7 @@ class SelectBar extends Component {
         } else {
             return (
                 <Select value={value}
+                    disabled={typeof this.props.disable !== 'undefined' ? this.props.disable : false}
                     style={name === 'projectType' || name === 'projectField' ? { width: 590 } : { width: 200 }}
                     showSearch
                     placeholder={this.props.placeholder}
