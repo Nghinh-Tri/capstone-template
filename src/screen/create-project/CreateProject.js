@@ -253,7 +253,7 @@ class CreateProject extends Component {
                                             name="dateBegin"
                                             className="form-control"
                                             min={moment(moment().day(5 + 30)).format("YYYY-MM-DD")}
-                                            defaultValue={dateBegin}
+                                            value={dateBegin}
                                             onChange={this.onHandle}
                                             readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
                                         />
