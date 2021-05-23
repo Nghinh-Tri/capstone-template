@@ -44,7 +44,6 @@ class ListEmployeeContent extends Component {
                     <th >
                         <NavLink className="text-primary" to={`/project/detail/emp/${employee.empID}`}>{employee.name}</NavLink>
                     </th>
-                    <th className="text-center">{posName}</th>
                     <th>{employee.email}</th>
                     <th className="text-center">{employee.phoneNumber}</th>
                     <th className="text-center">
@@ -183,7 +182,6 @@ class ListEmployeeContent extends Component {
                                         <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead className="font-weight-bold text-center text-primary">
                                                 <th>Name</th>
-                                                <th>Position</th>
                                                 <th>Email</th>
                                                 <th>Phone</th>
                                                 <th width={150}>Confirmed Date</th>
