@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import * as Action from '../../service/action/project/ListEmployeeAction'
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMoreCandidate, addMorePosition } from '../../service/action/position/PositionAction';
-import { Badge, Spin, Tabs, Tooltip } from 'antd';
+import { Badge, Button, Modal, Spin, Tabs, Tooltip } from 'antd';
 import { InfoCircleTwoTone } from "@ant-design/icons";
 import { getRole } from '../../service/util/util';
 import ListRequirement from './ListRequirement';
+import AddMoreRequirementModal from './AddMoreRequirementModal';
 
 const TabPane = Tabs.TabPane;
 
@@ -21,7 +22,8 @@ class ListEmployee extends Component {
             positionSelect: 0,
             count: 0,
             isLoading: true,
-            posIndex: 0
+            posIndex: 0,
+            visible: false
         }
     }
 
@@ -40,25 +42,6 @@ class ListEmployee extends Component {
             this.setState({ isLoading: false, positionList: temp })
         }
     }
-
-    // showEmployee = (list) => {
-    //     if (list.length > 0) {
-    //         return (<ListEmployeeContent item={list[this.state.posIndex]}
-    //             positionSelect={this.state.positionSelect}
-    //             projectID={this.props.projectID}
-    //             projectType={this.props.projectType}
-    //             projectField={this.props.projectField}
-    //             projectStatus={this.props.status}
-    //             projectName={this.props.projectName}
-    //             dateBegin={this.props.dateBegin}
-    //             dateEstimatedEnd={this.props.dateEstimatedEnd}
-    //         />)
-    //     } else {
-    //         return (<div className='row justify-content-center'>
-    //             <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-    //         </div>)
-    //     }
-    // }
 
     onSelected = (value) => {
         this.setState({ posIndex: value })
@@ -139,10 +122,8 @@ class ListEmployee extends Component {
                                         dateBegin={this.props.dateBegin}
                                         dateEstimatedEnd={this.props.dateEstimatedEnd}
                                     />
-                                    {/* {this.showEmployee(listEmployee)} */}
-                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMoreCandidates} >
-                                        Add More Requirement
-                                    </button>
+                                    <AddMoreRequirementModal position={listEmployee[this.state.posIndex].posName}
+                                        requirements={listEmployee[this.state.posIndex].requirements} />
                                 </div>
                             </div>
                             {getRole() === 'PM' ?
