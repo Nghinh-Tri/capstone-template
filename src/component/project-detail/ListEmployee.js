@@ -122,8 +122,19 @@ class ListEmployee extends Component {
                                         dateBegin={this.props.dateBegin}
                                         dateEstimatedEnd={this.props.dateEstimatedEnd}
                                     />
-                                    <AddMoreRequirementModal position={listEmployee[this.state.posIndex].posName}
-                                        requirements={listEmployee[this.state.posIndex].requirements} />
+                                    {getRole() === 'PM' ?
+                                        this.state.isLoading || this.props.status === 4 ? '' :
+                                            <AddMoreRequirementModal
+                                                position={listEmployee[this.state.posIndex].posName}
+                                                posID={this.props.listEmployee[this.state.posIndex].posID}
+                                                requirements={listEmployee[this.state.posIndex].requirements}
+                                                projectID={this.props.projectID}
+                                                projectType={this.props.projectType}
+                                                projectField={this.props.projectField}
+                                                projectName={this.props.projectName}
+                                                dateBegin={this.props.dateBegin}
+                                                dateEstimatedEnd={this.props.dateEstimatedEnd} />
+                                        : ''}
                                 </div>
                             </div>
                             {getRole() === 'PM' ?
@@ -156,10 +167,7 @@ const mapDispatchToProp = dispatch => {
         },
         addMoreCandidate: (posID) => {
             dispatch(addMoreCandidate(posID))
-        },
-        // suggestAgain: (projectID) => {
-        //     dispatch(sendNotificate('aaa', projectID))
-        // }
+        }        
     }
 }
 

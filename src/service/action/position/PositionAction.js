@@ -162,6 +162,44 @@ export const addMoreCandidate = (posID) => {
     }
 }
 
+export const copyRequirement = (posID, hardSkill, language, softskill) => {
+    var projectType = localStorage.getItem('projectType')
+    var projectField = localStorage.getItem('projectField')
+    var fetchHardSkill = `${API_URL}/Skill/type/${projectType}&&${posID}`
+    var fetchSoftSkill = `${API_URL}/Skill/field/${projectField}`
+    return (dispatch) => {
+        axios.get(
+            fetchHardSkill,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            var hardSkillList = res.data.resultObj === null ? [] : res.data.resultObj
+            var certificateList = []
+            hardSkill.forEach(element => {
+                let optionSkillURl = `${API_URL}/Certification/getCertifications/${element.hardSkillID}`
+                axios.get(
+                    optionSkillURl,
+                    { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+                ).then(res2 => {
+                    var certiList = res2.data.resultObj === null ? [] : res2.data.resultObj
+                    certificateList.push({ hardSkillID: element.hardSkillID, certiList: certiList })
+                })
+            });
+            axios.get(
+                fetchSoftSkill,
+                { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+            ).then(res => {
+                var softSkillList = res.data.resultObj === null ? [] : res.data.resultObj
+                dispatch(copyRequirementSuccess(posID, hardSkillList, softSkillList, hardSkill, language, softskill, certificateList))
+            })
+        })
+    }
+}
+
+export const copyRequirementSuccess = (posID, hardSkillList, softSkillList, hardSkill, language, softskill, certificateList) => {
+    history.push("/project/create-position", { type: 'copyRequirement' })
+    return { type: Type.COPY_REQUIREMENT, posID, hardSkillList, softSkillList, hardSkill, language, softskill, certificateList }
+}
+
 export const addMoreCandidateSuccess = (posID, hardSkill, softSkill) => {
     history.push("/project/create-position", { type: 'addMoreCandidate' })
     return { type: Type.ADD_MORE_CANDIDATE, posID, hardSkill, softSkill }

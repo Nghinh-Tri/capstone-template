@@ -1,5 +1,7 @@
 import { Button, Modal, Tabs } from 'antd';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addMoreCandidate, copyRequirement } from '../../service/action/position/PositionAction';
 import PositionRequireDetail from './PositionRequireDetail';
 const TabPane = Tabs.TabPane
 
@@ -60,6 +62,30 @@ class AddMoreRequirementModal extends Component {
         this.setState({ select: value })
     }
 
+    copyRequirement = () => {
+        var { requirements } = this.props
+        localStorage.setItem('projectId', this.props.projectID)
+        localStorage.setItem('projectType', this.props.projectType)
+        localStorage.setItem('projectField', this.props.projectField)
+        localStorage.setItem('projectName', this.props.projectName)
+        localStorage.setItem('dateCreate', this.props.dateBegin)
+        localStorage.setItem('dateEnd', this.props.dateEstimatedEnd)
+        this.props.copyRequirement(this.props.posID,
+            requirements[this.state.select].hardSkills,
+            requirements[this.state.select].language,
+            requirements[this.state.select].softSkillIDs)
+    }
+
+    createNewRequirement = () => {
+        localStorage.setItem('projectId', this.props.projectID)
+        localStorage.setItem('projectType', this.props.projectType)
+        localStorage.setItem('projectField', this.props.projectField)
+        localStorage.setItem('projectName', this.props.projectName)
+        localStorage.setItem('dateCreate', this.props.dateBegin)
+        localStorage.setItem('dateEnd', this.props.dateEstimatedEnd)
+        this.props.addMoreCandidate(this.props.posID)
+    }
+
     render() {
         var { requirements, position } = this.props
         return (
@@ -72,8 +98,8 @@ class AddMoreRequirementModal extends Component {
                         visible={this.state.visible}
                         onCancel={this.handleCancel}
                         footer={<>
-                            <Button type='default' style={{ width: 50 }} >No</Button>
-                            <Button type='primary' style={{ width: 50 }} >Yes</Button>
+                            <Button type='default' style={{ width: 50 }} onClick={this.createNewRequirement} >No</Button>
+                            <Button type='primary' style={{ width: 50 }} onClick={this.copyRequirement} >Yes</Button>
                         </>
                         }
                         title={
@@ -99,4 +125,15 @@ class AddMoreRequirementModal extends Component {
     }
 }
 
-export default AddMoreRequirementModal;
+const mapDispatchToProp = dispatch => {
+    return {
+        addMoreCandidate: (posID) => {
+            dispatch(addMoreCandidate(posID))
+        },
+        copyRequirement: (postID, hardSkill, language, softskill) => {
+            dispatch(copyRequirement(postID, hardSkill, language, softskill))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProp)(AddMoreRequirementModal);

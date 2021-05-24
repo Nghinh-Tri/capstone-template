@@ -47,7 +47,7 @@ class PositionRequireDetail extends Component {
                 <tr key={index} >
                     <td>{index + 1}</td>
                     <td>{value.langName}</td>
-                    <td>{value.priority}</td>
+                    <td>{value.priority === 10 ? 'High' : 'Low'}</td>
                 </tr>
             )
         })
