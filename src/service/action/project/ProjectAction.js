@@ -29,7 +29,6 @@ export const generateProject = (project, isCreateNew) => {
 }
 
 export const generateProjectSuccess = (project) => {
-    // history.push('/project/create-project', { isUpdate: false })
     return { type: Type.GENERATE_PROJECT, project }
 }
 
@@ -84,7 +83,6 @@ export const refreshPage = () => {
 }
 
 export const createProjectSuccess = (isSuccessed) => {
-    // history.push('/project/create-position')
     return { type: Type.CREATE_PROJECT, isSuccessed }
 }
 
@@ -97,16 +95,11 @@ export const createProjectConstraintsFailed = error => {
 }
 
 export const createProjectFail = () => {
-    return {
-        type: alertConstants.ERROR
-    }
+    return { type: alertConstants.ERROR }
 }
 
 export const updateProjectDetail = (name, value) => {
-    return {
-        type: Type.UPDATE_PROJECT_DETAIL,
-        name, value
-    }
+    return { type: Type.UPDATE_PROJECT_DETAIL, name, value }
 }
 
 export const fetchProject = (pageIndex, search, refresh) => {
@@ -132,17 +125,12 @@ export const fetchProject = (pageIndex, search, refresh) => {
         ).then(res => {
             if (res.data.isSuccessed)
                 dispatch(fetchProjectSuccess(res.data.resultObj, typeof refresh === 'undefined' ? false : refresh))
-        }).catch(err => {
-
         })
     }
 }
 
 export const fetchProjectSuccess = (resultObj, refresh) => {
-    return {
-        type: Type.FETCH_PROJECT,
-        resultObj, refresh
-    }
+    return { type: Type.FETCH_PROJECT, resultObj, refresh }
 }
 
 export const fetchProjectDetail = (projectID) => {
@@ -187,17 +175,11 @@ export const fetchCandidatesResultSuccess = (result) => {
 }
 
 export const fetchPositionRequireSuccess = (resultObj) => {
-    return {
-        type: Type.FETCH_POSITION_REQUIRE,
-        resultObj
-    }
+    return { type: Type.FETCH_POSITION_REQUIRE, resultObj }
 }
 
 export const fetchProjectDetailSuccess = (resultObj) => {
-    return {
-        type: Type.FETCH_PROJECT_DETAIL,
-        resultObj
-    }
+    return { type: Type.FETCH_PROJECT_DETAIL, resultObj }
 }
 
 export const updateProject = (project, id) => {
@@ -255,8 +237,6 @@ export const fetchProjectField = () => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             dispatch(fetchProjectFieldSuccess(res.data.resultObj))
-        }).catch(err => {
-
         })
     }
 }
