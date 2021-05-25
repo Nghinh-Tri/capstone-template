@@ -73,6 +73,7 @@ class CreatePositionForm extends Component {
                         <SelectBar name="positionID"
                             width={200}
                             type='unique'
+                            isDelete={this.props.updateType !== 'copyRequirement' && this.props.updateType !== 'addMoreCandidate'}
                             placeholder='Select position'
                             list={listConverted}
                             onUpdatePositionID={this.props.onUpdatePositionID}
