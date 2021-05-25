@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { addMoreCandidate, getPrevRequire, getPrevRequireSuccess, suggestAgain } from '../../service/action/position/PositionAction';
 import { getRole, showHardSkillLevel } from '../../service/util/util';
+import { groupColor } from './GroupColor';
 
 class ListEmployeeContent extends Component {
 
@@ -36,11 +37,25 @@ class ListEmployeeContent extends Component {
         }
     }
 
+    findEmployeeGroup = (empID) => {
+        let result = 0
+        let { groupEmployee } = this.props
+        Object.keys(groupEmployee).forEach(group => {
+            let temp = groupEmployee[group]
+            temp.forEach(element => {
+                if (element.empID === empID) {
+                    result = element.group
+                }
+            });
+        })
+        return result
+    }
+
     showCandidate = (employees, posName) => {
         var result = null
         result = employees.map((employee, index) => {
             return (
-                <tr key={index}>
+                <tr key={index} style={{ backgroundColor: groupColor[this.findEmployeeGroup(employee.empID)].color }} >
                     <th >
                         <NavLink className="text-primary" to={`/project/detail/emp/${employee.empID}`}>{employee.name}</NavLink>
                     </th>
@@ -160,7 +175,8 @@ class ListEmployeeContent extends Component {
     }
 
     render() {
-        var { item, prevRequire } = this.props
+        var { item, prevRequire, groupEmployee } = this.props
+        // console.log(groupEmployee)
         return (
             <React.Fragment>
                 {this.state.isLoading ?

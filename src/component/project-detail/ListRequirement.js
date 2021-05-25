@@ -1,4 +1,4 @@
-import { Tabs, Tooltip } from 'antd';
+import { Spin, Tabs, Tooltip } from 'antd';
 import React, { Component } from 'react';
 import { InfoCircleTwoTone } from "@ant-design/icons";
 import ListEmployeeContent from './ListEmployeeContent';
@@ -8,14 +8,18 @@ const TabPane = Tabs.TabPane
 
 class ListRequirement extends Component {
 
-    state = { select: "0" }
+    state = { isLoad: true }
+
+    componentDidMount = () => {
+        this.props.selectRequire("0")
+    }
 
     componentDidUpdate = (nextProps) => {
         if (nextProps.item !== this.props.item) {
             this.props.selectRequire("0")
+            this.setState({ isLoad: false })
         }
     }
-
 
     getTabName = () => {
         var { item } = this.props;
@@ -45,27 +49,52 @@ class ListRequirement extends Component {
         this.props.selectRequire(value)
     }
 
+    groupEmployee = () => {
+        var result = {}
+        let employees = this.props.item.requirements[parseInt(this.props.selection)].employees
+        let group = -1
+        employees.map((emp, key) => {
+            if (!emp.requirementDate) return
+            if (!result[emp.requirementDate]) {
+                group++
+                result[emp.requirementDate] = [{ empID: emp.empID, group: group }]
+            }
+            else
+                result[emp.requirementDate].push({ empID: emp.empID, group: group })
+        })
+        return result
+    }
+
     render() {
         var { item, selection } = this.props
+        // var groupEmployee = this.groupEmployee()
+        // console.log(item.requirements[parseInt(selection)])
         return (
-            <div className="card mb-4">
-                <div className="card-header">
-                    <Tabs defaultActiveKey="0" activeKey={parseInt(selection) + ""} onChange={this.onSelectPos}>
-                        {this.getTabName()}
-                    </Tabs>
+            <React.Fragment>
+
+                <div className="card mb-4">
+                    <div className="card-header">
+                        <Tabs defaultActiveKey="0" activeKey={parseInt(selection) + ""} onChange={this.onSelectPos}>
+                            {this.getTabName()}
+                        </Tabs>
+                    </div>
+                    {typeof item.requirements[parseInt(selection)] !== 'undefined' ?
+                        <div className="card-body">
+                            <ListEmployeeContent item={item.requirements[parseInt(selection)]}
+                                projectID={this.props.projectID}
+                                projectType={this.props.projectType}
+                                projectField={this.props.projectField}
+                                projectStatus={this.props.projectStatus}
+                                projectName={this.props.projectName}
+                                dateBegin={this.props.dateBegin}
+                                dateEstimatedEnd={this.props.dateEstimatedEnd}
+                                groupEmployee={this.groupEmployee()}
+                            />
+                        </div>
+                        : ''}
                 </div>
-                <div className="card-body">
-                    <ListEmployeeContent item={item.requirements[parseInt(selection)]}
-                        projectID={this.props.projectID}
-                        projectType={this.props.projectType}
-                        projectField={this.props.projectField}
-                        projectStatus={this.props.status}
-                        projectName={this.props.projectName}
-                        dateBegin={this.props.dateBegin}
-                        dateEstimatedEnd={this.props.dateEstimatedEnd}
-                    />
-                </div>
-            </div>
+
+            </React.Fragment>
         );
     }
 }
