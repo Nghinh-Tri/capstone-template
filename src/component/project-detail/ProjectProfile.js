@@ -34,13 +34,13 @@ class ProjectProfile extends Component {
     }
 
     onChangeStatusToFinish = () => {
-        var { match, changeStatusToFinish } = this.props
+        var { match, changeStatusToFinish, project } = this.props
         confirm({
             title: 'Are you sure you want to finish this project?',
             okText: 'Yes',
             cancelText: 'No',
             onOk() {
-                changeStatusToFinish(match.params.id)
+                changeStatusToFinish(match.params.id, project.projectName)
             },
             onCancel() {
                 console.log('Cancel');
@@ -103,8 +103,8 @@ const mapDispatchToProp = dispatch => {
         fetchProjectDetail: projectID => {
             dispatch(Action.fetchProjectDetail(projectID))
         },
-        changeStatusToFinish: projectID => {
-            dispatch(Action.changeStatusToFinish(projectID))
+        changeStatusToFinish: (projectID, projectName) => {
+            dispatch(Action.changeStatusToFinish(projectID, projectName))
         },
         checkSession: () => {
             dispatch(checkSession())

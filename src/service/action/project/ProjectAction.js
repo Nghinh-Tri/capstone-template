@@ -203,15 +203,26 @@ export const updateProjectSuccess = (isSuccessed) => {
     return { type: Type.UPDATE_PROJECT, isSuccessed }
 }
 
-export const changeStatusToFinish = projectID => {
+export const changeStatusToFinish = (projectID, projectName) => {
     var url = `${API_URL}/Project/changeStatus/${projectID}`
     return dispatch => {
-        return axios.put(
+        axios.put(
             url,
             null,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            if (res.data.isSuccessed) {
                 dispatch(fetchProjectDetail(projectID))
-            })
+                var message = {
+                    title: `Project Manager ${getUserName()} sent a notification`,
+                    body: `Project '${projectName}' has finished`,
+                    status: true,
+                    topic: 'news',
+                    dateCreate: moment.now()
+                }
+                dispatch(sendNotificate(message))
+            }
+        })
     }
 }
 
@@ -223,8 +234,6 @@ export const fetchProjectType = () => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             dispatch(fetchProjectTypeSuccess(res.data.resultObj))
-        }).catch(err => {
-
         })
     }
 }

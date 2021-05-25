@@ -9,7 +9,7 @@ import { checkSession } from '../../service/action/user/AuthenticateAction';
 import * as Action from "../../service/action/position/PositionAction";
 import { fetchPostionList } from '../../service/action/position/PositionSelectBarAction';
 import { convertPositionRequire } from '../../service/util/util';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import { history } from '../../service/helper/History';
 
 class PositionRequire extends Component {
@@ -30,7 +30,8 @@ class PositionRequire extends Component {
             isUpdate: false,
             updateType: '',
             positionNotSelect: [],
-            isSubmit: false
+            isSubmit: false,
+            isLoad: true
         }
     }
 
@@ -62,6 +63,8 @@ class PositionRequire extends Component {
                         title: 'Assign Position Failed'
                     })
             }
+        } else if (prevProps.positionList !== this.props.positionList) {
+            this.setState({ isLoad: false })
         }
     }
 
@@ -157,6 +160,7 @@ class PositionRequire extends Component {
         var result = null
         result = items.map((positionItem, index) => {
             return (<CreatePositionForm length={items.length} key={index}
+                updateType={this.state.updateType}
                 projectName={localStorage.getItem('projectName')}
                 positionItem={positionItem}
                 positionIndex={index}
@@ -202,55 +206,62 @@ class PositionRequire extends Component {
             <React.Fragment>
                 <ProgressBar current='1' />
                 <BriefDetail />
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <div style={{ display: 'flex', flexDirection: 'row' }}>
-                            <div>
-                                <i class="fas fa-table mr-1" />
-                            </div>
-                            <div>Position</div>
-                            {typeof error.RequiredPositions !== "undefined" ?
-                                error.RequiredPositions.map((element, index) => {
-                                    return (
-                                        <div key={index} className="error text-danger font-weight-bold" style={{ marginLeft: 20 }} >
-                                            {element}
-                                        </div>
-                                    );
-                                })
-                                : ""}
-                        </div>
+                {this.state.isLoad ?
+                    <div className="row justify-content-center">
+                        <Spin className="text-center" size="large" />
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th className="text-center">No</th>
-                                        <th width={100} className="text-center" >Position</th>
-                                        <th width={160}>Candidates Needed</th>
-                                        <th width={200} className='text-center'>Hard Skill Requirements</th>
-                                        <th width={200} className='text-center'>Language Requirements</th>
-                                        <th width={190} className='text-center'>Soft Skill Requirements</th>
-                                        <th width={100}></th>
-                                        <th width={100}></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.showPosition(items)}
-                                </tbody>
-                            </table>
-                            {this.props.positionList.length === this.props.items.length || this.state.updateType === 'addMoreCandidate' ?//if state is not undefined then it add more candidate
-                                '' :
-                                <div className="col">
-                                    <i className="material-icons" style={{ cursor: 'pointer', color: 'blue' }} onClick={this.onAddPosition}>add_box</i>
+                    :
+                    <>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <div>
+                                        <i class="fas fa-table mr-1" />
+                                    </div>
+                                    <div>Position</div>
+                                    {typeof error.RequiredPositions !== "undefined" ?
+                                        error.RequiredPositions.map((element, index) => {
+                                            return (
+                                                <div key={index} className="error text-danger font-weight-bold" style={{ marginLeft: 20 }} >
+                                                    {element}
+                                                </div>
+                                            );
+                                        })
+                                        : ""}
                                 </div>
-                            }
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th className="text-center">No</th>
+                                                <th width={100} className="text-center" >Position</th>
+                                                <th width={160}>Candidates Needed</th>
+                                                <th width={200} className='text-center'>Hard Skill Requirements</th>
+                                                <th width={200} className='text-center'>Language Requirements</th>
+                                                <th width={190} className='text-center'>Soft Skill Requirements</th>
+                                                <th width={100}></th>
+                                                <th width={100}></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {this.showPosition(items)}
+                                        </tbody>
+                                    </table>
+                                    {this.props.positionList.length === this.props.items.length || this.state.updateType === 'addMoreCandidate' || this.state.updateType === 'copyRequirement' ?//if state is not undefined then it add more candidate
+                                        '' :
+                                        <div className="col">
+                                            <i className="material-icons" style={{ cursor: 'pointer', color: 'blue' }} onClick={this.onAddPosition}>add_box</i>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className='col' >
-                    <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }} onClick={this.onCreatePosition} >Assign</button>
-                </div>
+                        <div className='col' >
+                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700 }} onClick={this.onCreatePosition} >Assign</button>
+                        </div>
+                    </>}
             </React.Fragment>
         );
     }
