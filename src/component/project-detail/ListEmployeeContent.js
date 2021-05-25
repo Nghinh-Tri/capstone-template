@@ -1,10 +1,11 @@
-import { Descriptions, Modal, notification, Spin } from 'antd';
+import { Modal, notification, Spin } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { addMoreCandidate, getPrevRequire, suggestAgain } from '../../service/action/position/PositionAction';
+import { addMoreCandidate, getPrevRequire, getPrevRequireSuccess, suggestAgain } from '../../service/action/position/PositionAction';
 import { getRole, showHardSkillLevel } from '../../service/util/util';
+import { groupColor } from './GroupColor';
 
 class ListEmployeeContent extends Component {
 
@@ -17,25 +18,47 @@ class ListEmployeeContent extends Component {
     }
 
     componentDidMount = () => {
-        this.props.getPrevRequire(this.props.projectID, this.props.item.posID)
+        if (this.props.item.missingEmployee > 0) {
+            this.props.getPrevRequire(this.props.item.requiredPosID)
+        } else {
+            this.props.refreshPrevRequire()
+        }
     }
 
     componentDidUpdate = (prevProp) => {
         if (prevProp.item !== this.props.item) {
-            this.props.getPrevRequire(this.props.projectID, this.props.item.posID)
-            this.setState({ isLoading: false })
+            if (typeof this.props.item !== 'undefined') {
+                if (this.props.item.missingEmployee > 0) {
+                    this.props.getPrevRequire(this.props.item.requiredPosID)
+                } else {
+                    this.props.refreshPrevRequire()
+                }
+            }
         }
     }
 
-    showCandidate = (employees, posName) => {
+    findEmployeeGroup = (empID) => {
+        let result = 0
+        let { groupEmployee } = this.props
+        Object.keys(groupEmployee).forEach(group => {
+            let temp = groupEmployee[group]
+            temp.forEach(element => {
+                if (element.empID === empID) {
+                    result = element.group
+                }
+            });
+        })
+        return result
+    }
+
+    showCandidate = (employees) => {
         var result = null
         result = employees.map((employee, index) => {
             return (
-                <tr key={index}>
+                <tr key={index} style={{ backgroundColor: groupColor[this.findEmployeeGroup(employee.empID)].color }} >
                     <th >
                         <NavLink className="text-primary" to={`/project/detail/emp/${employee.empID}`}>{employee.name}</NavLink>
                     </th>
-                    <th className="text-center">{posName}</th>
                     <th>{employee.email}</th>
                     <th className="text-center">{employee.phoneNumber}</th>
                     <th className="text-center">
@@ -159,38 +182,33 @@ class ListEmployeeContent extends Component {
                     <div className='row justify-content-center'>
                         <Spin className='text-center' size="large" />
                     </div> :
-                    <>
-                        <div className='row pull-right' style={{ width: 'auto' }} >
-                            <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Employees </h5>
-                        </div>
-                        {
-                            item.employees.length === 0 ?
-                                <div className='row justify-content-center'>
-                                    <h4 style={{ fontStyle: 'italic', color: 'gray' }}>No employee available for this position</h4>
-                                </div>
-                                :
-                                <div className="table-responsive">
-                                    <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead className="font-weight-bold text-center text-primary">
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th width={150}>Confirmed Date</th>
-                                        </thead>
-                                        <tbody>
-                                            {this.showCandidate(item.employees, item.posName)}
-                                        </tbody>
-                                    </table>
-                                </div>
-                        }                       
-                        {getRole() === 'PM' ?
-                            this.props.projectStatus === 4 ? "" :
-                                item.noe === item.candidateNeeded ?
-                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMoreCandidates}  >
-                                        Add More Candidates
-                                </button>
+                    typeof item !== 'undefined' ?
+                        <>
+                            <div className='row pull-right' style={{ width: 'auto' }} >
+                                <h5 style={{ marginRight: 14 }} >{item.candidateNeeded - item.missingEmployee} / {item.candidateNeeded} Employees </h5>
+                            </div>
+                            {
+                                item.employees.length === 0 ?
+                                    <div className='row justify-content-center'>
+                                        <h4 style={{ fontStyle: 'italic', color: 'gray' }}>No employee available for this position</h4>
+                                    </div>
                                     :
+                                    <div className="table-responsive">
+                                        <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead className="font-weight-bold text-center text-primary">
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th width={150}>Confirmed Date</th>
+                                            </thead>
+                                            <tbody>
+                                                {this.showCandidate(item.employees)}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            }
+                            {getRole() === 'PM' ?
+                                this.props.projectStatus === 4 ? "" :
                                     typeof prevRequire.posName !== 'undefined' ?
                                         <>
                                             <button type="submit" className="btn btn-primary pull-right" onClick={this.onSelectCandidatesAgain}  >
@@ -231,8 +249,9 @@ class ListEmployeeContent extends Component {
                                             </Modal>
                                         </> :
                                         ''
-                            : ''}
-                    </>
+                                : ''}
+                        </>
+                        : ''
                 }
             </React.Fragment>
         );
@@ -250,11 +269,14 @@ const mapDispatchToProp = dispatch => {
         addMoreCandidate: (posID) => {
             dispatch(addMoreCandidate(posID))
         },
-        getPrevRequire: (projectID, posID) => {
-            dispatch(getPrevRequire(projectID, posID))
+        getPrevRequire: (requireID) => {
+            dispatch(getPrevRequire(requireID))
         },
         suggestAgain: () => {
             dispatch(suggestAgain())
+        },
+        refreshPrevRequire: () => {
+            dispatch(getPrevRequireSuccess({}))
         }
     }
 }

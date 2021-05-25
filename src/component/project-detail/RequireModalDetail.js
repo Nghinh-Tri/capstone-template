@@ -33,7 +33,9 @@ class RequireModalDetail extends Component {
         return (
             <React.Fragment>
                 <a style={{ color: 'blue' }} onClick={this.onShowRequireDetail} >Detail</a>
-                <Modal width={1000} title={value.posName} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
+                <Modal width={1000} title={value.posName} 
+                footer={null}
+                visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
                     <Tabs defaultActiveKey={1}>
                         <TabPane key={1} tab="Details">
                             <PositionRequireDetail hardSkills={value.hardSkills} language={value.language} softSkills={value.softSkillIDs} />

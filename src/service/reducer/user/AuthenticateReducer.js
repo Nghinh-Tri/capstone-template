@@ -10,7 +10,6 @@ const authentication = (state = initialState, action) => {
             return state
         case Type.LOGIN_SUCCESS:
             state = false
-            console.log(state)
             return state
         case ERROR.LOGIN_ERROR:
             state = false
