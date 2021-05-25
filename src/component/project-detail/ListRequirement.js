@@ -1,4 +1,4 @@
-import { Spin, Tabs, Tooltip } from 'antd';
+import { Tabs, Tooltip } from 'antd';
 import React, { Component } from 'react';
 import { InfoCircleTwoTone } from "@ant-design/icons";
 import ListEmployeeContent from './ListEmployeeContent';
@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 const TabPane = Tabs.TabPane
 
 class ListRequirement extends Component {
-
-    state = { isLoad: true }
 
     componentDidMount = () => {
         this.props.selectRequire("0")
@@ -67,11 +65,8 @@ class ListRequirement extends Component {
 
     render() {
         var { item, selection } = this.props
-        // var groupEmployee = this.groupEmployee()
-        // console.log(item.requirements[parseInt(selection)])
         return (
             <React.Fragment>
-
                 <div className="card mb-4">
                     <div className="card-header">
                         <Tabs defaultActiveKey="0" activeKey={parseInt(selection) + ""} onChange={this.onSelectPos}>
@@ -93,7 +88,6 @@ class ListRequirement extends Component {
                         </div>
                         : ''}
                 </div>
-
             </React.Fragment>
         );
     }

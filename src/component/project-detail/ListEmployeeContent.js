@@ -1,4 +1,4 @@
-import { Descriptions, Modal, notification, Spin } from 'antd';
+import { Modal, notification, Spin } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -51,7 +51,7 @@ class ListEmployeeContent extends Component {
         return result
     }
 
-    showCandidate = (employees, posName) => {
+    showCandidate = (employees) => {
         var result = null
         result = employees.map((employee, index) => {
             return (
@@ -175,8 +175,7 @@ class ListEmployeeContent extends Component {
     }
 
     render() {
-        var { item, prevRequire, groupEmployee } = this.props
-        // console.log(groupEmployee)
+        var { item, prevRequire } = this.props
         return (
             <React.Fragment>
                 {this.state.isLoading ?
@@ -203,7 +202,7 @@ class ListEmployeeContent extends Component {
                                                 <th width={150}>Confirmed Date</th>
                                             </thead>
                                             <tbody>
-                                                {this.showCandidate(item.employees, item.posName)}
+                                                {this.showCandidate(item.employees)}
                                             </tbody>
                                         </table>
                                     </div>
