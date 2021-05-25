@@ -1,4 +1,4 @@
-import { Badge, Button, Descriptions, Spin } from 'antd';
+import { Badge, Button, Descriptions, Modal, Spin } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import moment from 'moment';
 import React, { Component } from 'react';
@@ -30,6 +30,19 @@ class ProjectProfile extends Component {
                 this.setState({ isLoad: false })
                 this.props.projectTypeField(project.typeID, project.fieldID, project.status, project.projectName, project.dateBegin, project.dateEstimatedEnd)
             }
+        } else if (prevProps.status !== this.props.status) {
+            let { fetchProjectDetail, projectID } = this.props
+            if (this.props.status)
+                Modal.success({
+                    title: 'Project has finished',
+                    onOk() {
+                        fetchProjectDetail(projectID)
+                    }
+                })
+            else
+                Modal.error({
+                    title: 'Finish Project Failed'
+                })
         }
     }
 
@@ -94,7 +107,8 @@ class ProjectProfile extends Component {
 
 const mapStateToProp = state => {
     return {
-        project: state.ProjectDetailFetchReducer
+        project: state.ProjectDetailFetchReducer,
+        status: state.StatusReducer
     }
 }
 

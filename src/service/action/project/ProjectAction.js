@@ -212,7 +212,7 @@ export const changeStatusToFinish = (projectID, projectName) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             if (res.data.isSuccessed) {
-                dispatch(fetchProjectDetail(projectID))
+                dispatch(changeStatusToFinishSuccess(res.data.isSuccessed))
                 var message = {
                     title: `Project Manager ${getUserName()} sent a notification`,
                     body: `Project '${projectName}' has finished`,
@@ -222,8 +222,14 @@ export const changeStatusToFinish = (projectID, projectName) => {
                 }
                 dispatch(sendNotificate(message))
             }
+        }).catch(err=>{
+            console.log(err)
         })
     }
+}
+
+export const changeStatusToFinishSuccess = (isSuccessed) => {
+    return { type: Type.FINISH_PROJECT, isSuccessed }
 }
 
 export const fetchProjectType = () => {
