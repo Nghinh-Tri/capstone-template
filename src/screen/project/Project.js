@@ -60,8 +60,8 @@ class Project extends Component {
                         <tr key={index} >
                             <th className='text-center'>{(this.props.projects.data.pageIndex - 1) * 10 + index + 1}</th>
                             <th>
-                                <Tooltip title={project.isMissEmp ? 'This project is currently missing employees' : ''} placement='right' >
-                                    <Badge dot={project.isMissEmp}>
+                                <Tooltip title={project.status !== 4 && project.isMissEmp ? 'This project is currently missing employees' : ''} placement='right' >
+                                    <Badge dot={project.status !== 4 && project.isMissEmp}>
                                         <NavLink className='text-primary' to={`/project/detail/${project.projectID}`}>
                                             {project.projectName}
                                         </NavLink>

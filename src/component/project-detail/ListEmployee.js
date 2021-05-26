@@ -65,9 +65,9 @@ class ListEmployee extends Component {
                     <TabPane
                         tab={
                             <>
-                                <Tooltip title={item.isMissEmp ? 'This position is missing employees' : ''} >
+                                <Tooltip title={this.props.status !== 4 && item.isMissEmp ? 'This position is missing employees' : ''} >
                                     <span>{(item || {}).posName} </span>
-                                    {item.isMissEmp ? (
+                                    {this.props.status !== 4 && item.isMissEmp ? (
                                         <InfoCircleTwoTone twoToneColor="#FF0000"
                                             style={{ fontSize: "16px" }} />
                                     ) : ("")}
@@ -167,7 +167,7 @@ const mapDispatchToProp = dispatch => {
         },
         addMoreCandidate: (posID) => {
             dispatch(addMoreCandidate(posID))
-        }        
+        }
     }
 }
 

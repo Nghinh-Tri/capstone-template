@@ -80,8 +80,8 @@ const positionReducer = (state = initState, action) => {
                     });
                 });
             } else {
-                action.hardSkill.forEach(e1 => {
-                    action.certificateList.forEach(e => {
+                action.hardSkill.map((e1, index) => {
+                    action.certificateList.map((e, key) => {
                         if (e1.hardSkillID === e.hardSkillID) {
                             var hardSkill = {
                                 hardSkillID: e1.hardSkillID,
@@ -129,7 +129,6 @@ const positionReducer = (state = initState, action) => {
             filted.forEach(element => {
                 obj.softSkillIDs.option.push(element.softSkillID)
             });
-            console.log(obj)
             state.push(obj)
             return [...state]
 
