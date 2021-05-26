@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import { convertPositionList, getPositionName } from "../../service/util/util";
 import SelectBar from '../select-search/SelectBar';
 import Modal from 'antd/lib/modal/Modal';
 import LanguageForm from './language-form/LanguageForm';
 import HardSkillForm from './hard-skill-form/HardSkillForm';
 import SoftSkillForm from './soft-skill-form/SoftSkillForm';
-import { store } from 'react-notifications-component';
 import { createPositionFailed } from '../../service/action/position/PositionAction';
 import { connect } from 'react-redux';
 
@@ -89,7 +87,7 @@ class CreatePositionForm extends Component {
                     <td className='text-center'>{positionItem.softSkillIDs.option.length + positionItem.softSkillIDs.minium.length}</td>
                     <td width={100} className='text-center'>
                         <a style={{ color: 'blue' }} onClick={this.onShowRequireDetail} >Detail</a>
-                        <Modal width={1070} title={this.props.projectName + ' - ' + getPositionName(positionList, positionItem.posID)}
+                        <Modal footer={null} width={1070} title={this.props.projectName + ' - ' + getPositionName(positionList, positionItem.posID)}
                             visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
                             <HardSkillForm
                                 hardSkill={positionItem.hardSkills}

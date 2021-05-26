@@ -37,7 +37,12 @@ class AddMoreRequirementModal extends Component {
         if (this.state.requireAvailable)
             this.setState({ visible: true })
         else
-            console.log('fasle')
+            Modal.confirm({
+                title: 'There is currently no requirement you can copy. Do you want to create a new requirement?',
+                onOk: () => {
+                    this.createNewRequirement()
+                }
+            })
     }
 
     handleCancel = (e) => {
