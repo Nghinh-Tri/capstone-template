@@ -63,6 +63,7 @@ const positionReducer = (state = initState, action) => {
                     priority: lan.priority
                 })
             })
+            console.log('action.hardSkillList.length > 0', action.hardSkillList.length > 0)
             if (action.hardSkillList.length > 0) {
                 action.hardSkillList.forEach(e => {
                     action.hardSkill.forEach(e1 => {
@@ -79,9 +80,9 @@ const positionReducer = (state = initState, action) => {
                         }
                     });
                 });
-            } else {
-                action.hardSkill.map((e1, index) => {
-                    action.certificateList.map((e, key) => {
+                var filter = action.hardSkill.filter(v => !(obj.hardSkills.minium.some(e => e.hardSkillID === v.hardSkillID)))
+                filter.forEach(e1 => {
+                    action.certificateList.forEach(e => {
                         if (e1.hardSkillID === e.hardSkillID) {
                             var hardSkill = {
                                 hardSkillID: e1.hardSkillID,
@@ -95,20 +96,24 @@ const positionReducer = (state = initState, action) => {
                         }
                     });
                 });
-            }
-            if (action.hardSkillList.length > 0) {
-                var filter = action.hardSkill.filter(v => !(obj.hardSkills.minium.some(e => e.hardSkillID === v.hardSkillID)))
-                filter.forEach(e1 => {
-                    action.certificateList.forEach(e => {
-                        if (e1.hardSkillID === e.hardSkillID) {
+            } else if (action.hardSkillList.length === 0) {
+                console.log('here')
+                action.hardSkill.map((hs, index) => {
+                    console.log('here hs', hs, action.certificateList)
+                    action.certificateList.map((certi, key) => {
+                        console.log('here certi', certi)
+
+                        if (hs.hardSkillID === certi.hardSkillID) {
+                            console.log('get skill')
                             var hardSkill = {
-                                hardSkillID: e1.hardSkillID,
-                                skillLevel: e1.skillLevel,
-                                certificationLevel: e1.certificationLevel,
-                                priority: e1.priority,
-                                certiList: e.certiList,
+                                hardSkillID: hs.hardSkillID,
+                                skillLevel: hs.skillLevel,
+                                certificationLevel: hs.certificationLevel,
+                                priority: hs.priority,
+                                certiList: certi.certiList,
                                 isDelete: true
                             }
+                            console.log('obj', obj)
                             obj.hardSkills.option.push(hardSkill)
                         }
                     });
@@ -129,6 +134,7 @@ const positionReducer = (state = initState, action) => {
             filted.forEach(element => {
                 obj.softSkillIDs.option.push(element.softSkillID)
             });
+            console.log(obj)
             state.push(obj)
             return [...state]
 

@@ -65,9 +65,9 @@ class LanguageForm extends Component {
         var { language, positionFormIndex } = this.props
         return (
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header" onClick={this.setMinimize} style={{ cursor: 'default' }}>
                     <i class="fas fa-table mr-1"></i>Language <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setMinimize} >
+                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} >
                         {!this.state.isMinimize ? 'minimize' : 'crop_free'}
                     </span>
                 </div>
@@ -75,7 +75,7 @@ class LanguageForm extends Component {
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
+                                <thead>
                                     <tr>
                                         <th width={240}>Language</th>
                                         <th width={240}>Priority</th>

@@ -174,7 +174,7 @@ export const copyRequirement = (posID, hardSkill, language, softskill) => {
         ).then(res => {
             var hardSkillList = res.data.resultObj === null ? [] : res.data.resultObj
             var certificateList = []
-            hardSkill.forEach(element => {
+            hardSkill.map((element, key) => {
                 let optionSkillURl = `${API_URL}/Certification/getCertifications/${element.hardSkillID}`
                 axios.get(
                     optionSkillURl,
@@ -184,6 +184,7 @@ export const copyRequirement = (posID, hardSkill, language, softskill) => {
                     certificateList.push({ hardSkillID: element.hardSkillID, certiList: certiList })
                 })
             });
+            console.log('certificateList', certificateList)
             axios.get(
                 fetchSoftSkill,
                 { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }

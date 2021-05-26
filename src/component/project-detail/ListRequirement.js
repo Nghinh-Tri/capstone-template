@@ -67,12 +67,14 @@ class ListRequirement extends Component {
         var { item, selection } = this.props
         return (
             <React.Fragment>
-                <div className="card mb-4">
-                    <div className="card-header">
-                        <Tabs defaultActiveKey="0" activeKey={parseInt(selection) + ""} onChange={this.onSelectPos}>
-                            {this.getTabName()}
-                        </Tabs>
-                    </div>
+                <div className="card mb-4" style={item.requirements.length === 1 ? { border: 'none' } : {}} >
+                    {item.requirements.length > 1 ?
+                        <div className="card-header">
+                            <Tabs defaultActiveKey="0" activeKey={parseInt(selection) + ""} onChange={this.onSelectPos}>
+                                {this.getTabName()}
+                            </Tabs>
+                        </div>
+                        : ''}
                     {typeof item.requirements[parseInt(selection)] !== 'undefined' ?
                         <div className="card-body">
                             <ListEmployeeContent item={item.requirements[parseInt(selection)]}

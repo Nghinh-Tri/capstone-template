@@ -57,7 +57,8 @@ class CreatePositionForm extends Component {
 
     onHandle = (e) => {
         var { value } = e.target
-        this.props.onUpdateCandidatesNeeds(value, this.props.positionFormIndex)
+        if (value > 0 && value <= 100)
+            this.props.onUpdateCandidatesNeeds(value, this.props.positionFormIndex)
     }
 
     render() {
@@ -80,7 +81,7 @@ class CreatePositionForm extends Component {
                         />
                     </td>
                     <td width={145}>
-                        <input className="text-center" type="number" value={positionItem.candidateNeeded} className="form-control" style={{ height: 30, width: 120 }} name="candidateNeed" onChange={this.onHandle} />
+                        <input className="text-center" min={1} max={100} type="number" value={positionItem.candidateNeeded} className="form-control" style={{ height: 30, width: 120 }} name="candidateNeed" onChange={this.onHandle} />
                     </td>
                     <td className='text-center'>{typeof positionItem.hardSkills.option.find(e => e.hardSkillID === 0) === 'object' ? positionItem.hardSkills.minium.length + positionItem.hardSkills.option.length - 1 : positionItem.hardSkills.minium.length + positionItem.hardSkills.option.length} </td>
                     <td className='text-center'>{typeof positionItem.language.find(e => e.langID === 0) === 'object' ? positionItem.language.length - 1 : positionItem.language.length}</td>
