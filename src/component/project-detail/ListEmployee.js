@@ -139,7 +139,7 @@ class ListEmployee extends Component {
                             </div>
                             {getRole() === 'PM' ?
                                 this.state.isLoading || this.props.status === 4 ? '' :
-                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onAddMorePosition} >
+                                    <button type="submit" className="btn btn-primary pull-right" style={{ marginRight: '35px' }} onClick={this.onAddMorePosition} >
                                         Add More Position
                                 </button>
                                 : ''

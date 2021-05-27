@@ -95,7 +95,7 @@ class AddMoreRequirementModal extends Component {
         var { requirements, position } = this.props
         return (
             <React.Fragment>
-                <button type="submit" className="btn btn-primary pull-right" onClick={this.onShowRequirement} >
+                <button type="submit" className="btn btn-primary pull-right mr-3" onClick={this.onShowRequirement} >
                     Add More Requirement
                 </button>
                 {this.state.requireAvailable ?

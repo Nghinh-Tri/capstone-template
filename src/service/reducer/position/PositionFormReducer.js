@@ -57,77 +57,54 @@ const positionReducer = (state = initState, action) => {
                 softSkillIDs: { minium: [], option: [] },
                 hardSkills: { minium: [], option: [] }
             }
+
+            //copy hard skill
+            console.log(action.skillDetails,)
+            //minium
+            action.skillDetails.hardSkill.minumumSkill.forEach(minSkill => {
+                action.hardSkill.forEach(hs => {
+                    if (minSkill.skillID === hs.hardSkillID) {
+                        var hardSkill = {
+                            hardSkillID: parseInt(hs.hardSkillID),
+                            skillLevel: hs.skillLevel,
+                            certificationLevel: hs.certificationLevel,
+                            priority: hs.priority,
+                            certiList: minSkill.certifications,
+                            isDelete: false
+                        }
+                        obj.hardSkills.minium.push(hardSkill)
+                    }
+                });
+            });
+            //optional
+            action.skillDetails.hardSkill.optionalSkill.forEach(minSkill => {
+                action.hardSkill.forEach(hs => {
+                    if (minSkill.skillID === hs.hardSkillID) {
+                        var hardSkill = {
+                            hardSkillID: parseInt(hs.hardSkillID),
+                            skillLevel: hs.skillLevel,
+                            certificationLevel: hs.certificationLevel,
+                            priority: hs.priority,
+                            certiList: minSkill.certifications,
+                            isDelete: true
+                        }
+                        obj.hardSkills.option.push(hardSkill)
+                    }
+                });
+            });
+            //copy language
             action.language.forEach(lan => {
                 obj.language.push({
                     langID: lan.langID,
                     priority: lan.priority
                 })
             })
-            if (action.hardSkillList.length > 0) {
-                action.hardSkillList.forEach(e => {
-                    action.hardSkill.forEach(e1 => {
-                        if (e1.hardSkillID === e.skillID) {
-                            var hardSkill = {
-                                hardSkillID: e1.hardSkillID,
-                                skillLevel: e1.skillLevel,
-                                certificationLevel: e1.certificationLevel,
-                                priority: e1.priority,
-                                certiList: e.certifications,
-                                isDelete: false
-                            }
-                            obj.hardSkills.minium.push(hardSkill)
-                        }
-                    });
-                });
-            } else {
-                action.hardSkill.map((e1, index) => {
-                    action.certificateList.map((e, key) => {
-                        if (e1.hardSkillID === e.hardSkillID) {
-                            var hardSkill = {
-                                hardSkillID: e1.hardSkillID,
-                                skillLevel: e1.skillLevel,
-                                certificationLevel: e1.certificationLevel,
-                                priority: e1.priority,
-                                certiList: e.certiList,
-                                isDelete: true
-                            }
-                            obj.hardSkills.option.push(hardSkill)
-                        }
-                    });
-                });
-            }
-            if (action.hardSkillList.length > 0) {
-                var filter = action.hardSkill.filter(v => !(obj.hardSkills.minium.some(e => e.hardSkillID === v.hardSkillID)))
-                filter.forEach(e1 => {
-                    action.certificateList.forEach(e => {
-                        if (e1.hardSkillID === e.hardSkillID) {
-                            var hardSkill = {
-                                hardSkillID: e1.hardSkillID,
-                                skillLevel: e1.skillLevel,
-                                certificationLevel: e1.certificationLevel,
-                                priority: e1.priority,
-                                certiList: e.certiList,
-                                isDelete: true
-                            }
-                            obj.hardSkills.option.push(hardSkill)
-                        }
-                    });
-                });
-            }
-            const sk = action.softskill
-            if (action.softSkillList.length > 0) {
-                var minium = []
-                action.softSkillList.forEach(e => {
-                    action.softskill.forEach(e1 => {
-                        if (e === e1.softSkillID)
-                            minium.push(e1.softSkillID)
-                    });
-                });
-                obj.softSkillIDs.minium = minium
-            }
-            var filted = sk.filter(v => !(obj.softSkillIDs.minium).some(e => e === v.softSkillID))
-            filted.forEach(element => {
-                obj.softSkillIDs.option.push(element.softSkillID)
+            //copy soft skill
+            action.skillDetails.softSkill.minumumSkill.forEach(element => {
+                obj.softSkillIDs.minium.push(element.skillID)
+            });
+            action.skillDetails.softSkill.optionalSkill.forEach(element => {
+                obj.softSkillIDs.option.push(element.skillID)
             });
             state.push(obj)
             return [...state]
