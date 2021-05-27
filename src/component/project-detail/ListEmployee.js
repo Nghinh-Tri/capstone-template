@@ -123,7 +123,7 @@ class ListEmployee extends Component {
                                         dateEstimatedEnd={this.props.dateEstimatedEnd}
                                     />
                                     {getRole() === 'PM' ?
-                                        this.state.isLoading || this.props.status === 4 ? '' :
+                                        this.state.isLoading || this.props.status === 4 || listEmployee[this.state.posIndex].isMissEmp ? '' :
                                             <AddMoreRequirementModal
                                                 position={listEmployee[this.state.posIndex].posName}
                                                 posID={this.props.listEmployee[this.state.posIndex].posID}
