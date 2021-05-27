@@ -137,7 +137,7 @@ class ConfirmSelectCandidate extends Component {
                     </div>
                     <div className="col">
                         <button type="button" className="btn btn-primary pull-right" onClick={this.onSuggest} style={{ width: 110, fontWeight: 600 }}>
-                            {candidateList.length === 0 ? 'Confirm' : 'Suggest'}
+                            Submit
                         </button>
                     </div>
                 </div>

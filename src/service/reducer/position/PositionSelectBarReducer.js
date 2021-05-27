@@ -5,8 +5,8 @@ var initState = []
 const positionSelectBarReducer = (state = initState, action) => {
     switch (action.type) {
         case Type.FETCH_POSITION_LIST:
-            if (state.length === 0)
-                state = action.positionList.slice()
+            state = []
+            state = [...action.positionList]
             return [...state];
         default:
             return [...state];
