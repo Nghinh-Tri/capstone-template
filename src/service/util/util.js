@@ -388,3 +388,17 @@ export const convertPositionRequire = (items) => {
     });
     return result
 }
+
+export const convertCopySkill = (posID, projectType, projectField, hardSkillList, softSkillList) => {
+    var result = { posID: posID, typeID: parseInt(projectType), fieldID: parseInt(projectField), hardSkill: [], softSkill: [] }
+    let hardSkill = [], softSkill = []
+    hardSkillList.forEach(element => {
+        hardSkill.push(element.hardSkillID)
+    });
+    result.hardSkill = hardSkill
+    softSkillList.forEach(element => {
+        softSkill.push(element.softSkillID)
+    });
+    result.softSkill = softSkill
+    return result
+}
