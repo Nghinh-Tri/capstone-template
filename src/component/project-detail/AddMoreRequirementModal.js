@@ -96,7 +96,7 @@ class AddMoreRequirementModal extends Component {
         return (
             <React.Fragment>
                 <button type="submit" className="btn btn-primary pull-right mr-3" onClick={this.onShowRequirement} >
-                    Add More Requirement
+                    New Requirement
                 </button>
                 {this.state.requireAvailable ?
                     <Modal width={1000}
