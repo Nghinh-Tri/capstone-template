@@ -15,7 +15,8 @@ class ProjectProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoad: true
+            isLoad: true,
+            isSubmit: false
         }
     }
 
@@ -32,17 +33,19 @@ class ProjectProfile extends Component {
             }
         } else if (prevProps.status !== this.props.status) {
             let { fetchProjectDetail, projectID } = this.props
-            if (this.props.status)
-                Modal.success({
-                    title: 'Project has finished',
-                    onOk() {
-                        fetchProjectDetail(projectID)
-                    }
-                })
-            else
-                Modal.error({
-                    title: 'Finish Project Failed'
-                })
+            if (this.state.isSubmit) {
+                if (this.props.status)
+                    Modal.success({
+                        title: 'Project has finished',
+                        onOk() {
+                            fetchProjectDetail(projectID)
+                        }
+                    })
+                else
+                    Modal.error({
+                        title: 'Finish Project Failed'
+                    })
+            }
         }
     }
 
@@ -52,11 +55,12 @@ class ProjectProfile extends Component {
             title: 'Are you sure you want to finish this project?',
             okText: 'Yes',
             cancelText: 'No',
-            onOk() {
+            onOk: () => {
                 changeStatusToFinish(match.params.id, project.projectName)
+                this.setState({ isSubmit: true })
             },
-            onCancel() {
-                console.log('Cancel');
+            onCancel: () => {
+                this.setState({ isSubmit: false })
             },
         });
     }

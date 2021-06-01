@@ -26,7 +26,7 @@ class CreateProject extends Component {
             projectFieldID: 1,
             fieldError: '',
             messageError: '',
-            maxEndDate: ''
+            maxEndDate: '',
         }
     }
 
@@ -146,7 +146,6 @@ class CreateProject extends Component {
                     <ProgressBar current="0" />
                     : ("")
                 }
-
                 <div className="card" style={{ marginTop: typeof this.props.match.params.id === "undefined" ? "0px" : "50px", }}>
                     <div className="card-header">
                         {typeof this.props.match.params.id === "undefined"

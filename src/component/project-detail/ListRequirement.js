@@ -30,7 +30,7 @@ class ListRequirement extends Component {
                     tab={
                         <>
                             <Tooltip title={this.props.projectStatus !== 4 && require.missingEmployee !== 0 ? 'This requirement is missing employees' : ''} >
-                                <span>Require {index + 1} </span>
+                                <span>Requirement {index + 1} </span>
                                 {this.props.projectStatus !== 4 && require.missingEmployee ? (
                                     <InfoCircleTwoTone twoToneColor="#FF0000"
                                         style={{ fontSize: "16px" }} />
