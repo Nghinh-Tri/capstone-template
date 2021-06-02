@@ -56,7 +56,7 @@ class AddMoreRequirementModal extends Component {
             if (require.missingEmployee === 0) {
                 count++
                 return (
-                    <TabPane tab={`Require ${count}`} key={index.toString()}></TabPane>
+                    <TabPane tab={`Requirement ${count}`} key={index.toString()}></TabPane>
                 )
             }
         });
