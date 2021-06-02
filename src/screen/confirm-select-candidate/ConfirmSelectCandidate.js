@@ -74,9 +74,11 @@ class ConfirmSelectCandidate extends Component {
                 var content = ""
                 this.props.rejectedCandidate.list.forEach(element => {
                     content = content + element + '\n'
+                    console.log(element)
+
                 });
                 confirm({
-                    title: rejectedCandidate.message,
+                    title: 'There are employees that have been rejected in your list. Are you sure you still want to choose these employees?',
                     content: (<>
                         <TextArea defaultValue={content} disabled={true} autoSize={true}
                             style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
