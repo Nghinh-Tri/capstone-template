@@ -75,12 +75,11 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
                 var clone = { ...action.candidate }
                 clone.check = true
                 positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [action.candidate], selectAll: false }
-                if (positionItem.candidateSelect.length === action.candidateList.matchDetail.length)
+                if (positionItem.candidateSelect.length === action.candidateList.matchDetail.length){
                     positionItem.selectAll = true
+                }
                 state.push(positionItem)
-            } else {
-                // var checkable = checkSelectable(state, action.candidate, action.candidateList.position)
-                // if (checkable) {
+            } else {                
                 var isReachLimit = checkReachLimit(state, action.limit, action.candidateList.position)
                 if (isReachLimit) {
                     store.addNotification({
@@ -102,17 +101,17 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
                         var clone = { ...action.candidate }
                         clone.check = true
                         positionObjClone.candidateSelect.push(action.candidate)
-                        if (positionObjClone.candidateSelect.length === action.candidateList.matchDetail.length)
+                        if (positionObjClone.candidateSelect.length === action.candidateList.matchDetail.length){
                             positionObjClone.selectAll = true
+                        }
                         state.splice(index, 1, positionObjClone)
                     } else {
                         positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [action.candidate], selectAll: false }
-                        if (positionItem.candidateSelect.lengthfCheckCandiadtes === action.candidateList.matchDetail.length)
+                        if (positionItem.candidateSelect.length === action.candidateList.matchDetail.length)
                             positionItem.selectAll = true
                         state.push(positionItem)
                     }
-                }
-                // } 
+                }                
             }
             return [...state];
 
@@ -125,7 +124,6 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
                         positionObjClone.candidateSelect = [...action.candidateList.matchDetail]
                         state.splice(index, 1, positionObjClone)
                     } else {
-                        state = []
                         positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [...action.candidateList.matchDetail], selectAll: true }
                         state.push(positionItem)
                     }

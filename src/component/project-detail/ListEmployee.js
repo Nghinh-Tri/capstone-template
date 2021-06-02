@@ -101,9 +101,14 @@ class ListEmployee extends Component {
                         <Spin className='text-center' size="large" />
                     </div> :
                     listEmployee.length === 0 ?
-                        <div className='row justify-content-center' style={{ width: 'auto' }} >
-                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No position available for this project</h4>
-                        </div>
+                        <>
+                            <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No position available for this project</h4>
+                            </div>
+                            <button type="submit" className="btn btn-primary pull-right" style={{ marginRight: '35px' }} onClick={this.onAddMorePosition} >
+                                New Positions
+                            </button>
+                        </>
                         :
                         <>
                             <div class="card mb-4">

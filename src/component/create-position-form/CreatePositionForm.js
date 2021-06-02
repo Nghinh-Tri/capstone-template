@@ -29,7 +29,7 @@ class CreatePositionForm extends Component {
             this.props.addError({ RequiredPositions: [] })
         }
         else
-            this.props.addError({ RequiredPositions: ['Please select position'] })
+            this.props.addError({ RequiredPositions: ['Please select hard skill'] })
     }
 
     handleOk = (e) => {

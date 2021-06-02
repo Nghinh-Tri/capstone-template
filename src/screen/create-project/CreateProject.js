@@ -251,7 +251,7 @@ class CreateProject extends Component {
                                             type="date"
                                             name="dateBegin"
                                             className="form-control"
-                                            min={moment(moment().day(5 + 30)).format("YYYY-MM-DD")}
+                                            min={typeof this.props.match.params.id === "undefined" ? moment(moment().day(5 + 30)).format("YYYY-MM-DD") : ''}
                                             value={dateBegin}
                                             onChange={this.onHandle}
                                             readOnly={typeof this.props.match.params.id === "undefined" ? false : true}
@@ -276,7 +276,7 @@ class CreateProject extends Component {
                                         <input
                                             type="date"
                                             name="dateEstimatedEnd"
-                                            min={moment(moment().day(5 + 1 + 30)).format("YYYY-MM-DD")}
+                                            min={typeof this.props.match.params.id === "undefined" ? moment(moment().day(5 + 1 + 30)).format("YYYY-MM-DD") : ''}
                                             max={maxEndDate}
                                             value={dateEstimatedEnd}
                                             className="form-control"
