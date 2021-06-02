@@ -119,7 +119,7 @@ class ListEmployeeContent extends Component {
             this.props.suggestAgain()
         } else if (prevRequire.status === 1) {
             notification.open({
-                message: 'Require is being confirm',
+                message: 'Require is being confirmed',
                 placement: 'bottomRight',
                 duration: 0
             });
