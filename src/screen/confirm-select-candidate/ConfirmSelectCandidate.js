@@ -48,7 +48,7 @@ class ConfirmSelectCandidate extends Component {
         if (prevProps.status !== this.props.status) {
             if (this.props.status)
                 Modal.success({
-                    title: 'Confirm Select Candidates Successfully',
+                    title: 'Confirm Selected Candidates Successfully',
                     onOk() {
                         localStorage.removeItem('positionRequire')
                         localStorage.removeItem('projectId')
@@ -74,8 +74,6 @@ class ConfirmSelectCandidate extends Component {
                 var content = ""
                 this.props.rejectedCandidate.list.forEach(element => {
                     content = content + element + '\n'
-                    console.log(element)
-
                 });
                 confirm({
                     title: 'There are employees that have been rejected in your list. Are you sure you still want to choose these employees?',
